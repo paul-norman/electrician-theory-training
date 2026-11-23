@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part P and Notification</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.yes { background: var(--bad-bg); }
+  .verdict.yes strong { color: var(--bad); }
+  .verdict.no { background: var(--ok-bg); }
+  .verdict.no strong { color: var(--ok); }
+  .verdict.info { background: var(--info-bg); }
+  .verdict.info strong { color: var(--info); }
+  .routes { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .route { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .route .n { font-family: var(--font-mono); font-weight: 600; color: var(--flow); }
+  select.wide { width: 100%; max-width: 520px; }
+</style>
+</head>
+<body data-lesson="part-p">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Regulations and compliance</span>
+    <h1>Part P and notification</h1>
+    <p class="lead">Where Part P applies, which jobs have to be reported to building control, the three ways to get them signed off, and the certificates that go with them.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Part P of the Building Regulations covers electrical safety in dwellings in England and Wales. It also covers outbuildings and businesses that share a dwelling's supply, and the common areas of blocks of flats (but not lifts). <strong>All</strong> electrical work in a dwelling must be safe and meet the requirements, but only <strong>notifiable</strong> work has to be reported to building control. In England that's a new circuit, a replacement consumer unit, or an addition or alteration to a circuit in a special location such as a bathroom. Wales adds more, such as work in kitchens and outdoors. Notifiable work is signed off one of three ways: by a <abbr title="Competent Person Scheme">CPS</abbr> member (such as <abbr title="National Inspection Council for Electrical Installation Contracting">NICEIC</abbr> or <abbr title="National Association of Professional Inspectors and Testers">NAPIT</abbr>) self-certifying, by notifying building control before starting (a building notice at least two working days ahead), or through a registered third-party certifier. Every job also gets a <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> certificate: an <abbr title="Electrical Installation Certificate">EIC</abbr> for new circuits and consumer units, a <abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr> for minor works, and an <abbr title="Electrical Installation Condition Report">EICR</abbr> to report on an existing installation.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Where Part P applies</h2>
+    <p>Part P applies to electrical installations in and around <strong>dwellings</strong> (houses and flats) in England and Wales. Scotland and Northern Ireland have their own building regulations. Part P also reaches some places that aren't homes:</p>
+    <ul>
+      <li><strong>Outbuildings and gardens</strong> supplied from a dwelling: sheds, garages, greenhouses, garden lighting.</li>
+      <li><strong>Business premises that share a supply with a dwelling</strong>, such as a shop with a flat above it on the same supply. With its own separate supply, the shop isn't covered.</li>
+      <li><strong>Common parts of blocks of flats</strong>: corridors, stairs and shared facilities such as a residents' gym or laundry. <strong>Lifts</strong> are excluded.</li>
+    </ul>
+    <p>A block of flats is often fed by a three-phase supply that a landlord's distribution board splits into single-phase supplies, one per flat. Each flat then has its own consumer unit.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Does Part P apply here?</h3>
+    </div>
+    <label for="where" class="label" style="font-size:0.85rem;font-weight:600">Where is the work?</label>
+    <select id="where" class="wide"></select>
+    <div class="verdict" id="whereV" aria-live="polite"><strong></strong><span></span></div>
+  </section>
+
+  <section class="prose">
+    <h2>Notifiable and non-notifiable work</h2>
+    <p>Every job in a dwelling must meet Part P and <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, whether it's notifiable or not. "Notifiable" only means building control must be told so it can be checked.</p>
+    <p><strong>In England</strong>, notifiable work is:</p>
+    <ul>
+      <li>installing a <strong>new circuit</strong></li>
+      <li><strong>replacing a consumer unit</strong></li>
+      <li>any <strong>addition or alteration to an existing circuit in a special location</strong>: a room containing a bath or shower, a swimming pool or a sauna</li>
+    </ul>
+    <p>Everything else is non-notifiable (often called <strong>minor works</strong>). That includes adding a socket or light point to an existing circuit outside a special location, replacing switches and sockets, and replacing a damaged cable like for like.</p>
+    <p><strong>Wales</strong> has stricter rules. As well as the work above, notifiable work there includes, for example, additions to circuits in <strong>kitchens</strong>, work <strong>outdoors</strong>, and installing some systems such as extra-low-voltage lighting and electric floor or ceiling heating. Always check the current Welsh guidance for work in Wales.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">Is this job notifiable?</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label" id="ctyL">Country</span>
+        <div class="seg" role="group" aria-labelledby="ctyL" id="cty">
+          <button type="button" data-c="eng" aria-pressed="true">England</button>
+          <button type="button" data-c="wal" aria-pressed="false">Wales</button>
+        </div>
+      </div>
+      <div class="ctl" style="flex:1 1 320px">
+        <label for="job">The job</label>
+        <select id="job" class="wide"></select>
+      </div>
+    </div>
+    <div class="verdict" id="jobV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">A revision aid for common cases, not legal advice. For anything unusual, check the Approved Document P for the country you're working in.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Three ways to get notifiable work signed off</h2>
+  </section>
+  <div class="routes">
+    <div class="route"><span class="n">Route 1</span><strong>Competent Person Scheme (<abbr title="Competent Person Scheme">CPS</abbr>)</strong><span>If you're registered with a scheme such as <abbr title="National Inspection Council for Electrical Installation Contracting">NICEIC</abbr> or <abbr title="National Association of Professional Inspectors and Testers">NAPIT</abbr>, you can self-certify. You do the work, certify it, and the scheme notifies building control for you, normally within 30 days of finishing. The customer then receives a Building Regulations compliance certificate. Most domestic electricians work this way.</span></div>
+    <div class="route"><span class="n">Route 2</span><strong>Building control</strong><span>Tell the local authority's building control <em>before</em> the work starts: usually with a building notice, given at least two working days in advance (full plans for bigger projects). They inspect, and charge a fee. When they're satisfied, they issue a completion certificate.</span></div>
+    <div class="route"><span class="n">Route 3</span><strong>Registered third-party certifier</strong><span>An electrician who isn't in a scheme can use a registered third-party certifier. The certifier inspects the work at set stages, not just at the end, often needing photos before things are covered up. They then certify it and notify building control.</span></div>
+  </div>
+
+  <section class="prose">
+    <h2>Certificates for the customer</h2>
+    <p>Separately from Building Regulations sign-off, <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> requires paperwork for the work itself:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Document</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Electrical Installation Certificate (<abbr title="Electrical Installation Certificate">EIC</abbr>)</strong></td><td>New installations, new circuits and consumer unit replacements. Records the design, construction, inspection and test results.</td></tr>
+          <tr><td><strong>Minor Electrical Installation Works Certificate (<abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr>)</strong></td><td>Additions or alterations that don't include a new circuit, such as an extra socket on an existing circuit.</td></tr>
+          <tr><td><strong>Electrical Installation Condition Report (<abbr title="Electrical Installation Condition Report">EICR</abbr>)</strong></td><td>Reporting on the condition of an existing installation. It doesn't certify new work.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>An <abbr title="Electrical Installation Condition Report">EICR</abbr> is often a sensible first step before taking on work in an older property. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> says that before adding to or altering an installation, you must check that the existing parts you rely on, such as the earthing and the consumer unit, are adequate for it. An <abbr title="Electrical Installation Condition Report">EICR</abbr> codes each problem it finds: <strong>C1</strong> danger present, <strong>C2</strong> potentially dangerous, <strong>C3</strong> improvement recommended, and <strong>FI</strong> further investigation needed.</p>
+  </section>
+
+  <section class="callout info">
+    <h3>Getting it wrong</h3>
+    <p>Not notifying notifiable work breaks the Building Regulations. The local authority can prosecute (fines can be large), and can require the work to be opened up, corrected or removed. The customer is left without the paperwork they'll need when selling the house, and insurers may be reluctant to pay out after a fire.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ---- Does Part P apply? ----
+  var WHERE = [
+    ["A house or flat", true, "Dwellings are exactly what Part P is for."],
+    ["A detached garage or shed supplied from the house", true, "Outbuildings supplied from a dwelling are covered."],
+    ["Garden lighting fed from the house", true, "Land and outbuildings associated with a dwelling are covered."],
+    ["A shop with a flat above, sharing one supply", true, "Business premises that share a supply with a dwelling come under Part P."],
+    ["A shop with a flat above, on separate supplies", false, "With its own supply, the shop is a non-domestic building, so Part P doesn't apply to it. (The flat is still covered.)"],
+    ["The corridors and stairs of a block of flats", true, "Common access areas of blocks of flats are covered."],
+    ["The residents' gym in a block of flats", true, "Shared amenities in blocks of flats, such as gyms and laundries, are covered."],
+    ["The lift in a block of flats", false, "Lifts in blocks of flats are specifically excluded from Part P."],
+    ["An office building", false, "Non-domestic buildings aren't covered by Part P, although BS 7671 and the Electricity at Work Regulations still apply."],
+    ["A house in Scotland", false, "Part P is England and Wales only. Scotland has its own building standards."]
+  ];
+  WHERE.forEach(function (w, k) { var o = document.createElement("option"); o.value = k; o.textContent = w[0]; $("where").appendChild(o); });
+  function where() {
+    var w = WHERE[+$("where").value], v = $("whereV");
+    v.className = "verdict " + (w[1] ? "info" : "no");
+    v.querySelector("strong").textContent = w[1] ? "Part P applies" : "Part P doesn't apply";
+    v.querySelector("span").textContent = w[2];
+  }
+  $("where").addEventListener("change", where); where();
+
+  // ---- Is it notifiable? [job, England notifiable, Wales notifiable, reason] ----
+  var JOBS = [
+    ["Replace a socket or light switch like for like", false, false, "Replacing accessories is minor work. It still has to be done properly, and tested."],
+    ["Add a socket to an existing circuit in a living room", false, false, "An addition to an existing circuit outside a special location is minor work. You'd issue a MEIWC."],
+    ["Add a socket to an existing circuit in a kitchen", false, true, "In England a kitchen isn't a special location, so it's minor work. Wales also treats kitchen work as notifiable."],
+    ["Add a light point to an existing circuit in a bathroom", true, true, "A room containing a bath or shower is a special location, so additions or alterations there are notifiable."],
+    ["Install a new circuit for an electric shower", true, true, "Any new circuit is notifiable."],
+    ["Install a new circuit for an EV charger", true, true, "A new circuit is notifiable. Part 7 Section 722 of BS 7671 also applies."],
+    ["Replace a consumer unit", true, true, "Replacing a consumer unit is always notifiable."],
+    ["Add an outdoor socket to an existing circuit", false, true, "In England, outdoor work on an existing circuit is minor work. Wales treats outdoor work as notifiable."],
+    ["Replace a damaged cable for a single circuit, same route and rating", false, false, "A like-for-like repair is minor work."],
+    ["Fit a new circuit to a garden shed", true, true, "A new circuit is notifiable wherever it goes."]
+  ];
+  var cty = "eng";
+  JOBS.forEach(function (j, k) { var o = document.createElement("option"); o.value = k; o.textContent = j[0]; $("job").appendChild(o); });
+  function job() {
+    var j = JOBS[+$("job").value], n = cty === "eng" ? j[1] : j[2], v = $("jobV");
+    document.querySelectorAll("#cty button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-c") === cty)); });
+    v.className = "verdict " + (n ? "yes" : "no");
+    v.querySelector("strong").textContent = n ? "Notifiable" : "Not notifiable";
+    v.querySelector("span").textContent = j[3] + (n ? " Sign it off through a Competent Person Scheme, building control or a third-party certifier." : "");
+  }
+  $("job").addEventListener("change", job);
+  $("cty").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; cty = b.getAttribute("data-c"); job(); });
+  job();
+
+  Course.quiz("#quiz", [
+    { q: "In England, which of these is notifiable?",
+      options: ["Replacing a light switch", "Adding a socket to an existing living room circuit", "Replacing a consumer unit", "Replacing a damaged cable like for like"], answer: 2,
+      why: "Replacing a consumer unit is always notifiable. The others are minor works." },
+    { q: "Does non-notifiable work still have to comply with Part P and BS 7671?",
+      options: ["No, only notifiable work does", "Yes, all work must comply; notifiable only means building control must be told", "Only if the customer asks", "Only in Wales"], answer: 1,
+      why: "Every job must be safe and meet the requirements. Notification is about who checks it." },
+    { q: "A shop shares its electricity supply with the flat above. Does Part P cover the shop's installation?",
+      options: ["Yes", "No", "Only the shop's lighting", "Only if it's in Wales"], answer: 0,
+      why: "Business premises sharing a supply with a dwelling come under Part P." },
+    { q: "Which part of a block of flats does Part P exclude?",
+      options: ["The corridors", "The residents' gym", "The lifts", "The flats themselves"], answer: 2,
+      why: "Common areas and shared facilities are covered, but lifts are specifically excluded." },
+    { q: "Using the building notice route, how far ahead must you tell building control?",
+      options: ["After the work is finished", "At least two working days before starting", "Six months before", "No notice is needed"], answer: 1,
+      why: "A building notice has to be given at least two working days before the work starts." },
+    { q: "What does membership of a Competent Person Scheme such as NICEIC or NAPIT allow?",
+      options: ["Working live", "Self-certifying notifiable work, with the scheme notifying building control", "Skipping testing", "Ignoring BS 7671"], answer: 1,
+      why: "Registered installers certify their own notifiable work, and the scheme tells building control." },
+    { q: "Which certificate is issued for a new circuit?",
+      options: ["Electrical Installation Certificate (EIC)", "Minor Electrical Installation Works Certificate (MEIWC)", "Electrical Installation Condition Report (EICR)", "Building notice"], answer: 0,
+      why: "New circuits and consumer unit replacements get an EIC. A MEIWC is for minor works without a new circuit." },
+    { q: "What does an EICR do?",
+      options: ["Certifies a new installation", "Reports on the condition of an existing installation", "Notifies building control", "Replaces Part P"], answer: 1,
+      why: "An Electrical Installation Condition Report assesses an existing installation and codes any problems (C1, C2, C3, FI)." }
+  ]);
+})();
+</script>
+</body>
+</html>

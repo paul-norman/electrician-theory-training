@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bathrooms and Special Locations</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  :root { --z0: #2f6fd1; --z1: #5aa0f0; --z2: #a9cdf7; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --z0: #3b7fe6; --z1: #2c5f9e; --z2: #1f3f66; } }
+  :root[data-theme="dark"] { --z0: #3b7fe6; --z1: #2c5f9e; --z2: #1f3f66; }
+  .zone { cursor: pointer; transition: opacity 0.15s; }
+  .zone:hover { opacity: 0.85; }
+  .zone.sel { stroke: var(--flow); stroke-width: 3; }
+  .zone:focus { outline: none; }
+  .zone:focus-visible { stroke: var(--flow); stroke-width: 3; stroke-dasharray: 5 3; }
+  .zinfo { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-height: 96px; }
+  .zinfo .ip { font-family: var(--font-mono); font-weight: 600; color: var(--flow); }
+  .ipout { background: var(--meter-bg); color: var(--meter-fg); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .ipout .code { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 600; }
+  .ipout span { font-size: 0.92rem; }
+</style>
+</head>
+<body data-lesson="bathrooms">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Regulations and compliance</span>
+    <h1>Bathrooms and special locations</h1>
+    <p class="lead">Water and wet skin make electric shock far more dangerous, so rooms with a bath or shower get their own rules in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Section 701: zones, <abbr title="ingress protection">IP</abbr> ratings and where sockets may go.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>A <strong>special location</strong> is a place of increased risk with extra rules in Part 7 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>; rooms containing a bath or shower are Section 701. <strong>Zone 0</strong> is inside the bath or shower tray. <strong>Zone 1</strong> is directly above it, up to 2.25 m from the finished floor (or to a fixed shower head higher than that), and includes the space under a bath if you can get at it without a tool. <strong>Zone 2</strong> extends 0.6 m out from zone 1. A walk-in shower with no tray has no zone 2; instead its zone 1 reaches 1.2 m from the fixed water outlet. Equipment needs at least IPX7 in zone 0 and IPX4 in zones 1 and 2 (IPX5 where water jets are used for cleaning). Socket-outlets must be at least <strong>3 m</strong> horizontally from the boundary of zone 1 (shaver supply units are the exception). Every circuit in the room needs 30 mA <abbr title="residual current device">RCD</abbr> protection.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Why bathrooms are special</h2>
+    <p>Wet skin has a much lower resistance than dry skin, so the same voltage drives a bigger, more dangerous current through the body (see <a href="../principles/ohms-law.html">Ohm's law</a>). People in a bathroom are often wet, barefoot and touching earthed metal such as taps and pipes. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> deals with this by dividing the space around a bath or shower into <strong>zones</strong>: the closer to the water, the stricter the rules.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Explore</span>
+      <h3 id="w1">Bathroom zones (side view)</h3>
+    </div>
+    <div class="stage">
+      <svg id="room" viewBox="0 0 760 360" class="wide" role="img" aria-labelledby="w1d">
+        <title id="w1d">A side view of a bathroom showing zone 0 inside the bath or shower, zone 1 above it up to 2.25 metres, zone 2 extending 0.6 metres beyond, and the point 3 metres from zone 1 beyond which socket-outlets are allowed.</title>
+        <g id="roomG"></g>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label" id="typL">Room has</span>
+        <div class="seg" role="group" aria-labelledby="typL" id="typ">
+          <button type="button" data-t="bath" aria-pressed="true">A bath</button>
+          <button type="button" data-t="walkin" aria-pressed="false">A walk-in shower (no tray)</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label for="head">Height of the fixed shower head</label>
+        <div class="slider"><input type="range" id="head" min="1.8" max="2.6" step="0.05" value="2.0"><output id="headOut" for="head"></output></div>
+      </div>
+      <label class="check" for="panel"><input type="checkbox" id="panel"> Bath panel removable without a tool</label>
+    </div>
+    <div class="zinfo" id="zinfo" aria-live="polite"></div>
+    <p class="caption">Tap a zone to see what's allowed there. Raise the shower head above 2.25 m and watch zones 1 and 2 grow upwards with it. Drawn to scale: each grid square is 0.5 m.</p>
+  </section>
+
+  <section class="prose">
+    <h2>The zones</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Zone</th><th>Where it is</th><th>Minimum <abbr title="ingress protection">IP</abbr> rating</th><th>What can go there</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0</strong></td><td>Inside the bath or shower tray. For a walk-in shower, the floor area of zone 1 up to 10 cm high.</td><td class="mono">IPX7</td><td>Only equipment made for zone 0, running on <abbr title="separated extra-low voltage">SELV</abbr> at no more than 12 V <abbr title="alternating current">AC</abbr>, with its power source outside the zones.</td></tr>
+          <tr><td><strong>1</strong></td><td>Above zone 0, up to 2.25 m above the finished floor, or to the highest fixed shower head if that's higher. Includes the space under a bath that's reachable without a tool. A walk-in shower's zone 1 reaches 1.2 m from the fixed water outlet.</td><td class="mono">IPX4</td><td>Only fixed equipment suitable for zone 1, such as an electric shower, shower pump, extractor fan, towel rail or luminaire.</td></tr>
+          <tr><td><strong>2</strong></td><td>0.6 m horizontally beyond zone 1, to the same height. There's no zone 2 for a walk-in shower without a tray.</td><td class="mono">IPX4</td><td>Fixed equipment suitable for the zone, plus a shaver supply unit if it's out of the direct spray.</td></tr>
+          <tr><td>Outside the zones</td><td>The rest of the room.</td><td>No special rating</td><td>Most equipment, but socket-outlets only 3 m or more horizontally from zone 1.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Where water jets are used for cleaning, as in communal showers, equipment in the zones needs IPX5. And whatever the zone, <strong>every circuit</strong> serving the room, or passing through it, needs additional protection by a 30 mA <abbr title="residual current device">RCD</abbr>.</p>
+    <p>Light switches normally go outside the room, or are ceiling-mounted pull-cord switches, whose insulating cord can safely hang within reach.</p>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="ingress protection">IP</abbr> ratings</h2>
+    <p>An <strong><abbr title="ingress protection">IP</abbr> code</strong> (ingress protection) shows how well an enclosure keeps things out. The first digit is protection against solid objects (from fingers down to dust); the second is protection against water. An <strong>X</strong> means that one hasn't been tested or specified: IPX4 says nothing about solids but is splash-proof.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2"><abbr title="ingress protection">IP</abbr> code decoder</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="ip1">First digit: solid objects</label><select id="ip1"></select></div>
+      <div class="ctl"><label for="ip2">Second digit: water</label><select id="ip2"></select></div>
+    </div>
+    <div class="ipout" aria-live="polite"><span class="code" id="ipCode"></span><span id="ip1t"></span><span id="ip2t"></span><span id="ipZone"></span></div>
+    <p class="caption">One catch: the water ratings for immersion (7 and 8) don't automatically include jets (5 and 6). Equipment that's been tested for both is marked with both, for example IPX5/IPX7. Separately, <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> requires any enclosure around live parts to be at least IP2X (finger-proof), and its top surface at least IP4X.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ---- Zone diagram: 1 m = 100 px, floor at y = 320, wall at x = 40 ----
+  var FL = 320, WX = 40, M = 100;
+  var st = { t: "bath", head: 2.0, panel: false, sel: "z1" };
+  var y = function (m) { return FL - m * M; }, x = function (m) { return WX + m * M; };
+  var INFO = {
+    z0: ["Zone 0", "IPX7", "Inside the bath or shower tray (for a walk-in shower, the floor area up to 10 cm). Only equipment made for zone 0, on SELV at no more than 12 V AC, with the power source outside the zones."],
+    z1: ["Zone 1", "IPX4", "Above zone 0 up to 2.25 m, or to the fixed shower head if that's higher. Only fixed equipment suitable for zone 1: electric shower, shower pump, extractor fan, towel rail, luminaire."],
+    zu: ["Zone 1 (under the bath)", "IPX4", "The space under a bath counts as zone 1 when you can get into it without a tool. If the panel needs a tool to remove, the space is outside the zones."],
+    z2: ["Zone 2", "IPX4", "0.6 m beyond zone 1, to the same height. Fixed equipment suitable for the zone, and a shaver supply unit if it's out of the direct spray."],
+    out: ["Outside the zones", "No special rating", "Ordinary equipment is allowed, but socket-outlets must be at least 3 m horizontally from the boundary of zone 1, and every circuit needs 30 mA RCD protection."]
+  };
+  function draw() {
+    var top = Math.max(2.25, st.head), g = "";
+    // grid
+    for (var gx = 0; gx <= 7; gx += 0.5) g += '<line x1="' + x(gx) + '" y1="' + y(0) + '" x2="' + x(gx) + '" y2="' + y(2.7) + '" stroke="var(--rule)" stroke-width="' + (gx % 1 ? 0.5 : 1) + '"/>';
+    for (var gy = 0; gy <= 2.5; gy += 0.5) g += '<line x1="' + x(0) + '" y1="' + y(gy) + '" x2="' + x(7) + '" y2="' + y(gy) + '" stroke="var(--rule)" stroke-width="' + (gy % 1 ? 0.5 : 1) + '"/>';
+    var z1x, z1w, zone = function (id, X, Y, W, H, fill) { return '<rect class="zone' + (st.sel === id ? " sel" : "") + '" data-z="' + id + '" tabindex="0" role="button" aria-label="' + INFO[id][0] + '" x="' + X + '" y="' + Y + '" width="' + W + '" height="' + H + '" fill="' + fill + '" opacity="0.75"/>'; };
+    if (st.t === "bath") {
+      var bw = 1.7, bh = 0.55;
+      z1x = x(0); z1w = bw * M;
+      g += zone("out", x(bw + 0.6), y(2.7), x(7) - x(bw + 0.6), 2.7 * M, "transparent");
+      g += zone("z2", x(bw), y(top), 0.6 * M, top * M, "var(--z2)");
+      g += zone("z1", x(0), y(top), bw * M, (top - bh) * M, "var(--z1)");
+      if (st.panel) g += zone("zu", x(0.1), y(bh - 0.05), (bw - 0.2) * M, (bh - 0.05) * M, "var(--z1)");
+      g += zone("z0", x(0.08), y(bh - 0.03), (bw - 0.16) * M, (bh - 0.18) * M, "var(--z0)");
+      // bath outline
+      g += '<path d="M' + x(0) + "," + y(bh) + " H" + x(bw) + " V" + y(0.12) + " Q" + x(bw) + "," + y(0.02) + " " + x(bw - 0.12) + "," + y(0.02) + " H" + x(0.12) + " Q" + x(0) + "," + y(0.02) + " " + x(0) + "," + y(0.12) + ' Z" fill="none" stroke="var(--fg)" stroke-width="3" pointer-events="none"/>';
+      g += '<line x1="' + x(bw) + '" y1="' + y(bh) + '" x2="' + x(bw) + '" y2="' + y(0) + '" stroke="var(--fg)" stroke-width="2" stroke-dasharray="' + (st.panel ? "6 4" : "0") + '" pointer-events="none"/>';
+      g += label(x(bw / 2), y(0.3), "0") + label(x(bw / 2), y((top + bh) / 2), "1") + label(x(bw + 0.3), y(top / 2), "2");
+      if (st.panel) g += '<text x="' + x(bw / 2) + '" y="' + (y(0.06)) + '" text-anchor="middle" class="small" pointer-events="none">under bath: zone 1</text>';
+      var z1edge = bw;
+      // shower head over the bath
+      g += shower(0.1, st.head);
+      g += dims(z1edge, top);
+    } else {
+      var outlet = 0.35, r = 1.2;  // outlet 0.35 m from the wall
+      z1x = x(0); var z1end = outlet + r;
+      g += zone("out", x(z1end), y(2.7), x(7) - x(z1end), 2.7 * M, "transparent");
+      g += zone("z1", x(0), y(top), z1end * M, (top - 0.1) * M, "var(--z1)");
+      g += zone("z0", x(0), y(0.1), z1end * M, 0.1 * M, "var(--z0)");
+      g += label(x(z1end / 2), y(top / 2), "1") + label(x(z1end / 2), y(0.05) + 4, "0");
+      g += shower(outlet, st.head);
+      g += '<line x1="' + x(outlet) + '" y1="' + y(st.head) + '" x2="' + x(outlet) + '" y2="' + y(0) + '" stroke="var(--fg)" stroke-dasharray="3 4" pointer-events="none"/>';
+      g += arrow(x(outlet), y(1.4), x(z1end), y(1.4), "1.2 m from the outlet");
+      g += dims(z1end, top);
+    }
+    // floor and wall
+    g += '<line x1="' + x(0) + '" y1="' + FL + '" x2="' + x(7) + '" y2="' + FL + '" stroke="var(--fg)" stroke-width="3"/>';
+    g += '<line x1="' + x(0) + '" y1="' + FL + '" x2="' + x(0) + '" y2="' + y(2.7) + '" stroke="var(--fg)" stroke-width="3"/>';
+    g += '<text x="' + x(0) + '" y="' + (FL + 22) + '" class="small">Finished floor level</text>';
+    $("roomG").innerHTML = g;
+    $("headOut").textContent = st.head.toFixed(2) + " m";
+    var i = INFO[st.sel] || INFO.z1;
+    $("zinfo").innerHTML = "<strong>" + i[0] + '</strong><span class="ip">Minimum rating: ' + i[1] + "</span><span>" + i[2] + "</span>";
+  }
+  function label(cx, cy, n) { return '<text x="' + cx + '" y="' + cy + '" text-anchor="middle" dominant-baseline="middle" pointer-events="none" style="font-family:var(--font-display);font-weight:800;font-size:22px;fill:var(--fg)">' + n + "</text>"; }
+  function shower(at, h) {
+    return '<path d="M' + x(0) + "," + y(h + 0.1) + " H" + x(at) + " V" + y(h) + '" fill="none" stroke="var(--fg)" stroke-width="3" pointer-events="none"/><rect x="' + (x(at) - 12) + '" y="' + y(h) + '" width="24" height="7" rx="2" fill="var(--fg)" pointer-events="none"/>';
+  }
+  function arrow(x1, y1, x2, y2, t) {
+    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="var(--flow)" stroke-width="2" marker-end="url(#ar)" marker-start="url(#ar)" pointer-events="none"/>' +
+      '<text x="' + ((x1 + x2) / 2) + '" y="' + (y1 - 8) + '" text-anchor="middle" class="tag" fill="var(--flow)" pointer-events="none" style="font-size:12px">' + t + "</text>";
+  }
+  function dims(z1edge, top) {
+    var g = '<defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="var(--flow)"/></marker></defs>';
+    // height of zones
+    g += '<line x1="' + x(6.85) + '" y1="' + y(0) + '" x2="' + x(6.85) + '" y2="' + y(top) + '" stroke="var(--flow)" stroke-width="2" marker-end="url(#ar)" marker-start="url(#ar)" pointer-events="none"/>';
+    g += '<text x="' + (x(6.85) - 8) + '" y="' + (y(top) + 16) + '" text-anchor="end" class="tag" fill="var(--flow)" style="font-size:12px" pointer-events="none">' + top.toFixed(2) + " m</text>";
+    // 3 m socket line
+    var sx = x(z1edge + 3);
+    g += '<line x1="' + sx + '" y1="' + y(2.6) + '" x2="' + sx + '" y2="' + FL + '" stroke="var(--ok)" stroke-width="2" stroke-dasharray="6 4" pointer-events="none"/>';
+    g += arrow(x(z1edge), y(0.55), sx, y(0.55), "3 m from zone 1");
+    g += '<text x="' + (sx + 6) + '" y="' + y(2.45) + '" class="small" style="fill:var(--ok)" pointer-events="none">Sockets allowed</text><text x="' + (sx + 6) + '" y="' + (y(2.45) + 14) + '" class="small" style="fill:var(--ok)" pointer-events="none">beyond this line</text>';
+    // socket symbol beyond the line
+    g += '<rect x="' + (sx + 30) + '" y="' + y(0.45) + '" width="40" height="22" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5" pointer-events="none"/>';
+    return g;
+  }
+  $("roomG").addEventListener("click", function (e) { var z = e.target.closest(".zone"); if (z) { st.sel = z.getAttribute("data-z"); draw(); } });
+  $("roomG").addEventListener("keydown", function (e) { var z = e.target.closest(".zone"); if (z && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); st.sel = z.getAttribute("data-z"); draw(); } });
+  $("typ").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; st.t = b.getAttribute("data-t");
+    this.querySelectorAll("button").forEach(function (k) { k.setAttribute("aria-pressed", String(k === b)); });
+    if (st.t === "walkin" && (st.sel === "z2" || st.sel === "zu")) st.sel = "z1";
+    $("panel").disabled = st.t !== "bath"; draw();
+  });
+  $("head").addEventListener("input", function (e) { st.head = parseFloat(e.target.value); draw(); });
+  $("panel").addEventListener("change", function (e) { st.panel = e.target.checked; if (!st.panel && st.sel === "zu") st.sel = "z1"; draw(); });
+  draw();
+
+  // ---- IP decoder ----
+  var D1 = [["X", "Not tested or not specified for solid objects."], ["0", "No protection against solid objects."], ["1", "Protected against objects over 50 mm, such as the back of a hand."], ["2", "Protected against objects over 12.5 mm, such as fingers (finger-proof)."], ["3", "Protected against objects over 2.5 mm, such as tools and thick wires."], ["4", "Protected against objects over 1 mm, such as most wires and small screws."], ["5", "Dust-protected: some dust may get in, but not enough to cause harm."], ["6", "Dust-tight: no dust gets in at all."]];
+  var D2 = [["X", "Not tested or not specified for water."], ["0", "No protection against water."], ["1", "Protected against vertically dripping water."], ["2", "Protected against dripping water when tilted up to 15°."], ["3", "Protected against spraying water, up to 60° from vertical."], ["4", "Protected against splashing water from any direction."], ["5", "Protected against water jets from any direction."], ["6", "Protected against powerful water jets."], ["7", "Protected against temporary immersion, up to 1 m deep."], ["8", "Protected against continuous immersion, beyond 1 m."]];
+  D1.forEach(function (d, k) { var o = document.createElement("option"); o.value = k; o.textContent = d[0] + ": " + d[1].split(":")[0].replace(/\.$/, ""); $("ip1").appendChild(o); });
+  D2.forEach(function (d, k) { var o = document.createElement("option"); o.value = k; o.textContent = d[0] + ": " + d[1].replace(/\.$/, ""); $("ip2").appendChild(o); });
+  $("ip1").value = 0; $("ip2").value = 5;
+  function ip() {
+    var a = D1[+$("ip1").value], b = D2[+$("ip2").value], w = b[0] === "X" ? -1 : +b[0];
+    $("ipCode").textContent = "IP" + a[0] + b[0];
+    $("ip1t").textContent = "First digit " + a[0] + ": " + a[1];
+    $("ip2t").textContent = "Second digit " + b[0] + ": " + b[1];
+    var z = w >= 7 ? "Water rating is enough for zone 0 (IPX7 needed), and immersion-rated. Check it's also marked for splashing if used in zones 1 or 2." :
+      w >= 4 ? "Water rating is enough for zones 1 and 2 of a bathroom (IPX4 needed)" + (w >= 5 ? ", including where jets are used for cleaning (IPX5)." : ", but not where water jets are used for cleaning (IPX5 needed).") :
+      "Not enough for the bathroom zones, which need at least IPX4.";
+    $("ipZone").textContent = z;
+  }
+  $("ip1").addEventListener("change", ip); $("ip2").addEventListener("change", ip); ip();
+
+  Course.quiz("#quiz", [
+    { q: "Which zone is the inside of the bath itself?",
+      options: ["Zone 0", "Zone 1", "Zone 2", "Outside the zones"], answer: 0,
+      why: "Zone 0 is the interior of the bath or shower tray." },
+    { q: "How far does zone 2 extend horizontally beyond zone 1?",
+      options: ["0.3 m", "0.6 m", "1.2 m", "3 m"], answer: 1,
+      why: "Zone 2 is 0.6 m wide, beyond the edge of zone 1." },
+    { q: "How high does zone 1 go?",
+      options: ["To the ceiling", "2.25 m above the finished floor, or the highest fixed shower head if higher", "1.2 m", "Exactly 2 m"], answer: 1,
+      why: "2.25 m above finished floor level, unless a fixed shower head or water outlet is higher, in which case zone 1 goes up to it." },
+    { q: "The space under a bath can be reached by pulling off the panel without a tool. Which zone is it?",
+      options: ["Zone 0", "Zone 1", "Zone 2", "Outside the zones"], answer: 1,
+      why: "If it's accessible without a tool it's zone 1. If a tool is needed, it's outside the zones." },
+    { q: "What minimum IP rating is required in zones 1 and 2?",
+      options: ["IPX2", "IPX4", "IPX7", "IP65"], answer: 1,
+      why: "IPX4 (splash-proof) in zones 1 and 2; IPX7 in zone 0; IPX5 where water jets are used for cleaning." },
+    { q: "How far from the boundary of zone 1 must socket-outlets be?",
+      options: ["0.6 m", "1.2 m", "2.5 m", "At least 3 m horizontally"], answer: 3,
+      why: "At least 3 m horizontally from the boundary of zone 1. Shaver supply units are the exception." },
+    { q: "In IPX4, what does the X mean?",
+      options: ["Extra protection", "Not tested or specified for solid objects", "Waterproof", "Explosion-proof"], answer: 1,
+      why: "X means that digit wasn't tested or specified. Here it's the solids digit; the 4 means protected against splashing water." },
+    { q: "Which circuits in a bathroom need 30 mA RCD protection?",
+      options: ["Only the shower circuit", "Only sockets", "Every circuit serving the room or passing through it", "None, if the bathroom is small"], answer: 2,
+      why: "All circuits in a location containing a bath or shower need additional protection by a 30 mA RCD." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -44,7 +44,7 @@
 
   <section class="prose">
     <h2>The journey</h2>
-    <p>The grid carries 50 Hz alternating current, made by three-phase generators at power stations (see <a href="ac-and-three-phase.html">AC and three-phase</a> for how that works). Between the generator and your socket, the voltage is changed several times by transformers.</p>
+    <p>The grid carries 50 Hz alternating current, made by three-phase generators at power stations (see <a href="ac-and-three-phase.html"><abbr title="alternating current">AC</abbr> and three-phase</a> for how that works). Between the generator and your socket, the voltage is changed several times by transformers.</p>
   </section>
 
   <section class="widget" aria-labelledby="w1">
@@ -169,8 +169,8 @@
     <h2>How a transformer works</h2>
     <p>A transformer is two coils of wire wound on the same iron core. The coils don't touch electrically.</p>
     <ol>
-      <li>AC in the <strong>primary</strong> coil creates a magnetic field in the core. Because the current keeps reversing, the field keeps reversing too.</li>
-      <li>A <em>changing</em> magnetic field passing through a coil induces a voltage in it. So the reversing field induces an AC voltage in the <strong>secondary</strong> coil.</li>
+      <li><abbr title="alternating current">AC</abbr> in the <strong>primary</strong> coil creates a magnetic field in the core. Because the current keeps reversing, the field keeps reversing too.</li>
+      <li>A <em>changing</em> magnetic field passing through a coil induces a voltage in it. So the reversing field induces an <abbr title="alternating current">AC</abbr> voltage in the <strong>secondary</strong> coil.</li>
       <li>The voltage depends on the number of turns. Fewer turns on the secondary means a lower voltage (step down); more turns means a higher voltage (step up).</li>
     </ol>
     <p><span class="formula"><span class="frac"><span>V<sub>s</sub></span><span>V<sub>p</sub></span></span> = <span class="frac"><span>N<sub>s</sub></span><span>N<sub>p</sub></span></span></span></p>
@@ -214,8 +214,8 @@
       <div class="ctl"><label for="tp">Load power (W)</label><input type="number" id="tp" min="0" step="any" value="10000"></div>
       <div class="ctl" style="flex:0 1 auto"><span class="label">Supply type</span>
         <div class="seg" role="group" aria-label="Supply type" id="acdc">
-          <button type="button" data-v="ac" aria-pressed="true">AC</button>
-          <button type="button" data-v="dc" aria-pressed="false">DC</button>
+          <button type="button" data-v="ac" aria-pressed="true"><abbr title="alternating current">AC</abbr></button>
+          <button type="button" data-v="dc" aria-pressed="false"><abbr title="direct current">DC</abbr></button>
         </div>
       </div>
     </div>

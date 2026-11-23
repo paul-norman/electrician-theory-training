@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laws and Guidance</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .tier { cursor: default; }
+  .sorter { display: flex; flex-direction: column; gap: 8px; }
+  .sort-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
+  .sort-row .name { font-weight: 600; }
+  .sort-row .fb { grid-column: 1 / -1; font-size: 0.88rem; }
+  .sort-row .fb.ok { color: var(--ok); }
+  .sort-row .fb.bad { color: var(--bad); }
+  .sort-row .seg button:disabled { cursor: default; opacity: 0.75; }
+</style>
+</head>
+<body data-lesson="laws">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Regulations and compliance</span>
+    <h1>Laws and guidance</h1>
+    <p class="lead">Which rules are law, which are guidance, and where the Building Regulations fit. Knowing the difference tells you what you must do, and how you show you've done it.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p><strong>Statutory</strong> documents are law: Acts of Parliament (such as the Health and Safety at Work etc. Act 1974) and the Regulations made under them (such as the Electricity at Work Regulations 1989 and the Building Regulations). Breaking them is a criminal offence. <strong>Non-statutory</strong> documents are guidance: the Approved Documents, <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, the On-Site Guide and the Guidance Notes. They aren't law themselves, but following them is the normal way to show you've met the law. The Building Regulations are split into Parts A to T, each explained by an Approved Document; Part P covers electrical safety in dwellings in England and Wales. Part M puts switches and sockets in new homes between 450 mm and 1,200 mm above the finished floor.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Statutory and non-statutory</h2>
+    <p><strong>Statutory</strong> means "made by law". An Act of Parliament sets out broad duties, and Regulations (statutory instruments) made under it add the detail. These are legally binding: if you break them you can be prosecuted, fined or, in serious cases, imprisoned.</p>
+    <p><strong>Non-statutory</strong> documents aren't law. They're the guidance and standards that explain <em>how</em> to meet the law. Nobody can prosecute you just for not following <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>. But if something goes wrong, following it is the strongest evidence that you did the job properly, and departing from it means you'd have to prove your way was just as safe.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="w1">From law to everyday practice</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 720 300" class="wide" role="img" aria-labelledby="w1d">
+        <title id="w1d">Four levels: Acts of Parliament at the top, then Regulations, both statutory. Below them, non-statutory Approved Documents, then standards and guides such as BS 7671, the On-Site Guide and the Guidance Notes.</title>
+        <g font-family="var(--font-body)">
+          <rect x="230" y="14" width="260" height="56" rx="8" fill="var(--bad-bg)" stroke="var(--bad)"/>
+          <text x="360" y="38" text-anchor="middle" font-weight="600" fill="var(--fg)">Acts of Parliament</text>
+          <text x="360" y="57" text-anchor="middle" class="small">Health and Safety at Work etc. Act 1974</text>
+          <rect x="160" y="82" width="400" height="56" rx="8" fill="var(--bad-bg)" stroke="var(--bad)"/>
+          <text x="360" y="106" text-anchor="middle" font-weight="600" fill="var(--fg)">Regulations (statutory instruments)</text>
+          <text x="360" y="125" text-anchor="middle" class="small">Electricity at Work Regulations 1989 · Building Regulations 2010</text>
+          <rect x="90" y="150" width="540" height="56" rx="8" fill="var(--info-bg)" stroke="var(--info)"/>
+          <text x="360" y="174" text-anchor="middle" font-weight="600" fill="var(--fg)">Approved Documents (Parts A to T)</text>
+          <text x="360" y="193" text-anchor="middle" class="small">Official guidance on meeting the Building Regulations, e.g. Approved Document P</text>
+          <rect x="20" y="218" width="680" height="56" rx="8" fill="var(--info-bg)" stroke="var(--info)"/>
+          <text x="360" y="242" text-anchor="middle" font-weight="600" fill="var(--fg)">Standards and guides</text>
+          <text x="360" y="261" text-anchor="middle" class="small">BS 7671 (the Wiring Regulations) · On-Site Guide · Guidance Notes · HSE guidance</text>
+        </g>
+        <g font-family="var(--font-mono)" font-size="12" font-weight="600">
+          <text x="706" y="60" text-anchor="end" fill="var(--bad)">STATUTORY: LAW</text>
+          <text x="706" y="296" text-anchor="end" fill="var(--info)">NON-STATUTORY: GUIDANCE</text>
+        </g>
+      </svg>
+    </div>
+    <p class="caption">The higher up, the more general and the more legally binding. The lower down, the more detailed and practical. Each level explains how to meet the one above it.</p>
+  </section>
+
+  <section class="prose">
+    <h2>The laws you'll work under</h2>
+    <ul>
+      <li><strong>Health and Safety at Work etc. Act 1974</strong> (often <abbr title="Health and Safety at Work etc. Act 1974">HASAWA</abbr>). The main health and safety law. Employers must keep employees and anyone affected by their work safe, as far as reasonably practicable. Employees must take reasonable care of themselves and others, and co-operate with their employer on safety.</li>
+      <li><strong>Electricity at Work Regulations 1989</strong> (<abbr title="Electricity at Work Regulations 1989">EAWR</abbr>). Made under that Act, specifically for electricity. Systems must be built and maintained to prevent danger. There must be a way to cut off the supply and isolate equipment. Work should be done dead: live working is only allowed when it would be unreasonable for the equipment to be dead, it's reasonable to work live, and suitable precautions are taken. Anyone doing the work must be competent, or properly supervised.</li>
+      <li><strong>Building Regulations 2010.</strong> Set minimum standards for building work, including electrical work in homes. England and Wales each have their own version; Scotland and Northern Ireland have separate systems altogether.</li>
+      <li><strong>Electricity Safety, Quality and Continuity Regulations 2002</strong> (<abbr title="Electricity Safety, Quality and Continuity Regulations 2002">ESQCR</abbr>). Mostly the <abbr title="distribution network operator">DNO</abbr>'s duties, such as keeping the supply within its limits, and why you mustn't connect anything to their network without permission.</li>
+    </ul>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> sits underneath all of these. It isn't law, but the official guidance for both the Electricity at Work Regulations and Part P points to it. So in practice, an installation that meets <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> is very likely to meet the law too.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">Law or guidance?</h3>
+    </div>
+    <p class="caption">Decide whether each one is statutory (law) or non-statutory (guidance).</p>
+    <div class="sorter" id="sorter"></div>
+    <div><button type="button" class="btn ghost" id="sortReset">Start again</button></div>
+  </section>
+
+  <section class="prose">
+    <h2>The Building Regulations and Approved Documents</h2>
+    <p>The Building Regulations are split into <strong>Parts</strong>, each a short legal requirement (for example, Part P says electrical installations must be designed and installed to protect people from fire and injury). Each Part has an <strong>Approved Document</strong> explaining ways to meet it. The ones an electrician runs into most:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Part</th><th>Covers</th><th>Why it matters to an electrician</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">A</td><td>Structure</td><td>Notches and holes in joists and beams: where and how big they can be.</td></tr>
+          <tr><td class="mono">B</td><td>Fire safety</td><td>Keeping fire barriers intact when cables pass through walls and ceilings; smoke and heat alarms.</td></tr>
+          <tr><td class="mono">C</td><td>Site preparation and resistance to moisture</td><td>Not breaking damp-proofing when running cables.</td></tr>
+          <tr><td class="mono">E</td><td>Resistance to sound</td><td>Keeping sound insulation intact between homes, e.g. around back boxes in party walls.</td></tr>
+          <tr><td class="mono">F</td><td>Ventilation</td><td>Extractor fans in kitchens and bathrooms.</td></tr>
+          <tr><td class="mono">L</td><td>Conservation of fuel and power</td><td>Energy-efficient lighting and heating controls.</td></tr>
+          <tr><td class="mono">M</td><td>Access to and use of buildings</td><td>Heights of switches and sockets in new homes (below).</td></tr>
+          <tr><td class="mono">P</td><td>Electrical safety: dwellings</td><td>The main one: see <a href="part-p-and-notification.html">Part P and notification</a>.</td></tr>
+          <tr><td class="mono">R</td><td>Infrastructure for high-speed broadband</td><td>Ducts and access points for broadband cabling in new homes.</td></tr>
+          <tr><td class="mono">S</td><td>Infrastructure for charging electric vehicles</td><td>Charge points for new homes (England).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The full set in England runs from A to T. There's no I, and N was folded into K. The others are D (toxic substances), G (sanitation, hot water safety and water efficiency), H (drainage and waste disposal), J (combustion appliances and fuel storage), K (protection from falling, collision and impact), O (overheating), Q (security) and T (toilet accommodation, added in 2024 for new non-domestic buildings). Wales has its own set, which differs in places.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="w3">Part M: switch and socket heights</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 640 320" role="img" aria-labelledby="w3d" style="max-width:680px;margin:0 auto">
+        <title id="w3d">A wall in a new home. Switches and sockets must sit in a band between 450 millimetres and 1,200 millimetres above the finished floor.</title>
+        <rect x="60" y="20" width="420" height="270" fill="var(--surface-2)" stroke="var(--rule)"/>
+        <line x1="40" y1="290" x2="500" y2="290" stroke="var(--fg)" stroke-width="3"/>
+        <text x="60" y="310" class="small">Finished floor level</text>
+        <!-- band: 1 mm = 0.2 px; 450 → 90 px above floor, 1200 → 240 px -->
+        <rect x="60" y="50" width="420" height="150" fill="var(--ok-bg)" stroke="var(--ok)" stroke-dasharray="6 4"/>
+        <text x="270" y="130" text-anchor="middle" font-weight="600" fill="var(--ok)">Switches and sockets go in this band</text>
+        <!-- switch near top, socket near bottom -->
+        <rect x="370" y="62" width="34" height="34" rx="3" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <rect x="383" y="70" width="8" height="18" rx="2" fill="var(--fg)"/>
+        <text x="414" y="84" class="small">Switch</text>
+        <rect x="110" y="160" width="62" height="34" rx="3" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <rect x="122" y="170" width="6" height="12" fill="var(--fg)"/><rect x="138" y="170" width="6" height="12" fill="var(--fg)"/><rect x="154" y="170" width="6" height="12" fill="var(--fg)"/>
+        <text x="180" y="184" class="small">Socket</text>
+        <!-- dimensions -->
+        <g stroke="var(--flow)" stroke-width="2">
+          <line x1="530" y1="290" x2="530" y2="200"/><line x1="522" y1="200" x2="538" y2="200"/><line x1="522" y1="290" x2="538" y2="290"/>
+          <line x1="585" y1="290" x2="585" y2="50"/><line x1="577" y1="50" x2="593" y2="50"/><line x1="577" y1="290" x2="593" y2="290"/>
+        </g>
+        <text x="538" y="250" class="tag" fill="var(--flow)">450 mm</text>
+        <text x="592" y="160" class="tag" fill="var(--flow)" transform="rotate(-90 592 160)" text-anchor="middle">1,200 mm</text>
+      </svg>
+    </div>
+    <p class="caption">Measured to the centre of the accessory, from the finished floor (the floor surface once it's laid, not the bare concrete). The band keeps switches and sockets within easy reach for wheelchair users and people who can't bend easily. It applies to new homes; when you're working in an existing one, matching the existing heights is usually acceptable.</p>
+    <p class="caption">The band is for switches and sockets that people use day to day. Outlets that aren't meant to be reached regularly can go where the equipment needs them: behind a wall-mounted TV, above a kitchen worktop, behind a fridge, or up by an extractor fan or cooker hood.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var ITEMS = [
+    ["Health and Safety at Work etc. Act 1974", true, "An Act of Parliament: the main health and safety law."],
+    ["Electricity at Work Regulations 1989", true, "Regulations made under the Health and Safety at Work Act. Legally binding."],
+    ["Building Regulations 2010", true, "A statutory instrument: the law for building work, including Part P."],
+    ["Approved Document P", false, "Official guidance on how to meet Part P. Following it shows compliance, but it isn't the law itself."],
+    ["BS 7671 (the Wiring Regulations)", false, "A British Standard: guidance, despite the word \"Regulations\" in its nickname. Following it is the usual way to meet the law."],
+    ["On-Site Guide", false, "An IET guide to applying BS 7671 to straightforward installations."],
+    ["Guidance Note 3: Inspection and Testing", false, "An IET guide to inspection and testing."]
+  ];
+  function build() {
+    $("sorter").innerHTML = ITEMS.map(function (it, k) {
+      return '<div class="sort-row" data-k="' + k + '"><span class="name">' + it[0] + '</span><span class="seg"><button type="button" data-a="1">Law</button><button type="button" data-a="0">Guidance</button></span><span class="fb" hidden></span></div>';
+    }).join("");
+  }
+  $("sorter").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var row = b.closest(".sort-row"), it = ITEMS[+row.getAttribute("data-k")];
+    var ok = (b.getAttribute("data-a") === "1") === it[1];
+    row.querySelectorAll("button").forEach(function (x) { x.disabled = true; x.setAttribute("aria-pressed", String(x === b)); });
+    var fb = row.querySelector(".fb"); fb.hidden = false; fb.className = "fb " + (ok ? "ok" : "bad");
+    fb.textContent = (ok ? "Right. " : "Not quite: it's " + (it[1] ? "law. " : "guidance. ")) + it[2];
+  });
+  $("sortReset").addEventListener("click", build);
+  build();
+
+  Course.quiz("#quiz", [
+    { q: "Which of these is statutory (law)?",
+      options: ["BS 7671", "The On-Site Guide", "The Electricity at Work Regulations 1989", "Approved Document P"], answer: 2,
+      why: "The Electricity at Work Regulations are a statutory instrument made under the Health and Safety at Work Act. The others are guidance." },
+    { q: "Is BS 7671 a legal requirement?",
+      options: ["Yes, it's an Act of Parliament", "No, it's a non-statutory standard, but following it is the normal way to meet the law", "Only in Scotland", "Only for commercial buildings"], answer: 1,
+      why: "BS 7671 is a British Standard, so it isn't law. The guidance for the Electricity at Work Regulations and for Part P both point to it." },
+    { q: "Under the Electricity at Work Regulations, when is live working allowed?",
+      options: ["Whenever it saves time", "Only when it's unreasonable for the equipment to be dead, reasonable to work live, and suitable precautions are taken", "Never, under any circumstances", "Whenever the customer agrees"], answer: 1,
+      why: "Work should be done dead. All three conditions must be met before working live is allowed." },
+    { q: "Which Part of the Building Regulations covers electrical safety in dwellings?",
+      options: ["Part B", "Part L", "Part M", "Part P"], answer: 3,
+      why: "Part P: electrical safety in dwellings, in England and Wales." },
+    { q: "In a new home, what height range does Part M set for switches and sockets?",
+      options: ["300 mm to 1,500 mm", "450 mm to 1,200 mm above the finished floor", "Any height", "1,000 mm to 1,400 mm"], answer: 1,
+      why: "Between 450 mm and 1,200 mm above finished floor level, to keep everyday switches and sockets within easy reach. Outlets not meant for regular use, such as one behind a wall-mounted TV, can go where the equipment needs them." },
+    { q: "Running cables through holes in floor joists: which Part limits where the holes can go?",
+      options: ["Part A (structure)", "Part F (ventilation)", "Part S (EV charging)", "Part E (sound)"], answer: 0,
+      why: "Part A covers structure, including how much a joist can be notched or drilled." }
+  ]);
+})();
+</script>
+</body>
+</html>

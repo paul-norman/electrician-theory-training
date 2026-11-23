@@ -331,7 +331,7 @@ abbr[title] { text-decoration: underline dotted; text-decoration-color: var(--mu
         <div class="seg-btns" role="group" aria-labelledby="sysLabel" id="sysBtns">
           <button type="button" data-sys="tncs" aria-pressed="true"><abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> (<abbr title="protective multiple earthing">PME</abbr>)</button>
           <button type="button" data-sys="tns" aria-pressed="false"><abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr></button>
-          <button type="button" data-sys="tt" aria-pressed="false">TT</button>
+          <button type="button" data-sys="tt" aria-pressed="false"><abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr></button>
         </div>
         <span class="hint" id="sysHint"></span>
       </div>
@@ -415,7 +415,7 @@ abbr[title] { text-decoration: underline dotted; text-decoration-color: var(--mu
 
   <footer class="notes">
     <p><strong>Learning prototype.</strong> Not for design or certification. Check every figure against the current <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, the On-Site Guide and Guidance Note 3, and with your tutor.</p>
-    <p>Maximum Z<sub>s</sub> values follow BS 7671 Table 41.3 (0.4 s, U₀ = 230 V, C<sub>min</sub> = 0.95). The 80% figure is the usual rule of thumb for readings taken at room temperature. The design check multiplies R<sub>1</sub>+R<sub>2</sub> by 1.20 for 70 °C thermoplastic cable. Conductor resistances (mΩ/m at 20 °C) are from the On-Site Guide. Radial circuits only; ring finals work differently.</p>
+    <p>Maximum Z<sub>s</sub> values follow <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Table 41.3 (0.4 s, U₀ = 230 V, C<sub>min</sub> = 0.95). The 80% figure is the usual rule of thumb for readings taken at room temperature. The design check multiplies R<sub>1</sub>+R<sub>2</sub> by 1.20 for 70 °C thermoplastic cable. Conductor resistances (mΩ/m at 20 °C) are from the On-Site Guide. Radial circuits only; ring finals work differently.</p>
   </footer>
 </div>
 
@@ -625,30 +625,6 @@ abbr[title] { text-decoration: underline dotted; text-decoration-color: var(--mu
   render();
 })();
 </script>
-<script>
-(function () {
-  "use strict";
-  // ---- Acronyms: tap an <abbr title> to see its meaning (hover tooltips don't work on touch screens)
-  (function () {
-    var tip = null;
-    function hide() { if (tip) { tip.remove(); tip = null; } }
-    document.addEventListener("click", function (e) {
-      var ab = e.target.closest && e.target.closest("abbr[title]");
-      if (!ab || ab.closest("button, a, label")) { hide(); return; }
-      hide();
-      tip = document.createElement("div"); tip.className = "abbr-tip"; tip.setAttribute("role", "tooltip");
-      var b = document.createElement("strong"); b.textContent = ab.textContent + " ";
-      tip.appendChild(b); tip.appendChild(document.createTextNode(ab.title));
-      document.body.appendChild(tip);
-      var r = ab.getBoundingClientRect(), w = tip.offsetWidth;
-      tip.style.left = (Math.max(8, Math.min(window.innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + window.scrollX) + "px";
-      tip.style.top = (r.bottom + window.scrollY + 6) + "px";
-    });
-    window.addEventListener("scroll", hide, { passive: true });
-    window.addEventListener("resize", hide);
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") hide(); });
-  })();
-})();
-</script>
+<script src="revision/assets/course.js"></script>
 </body>
 </html>

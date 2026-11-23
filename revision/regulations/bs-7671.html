@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BS 7671 and Its Definitions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .decode { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+  .decode .part { background: var(--surface-2); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 120px; flex: 1 1 140px; }
+  .decode .part .n { font-family: var(--font-mono); font-weight: 600; font-size: 1.15rem; color: var(--flow); }
+  .decode .part .l { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .decode .part .d { font-size: 0.9rem; }
+  #regIn { font-family: var(--font-mono); font-size: 1.1rem; width: 12ch; }
+  .gloss { display: flex; flex-direction: column; gap: 0; }
+  .gloss dt { font-weight: 600; padding-top: 10px; border-top: 1px solid var(--rule); margin-top: 10px; }
+  .gloss dt:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+  .gloss dd { margin: 2px 0 0; color: var(--fg); }
+  .gloss dd .site { display: block; font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+  #gq { font: inherit; font-size: 1rem; width: 100%; max-width: 420px; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .prot rect.pb { fill: var(--surface); stroke: var(--rule); }
+</style>
+</head>
+<body data-lesson="bs7671">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Regulations and compliance</span>
+    <h1><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> and its definitions</h1>
+    <p class="lead">The Wiring Regulations: what they are, how they're organised, how to find your way round them, and the precise meanings they give to everyday words.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> (the <abbr title="Institution of Engineering and Technology">IET</abbr> Wiring Regulations, 18th Edition; current version <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>:2018+A4:2026) is the national standard for electrical installations. It's non-statutory, but meeting it is the normal way to meet the law. It has eight Parts plus appendices, and a regulation number tells you where you are: in 411.3.3, the first digit is the Part, the first two the Chapter, the first three the Section. Part 2 defines its terms precisely, and they often differ from site slang: a "fused spur" is a fused connection unit, the "earth wire" is a circuit protective conductor, and a "light fitting" is a luminaire. <strong>Basic protection</strong> stops shock in normal, fault-free conditions (insulation, enclosures). <strong>Fault protection</strong> stops shock when a single fault occurs (earthing, bonding and automatic disconnection). An <abbr title="residual current device">RCD</abbr> of 30 mA or less adds <strong>additional protection</strong>.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>What <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> is</h2>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, <em>Requirements for Electrical Installations</em>, is the British Standard for designing, installing, inspecting and testing electrical installations. It's published jointly by the <abbr title="Institution of Engineering and Technology">IET</abbr> and the British Standards Institution, and everyone calls it "the Regs" or the 18th Edition. It's updated by <strong>amendments</strong>; the current version is <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>:2018+A4:2026, which means the 2018 edition with its fourth amendment, from 2026.</p>
+    <p>For the 18th Edition exam, <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> itself is normally the only book you're allowed to take in, so it pays to know your way round it. Learn where things are rather than trying to memorise every value.</p>
+  </section>
+
+  <section class="prose">
+    <h2>How it's organised</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Part</th><th>Title</th><th>In short</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">1</td><td>Scope, object and fundamental principles</td><td>What the standard covers, and the basic safety principles behind everything else.</td></tr>
+          <tr><td class="mono">2</td><td>Definitions</td><td>The exact meaning of every term used.</td></tr>
+          <tr><td class="mono">3</td><td>Assessment of general characteristics</td><td>Working out what you're dealing with first: the supply, the earthing system, the loads.</td></tr>
+          <tr><td class="mono">4</td><td>Protection for safety</td><td>Protection against shock, fire, overcurrent and voltage problems.</td></tr>
+          <tr><td class="mono">5</td><td>Selection and erection of equipment</td><td>Choosing and installing cables, devices, earthing and bonding.</td></tr>
+          <tr><td class="mono">6</td><td>Inspection and testing</td><td>Checking an installation and certifying it.</td></tr>
+          <tr><td class="mono">7</td><td>Special installations or locations</td><td>Extra rules for higher-risk places: bathrooms, swimming pools, construction sites, solar panels, car chargers…</td></tr>
+          <tr><td class="mono">8</td><td>Functional requirements</td><td>Installations that also generate or store energy (for example solar panels with batteries).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>After the Parts come the <strong>Appendices</strong>, which hold the reference tables, such as cable current ratings and maximum earth fault loop impedances.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Decode a regulation number</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex:0 1 auto">
+        <label for="regIn">Regulation number</label>
+        <input type="text" id="regIn" value="411.3.3" inputmode="decimal" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="ctl" style="flex:1 1 300px">
+        <span class="label" id="exL">Examples</span>
+        <div class="seg" role="group" aria-labelledby="exL" id="regEx">
+          <button type="button">411.3.3</button><button type="button">701.512.3</button><button type="button">522.6.202</button><button type="button">132.16</button><button type="button">643.3</button>
+        </div>
+      </div>
+    </div>
+    <div class="decode" id="decode" aria-live="polite"></div>
+    <p class="caption">Numbers work like an address, getting more specific from left to right. The first digit is the <strong>Part</strong>, the first two digits the <strong>Chapter</strong>, and the first three the <strong>Section</strong>. Numbers after the first dot narrow it down to a regulation group, then an individual regulation. In Part 7, each special location has its own section: 701 is bathrooms, 702 swimming pools, 722 car charging.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Special locations in Part 7</h2>
+    <p>Part 7 adds to, or changes, the general rules for places where the risk is higher. A few you'll meet early on:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Section</th><th>Location</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">701</td><td>Locations containing a bath or shower (see <a href="bathrooms.html">Bathrooms and special locations</a>)</td></tr>
+          <tr><td class="mono">702</td><td>Swimming pools and other basins</td></tr>
+          <tr><td class="mono">703</td><td>Rooms and cabins containing sauna heaters</td></tr>
+          <tr><td class="mono">704</td><td>Construction and demolition sites</td></tr>
+          <tr><td class="mono">705</td><td>Agricultural and horticultural premises</td></tr>
+          <tr><td class="mono">712</td><td>Solar photovoltaic (<abbr title="photovoltaic">PV</abbr>) power supply systems</td></tr>
+          <tr><td class="mono">722</td><td>Electric vehicle charging installations</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>Basic, fault and additional protection</h2>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> builds protection against electric shock in layers:</p>
+    <ul>
+      <li><strong>Basic protection</strong> stops you touching live parts in <em>normal, fault-free</em> conditions. Examples: insulation, enclosures, barriers.</li>
+      <li><strong>Fault protection</strong> protects you when a <em>single fault</em> occurs, such as a line conductor touching a metal case. The usual method is earthing and bonding together with a protective device that disconnects the supply quickly, called automatic disconnection of supply. See the <a href="../../earth-fault-loop.html">earth fault loop explorer</a>.</li>
+      <li><strong>Additional protection</strong> is a backup in case the other two fail, or someone is careless: usually an <abbr title="residual current device">RCD</abbr> that trips at 30 mA or less.</li>
+    </ul>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="w2">Three layers of protection</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 720 250" class="wide prot" role="img" aria-labelledby="w2d">
+        <title id="w2d">Three panels. Basic protection: insulation around a live conductor. Fault protection: a metal case connected by a circuit protective conductor to earth, with a circuit breaker that disconnects the supply. Additional protection: a 30 milliamp RCD.</title>
+        <rect class="pb" x="10" y="10" width="220" height="230" rx="10"/>
+        <rect class="pb" x="250" y="10" width="220" height="230" rx="10"/>
+        <rect class="pb" x="490" y="10" width="220" height="230" rx="10"/>
+        <text x="120" y="36" text-anchor="middle" font-weight="600">Basic protection</text>
+        <text x="360" y="36" text-anchor="middle" font-weight="600">Fault protection</text>
+        <text x="600" y="36" text-anchor="middle" font-weight="600">Additional protection</text>
+        <!-- basic: cable cross-section -->
+        <circle cx="120" cy="120" r="46" fill="var(--line)"/>
+        <circle cx="120" cy="120" r="24" fill="#c8794a" stroke="#8a4d2b"/>
+        <text x="120" y="190" text-anchor="middle" class="small">Insulation keeps the live</text>
+        <text x="120" y="205" text-anchor="middle" class="small">conductor out of reach</text>
+        <text x="120" y="222" text-anchor="middle" class="small">when nothing's wrong</text>
+        <!-- fault: appliance case + cpc + breaker -->
+        <rect x="290" y="62" width="90" height="76" rx="6" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="3"/>
+        <text x="335" y="104" text-anchor="middle" class="small">metal case</text>
+        <path d="M380,120 H420 V160" class="wire w-cpc-g" style="stroke-width:3"/><path d="M380,120 H420 V160" class="wire w-cpc-y" style="stroke-width:3"/>
+        <path d="M408,160 H432 M412,166 H428 M417,172 H423" stroke="var(--cpc-g)" stroke-width="2.5"/>
+        <text x="426" y="114" class="small">CPC</text>
+        <rect x="296" y="150" width="50" height="22" rx="3" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>
+        <text x="321" y="166" text-anchor="middle" class="tag" style="font-size:11px">MCB</text>
+        <text x="360" y="198" text-anchor="middle" class="small">If a fault makes the case live,</text>
+        <text x="360" y="213" text-anchor="middle" class="small">earthing lets enough current flow</text>
+        <text x="360" y="228" text-anchor="middle" class="small">to trip the breaker fast</text>
+        <!-- additional: RCD -->
+        <rect x="560" y="70" width="80" height="70" rx="6" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="600" y="100" text-anchor="middle" class="tag">RCD</text>
+        <text x="600" y="120" text-anchor="middle" class="tag" fill="var(--flow)">30 mA</text>
+        <text x="600" y="190" text-anchor="middle" class="small">Trips on a small leakage,</text>
+        <text x="600" y="205" text-anchor="middle" class="small">a backup if basic or fault</text>
+        <text x="600" y="220" text-anchor="middle" class="small">protection fails</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>Site words and <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> words</h2>
+    <p>Part 2 gives every term a precise meaning, and the exam uses those terms, not the slang you'll hear on site:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>You'll hear</th><th><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> calls it</th></tr></thead>
+        <tbody>
+          <tr><td>Fused spur, switched fused spur</td><td>Fused connection unit (<abbr title="fused connection unit">FCU</abbr>), switched if it has a switch</td></tr>
+          <tr><td>Earth wire, earth</td><td>Circuit protective conductor (<abbr title="circuit protective conductor">CPC</abbr>)</td></tr>
+          <tr><td>Light fitting</td><td>Luminaire</td></tr>
+          <tr><td>Fuse board, consumer unit</td><td>Consumer unit (a type of distribution board)</td></tr>
+          <tr><td>Main earth bonding, main bonds</td><td>Main protective bonding conductors</td></tr>
+          <tr><td>Live (meaning the brown conductor)</td><td>Line conductor. In <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, "live" covers line <em>and</em> neutral</td></tr>
+          <tr><td>Socket, plug socket</td><td>Socket-outlet</td></tr>
+          <tr><td>Appliance</td><td>Current-using equipment</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>A ceiling rose is a different thing from a luminaire: it's the accessory a pendant light hangs from. The luminaire is the complete light fitting, including everything that holds and connects the lamp.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">Look it up</span>
+      <h3 id="w3">Key definitions</h3>
+    </div>
+    <label for="gq" class="label" style="font-size:0.85rem;font-weight:600">Search the definitions</label>
+    <input type="search" id="gq" placeholder="e.g. bonding, overcurrent, luminaire" autocomplete="off">
+    <dl class="gloss" id="gloss"></dl>
+    <p class="caption" id="gCount"></p>
+    <p class="caption">These are plain-English summaries. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Part 2 has the exact wording, so check it there before an exam.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ---- Regulation number decoder ----
+  var PARTS = { 1: "Scope, object and fundamental principles", 2: "Definitions", 3: "Assessment of general characteristics", 4: "Protection for safety", 5: "Selection and erection of equipment", 6: "Inspection and testing", 7: "Special installations or locations", 8: "Functional requirements" };
+  var KNOWN = {
+    "13": "Fundamental principles", "70": "Part 7 is organised by section: one section per special location", "41": "Protection against electric shock", "42": "Protection against thermal effects", "43": "Protection against overcurrent", "44": "Protection against voltage and electromagnetic disturbances",
+    "51": "Common rules", "52": "Wiring systems", "53": "Protection, isolation, switching, control and monitoring", "54": "Earthing arrangements and protective conductors", "55": "Other equipment",
+    "64": "Initial verification", "65": "Periodic inspection and testing",
+    "411": "Automatic disconnection of supply", "522": "Selection and erection in relation to external influences", "701": "Locations containing a bath or shower", "702": "Swimming pools and other basins", "703": "Sauna heaters", "704": "Construction and demolition sites", "705": "Agricultural and horticultural premises", "712": "Solar PV systems", "722": "Electric vehicle charging", "132": "Design", "643": "Testing", "642": "Inspection"
+  };
+  function decode() {
+    var v = $("regIn").value.trim(), out = "";
+    var m = v.match(/^(\d)(\d)?(\d)?((?:\.\d+)*)$/);
+    if (!m) { $("decode").innerHTML = '<div class="part"><span class="d">Type a number like 411.3.3, 701.512.3 or 132.16.</span></div>'; return; }
+    var p = m[1], ch = m[1] + (m[2] || ""), sec = ch + (m[3] || "");
+    var box = function (n, l, d) { return '<div class="part"><span class="l">' + l + '</span><span class="n">' + n + '</span><span class="d">' + d + "</span></div>"; };
+    out += box(p, "Part", PARTS[p] || "No such Part (they run 1 to 8)");
+    if (m[2]) out += box(ch, "Chapter", KNOWN[ch] || "Chapter " + ch[1] + " of Part " + p);
+    if (m[3]) out += box(sec, "Section", KNOWN[sec] || "Section " + sec);
+    var rest = (m[4] || "").split(".").filter(Boolean), acc = sec;
+    rest.forEach(function (r, k) { acc += "." + r; out += box(acc, k === rest.length - 1 ? "Regulation" : "Regulation group", k === rest.length - 1 ? "The individual regulation" : "A group of related regulations"); });
+    $("decode").innerHTML = out;
+  }
+  $("regIn").addEventListener("input", decode);
+  $("regEx").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; $("regIn").value = b.textContent; decode(); });
+  decode();
+
+  // ---- Glossary (plain-English summaries, not BS 7671's wording) ----
+  var G = [
+    ["Additional protection", "Extra protection against shock as a backup in case basic and fault protection fail, or a user is careless. Usually an RCD with a rated residual operating current of 30 mA or less.", ""],
+    ["Automatic disconnection of supply (ADS)", "The main method of fault protection: earthing and bonding, plus a protective device that switches off the supply automatically and quickly when a fault occurs.", ""],
+    ["Basic protection", "Protection against electric shock under fault-free conditions, by stopping contact with live parts. Examples: insulation, barriers, enclosures.", ""],
+    ["Circuit breaker", "A device that can switch on (make), carry and switch off (break) current in normal conditions, and can also carry for a set time and break current in abnormal conditions such as a short circuit.", "Usually means an MCB (miniature circuit breaker) in a consumer unit."],
+    ["Circuit protective conductor (CPC)", "A protective conductor connecting the exposed-conductive-parts of equipment to the main earthing terminal.", "Called \"the earth\" or \"earth wire\" on site."],
+    ["Consumer unit", "A distribution board for a single consumer's installation, usually in a home, containing the main switch and the circuits' protective devices.", "Also called a fuse board."],
+    ["Current-using equipment", "Equipment that turns electrical energy into another form, such as light, heat or movement.", "An appliance or load."],
+    ["Distribution circuit", "A circuit that feeds a distribution board, rather than feeding equipment directly.", "Sometimes called a sub-main."],
+    ["Earthing conductor", "The protective conductor connecting the main earthing terminal to the means of earthing (the supply's earth terminal or an earth electrode).", ""],
+    ["Exposed-conductive-part", "A conductive part of equipment that can be touched, isn't normally live, but could become live if there's a fault.", "For example the metal case of a Class I appliance."],
+    ["Extraneous-conductive-part", "A conductive part that isn't part of the electrical installation but could introduce a potential, usually earth potential.", "For example metal water or gas pipes entering a building."],
+    ["Fault protection", "Protection against electric shock when a single fault occurs. Usually earthing, bonding and automatic disconnection of supply.", ""],
+    ["Final circuit", "A circuit connected directly to current-using equipment, or to socket-outlets or other points for connecting such equipment.", "For example a lighting circuit or a socket circuit."],
+    ["Fused connection unit (FCU)", "An accessory with a fuse, for connecting fixed equipment to a circuit. It may also have a switch.", "Called a fused spur, or switched fused spur."],
+    ["Live part", "A conductor or conductive part intended to be energised in normal use, including the neutral conductor (but not a PEN conductor).", "So \"live\" includes neutral in BS 7671."],
+    ["Luminaire", "A complete light fitting: it distributes, filters or transforms the light from its lamps, and includes the parts that hold, protect and connect them.", "Called a light fitting on site."],
+    ["Main earthing terminal (MET)", "The terminal or bar where the earthing conductor, circuit protective conductors and main protective bonding conductors all connect.", ""],
+    ["Main protective bonding conductor", "A protective conductor connecting extraneous-conductive-parts, such as incoming water and gas pipes, to the main earthing terminal.", "Called main bonding or main bonds."],
+    ["Overcurrent", "Any current greater than the rated value: either an overload or a fault current.", ""],
+    ["Overload current", "An overcurrent in a circuit that's electrically sound, caused by too much load.", "For example too many heaters on one circuit."],
+    ["Residual current device (RCD)", "A device that disconnects the supply when the current flowing out on line and back on neutral differ by more than a set amount.", ""],
+    ["Short-circuit current", "An overcurrent caused by a fault of negligible impedance between live conductors at different potentials.", "For example line touching neutral."],
+    ["Socket-outlet", "A device with contacts for connecting a plug to the fixed wiring.", "Called a socket or plug socket."],
+    ["Special location", "A location with increased risk where Part 7 adds to, or changes, the general requirements.", "For example a room containing a bath or shower."],
+    ["Skilled person (electrically)", "Someone with the education and experience to recognise electrical risks and avoid the dangers.", ""]
+  ];
+  function renderGloss() {
+    var q = $("gq").value.trim().toLowerCase(), n = 0;
+    $("gloss").innerHTML = G.filter(function (g) { return !q || (g[0] + " " + g[1] + " " + g[2]).toLowerCase().indexOf(q) !== -1; })
+      .map(function (g) { n++; return "<dt>" + g[0] + "</dt><dd>" + g[1] + (g[2] ? '<span class="site">' + g[2] + "</span>" : "") + "</dd>"; }).join("");
+    $("gCount").textContent = q ? n + " of " + G.length + " definitions match" : G.length + " definitions";
+  }
+  $("gq").addEventListener("input", renderGloss);
+  renderGloss();
+
+  Course.quiz("#quiz", [
+    { q: "Which Part of BS 7671 contains the definitions?",
+      options: ["Part 1", "Part 2", "Part 4", "Part 7"], answer: 1,
+      why: "Part 2 is Definitions. Part 7 is special installations or locations." },
+    { q: "Insulation around a live conductor is an example of:",
+      options: ["Basic protection", "Fault protection", "Additional protection", "Overload protection"], answer: 0,
+      why: "Basic protection stops contact with live parts under fault-free conditions." },
+    { q: "Earthing, bonding and a breaker that trips quickly when a line touches a metal case is:",
+      options: ["Basic protection", "Fault protection", "Additional protection", "Isolation"], answer: 1,
+      why: "Fault protection protects against shock when a single fault occurs. Automatic disconnection of supply is the usual method." },
+    { q: "In regulation 701.512.3, what does \"701\" tell you?",
+      options: ["Page 701", "Part 7, Chapter 70, Section 701: locations containing a bath or shower", "The 701st regulation", "The year of the amendment"], answer: 1,
+      why: "First digit = Part, first two = Chapter, first three = Section. Section 701 covers bathrooms and shower rooms." },
+    { q: "What does BS 7671 call a \"fused spur\"?",
+      options: ["A circuit breaker", "A fused connection unit", "A socket-outlet", "A junction box"], answer: 1,
+      why: "A fused connection unit (FCU), or a switched FCU if it has a switch." },
+    { q: "Which of these is an extraneous-conductive-part?",
+      options: ["The metal case of a washing machine", "A metal water pipe entering the building", "The line conductor", "A plastic light switch"], answer: 1,
+      why: "It isn't part of the electrical installation but can introduce earth potential. The washing machine case is an exposed-conductive-part." },
+    { q: "In BS 7671, does \"live part\" include the neutral?",
+      options: ["Yes", "No", "Only on three-phase", "Only in bathrooms"], answer: 0,
+      why: "A live part is anything intended to be energised in normal use, and that includes the neutral." },
+    { q: "Which rating of RCD gives additional protection?",
+      options: ["300 mA", "100 mA", "30 mA or less", "Any rating"], answer: 2,
+      why: "Additional protection needs an RCD with a rated residual operating current of 30 mA or less." }
+  ]);
+})();
+</script>
+</body>
+</html>

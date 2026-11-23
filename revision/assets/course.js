@@ -12,7 +12,7 @@
       desc: "What electricity is, and the relationships every calculation is built on.",
       lessons: [
         { id: "atoms", file: "atoms.html", title: "Atoms and free electrons", desc: "Why metals conduct and insulators don't." },
-        { id: "vir", file: "voltage-current-resistance.html", title: "Voltage, current and resistance", desc: "The push, the flow and the opposition." },
+        { id: "vir", file: "voltage-current-resistance.html", title: "Voltage, current and resistance", desc: "The pressure, the flow and the opposition." },
         { id: "ohms-law", file: "ohms-law.html", title: "Ohm's law", desc: "V = I × R, units, and where current really goes." },
         { id: "series-parallel", file: "series-and-parallel.html", title: "Series and parallel circuits", desc: "Switches, Kirchhoff's laws, and combining resistances." },
         { id: "power", file: "power.html", title: "Power", desc: "Watts, appliance currents and heat in cables." }
@@ -32,6 +32,16 @@
         { id: "ac", file: "ac-and-three-phase.html", title: "AC and three-phase", desc: "Sine waves, RMS, and how three phases are generated." },
         { id: "grid", file: "the-grid.html", title: "The grid and transformers", desc: "From 400 kV to 230 V, and how transformers do it." },
         { id: "your-supply", file: "your-supply.html", title: "Your supply: conductors and earthing", desc: "Who owns what, and what each conductor does." }
+      ]
+    },
+    {
+      id: "regulations", dir: "regulations", title: "Regulations and compliance",
+      desc: "The laws and standards behind the work, what must be notified, and the rules for bathrooms.",
+      lessons: [
+        { id: "laws", file: "laws-and-guidance.html", title: "Laws and guidance", desc: "Statutory and non-statutory, and the Building Regulations." },
+        { id: "bs7671", file: "bs-7671.html", title: "BS 7671 and its definitions", desc: "How the Wiring Regulations are organised, and what their terms mean." },
+        { id: "part-p", file: "part-p-and-notification.html", title: "Part P and notification", desc: "Where Part P applies, notifiable work, and certificates." },
+        { id: "bathrooms", file: "bathrooms.html", title: "Bathrooms and special locations", desc: "Zones, IP ratings and socket distances." }
       ]
     }
   ];
@@ -266,6 +276,89 @@
   function rand(a, b) { return a + Math.random() * (b - a); }
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+  // ---- Acronyms -------------------------------------------------------------
+  // The one list of meanings. Pages tag acronyms in their markup with <abbr title> using these
+  // same words; this also wraps acronyms in text that scripts add later (quizzes, readouts, captions).
+  var ACRONYMS = {
+    "AC": "alternating current",
+    "ADS": "automatic disconnection of supply",
+    "BS 7671": "British Standard 7671: the IET Wiring Regulations",
+    "CPC": "circuit protective conductor",
+    "CPS": "Competent Person Scheme",
+    "CSA": "cross-sectional area",
+    "DC": "direct current",
+    "DNO": "distribution network operator",
+    "EAWR": "Electricity at Work Regulations 1989",
+    "EIC": "Electrical Installation Certificate",
+    "EICR": "Electrical Installation Condition Report",
+    "ESQCR": "Electricity Safety, Quality and Continuity Regulations 2002",
+    "EV": "electric vehicle",
+    "FCU": "fused connection unit",
+    "HASAWA": "Health and Safety at Work etc. Act 1974",
+    "IET": "Institution of Engineering and Technology",
+    "IP": "ingress protection",
+    "LED": "light-emitting diode",
+    "MCB": "miniature circuit breaker",
+    "MEIWC": "Minor Electrical Installation Works Certificate",
+    "MET": "main earthing terminal",
+    "NAPIT": "National Association of Professional Inspectors and Testers",
+    "NICEIC": "National Inspection Council for Electrical Installation Contracting",
+    "PAT": "portable appliance testing",
+    "PE": "protective earth",
+    "PEN": "protective earth and neutral: one conductor doing both jobs",
+    "PME": "protective multiple earthing",
+    "PV": "photovoltaic",
+    "PVC": "polyvinyl chloride",
+    "RCBO": "residual current breaker with overcurrent protection",
+    "RCD": "residual current device",
+    "RMS": "root mean square: the effective value of an AC voltage or current",
+    "SELV": "separated extra-low voltage",
+    "TN-C-S": "TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation",
+    "TN-S": "TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer",
+    "TT": "TT earthing: the installation has its own earth electrode, with no earth from the supply"
+  };
+  (function () {
+    var keys = Object.keys(ACRONYMS).sort(function (a, b) { return b.length - a.length; });
+    var esc = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); };
+    var RE = new RegExp("(?<![A-Za-z0-9-])(" + keys.map(esc).join("|") + ")(s?)(?![A-Za-z0-9-])", "g");
+    var SKIP = { SCRIPT: 1, STYLE: 1, ABBR: 1, TEXTAREA: 1, OPTION: 1, SELECT: 1, TITLE: 1, INPUT: 1, CODE: 1 };
+    var SVGNS = "http://www.w3.org/2000/svg";
+    function skip(n) {
+      for (var el = n.parentNode; el && el.nodeType === 1; el = el.parentNode) {
+        if (SKIP[el.nodeName.toUpperCase()] || el.namespaceURI === SVGNS) return true;
+      }
+      return false;
+    }
+    function wrap(node) {
+      var t = node.nodeValue; RE.lastIndex = 0;
+      if (!RE.test(t) || skip(node)) return;
+      RE.lastIndex = 0;
+      var frag = document.createDocumentFragment(), last = 0, m;
+      while ((m = RE.exec(t))) {
+        if (m.index > last) frag.appendChild(document.createTextNode(t.slice(last, m.index)));
+        var ab = document.createElement("abbr"); ab.title = ACRONYMS[m[1]]; ab.textContent = m[0];
+        frag.appendChild(ab); last = m.index + m[0].length;
+      }
+      if (last < t.length) frag.appendChild(document.createTextNode(t.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    }
+    function scan(root) {
+      if (!root) return;
+      if (root.nodeType === 3) { wrap(root); return; }
+      if (root.nodeType !== 1 || SKIP[root.nodeName.toUpperCase()] || root.namespaceURI === SVGNS) return;
+      var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), list = [], n;
+      while ((n = w.nextNode())) list.push(n);
+      list.forEach(wrap);
+    }
+    function start() {
+      scan(document.body);
+      new MutationObserver(function (muts) {
+        muts.forEach(function (mu) { if (mu.type === "characterData") scan(mu.target); else mu.addedNodes.forEach(scan); });
+      }).observe(document.body, { childList: true, subtree: true, characterData: true });
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
+  })();
+
   // ---- Acronyms: tap an <abbr title> to see its meaning (hover tooltips don't work on touch screens)
   (function () {
     var tip = null;
@@ -288,7 +381,7 @@
   })();
 
   window.Course = {
-    MODULES: MODULES, score: score, frac: frac, quiz: quiz, practice: practice, triangle: triangle,
+    MODULES: MODULES, ACRONYMS: ACRONYMS, score: score, frac: frac, quiz: quiz, practice: practice, triangle: triangle,
     sig: sig, si: si, cssVar: cssVar, setFlow: setFlow, rand: rand, pick: pick
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", nav); else nav();

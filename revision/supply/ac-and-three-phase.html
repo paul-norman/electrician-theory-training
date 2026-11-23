@@ -27,7 +27,7 @@
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p>UK mains is AC at 50 Hz: the voltage follows a sine wave, and one full cycle (360°, or 2π radians) takes 20 ms. "230 V" is the <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> (effective) value; the actual peaks are about ±325 V (230 × √2). Generators make three-phase AC: three sine waves a third of a cycle (120°) apart, on L1 (brown), L2 (black) and L3 (grey). Each line is 230 V to neutral and 400 V to another line (230 × √3). At every instant the three add up to zero, so a balanced load puts almost no current in the neutral. Most homes have a single-phase supply (one line and neutral, usually with a 60 to 100 A main fuse); larger buildings and big loads use three-phase.</p>
+    <p>UK mains is <abbr title="alternating current">AC</abbr> at 50 Hz: the voltage follows a sine wave, and one full cycle (360°, or 2π radians) takes 20 ms. "230 V" is the <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> (effective) value; the actual peaks are about ±325 V (230 × √2). Generators make three-phase <abbr title="alternating current">AC</abbr>: three sine waves a third of a cycle (120°) apart, on L1 (brown), L2 (black) and L3 (grey). Each line is 230 V to neutral and 400 V to another line (230 × √3). At every instant the three add up to zero, so a balanced load puts almost no current in the neutral. Most homes have a single-phase supply (one line and neutral, usually with a 60 to 100 A main fuse); larger buildings and big loads use three-phase.</p>
   </aside>
 
   <section class="prose">
@@ -51,8 +51,8 @@
 
   <section class="prose">
     <h2>Why "230 V" isn't the peak</h2>
-    <p>The voltage is only at its peak for an instant, and spends a lot of each cycle near zero. So the peak would overstate what the supply can actually do. Instead, AC is described by its <strong>RMS</strong> (root mean square) value: the DC voltage that would produce the same heating in a resistor.</p>
-    <p>For a sine wave, <span class="mono">V<sub>RMS</sub> = <span class="frac"><span>V<sub>peak</sub></span><span>√2</span></span></span>, so <span class="mono">V<sub>peak</sub> = 230 × √2 ≈ 325 V</span>. Every mains voltage you'll see quoted, including 230 V and 400 V, is an RMS value, and meters read RMS too. But insulation has to withstand the 325 V peaks, not just the 230 V average.</p>
+    <p>The voltage is only at its peak for an instant, and spends a lot of each cycle near zero. So the peak would overstate what the supply can actually do. Instead, <abbr title="alternating current">AC</abbr> is described by its <strong><abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr></strong> (root mean square) value: the <abbr title="direct current">DC</abbr> voltage that would produce the same heating in a resistor.</p>
+    <p>For a sine wave, <span class="mono">V<sub><abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr></sub> = <span class="frac"><span>V<sub>peak</sub></span><span>√2</span></span></span>, so <span class="mono">V<sub>peak</sub> = 230 × √2 ≈ 325 V</span>. Every mains voltage you'll see quoted, including 230 V and 400 V, is an <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> value, and meters read <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> too. But insulation has to withstand the 325 V peaks, not just the 230 V average.</p>
   </section>
 
   <section class="widget" aria-labelledby="w6">
@@ -100,7 +100,7 @@
       <div class="ro"><span class="k">Time into the cycle</span><span class="v" id="rT">—</span><span class="s">At 50 Hz</span></div>
       <div class="ro"><span class="k">Voltage at this instant</span><span class="v" id="rV">—</span><span class="s">325 × sin(angle)</span></div>
     </div>
-    <p class="caption">As the arm turns, the height of its tip (orange dot on the circle) is copied across to the graph. That height, plotted against the angle, is the sine wave. The dashed lines at ±230 V mark the RMS value for comparison. It isn't a level the voltage sits at: the wave swings right past it to ±325 V.</p>
+    <p class="caption">As the arm turns, the height of its tip (orange dot on the circle) is copied across to the graph. That height, plotted against the angle, is the sine wave. The dashed lines at ±230 V mark the <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> value for comparison. It isn't a level the voltage sits at: the wave swings right past it to ±325 V.</p>
   </section>
 
   <section class="prose">
@@ -168,15 +168,15 @@
       <div class="ro"><span class="k">L2 (black)</span><span class="v" id="v2">—</span></div>
       <div class="ro"><span class="k">L3 (grey)</span><span class="v" id="v3">—</span></div>
       <div class="ro"><span class="k">L1 + L2 + L3</span><span class="v" id="vSum">—</span><span class="s">Always zero</span></div>
-      <div class="ro" id="roLL" hidden><span class="k">L1 − L2</span><span class="v" id="vLL">—</span><span class="s">Peaks at ±563 V = 400 V RMS</span></div>
+      <div class="ro" id="roLL" hidden><span class="k">L1 − L2</span><span class="v" id="vLL">—</span><span class="s">Peaks at ±563 V = 400 V <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr></span></div>
     </div>
-    <p class="caption">Each coil glows brighter as its voltage grows. The graph shows the voltage at each instant. The peaks reach ±325 V. The familiar "230 V" is the <strong>RMS</strong> (effective) value, which gives the same heating effect as 230 V DC: 230 × √2 ≈ 325. At every instant the three voltages add up to zero. That's why, when the load is balanced across the phases, the neutral carries almost no current. Tick "Show L1 − L2" to see the line-to-line voltage: a bigger wave peaking at 563 V, which is 400 V RMS.</p>
+    <p class="caption">Each coil glows brighter as its voltage grows. The graph shows the voltage at each instant. The peaks reach ±325 V. The familiar "230 V" is the <strong><abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr></strong> (effective) value, which gives the same heating effect as 230 V <abbr title="direct current">DC</abbr>: 230 × √2 ≈ 325. At every instant the three voltages add up to zero. That's why, when the load is balanced across the phases, the neutral carries almost no current. Tick "Show L1 − L2" to see the line-to-line voltage: a bigger wave peaking at 563 V, which is 400 V <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr>.</p>
   </section>
 
 
   <section class="prose">
     <h2>Three-phase supplies and the star point</h2>
-    <p>The grid is <strong>three-phase</strong>: three separate AC supplies, called L1, L2 and L3, each a third of a cycle (120°) out of step with the others. At the local substation, the transformer's three secondary windings are joined at one end. That junction is the <strong>star point</strong>.</p>
+    <p>The grid is <strong>three-phase</strong>: three separate <abbr title="alternating current">AC</abbr> supplies, called L1, L2 and L3, each a third of a cycle (120°) out of step with the others. At the local substation, the transformer's three secondary windings are joined at one end. That junction is the <strong>star point</strong>.</p>
     <ul>
       <li>The <strong>neutral</strong> conductor comes from the star point.</li>
       <li>The star point is <strong>connected to earth</strong> at the substation, through an earth electrode. That's what ties the whole supply to earth potential.</li>
