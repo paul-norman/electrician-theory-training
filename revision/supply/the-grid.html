@@ -365,7 +365,7 @@
 
   Course.quiz("#quiz", [
     { q: "Why does the National Grid transmit at such high voltages?",
-      options: ["High voltage travels faster", "For the same power the current is lower, so far less energy is wasted as heat (I²R)", "Homes need 400 kV", "It's safer near pylons"], answer: 1,
+      options: ["High voltage pushes the electricity along faster", "The current is lower, so less energy is lost as heat", "Homes need 400 kV to run modern appliances", "High voltage is safer for anyone near the pylons"], answer: 1,
       why: "P = V × I, so higher voltage means lower current. Losses are I² × R, so 10 × the voltage gives 1/100th of the losses." },
     { q: "A transformer has 1,000 primary turns and 50 secondary turns. 4,000 V goes in. What comes out?",
       options: ["80,000 V", "200 V", "4,000 V", "20 V"], answer: 1,
@@ -374,7 +374,7 @@
       options: ["It goes down by the same factor", "It stays the same", "It goes up by the same factor", "It becomes DC"], answer: 2,
       why: "Power in ≈ power out. If V goes down about 48 times, I goes up about 48 times." },
     { q: "Why won't a transformer work on DC?",
-      options: ["DC is too dangerous", "A steady current makes a steady magnetic field, which induces no voltage in the secondary", "DC voltages are too low", "The core would melt"], answer: 1,
+      options: ["DC is too dangerous to put through the windings", "A steady field doesn't change, so it induces nothing", "DC voltages are too low to reach the secondary", "The iron core blocks DC from passing through"], answer: 1,
       why: "Only a changing magnetic field induces a voltage. AC keeps the field changing; DC doesn't." }
   ]);
 })();

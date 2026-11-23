@@ -249,25 +249,25 @@
 
   Course.quiz("#quiz", [
     { q: "What does \"2.5 mm²\" describe on a cable?",
-      options: ["The diameter of each conductor", "The cross-sectional area of each conductor", "The thickness of the insulation", "The overall width of the cable"], answer: 1,
+      options: ["The diameter of each conductor", "The cross-sectional area of each conductor", "The thickness of each conductor's insulation", "The overall width of the whole cable"], answer: 1,
       why: "Cable sizes are cross-sectional areas. A solid 2.5 mm² conductor is only about 1.8 mm across." },
     { q: "Put these in order, best conductor first.",
       options: ["Copper, silver, aluminium, gold", "Silver, copper, gold, aluminium", "Gold, silver, copper, aluminium", "Aluminium, copper, gold, silver"], answer: 1,
       why: "Silver has the lowest resistivity, then copper, gold and aluminium." },
     { q: "Why are connector contacts often gold-plated?",
-      options: ["Gold is the best conductor", "Gold doesn't corrode, so the contact surface stays low-resistance", "Gold is cheaper than copper", "Gold insulates the contact"], answer: 1,
+      options: ["Gold is the best conductor of all the metals", "Gold doesn't corrode, so the contact stays low-resistance", "Gold plating is cheaper than solid copper", "Gold insulates the contact against shocks"], answer: 1,
       why: "Copper and silver form surface layers over time. Gold stays clean, keeping the contact resistance low." },
     { q: "A conductor is replaced with one twice as long and twice the cross-sectional area. Its resistance:",
       options: ["Doubles", "Halves", "Stays the same", "Goes up four times"], answer: 2,
       why: "R = " + Course.frac("ρ × L", "A") + ". Doubling L doubles R; doubling A halves it. The two cancel out." },
     { q: "What's special about the CPC in flat twin and earth cable?",
-      options: ["It's insulated in green and yellow", "It's bare, so it must be sleeved green and yellow where exposed", "It's the same size as the line conductor", "It carries the neutral current"], answer: 1,
+      options: ["It's insulated in green and yellow at the factory", "It's bare, so it must be sleeved green and yellow", "It's the same size as the line and neutral", "It carries the neutral current back to the board"], answer: 1,
       why: "The CPC is bare copper inside the sheath. Wherever it's exposed, at accessories and joints, it must be sleeved green and yellow." },
     { q: "What's the maximum conductor temperature for general-purpose PVC-insulated cable?",
       options: ["30 °C", "50 °C", "70 °C", "160 °C"], answer: 2,
       why: "General-purpose PVC (thermoplastic) is rated for 70 °C. Thermosetting insulation such as XLPE allows 90 °C." },
     { q: "A cable runs through thick loft insulation instead of in open air. What happens to the current it can safely carry?",
-      options: ["It goes up", "It goes down, because the heat can't escape as easily", "It stays the same", "It doesn't matter for PVC cables"], answer: 1,
+      options: ["It goes up, because the insulation protects the cable", "It goes down, because the heat can't escape as easily", "It stays the same, because the copper hasn't changed", "It's unaffected, because PVC is rated for high heat"], answer: 1,
       why: "Heat that can't escape makes the conductor hotter for the same current, so the safe current is lower." }
   ]);
 })();

@@ -296,7 +296,7 @@
 
   Course.quiz("#quiz", [
     { q: "Which Part of BS 7671 contains the definitions?",
-      options: ["Part 1", "Part 2", "Part 4", "Part 7"], answer: 1,
+      options: ["Part 1", "Part 2", "Part 4", "Part 7"], answer: 1, fixed: true,
       why: "Part 2 is Definitions. Part 7 is special installations or locations." },
     { q: "Insulation around a live conductor is an example of:",
       options: ["Basic protection", "Fault protection", "Additional protection", "Overload protection"], answer: 0,
@@ -305,10 +305,10 @@
       options: ["Basic protection", "Fault protection", "Additional protection", "Isolation"], answer: 1,
       why: "Fault protection protects against shock when a single fault occurs. Automatic disconnection of supply is the usual method." },
     { q: "In regulation 701.512.3, what does \"701\" tell you?",
-      options: ["Page 701", "Part 7, Chapter 70, Section 701: locations containing a bath or shower", "The 701st regulation", "The year of the amendment"], answer: 1,
+      options: ["It's on page 701 of the book", "Part 7, Section 701: rooms with a bath or shower", "It's the 701st regulation in the book", "The year and number of the latest amendment"], answer: 1,
       why: "First digit = Part, first two = Chapter, first three = Section. Section 701 covers bathrooms and shower rooms." },
     { q: "What does BS 7671 call a \"fused spur\"?",
-      options: ["A circuit breaker", "A fused connection unit", "A socket-outlet", "A junction box"], answer: 1,
+      options: ["A miniature circuit breaker", "A fused connection unit", "A switched socket-outlet", "A fused junction box"], answer: 1,
       why: "A fused connection unit (FCU), or a switched FCU if it has a switch." },
     { q: "Which of these is an extraneous-conductive-part?",
       options: ["The metal case of a washing machine", "A metal water pipe entering the building", "The line conductor", "A plastic light switch"], answer: 1,
@@ -317,7 +317,7 @@
       options: ["Yes", "No", "Only on three-phase", "Only in bathrooms"], answer: 0,
       why: "A live part is anything intended to be energised in normal use, and that includes the neutral." },
     { q: "Which rating of RCD gives additional protection?",
-      options: ["300 mA", "100 mA", "30 mA or less", "Any rating"], answer: 2,
+      options: ["300 mA or less", "100 mA or less", "30 mA or less", "Any rating, if it's Type B"], answer: 2, fixed: true,
       why: "Additional protection needs an RCD with a rated residual operating current of 30 mA or less." }
   ]);
 })();

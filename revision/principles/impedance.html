@@ -281,7 +281,7 @@
       options: ["Leads the voltage", "Lags the voltage", "Is in phase with the voltage", "Is always zero"], answer: 1,
       why: "CIVIL: V leads I in an inductor (L), so the current lags." },
     { q: "What unit is apparent power measured in?",
-      options: ["Watts (W)", "Volt-amperes (VA)", "var", "Ohms (Ω)"], answer: 1,
+      options: ["Watts (W)", "Volt-amperes (VA)", "Volt-amperes reactive (var)", "Ohms (Ω)"], answer: 1,
       why: "Apparent power S = V × I, in VA. Real power is in W and reactive power in var." },
     { q: "A motor draws 10 A at 230 V with a power factor of 0.8. What real power does it use?",
       options: ["2,300 W", "1,840 W", "2,875 W", "184 W"], answer: 1,
@@ -290,7 +290,7 @@
       options: ["Adding resistance", "Fitting capacitors", "Using thicker cable", "Raising the voltage"], answer: 1,
       why: "Capacitive reactance cancels some of the inductive reactance, bringing the current back towards being in phase." },
     { q: "Why is Z<sub>s</sub> called an impedance rather than a resistance?",
-      options: ["It's measured in volts", "The fault loop includes the supply transformer's windings, which add reactance on AC", "It only applies to DC", "Impedance is just an old word for resistance"], answer: 1,
+      options: ["It's measured in volts rather than in ohms", "The transformer windings in the loop add reactance on AC", "It's only ever measured on DC circuits", "Impedance is just the old name for resistance"], answer: 1,
       why: "On AC the loop's opposition includes some reactance, mostly from the transformer, so impedance is the right term." }
   ]);
 })();

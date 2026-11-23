@@ -136,14 +136,24 @@
       var fs = document.createElement("fieldset"); fs.className = "q";
       fs.innerHTML = '<legend><span class="qn">' + (i + 1) + ".</span><span>" + q.q + "</span></legend>";
       var opts = document.createElement("div"); opts.className = "opts";
-      q.options.forEach(function (o, j) {
+      // Shuffle the options each time, so the right answer isn't always in the same place.
+      // Keep the written order when it's a natural sequence: all numbers, or a question marked fixed: true.
+      var order = q.options.map(function (o, j) { return j; });
+      var numeric = q.options.every(function (o) { return /^[−\-+]?[\d.,]/.test(o.replace(/<[^>]+>/g, "")); });
+      if (!q.fixed && !numeric) {
+        for (var n = order.length - 1; n > 0; n--) { var r = Math.floor(Math.random() * (n + 1)), t = order[n]; order[n] = order[r]; order[r] = t; }
+      }
+      var rightBtn = null;
+      order.forEach(function (j) {
+        var o = q.options[j];
         var b = document.createElement("button"); b.type = "button"; b.className = "opt"; b.innerHTML = o;
+        if (j === q.answer) rightBtn = b;
         b.addEventListener("click", function () {
           if (fs.getAttribute("data-done")) return;
           fs.setAttribute("data-done", "1"); answered++;
           var ok = j === q.answer; if (ok) correct++;
           b.classList.add(ok ? "right" : "wrong");
-          opts.children[q.answer].classList.add("right");
+          rightBtn.classList.add("right");
           Array.prototype.forEach.call(opts.children, function (x) { x.disabled = true; });
           var w = document.createElement("p"); w.className = "why " + (ok ? "ok" : "bad");
           w.innerHTML = "<strong>" + (ok ? "Correct." : "Not quite.") + "</strong>" + q.why;

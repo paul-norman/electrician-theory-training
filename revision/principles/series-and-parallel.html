@@ -310,7 +310,7 @@
       options: ["20 Ω", "1.94 Ω", "6.7 Ω", "240 Ω"], answer: 0,
       why: "In series, resistances add: 4 + 6 + 10 = 20 Ω." },
     { q: "Which is true of every parallel circuit?",
-      options: ["The current is the same in every branch", "The total resistance is lower than the smallest branch resistance", "Each branch shares the supply voltage", "One open switch turns everything off"], answer: 1,
+      options: ["The current is the same in every branch", "The total resistance is lower than the smallest branch", "The supply voltage is shared out between the branches", "Opening any one switch turns every branch off"], answer: 1,
       why: "Every branch is an extra path for current, so the total resistance always ends up below the smallest single branch." },
     { q: "Two 10 Ω resistors are connected in parallel. What's the total resistance?",
       options: ["20 Ω", "10 Ω", "5 Ω", "0.2 Ω"], answer: 2,
@@ -319,10 +319,10 @@
       options: ["1 A", "5 A", "6 A", "It depends on the voltage"], answer: 1,
       why: "Kirchhoff's current law: what flows into a junction must flow out. 2 + 3 = 5 A." },
     { q: "Three identical lamps are in series across 230 V. Roughly what voltage does each get?",
-      options: ["230 V", "About 77 V", "690 V", "0 V"], answer: 1,
+      options: ["About 77 V", "About 115 V", "About 230 V", "About 690 V"], answer: 0, fixed: true,
       why: "Kirchhoff's voltage law: the drops add up to the supply. Equal resistances get equal shares: " + Course.frac("230", "3") + " ≈ 77 V each." },
     { q: "Why are the sockets and lights in a house wired in parallel?",
-      options: ["It uses less cable", "Each gets the full 230 V and can be switched on its own", "It makes the current the same everywhere", "Parallel circuits can't overload"], answer: 1,
+      options: ["It uses less cable than wiring them in series", "Each gets the full 230 V and can be switched on its own", "It keeps the current the same at every outlet", "It stops the circuit from ever being overloaded"], answer: 1,
       why: "In parallel each load gets the full supply voltage, and switching one off doesn't affect the others." }
   ]);
 })();
