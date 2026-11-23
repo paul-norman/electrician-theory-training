@@ -17,6 +17,12 @@
   .marks { position: relative; height: 34px; }
   .marks span { position: absolute; top: 0; transform: translateX(-50%); font-size: 0.72rem; color: var(--muted); white-space: nowrap; text-align: center; line-height: 1.2; }
   .marks span::before { content: ""; display: block; width: 1px; height: 8px; background: var(--muted); margin: 0 auto 2px; }
+  /* Narrow screens: the 13 A and 32 A marks are too close to share a row, so drop the 32 A label to a second row with a longer tick. */
+  @media (max-width: 640px) {
+    .marks { height: 66px; }
+    .marks span:nth-child(2) { top: 30px; }
+    .marks span:nth-child(2)::before { height: 38px; margin-top: -30px; }
+  }
   .chart text { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
   .chart .grid { stroke: var(--rule); stroke-width: 1; }
   .chart .axis { stroke: var(--muted); stroke-width: 1.2; }
@@ -85,11 +91,11 @@
       </div>
       <div class="example">
         <span class="q">A 3 kW kettle boils for 4 minutes. At 25p per kWh, what does it cost?</span>
-        <span class="w">3 kW × <span class="frac"><span>4</span><span>60</span></span> h = 0.2 kWh · 0.2 × 25p</span>
+        <span class="w">3 kW × <span class="frac"><span>4</span><span>60</span></span> h = 0.2 kWh<br>0.2 kWh × 25p = 5p</span>
         <span class="a">5p</span>
       </div>
       <div class="example">
-        <span class="q">A 9.5 kW shower runs for 10 minutes. How much energy?</span>
+        <span class="q">A 9.5 kW shower runs for 10 minutes. How much energy does it use?</span>
         <span class="w">9.5 kW × <span class="frac"><span>10</span><span>60</span></span> h</span>
         <span class="a">≈ 1.58 kWh</span>
       </div>
@@ -199,17 +205,21 @@
   // Cable heat chart
   var RES = { "1.5": 12.10, "2.5": 7.41, "4.0": 4.61 }; // mΩ per metre at 20 °C
   var cs = { i: 16, c: "2.5" };
-  var X0 = 56, X1 = 580, Y0 = 240, Y1 = 20, IMAX = 40, PMAX = 800;
+  // Wide and narrow (phone) chart geometry; the chart redraws when the space changes.
+  var CHART = { wide: { vb: "0 0 600 280", X0: 56, X1: 580, Y0: 240, Y1: 20 }, narrow: { vb: "0 0 360 262", X0: 44, X1: 344, Y0: 226, Y1: 22 } };
+  var X0, X1, Y0, Y1, IMAX = 40, PMAX = 800;
   var sx = function (i) { return X0 + (X1 - X0) * i / IMAX; };
   var sy = function (p) { return Y0 - (Y0 - Y1) * Math.min(p, PMAX) / PMAX; };
-  (function grid() {
+  function grid(m) {
+    var G = CHART[m]; X0 = G.X0; X1 = G.X1; Y0 = G.Y0; Y1 = G.Y1; $("chart").setAttribute("viewBox", G.vb);
     var g = "";
     for (var p = 0; p <= PMAX; p += 200) g += '<line class="grid" x1="' + X0 + '" x2="' + X1 + '" y1="' + sy(p) + '" y2="' + sy(p) + '"/><text x="' + (X0 - 8) + '" y="' + (sy(p) + 4) + '" text-anchor="end">' + p + "</text>";
     for (var i = 0; i <= IMAX; i += 10) g += '<text x="' + sx(i) + '" y="' + (Y0 + 18) + '" text-anchor="middle">' + i + " A</text>";
     g += '<line class="axis" x1="' + X0 + '" x2="' + X1 + '" y1="' + Y0 + '" y2="' + Y0 + '"/>';
     g += '<text x="' + X0 + '" y="12">watts</text>';
     $("grid").innerHTML = g;
-  })();
+    renderCable();
+  }
   function renderCable() {
     var R = RES[cs.c] * 40 / 1000, P = cs.i * cs.i * R;
     var d = "";
@@ -218,7 +228,9 @@
     var x = sx(cs.i), y = sy(P);
     $("mk").setAttribute("cx", x); $("mk").setAttribute("cy", y);
     var mx = $("mx"); mx.setAttribute("x1", x); mx.setAttribute("x2", x); mx.setAttribute("y1", Y0); mx.setAttribute("y2", y);
-    var t = $("mkT"); t.textContent = f(P) + " W"; t.setAttribute("x", x > 470 ? x - 12 : x + 12); t.setAttribute("y", Math.max(y - 10, 30)); t.setAttribute("text-anchor", x > 470 ? "end" : "start");
+    var t = $("mkT"); t.textContent = f(P) + " W"; // label to the upper left of the marker (the curve rises to the right, so that side is clear), except near the start
+    var left = x > X0 + 70;
+    t.setAttribute("x", left ? x - 12 : x + 12); t.setAttribute("y", Math.max(y - 12, 30)); t.setAttribute("text-anchor", left ? "end" : "start");
     $("ciOut").textContent = cs.i + " A";
     $("cR").textContent = f(R) + " Ω"; $("cRs").textContent = RES[cs.c].toFixed(2) + " mΩ/m × 40 m";
     $("cP").textContent = f(P) + " W"; $("cPs").textContent = cs.i + "² × " + f(R);
@@ -230,7 +242,7 @@
     this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
     renderCable();
   });
-  renderCable();
+  Course.layout($("chart").parentNode, 600, grid);
 
   // Practice
   var Ps = [60, 100, 500, 1000, 1500, 2000, 2300, 3000, 4600, 7000, 8500, 9200, 10500], Vs = [12, 24, 110, 230];

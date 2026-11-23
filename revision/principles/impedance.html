@@ -106,7 +106,7 @@
       </table>
     </div>
     <p>They form a triangle of their own, so <span class="mono">S² = P² + Q²</span>. The <strong>power factor</strong> is the share of the apparent power that does real work:</p>
-    <p><span class="formula">power factor = cos φ = <span class="frac"><span>P</span><span>S</span></span> = <span class="frac"><span>R</span><span>Z</span></span></span></p>
+    <p><span class="formula"><span class="stack">power<br>factor</span> = cos φ = <span class="frac"><span>P</span><span>S</span></span> = <span class="frac"><span>R</span><span>Z</span></span></span></p>
     <p>A heater has a power factor of 1. A motor might be 0.8 lagging. Then <span class="mono">P = V × I × cos φ</span>: a motor with a power factor of 0.8, drawing 10 A at 230 V, uses 1,840 W, not 2,300 W, but the cable still has to carry the full 10 A.</p>
   </section>
 
@@ -142,6 +142,7 @@
   var V = 230, FQ = 50, W = 2 * Math.PI * FQ;
   var PRE = { heater: { r: 26.5, l: 0, c: 0 }, motor: { r: 20, l: 60, c: 0 }, pfc: { r: 20, l: 60, c: 79 }, cap: { r: 30, l: 0, c: 100 } };
   var st = { r: 20, l: 60, c: 0 };
+  var impMode = "wide";   // "narrow" on phones: the triangle and the waveforms stack
 
   // The load is R and L in series. The capacitor, if any, is connected in parallel across the
   // supply, as power factor correction capacitors are in practice. Worked with complex numbers.
@@ -185,9 +186,13 @@
     $("triG").innerHTML = g;
 
     // ---- waveforms (right): voltage and current, each scaled to its own peak ----
-    var X0 = 340, X1 = 750, YC = 150, A = 95;
+    var narrow = impMode === "narrow";
+    var X0 = narrow ? 22 : 340, X1 = narrow ? 332 : 732, YC = 150, A = 95;
+    $("waveG").setAttribute("transform", narrow ? "translate(0,300)" : "");
+    $("imp").setAttribute("viewBox", narrow ? "0 0 360 600" : "0 0 760 300");
+    $("imp").classList.toggle("wide", !narrow);
     var sx = function (deg) { return X0 + (X1 - X0) * deg / 720; };
-    var w = '<text x="' + X0 + '" y="22" class="small">Voltage and current over two cycles (each drawn to its own peak)</text>';
+    var w = '<text x="' + X0 + '" y="22" class="small">' + (narrow ? "Voltage and current, two cycles" : "Voltage and current over two cycles (each drawn to its own peak)") + "</text>";
     w += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + YC + '" y2="' + YC + '" stroke="var(--rule)" stroke-width="1.5"/>';
     for (var d = 0; d <= 720; d += 180) w += '<line x1="' + sx(d) + '" x2="' + sx(d) + '" y1="' + (YC - A - 6) + '" y2="' + (YC + A + 6) + '" stroke="var(--rule)"/><text class="axis-t" x="' + sx(d) + '" y="' + (YC + A + 22) + '" text-anchor="middle">' + (d / 18) + (d === 720 ? " ms" : "") + "</text>";
     var pv = "", pi = "";
@@ -202,8 +207,12 @@
     var ip = 90 + R.phi * 180 / Math.PI;
     w += '<line x1="' + sx(90) + '" x2="' + sx(90) + '" y1="' + (YC - A) + '" y2="' + YC + '" stroke="var(--l1)" stroke-width="1.5" stroke-dasharray="3 3"/>';
     w += '<line x1="' + sx(ip) + '" x2="' + sx(ip) + '" y1="' + (YC - A * 0.75) + '" y2="' + YC + '" stroke="var(--flow)" stroke-width="1.5" stroke-dasharray="3 3"/>';
-    w += '<text x="' + (X1 - 4) + '" y="' + (YC - A - 12) + '" text-anchor="end" class="tag" fill="var(--l1)">Voltage</text>';
-    w += '<text x="' + (X1 - 4) + '" y="' + (YC + A + 40) + '" text-anchor="end" class="tag" fill="var(--flow)">Current (dashed)</text>';
+    // Key below the time axis, with a sample of each line
+    var KY = YC + A + 40;
+    w += '<line x1="' + X0 + '" x2="' + (X0 + 34) + '" y1="' + KY + '" y2="' + KY + '" stroke="var(--l1)" stroke-width="3"/>' +
+      '<text x="' + (X0 + 42) + '" y="' + (KY + 4) + '" class="tag" fill="var(--l1)">Voltage</text>';
+    w += '<line x1="' + (X0 + 140) + '" x2="' + (X0 + 174) + '" y1="' + KY + '" y2="' + KY + '" stroke="var(--flow)" stroke-width="3" stroke-dasharray="8 5"/>' +
+      '<text x="' + (X0 + 182) + '" y="' + (KY + 4) + '" class="tag" fill="var(--flow)">Current</text>';
     $("waveG").innerHTML = w;
   }
 
@@ -243,6 +252,7 @@
     });
   });
   setPreset("motor");
+  Course.layout($("imp").parentNode, 600, function (m) { impMode = m; render(); });
 
   // ---- practice ----
   Course.practice("#prac", function () {

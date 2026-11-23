@@ -119,11 +119,11 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .frac > span:first-child { padding: 0 0.2em 1px; }
 
 /* Formula chip */
+.formula .stack { display: inline-block; vertical-align: middle; text-align: center; line-height: 1.1; font-size: 0.85em; }
 .formula { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 14px; display: inline-block; line-height: 1.4; }
 
 /* Widgets */
-.widget { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
-.widget-title { display: flex; flex-direction: column; gap: 2px; }
+.widget { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px; }.widget-title { display: flex; flex-direction: column; gap: 2px; }
 .widget-title .eyebrow { color: var(--flow); }
 .stage { overflow-x: auto; border-radius: 8px; background: var(--surface-2); }
 .stage svg, .stage canvas { display: block; width: 100%; height: auto; }
@@ -181,10 +181,12 @@ input[type="number"] { width: 9ch; font-family: var(--font-mono); }
 .box { fill: var(--surface); stroke: var(--rule); stroke-width: 1.5; }
 
 /* Tables */
-.table-wrap { overflow-x: auto; }
+/* White card so tables stand out from the grey page, like the worked examples */
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
 table { border-collapse: collapse; font-size: 0.92rem; min-width: 100%; }
-th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
-th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--surface-2); }
 td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; }
 
 /* Worked examples */
@@ -193,7 +195,7 @@ td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text
 .examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); column-gap: 12px; row-gap: 0; }
 .example { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 6px; margin-bottom: 12px; font-size: 0.92rem; align-content: start; }
 .example .q { font-weight: 600; }
-.example .w { font-family: var(--font-mono); font-size: 0.88rem; color: var(--muted); }
+.example .w { font-family: var(--font-mono); font-size: 0.88rem; color: var(--muted); line-height: 1.9; }
 .example .a { font-family: var(--font-mono); font-weight: 600; }
 
 /* Circuit symbol reference cards */
@@ -275,3 +277,30 @@ td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text
 /* Acronyms: <abbr title> on first use per page. Dotted underline; meaning on hover (title) or tap (popup, course.js) */
 abbr[title] { text-decoration: underline dotted; text-decoration-color: var(--muted); text-underline-offset: 2px; cursor: help; }
 .abbr-tip { position: absolute; z-index: 50; max-width: min(320px, calc(100vw - 16px)); background: var(--fg); color: var(--bg); font-size: 0.85rem; line-height: 1.4; padding: 8px 10px; border-radius: 6px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2); }
+
+/* Phones: tighter gutters, and diagram boxes become full-width bands (no rounding or side borders),
+   with the drawing area running edge to edge, so diagrams get the whole screen width. */
+@media (max-width: 640px) {
+  :root { --gutter-l: max(12px, env(safe-area-inset-left, 0px)); --gutter-r: max(12px, env(safe-area-inset-right, 0px)); }
+  .topbar, .page, .pager { padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+  .widget {
+    margin-left: calc(-1 * var(--gutter-l)); margin-right: calc(-1 * var(--gutter-r));
+    border-radius: 0; border-left: 0; border-right: 0;
+    padding-left: var(--gutter-l); padding-right: var(--gutter-r);
+  }
+  .stage { margin-left: calc(-1 * var(--gutter-l)); margin-right: calc(-1 * var(--gutter-r)); border-radius: 0; background: var(--surface); }
+  /* Tables: a full-width band too; the outer columns keep the page gutter so text lines up with the prose */
+  .table-wrap {
+    margin-left: calc(-1 * var(--gutter-l)); margin-right: calc(-1 * var(--gutter-r));
+    border-radius: 0; border-left: 0; border-right: 0;
+  }
+  th:first-child, td:first-child { padding-left: var(--gutter-l); }
+  th:last-child, td:last-child { padding-right: var(--gutter-r); }
+}
+
+/* Static diagrams with a separate phone-shaped drawing: show one or the other. */
+.only-narrow { display: none !important; }
+@media (max-width: 640px) {
+  .only-wide { display: none !important; }
+  .only-narrow { display: block !important; }
+}

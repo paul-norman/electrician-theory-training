@@ -70,39 +70,9 @@
       <h3 id="w1">Three lamps on 230 V</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 720 320" class="wide" role="img" aria-labelledby="w1d">
+      <svg id="lampSvg" viewBox="0 0 720 320" class="wide" role="img" aria-labelledby="w1d">
         <title id="w1d">Three lamps, each with its own switch, connected either in series on one loop or in parallel on separate branches across the supply.</title>
-        <!-- battery / supply -->
-        <line x1="46" y1="150" x2="94" y2="150" stroke="var(--fg)" stroke-width="3"/>
-        <line x1="58" y1="168" x2="82" y2="168" stroke="var(--fg)" stroke-width="7"/>
-        <text x="16" y="200" class="small">Supply</text>
-        <text x="16" y="218" class="tag">230 V</text>
-
-        <!-- SERIES layout -->
-        <g id="ser">
-          <path class="wire w-plain" d="M70,150 V60 H650 V270 H70 V168"/>
-          <path id="fSer" class="flow" d="M70,150 V60 H650 V270 H70 V168"/>
-          <text id="sI" class="tag" x="360" y="296" text-anchor="middle" fill="var(--flow)">I = 0 A</text>
-          <g id="serLoads"></g>
-        </g>
-
-        <!-- PARALLEL layout -->
-        <g id="par" hidden>
-          <path class="wire w-plain" d="M70,150 V60 H560 M70,168 V270 H560 M220,60 V270 M390,60 V270 M560,60 V270"/>
-          <path id="fP0" class="flow" d="M70,150 V60 H220"/>
-          <path id="fP1" class="flow" d="M220,60 H390"/>
-          <path id="fP2" class="flow" d="M390,60 H560"/>
-          <path id="fB0" class="flow" d="M220,60 V270"/>
-          <path id="fB1" class="flow" d="M390,60 V270"/>
-          <path id="fB2" class="flow" d="M560,60 V270"/>
-          <path id="fR2" class="flow" d="M560,270 H390"/>
-          <path id="fR1" class="flow" d="M390,270 H220"/>
-          <path id="fR0" class="flow" d="M220,270 H70 V168"/>
-          <circle class="node" cx="220" cy="60" r="5"/><circle class="node" cx="390" cy="60" r="5"/>
-          <circle class="node" cx="220" cy="270" r="5"/><circle class="node" cx="390" cy="270" r="5"/>
-          <text id="pI" class="tag" x="84" y="46" fill="var(--flow)">I<tspan dy="4" font-size="0.75em">T</tspan><tspan dy="-4"> = 0 A</tspan></text>
-          <g id="parLoads"></g>
-        </g>
+        <g id="lampG"></g>
       </svg>
     </div>
     <div class="controls">
@@ -143,7 +113,7 @@
   <div class="examples">
     <div class="example">
       <span class="q">10 Ω, 20 Ω and 30 Ω in series on 12 V. Find the current and each voltage.</span>
-      <span class="w">R<sub>T</sub> = 10 + 20 + 30 = 60 Ω · I = <span class="frac"><span>12</span><span>60</span></span> = 0.2 A · V = I × R for each</span>
+      <span class="w">R<sub>T</sub> = 10 + 20 + 30 = 60 Ω<br>I = <span class="frac"><span>12</span><span>60</span></span> = 0.2 A<br>V<sub>1</sub> = 0.2 × 10 = 2 V<br>V<sub>2</sub> = 0.2 × 20 = 4 V<br>V<sub>3</sub> = 0.2 × 30 = 6 V</span>
       <span class="a">0.2 A; 2 V, 4 V and 6 V (total 12 V)</span>
     </div>
     <div class="example">
@@ -199,16 +169,53 @@
       '<line id="' + pre + 'lv' + k + '" class="lever" x1="' + x + '" y1="' + y + '" x2="' + (x + 34) + '" y2="' + y + '"/>' +
       '<circle class="contact" cx="' + x + '" cy="' + y + '" r="4"/><circle class="contact" cx="' + (x + 34) + '" cy="' + y + '" r="4"/></g>';
   }
-  var ser = "", par = "";
-  [0, 1, 2].forEach(function (k) {
-    var sx = 120 + k * 175, lx = sx + 95;
-    ser += switchSVG(sx, 60, k, "s", false) + lampSVG(lx, 60, k, "s");
-    ser += '<text id="sL' + k + '" class="tag" x="' + lx + '" y="104" text-anchor="middle"></text><text id="sV' + k + '" class="tag" x="' + lx + '" y="122" text-anchor="middle" fill="var(--flow)"></text>';
-    var bx = 220 + k * 170;
-    par += switchSVG(bx, 86, k, "p", true) + lampSVG(bx, 180, k, "p");
-    par += '<text id="pL' + k + '" class="tag" x="' + (bx + 30) + '" y="160"></text><text id="pV' + k + '" class="tag" x="' + (bx + 30) + '" y="178"></text><text id="pC' + k + '" class="tag" x="' + (bx + 30) + '" y="196" fill="var(--flow)"></text>';
-  });
-  $("serLoads").innerHTML = ser; $("parLoads").innerHTML = par;
+  // Wide: the original row layout. Narrow (phones): in series the three loads go round the loop
+  // (top, right side, bottom); in parallel the branches sit closer, with labels under each lamp.
+  function buildLamps(m) {
+    var N = m === "narrow", S = N ? 40 : 70, B = N ? 290 : 270, R = N ? 320 : 650;   // supply x, bottom y, right x (series)
+    var bx = N ? [110, 205, 300] : [220, 390, 560], PB = N ? 300 : 270;               // parallel branch x, bottom y
+    var fs = N ? ' style="font-size:11.5px"' : "";
+    // narrow parallel labels sit over the branch wires: an outline in the background colour keeps them readable
+    var halo = ' style="font-size:11.5px;paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round"';
+    var supply = function (x, y) { return '<text x="' + x + '" y="' + y + '" class="small">Supply</text><text x="' + x + '" y="' + (y + 18) + '" class="tag">230 V</text>'; };
+    var txt = function (id, x, y, anchor, fill, style) { return '<text id="' + id + '" class="tag" x="' + x + '" y="' + y + '" text-anchor="' + anchor + '"' + (fill ? ' fill="' + fill + '"' : "") + (style || fs) + "></text>"; };
+    $("lampSvg").setAttribute("viewBox", N ? "0 0 360 344" : "0 0 720 320"); $("lampSvg").classList.toggle("wide", !N);
+    var g = '<line x1="' + (S - 24) + '" y1="150" x2="' + (S + 24) + '" y2="150" stroke="var(--fg)" stroke-width="3"/>' +
+      '<line x1="' + (S - 12) + '" y1="168" x2="' + (S + 12) + '" y2="168" stroke="var(--fg)" stroke-width="7"/>' +
+      (N ? "" : supply(16, 200));
+    // series
+    var loop = "M" + S + ",150 V60 H" + R + " V" + B + " H" + S + " V168";
+    g += '<g id="ser"><path class="wire w-plain" d="' + loop + '"/><path id="fSer" class="flow" d="' + loop + '"/>' +
+      '<text id="sI" class="tag" x="' + (N ? 180 : 360) + '" y="' + (N ? 330 : 296) + '" text-anchor="middle" fill="var(--flow)">I = 0 A</text>' + (N ? supply(S + 8, 214) : "");
+    [0, 1, 2].forEach(function (k) {
+      if (!N) {
+        var sx = 120 + k * 175, lx = sx + 95;
+        g += switchSVG(sx, 60, k, "s", false) + lampSVG(lx, 60, k, "s") + txt("sL" + k, lx, 104, "middle") + txt("sV" + k, lx, 122, "middle", "var(--flow)");
+      } else if (k === 0) {        // top wire
+        g += switchSVG(66, 60, 0, "s", false) + lampSVG(170, 60, 0, "s") + txt("sL0", 170, 104, "middle") + txt("sV0", 170, 121, "middle", "var(--flow)");
+      } else if (k === 1) {        // right-hand side, running down
+        g += switchSVG(R, 92, 1, "s", true) + lampSVG(R, 196, 1, "s") + txt("sL1", R - 30, 192, "end") + txt("sV1", R - 30, 209, "end", "var(--flow)");
+      } else {                     // bottom wire
+        g += switchSVG(96, B, 2, "s", false) + lampSVG(210, B, 2, "s") + txt("sL2", 210, B - 52, "middle") + txt("sV2", 210, B - 35, "middle", "var(--flow)");
+      }
+    });
+    g += "</g>";
+    // parallel
+    g += '<g id="par" hidden><path class="wire w-plain" d="M' + S + ',150 V60 H' + bx[2] + ' M' + S + ',168 V' + PB + ' H' + bx[2] +
+      ' M' + bx[0] + ',60 V' + PB + ' M' + bx[1] + ',60 V' + PB + ' M' + bx[2] + ',60 V' + PB + '"/>' +
+      '<path id="fP0" class="flow" d="M' + S + ',150 V60 H' + bx[0] + '"/><path id="fP1" class="flow" d="M' + bx[0] + ',60 H' + bx[1] + '"/><path id="fP2" class="flow" d="M' + bx[1] + ',60 H' + bx[2] + '"/>' +
+      bx.map(function (x, k) { return '<path id="fB' + k + '" class="flow" d="M' + x + ',60 V' + PB + '"/>'; }).join("") +
+      '<path id="fR2" class="flow" d="M' + bx[2] + ',' + PB + ' H' + bx[1] + '"/><path id="fR1" class="flow" d="M' + bx[1] + ',' + PB + ' H' + bx[0] + '"/><path id="fR0" class="flow" d="M' + bx[0] + ',' + PB + ' H' + S + ' V168"/>' +
+      [bx[0], bx[1]].map(function (x) { return '<circle class="node" cx="' + x + '" cy="60" r="5"/><circle class="node" cx="' + x + '" cy="' + PB + '" r="5"/>'; }).join("") +
+      '<text id="pI" class="tag" x="' + (S + 14) + '" y="46" fill="var(--flow)"></text>' + (N ? supply(6, 320) : "");
+    bx.forEach(function (x, k) {
+      g += switchSVG(x, 86, k, "p", true) + lampSVG(x, N ? 175 : 180, k, "p");
+      g += N ? '<rect x="' + (x - 46) + '" y="208" width="92" height="52" rx="4" fill="var(--surface)"/>' + txt("pL" + k, x, 222, "middle") + txt("pV" + k, x, 238, "middle") + txt("pC" + k, x, 254, "middle", "var(--flow)")
+             : txt("pL" + k, x + 30, 160, "start") + txt("pV" + k, x + 30, 178, "start") + txt("pC" + k, x + 30, 196, "start", "var(--flow)");
+    });
+    g += "</g>";
+    $("lampG").innerHTML = g;
+  }
 
   RATINGS.forEach(function (w) {
     [0, 1, 2].forEach(function (k) { var o = document.createElement("option"); o.value = w; o.textContent = w + " W lamp (" + f(V * V / w) + " Ω)"; $("r" + k).appendChild(o); });
@@ -281,12 +288,10 @@
     $("r" + k).addEventListener("change", function (e) { st.w[k] = +e.target.value; render(); });
     $("s" + k).addEventListener("change", function (e) { st.on[k] = e.target.checked; render(); });
   });
-  document.querySelectorAll(".sw").forEach(function (g) {
-    function flip() { var k = +g.getAttribute("data-k"); st.on[k] = !st.on[k]; render(); }
-    g.addEventListener("click", flip);
-    g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
-  });
-  render();
+  function flipSw(e) { var g = e.target.closest(".sw"); if (!g) return; var k = +g.getAttribute("data-k"); st.on[k] = !st.on[k]; render(); }
+  $("lampSvg").addEventListener("click", flipSw);
+  $("lampSvg").addEventListener("keydown", function (e) { if ((e.key === "Enter" || e.key === " ") && e.target.closest(".sw")) { e.preventDefault(); flipSw(e); } });
+  Course.layout($("lampSvg").parentNode, 600, function (m) { buildLamps(m); render(); });
 
   // ---- practice ----
   var RV = [2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 100];

@@ -42,7 +42,7 @@
       <h3 id="w1"><abbr title="direct current">DC</abbr> and <abbr title="alternating current">AC</abbr> over time</h3>
     </div>
     <div class="stage">
-      <svg id="cmp" viewBox="0 0 720 230" class="wide" role="img" aria-labelledby="w1d">
+      <svg id="cmp" viewBox="0 0 720 268" class="wide" role="img" aria-labelledby="w1d">
         <title id="w1d">Two graphs of voltage against time. DC is a flat line at a constant voltage. AC is a sine wave swinging between plus and minus 325 volts, crossing zero twice every cycle.</title>
         <g id="cmpG"></g>
       </svg>
@@ -83,9 +83,9 @@
       <svg id="sine" viewBox="0 0 780 300" class="wide" role="img" aria-labelledby="w6d">
         <title id="w6d">A point turning round a circle. Its height traces out a sine wave on the graph beside it, from 0 to 360 degrees.</title>
         <g id="sAxes"></g>
-        <circle cx="130" cy="150" r="100" fill="none" stroke="var(--rule)" stroke-width="2"/>
-        <line x1="20" y1="150" x2="240" y2="150" stroke="var(--rule)"/>
-        <line x1="130" y1="40" x2="130" y2="260" stroke="var(--rule)"/>
+        <circle id="sCirc" cx="130" cy="150" r="100" fill="none" stroke="var(--rule)" stroke-width="2"/>
+        <line id="sHx" x1="20" y1="150" x2="240" y2="150" stroke="var(--rule)"/>
+        <line id="sVx" x1="130" y1="40" x2="130" y2="260" stroke="var(--rule)"/>
         <path id="sArc" fill="none" stroke="var(--flow)" stroke-width="2" opacity="0.6"/>
         <line id="sArm" x1="130" y1="150" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>
         <line id="sDrop" stroke="var(--flow)" stroke-width="2" stroke-dasharray="3 4"/>
@@ -168,8 +168,12 @@
   var f = function (x, s) { return Course.sig(x, s || 3); };
 
   // DC vs AC comparison graph
-  (function () {
-    var X0 = 70, X1 = 700, YC = 115, K = 0.28; // 325 V ↔ 91 px
+  // Wide: key in one row under the graph. Narrow (phones): narrower graph, key stacked in three rows.
+  Course.layout($("cmp").parentNode, 600, function (m) {
+    var narrow = m === "narrow";
+    $("cmp").setAttribute("viewBox", narrow ? "0 0 360 318" : "0 0 720 268");
+    $("cmp").classList.toggle("wide", !narrow);
+    var X0 = narrow ? 54 : 70, X1 = narrow ? 338 : 700, YC = 115, K = 0.28; // 325 V ↔ 91 px
     var sx = function (ms) { return X0 + (X1 - X0) * ms / 40; }, sy = function (v) { return YC - v * K; };
     var g = "";
     [[325, "+325 V"], [0, "0 V"], [-325, "−325 V"]].forEach(function (t) {
@@ -181,33 +185,54 @@
     for (var t = 0; t <= 40; t += 0.25) d += (d ? "L" : "M") + sx(t).toFixed(1) + "," + sy(325 * Math.sin(2 * Math.PI * 50 * t / 1000)).toFixed(1);
     g += '<path d="' + d + '" fill="none" stroke="var(--l1)" stroke-width="3"/>';
     g += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + sy(230) + '" y2="' + sy(230) + '" stroke="var(--flow)" stroke-width="3"/>';
-    g += '<text x="' + (X1 - 4) + '" y="' + (sy(230) - 8) + '" text-anchor="end" class="tag" fill="var(--flow)">DC: a steady 230 V</text>';
-    g += '<text x="' + sx(15) + '" y="' + (sy(-325) - 8) + '" text-anchor="middle" class="tag" fill="var(--l1)">AC: 230 V RMS, 50 Hz</text>';
     [10, 20, 30].forEach(function (z) { g += '<circle cx="' + sx(z) + '" cy="' + sy(0) + '" r="4.5" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>'; });
-    g += '<text x="' + sx(20) + '" y="' + (sy(0) - 10) + '" text-anchor="middle" class="small">zero crossings</text>';
+    // Key below the time axis, so no label sits on a line
+    var KY = sy(-325) + 48;
+    // key item positions: one row (wide) or three rows (narrow)
+    var K1 = [X0, KY], K2 = narrow ? [X0, KY + 24] : [X0 + 230, KY], K3 = narrow ? [X0, KY + 48] : [X0 + 500, KY];
+    g += '<line x1="' + K1[0] + '" x2="' + (K1[0] + 30) + '" y1="' + K1[1] + '" y2="' + K1[1] + '" stroke="var(--flow)" stroke-width="3"/>' +
+      '<text x="' + (K1[0] + 38) + '" y="' + (K1[1] + 4) + '" class="tag" fill="var(--flow)">DC: a steady 230 V</text>';
+    g += '<line x1="' + K2[0] + '" x2="' + (K2[0] + 30) + '" y1="' + K2[1] + '" y2="' + K2[1] + '" stroke="var(--l1)" stroke-width="3"/>' +
+      '<text x="' + (K2[0] + 38) + '" y="' + (K2[1] + 4) + '" class="tag" fill="var(--l1)">AC: 230 V RMS, 50 Hz</text>';
+    g += '<circle cx="' + (K3[0] + 15) + '" cy="' + K3[1] + '" r="4.5" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>' +
+      '<text x="' + (K3[0] + 38) + '" y="' + (K3[1] + 4) + '" class="small">zero crossings</text>';
     $("cmpG").innerHTML = g;
-  })();
+  });
 
   // Sine wave from a rotating arm
   (function () {
-    var CX = 130, CY = 150, R = 100, X0 = 300, X1 = 756, PK = 325;
+    // Wide: big circle and full graph side by side. Narrow (phones): the same arrangement, redrawn
+    // compactly. Side by side matters here: the arm's height is copied straight across to the graph.
+    var GEO = { wide: { vb: "0 0 780 300", CX: 130, CY: 150, R: 100, X0: 300, X1: 756 },
+                narrow: { vb: "0 0 360 192", CX: 72, CY: 98, R: 62, X0: 152, X1: 338 } };
+    var mode = "wide", CX, CY, R, X0, X1, PK = 325;
     var sx = function (a) { return X0 + (X1 - X0) * a / 360; };
     var sy = function (v) { return CY - v * R / PK; };
     var rad = function (a) { return a * Math.PI / 180; };
     var st = { a: 60, playing: false, last: null };
+    function setup(m) {
+    mode = m; var G = GEO[m]; CX = G.CX; CY = G.CY; R = G.R; X0 = G.X0; X1 = G.X1;
+    var svg = $("sine"); svg.setAttribute("viewBox", G.vb); svg.classList.toggle("wide", m === "wide");
+    var set = function (id, a) { var el = $(id); for (var k in a) el.setAttribute(k, a[k]); };
+    set("sCirc", { cx: CX, cy: CY, r: R });
+    set("sHx", { x1: CX - R - 10, x2: CX + R + 10, y1: CY, y2: CY });
+    set("sVx", { x1: CX, x2: CX, y1: CY - R - 10, y2: CY + R + 10 });
+    set("sArm", { x1: CX, y1: CY });
     var ax = "";
     [[PK, "+325 V peak", "solid"], [230, "+230 V RMS", "dash"], [0, "0 V", "solid"], [-230, "−230 V RMS", "dash"], [-PK, "−325 V peak", "solid"]].forEach(function (t) {
       ax += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + sy(t[0]) + '" y2="' + sy(t[0]) + '" stroke="var(--rule)"' + (t[2] === "dash" ? ' stroke-dasharray="5 5"' : "") + (t[0] === 0 ? ' stroke-width="1.5"' : "") + "/>" +
-        '<text class="axis-t" x="' + (X1 + 0) + '" y="' + (sy(t[0]) - 4) + '" text-anchor="end">' + t[1] + "</text>";
+        '<text class="axis-t" x="' + (t[0] < 0 ? X0 + 4 : X1) + '" y="' + (sy(t[0]) - 4) + '" text-anchor="' + (t[0] < 0 ? "start" : "end") + '">' + t[1] + "</text>";
     });
     [[0, "0°", "0"], [90, "90°", "π/2"], [180, "180°", "π"], [270, "270°", "3π/2"], [360, "360°", "2π"]].forEach(function (t) {
       ax += '<line x1="' + sx(t[0]) + '" x2="' + sx(t[0]) + '" y1="' + (sy(-PK) ) + '" y2="' + (sy(-PK) + 6) + '" stroke="var(--muted)"/>' +
         '<text class="axis-t" x="' + sx(t[0]) + '" y="' + (sy(-PK) + 20) + '" text-anchor="middle">' + t[1] + "</text>" +
-        '<text class="axis-t" x="' + sx(t[0]) + '" y="' + (sy(-PK) + 34) + '" text-anchor="middle">' + t[2] + " · " + (t[0] / 18) + " ms</text>";
+        (m === "wide" ? '<text class="axis-t" x="' + sx(t[0]) + '" y="' + (sy(-PK) + 34) + '" text-anchor="middle">' + t[2] + " · " + (t[0] / 18) + " ms</text>" : "");
     });
     $("sAxes").innerHTML = ax;
-    function path(to) { var d = ""; for (var a = 0; a <= to + 0.001; a += 2) d += (d ? "L" : "M") + sx(Math.min(a, to)).toFixed(1) + "," + sy(PK * Math.sin(rad(Math.min(a, to)))).toFixed(1); return d; }
     $("sCurve").setAttribute("d", path(360));
+    draw();
+    }
+    function path(to) { var d = ""; for (var a = 0; a <= to + 0.001; a += 2) d += (d ? "L" : "M") + sx(Math.min(a, to)).toFixed(1) + "," + sy(PK * Math.sin(rad(Math.min(a, to)))).toFixed(1); return d; }
     function piText(a) {
       var map = { 0: "0", 30: "π/6", 45: "π/4", 60: "π/3", 90: "π/2", 120: "2π/3", 135: "3π/4", 150: "5π/6", 180: "π", 210: "7π/6", 225: "5π/4", 240: "4π/3", 270: "3π/2", 300: "5π/3", 315: "7π/4", 330: "11π/6", 360: "2π" };
       var t = map[a]; if (!t) return "";
@@ -220,12 +245,17 @@
       $("sArm").setAttribute("x2", px); $("sArm").setAttribute("y2", py);
       $("sP").setAttribute("cx", px); $("sP").setAttribute("cy", py);
       var large = a > 180 ? 1 : 0;
-      $("sArc").setAttribute("d", a > 0 ? "M" + (CX + 28) + "," + CY + " A28,28 0 " + large + ",0 " + (CX + 28 * Math.cos(rad(a))).toFixed(1) + "," + (CY - 28 * Math.sin(rad(a))).toFixed(1) : "");
+      var ar = mode === "wide" ? 28 : 20;
+      $("sArc").setAttribute("d", a > 0 ? "M" + (CX + ar) + "," + CY + " A" + ar + "," + ar + " 0 " + large + ",0 " + (CX + ar * Math.cos(rad(a))).toFixed(1) + "," + (CY - ar * Math.sin(rad(a))).toFixed(1) : "");
       var qx = sx(a), qy = sy(v);
       $("sQ").setAttribute("cx", qx); $("sQ").setAttribute("cy", qy);
       var link = $("sLink"); link.setAttribute("x1", px); link.setAttribute("y1", py); link.setAttribute("x2", qx); link.setAttribute("y2", qy);
       var drop = $("sDrop"); drop.setAttribute("x1", qx); drop.setAttribute("x2", qx); drop.setAttribute("y1", sy(0)); drop.setAttribute("y2", qy);
       $("sDone").setAttribute("d", path(a));
+      // Angle label: just outside the arc, halfway round it, so it never sits on the arm
+      var lr = ar + (mode === "wide" ? 20 : 16), half = rad(a / 2);
+      $("sAng").setAttribute("x", (CX + lr * Math.cos(half)).toFixed(1)); $("sAng").setAttribute("y", (CY - lr * Math.sin(half) + 4).toFixed(1));
+      $("sAng").setAttribute("text-anchor", "middle");
       $("sAng").textContent = a + "°";
       $("sA").value = a; $("sAOut").textContent = a + "°";
       $("rDeg").textContent = a + "°";
@@ -242,7 +272,7 @@
     $("sPlay").addEventListener("click", function () { setPlay(!st.playing); });
     $("sA").addEventListener("input", function (e) { setPlay(false); st.a = parseInt(e.target.value, 10); draw(); });
     $("sJump").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; setPlay(false); st.a = parseInt(b.getAttribute("data-a"), 10); draw(); });
-    draw();
+    Course.layout($("sine").parentNode, 600, setup);
   })();
 
 

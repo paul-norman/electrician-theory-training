@@ -117,8 +117,15 @@
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
 
-  // ---- Zone diagram: 1 m = 100 px, floor at y = 320, wall at x = 40 ----
-  var FL = 320, WX = 40, M = 100;
+  // ---- Zone diagram, drawn to scale. Wide: 1 m = 100 px, floor at y = 320, wall at x = 40.
+  // Phones: the same room at 1 m = 48 px, so all 7 m still fit.
+  var ZG = { wide: { vb: "0 0 760 360", FL: 320, WX: 40, M: 100 }, narrow: { vb: "0 0 360 192", FL: 158, WX: 14, M: 48 } };
+  var FL = 320, WX = 40, M = 100, zNarrow = false;
+  function zLayout(m) {
+    var G = ZG[m]; FL = G.FL; WX = G.WX; M = G.M; zNarrow = m === "narrow";
+    $("room").setAttribute("viewBox", G.vb); $("room").classList.toggle("wide", !zNarrow);
+    draw();
+  }
   var st = { t: "bath", head: 2.0, panel: false, sel: "z1" };
   var y = function (m) { return FL - m * M; }, x = function (m) { return WX + m * M; };
   var INFO = {
@@ -146,7 +153,7 @@
       g += '<path d="M' + x(0) + "," + y(bh) + " H" + x(bw) + " V" + y(0.12) + " Q" + x(bw) + "," + y(0.02) + " " + x(bw - 0.12) + "," + y(0.02) + " H" + x(0.12) + " Q" + x(0) + "," + y(0.02) + " " + x(0) + "," + y(0.12) + ' Z" fill="none" stroke="var(--fg)" stroke-width="3" pointer-events="none"/>';
       g += '<line x1="' + x(bw) + '" y1="' + y(bh) + '" x2="' + x(bw) + '" y2="' + y(0) + '" stroke="var(--fg)" stroke-width="2" stroke-dasharray="' + (st.panel ? "6 4" : "0") + '" pointer-events="none"/>';
       g += label(x(bw / 2), y(0.3), "0") + label(x(bw / 2), y((top + bh) / 2), "1") + label(x(bw + 0.3), y(top / 2), "2");
-      if (st.panel) g += '<text x="' + x(bw / 2) + '" y="' + (y(0.06)) + '" text-anchor="middle" class="small" pointer-events="none">under bath: zone 1</text>';
+      if (st.panel) g += '<text x="' + x(bw / 2) + '" y="' + (y(0.06)) + '" text-anchor="middle" class="small" pointer-events="none"' + (zNarrow ? ' style="font-size:9px"' : "") + '>under bath: zone 1</text>';
       var z1edge = bw;
       // shower head over the bath
       g += shower(0.1, st.head);
@@ -157,10 +164,13 @@
       g += zone("out", x(z1end), y(2.7), x(7) - x(z1end), 2.7 * M, "transparent");
       g += zone("z1", x(0), y(top), z1end * M, (top - 0.1) * M, "var(--z1)");
       g += zone("z0", x(0), y(0.1), z1end * M, 0.1 * M, "var(--z0)");
-      g += label(x(z1end / 2), y(top / 2), "1") + label(x(z1end / 2), y(0.05) + 4, "0");
+      // zone 0 is a 10 cm strip; on phones that's 5 px, so its label sits just above it
+      g += label(x(z1end / 2), y(top / 2), "1") + (zNarrow
+        ? '<text x="' + x(z1end / 2) + '" y="' + (y(0.1) - 4) + '" text-anchor="middle" pointer-events="none" style="font-family:var(--font-display);font-weight:800;font-size:11px;fill:var(--fg)">0</text>'
+        : label(x(z1end / 2), y(0.05) + 4, "0"));
       g += shower(outlet, st.head);
       g += '<line x1="' + x(outlet) + '" y1="' + y(st.head) + '" x2="' + x(outlet) + '" y2="' + y(0) + '" stroke="var(--fg)" stroke-dasharray="3 4" pointer-events="none"/>';
-      g += arrow(x(outlet), y(1.4), x(z1end), y(1.4), "1.2 m from the outlet");
+      g += arrow(x(outlet), y(1.4), x(z1end), y(1.4), zNarrow ? "1.2 m" : "1.2 m from the outlet");
       g += dims(z1end, top);
     }
     // floor and wall
@@ -172,7 +182,7 @@
     var i = INFO[st.sel] || INFO.z1;
     $("zinfo").innerHTML = "<strong>" + i[0] + '</strong><span class="ip">Minimum rating: ' + i[1] + "</span><span>" + i[2] + "</span>";
   }
-  function label(cx, cy, n) { return '<text x="' + cx + '" y="' + cy + '" text-anchor="middle" dominant-baseline="middle" pointer-events="none" style="font-family:var(--font-display);font-weight:800;font-size:22px;fill:var(--fg)">' + n + "</text>"; }
+  function label(cx, cy, n) { return '<text x="' + cx + '" y="' + cy + '" text-anchor="middle" dominant-baseline="middle" pointer-events="none" style="font-family:var(--font-display);font-weight:800;font-size:' + (zNarrow ? 15 : 22) + 'px;fill:var(--fg)">' + n + "</text>"; }
   function shower(at, h) {
     return '<path d="M' + x(0) + "," + y(h + 0.1) + " H" + x(at) + " V" + y(h) + '" fill="none" stroke="var(--fg)" stroke-width="3" pointer-events="none"/><rect x="' + (x(at) - 12) + '" y="' + y(h) + '" width="24" height="7" rx="2" fill="var(--fg)" pointer-events="none"/>';
   }
@@ -189,9 +199,11 @@
     var sx = x(z1edge + 3);
     g += '<line x1="' + sx + '" y1="' + y(2.6) + '" x2="' + sx + '" y2="' + FL + '" stroke="var(--ok)" stroke-width="2" stroke-dasharray="6 4" pointer-events="none"/>';
     g += arrow(x(z1edge), y(0.55), sx, y(0.55), "3 m from zone 1");
-    g += '<text x="' + (sx + 6) + '" y="' + y(2.45) + '" class="small" style="fill:var(--ok)" pointer-events="none">Sockets allowed</text><text x="' + (sx + 6) + '" y="' + (y(2.45) + 14) + '" class="small" style="fill:var(--ok)" pointer-events="none">beyond this line</text>';
+    // phones: the label goes to the left of the line, above the zones, so it doesn't run off the edge
+    var lx = zNarrow ? sx - 6 : sx + 6, la = zNarrow ? "end" : "start", ly = zNarrow ? 12 : y(2.45);
+    g += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + la + '" class="small" style="fill:var(--ok)" pointer-events="none">Sockets allowed</text><text x="' + lx + '" y="' + (ly + 14) + '" text-anchor="' + la + '" class="small" style="fill:var(--ok)" pointer-events="none">beyond this line</text>';
     // socket symbol beyond the line
-    g += '<rect x="' + (sx + 30) + '" y="' + y(0.45) + '" width="40" height="22" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5" pointer-events="none"/>';
+    g += '<rect x="' + (sx + (zNarrow ? 16 : 30)) + '" y="' + y(0.45) + '" width="' + (zNarrow ? 24 : 40) + '" height="' + (zNarrow ? 13 : 22) + '" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5" pointer-events="none"/>';
     return g;
   }
   $("roomG").addEventListener("click", function (e) { var z = e.target.closest(".zone"); if (z) { st.sel = z.getAttribute("data-z"); draw(); } });
@@ -204,7 +216,7 @@
   });
   $("head").addEventListener("input", function (e) { st.head = parseFloat(e.target.value); draw(); });
   $("panel").addEventListener("change", function (e) { st.panel = e.target.checked; if (!st.panel && st.sel === "zu") st.sel = "z1"; draw(); });
-  draw();
+  Course.layout($("room").parentNode, 600, zLayout);
 
   // ---- IP decoder ----
   var D1 = [["X", "Not tested or not specified for solid objects."], ["0", "No protection against solid objects."], ["1", "Protected against objects over 50 mm, such as the back of a hand."], ["2", "Protected against objects over 12.5 mm, such as fingers (finger-proof)."], ["3", "Protected against objects over 2.5 mm, such as tools and thick wires."], ["4", "Protected against objects over 1 mm, such as most wires and small screws."], ["5", "Dust-protected: some dust may get in, but not enough to cause harm."], ["6", "Dust-tight: no dust gets in at all."]];

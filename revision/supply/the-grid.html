@@ -53,7 +53,7 @@
       <h3 id="w1">From power station to plug</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 980 300" class="wide" style="min-width:760px" role="img" aria-labelledby="w1d">
+      <svg class="wide only-wide" viewBox="0 0 980 300" style="min-width:760px" role="img" aria-labelledby="w1d">
         <title id="w1d">The supply chain: a power station generates at around 20 kV, a transformer steps it up to 400 kV for the National Grid, then substations step it down to 132 kV, 33 kV, 11 kV and finally 400 or 230 V for homes. Line thickness shows current: thin at high voltage, thick at low voltage.</title>
         <!-- ownership bands -->
         <rect class="band-t" x="10" y="238" width="430" height="28" rx="4"/>
@@ -125,6 +125,36 @@
         <text x="935" y="202" text-anchor="middle" class="small">400 V 3-phase</text>
         <text x="20" y="30" class="small">Line thickness shows current for the same power: thin at high voltage, thick at low voltage.</text>
       </svg>
+      <svg class="only-narrow" viewBox="0 0 360 666" role="img" aria-labelledby="w1n">
+        <title id="w1n">The supply chain from top to bottom: a power station generates at around 20 kV, a transformer steps it up to 400 kV for the National Grid, then substations step it down to 132 kV, 33 kV, 11 kV and finally 400 or 230 V for homes. The line gets thicker as the voltage falls and the current rises.</title>
+        <rect class="band-t" x="14" y="20" width="30" height="292" rx="4"/>
+        <text transform="translate(34,166) rotate(-90)" text-anchor="middle" font-weight="600" font-size="12">Transmission: National Grid</text>
+        <rect class="band-d" x="14" y="318" width="30" height="300" rx="4"/>
+        <text transform="translate(34,468) rotate(-90)" text-anchor="middle" font-weight="600" font-size="12">Distribution: your DNO</text>
+        <path class="wire w-plain" d="M104,74 V100" stroke-width="7"/><path class="flow" d="M104,74 V100" style="--dur:1.6s; stroke-width:5"/>
+        <path class="wire w-plain" d="M104,136 V238" stroke-width="2"/><path class="flow" d="M104,136 V238" style="--dur:0.5s; stroke-width:3"/>
+        <path class="wire w-plain" d="M104,274 V318" stroke-width="3"/><path class="flow" d="M104,274 V318" style="--dur:0.7s; stroke-width:4"/>
+        <path class="wire w-plain" d="M104,354 V398" stroke-width="5"/><path class="flow" d="M104,354 V398" style="--dur:1s; stroke-width:5"/>
+        <path class="wire w-plain" d="M104,434 V478" stroke-width="7"/><path class="flow" d="M104,434 V478" style="--dur:1.6s; stroke-width:6"/>
+        <path class="wire w-plain" d="M104,514 V560" stroke-width="13"/><path class="flow" d="M104,514 V560" style="--dur:3s; stroke-width:9"/>
+        <rect class="node" x="76" y="30" width="56" height="44" rx="6"/><path d="M84,30 V14 H94 V30 M108,30 V20 H118 V30" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/><text x="104" y="58" text-anchor="middle" class="tag">G</text>
+        <text x="146" y="42" font-weight="600">Power station</text><text x="146" y="59" class="small">Generates at about 20 kV</text>
+        <circle class="tx" cx="104" cy="109" r="14"/><circle class="tx" cx="104" cy="127" r="14"/>
+        <text x="146" y="114" font-weight="600">Transformer</text><text x="146" y="131" class="tag" fill="var(--flow)">↑ to 400 kV</text><text x="146" y="148" class="small">Steps up the voltage</text>
+        <g stroke="var(--muted)" stroke-width="2" fill="none"><path d="M66,232 L76,150 L86,232 M70,202 H82 M62,162 H90"/></g>
+        <text x="146" y="182" class="tag" fill="var(--flow)">400 kV / 275 kV</text><text x="146" y="199" class="small">Overhead lines on pylons</text>
+        <circle class="tx" cx="104" cy="247" r="14"/><circle class="tx" cx="104" cy="265" r="14"/>
+        <text x="146" y="252" font-weight="600">Grid supply point</text><text x="146" y="269" class="tag" fill="var(--flow)">↓ to 132 kV</text>
+        <circle class="tx" cx="104" cy="327" r="14"/><circle class="tx" cx="104" cy="345" r="14"/>
+        <text x="146" y="332" font-weight="600">Bulk supply point</text><text x="146" y="349" class="tag" fill="var(--flow)">↓ to 33 kV</text>
+        <circle class="tx" cx="104" cy="407" r="14"/><circle class="tx" cx="104" cy="425" r="14"/>
+        <text x="146" y="412" font-weight="600">Primary substation</text><text x="146" y="429" class="tag" fill="var(--flow)">↓ to 11 kV</text>
+        <circle class="tx" cx="104" cy="487" r="14"/><circle class="tx" cx="104" cy="505" r="14"/>
+        <text x="146" y="492" font-weight="600">Local substation</text><text x="146" y="509" class="tag" fill="var(--flow)">↓ to 400 / 230 V</text>
+        <path d="M74,600 V572 L104,550 L134,572 V600 Z" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="146" y="574" font-weight="600">Homes</text><text x="146" y="591" class="tag" fill="var(--flow)">230 V</text><text x="146" y="608" class="small">400 V three-phase or 230 V</text>
+        <text x="146" y="640" class="small">Line thickness shows the current:</text><text x="146" y="656" class="small">thin at high voltage, thick at low.</text>
+      </svg>
     </div>
     <p class="caption">Exact voltages vary by region, but this is the usual chain. The voltage is stepped down in stages, not in one jump. Your local substation (the green box at the end of the street, or a pole-mounted transformer in the country) takes 11 kV down to 400 V three-phase, which gives 230 V to each home.</p>
   </section>
@@ -184,16 +214,16 @@
       <h3 id="w3">Turns ratio</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 600 260" role="img" aria-labelledby="w3d" style="max-width:640px;margin:0 auto">
+      <svg id="txSvg" viewBox="0 0 600 260" role="img" aria-labelledby="w3d" style="max-width:640px;margin:0 auto">
         <title id="w3d">A transformer core with the primary coil on the left and the secondary on the right. The number of loops drawn shows the turns ratio.</title>
-        <rect class="core" x="170" y="40" width="260" height="170"/>
+        <rect id="core" class="core" x="170" y="40" width="260" height="170"/>
         <rect id="flux" class="flux" x="170" y="40" width="260" height="170"/>
         <g id="coilP"></g>
         <g id="coilS"></g>
-        <text x="60" y="30" class="small">Primary (input)</text>
+        <text id="lblP" x="60" y="30" class="small">Primary (input)</text>
         <text id="tVp" class="tag" x="60" y="128">11 kV</text>
         <text id="tNp" class="small" x="60" y="146">4,783 turns</text>
-        <text x="490" y="30" class="small">Secondary (output)</text>
+        <text id="lblS" x="490" y="30" class="small">Secondary (output)</text>
         <text id="tVs" class="tag" x="490" y="128">230 V</text>
         <text id="tNs" class="small" x="490" y="146">100 turns</text>
         <text x="300" y="242" text-anchor="middle" class="small" id="tFlux">Orange dashes: magnetic field in the core, reversing 50 times a second</text>
@@ -266,6 +296,23 @@
     bell: { vp: 230, np: 2300, ns: 80, p: 8 }
   };
   var tx = { vp: 11000, np: 4783, ns: 100, p: 10000, dc: false };
+  // Wide: labels either side of the core. Narrow (phones): narrower core, labels in two columns underneath.
+  var TG = { wide: { vb: "0 0 600 260", cx: [170, 430], lead: [120, 480], core: [170, 260], lbl: { P: [60, 30, 128, 146], S: [490, 30, 128, 146] }, flux: [300, 242] },
+             narrow: { vb: "0 0 360 282", cx: [92, 268], lead: [52, 308], core: [92, 176], lbl: { P: [8, 240, 258, 274], S: [196, 240, 258, 274] }, flux: [180, 20] } };
+  var txMode = "wide";
+  function txLayout(m) {
+    txMode = m; var G = TG[m];
+    $("txSvg").setAttribute("viewBox", G.vb);
+    ["core", "flux"].forEach(function (id) { $(id).setAttribute("x", G.core[0]); $(id).setAttribute("width", G.core[1]); });
+    [["lblP", "tVp", "tNp", "P"], ["lblS", "tVs", "tNs", "S"]].forEach(function (r) {
+      var L = G.lbl[r[3]];
+      $(r[0]).setAttribute("x", L[0]); $(r[0]).setAttribute("y", L[1]);
+      $(r[1]).setAttribute("x", L[0]); $(r[1]).setAttribute("y", L[2]);
+      $(r[2]).setAttribute("x", L[0]); $(r[2]).setAttribute("y", L[3]);
+    });
+    $("tFlux").setAttribute("x", G.flux[0]); $("tFlux").setAttribute("y", G.flux[1]);
+    renderTx();
+  }
   function coil(x, n, max, cls) {
     var loops = Math.max(2, Math.min(14, Math.round(14 * n / max)));
     var top = 125 - loops * 6, d = "M" + (x - 30) + "," + top;
@@ -275,20 +322,22 @@
            " C" + (x + 24) + "," + (y + 10) + " " + (x - 24) + "," + (y + 2) + " " + (x - 24) + "," + (y + 12);
     }
     return '<path class="' + cls + '" d="' + d.replace(/^M[^ ]+ /, "") + '"/>' +
-      '<path class="' + cls + '" d="M' + (x - 24) + "," + top + " H" + (cls === "coil-p" ? 120 : 480) + '" stroke-width="2.5"/>' +
-      '<path class="' + cls + '" d="M' + (x - 24) + "," + (top + loops * 12) + " H" + (cls === "coil-p" ? 120 : 480) + '" stroke-width="2.5"/>';
+      '<path class="' + cls + '" d="M' + (x - 24) + "," + top + " H" + TG[txMode].lead[cls === "coil-p" ? 0 : 1] + '" stroke-width="2.5"/>' +
+      '<path class="' + cls + '" d="M' + (x - 24) + "," + (top + loops * 12) + " H" + TG[txMode].lead[cls === "coil-p" ? 0 : 1] + '" stroke-width="2.5"/>';
   }
   function renderTx() {
     var max = Math.max(tx.np, tx.ns);
-    $("coilP").innerHTML = coil(170, tx.np, max, "coil-p");
-    $("coilS").innerHTML = coil(430, tx.ns, max, "coil-s");
+    $("coilP").innerHTML = coil(TG[txMode].cx[0], tx.np, max, "coil-p");
+    $("coilS").innerHTML = coil(TG[txMode].cx[1], tx.ns, max, "coil-s");
     var vs = tx.dc ? 0 : tx.vp * tx.ns / tx.np;
     $("tVp").textContent = Course.si(tx.vp, "V") + (tx.dc ? " DC" : "");
     $("tNp").textContent = tx.np.toLocaleString("en-GB") + " turns";
     $("tVs").textContent = Course.si(vs, "V");
     $("tNs").textContent = tx.ns.toLocaleString("en-GB") + " turns";
     $("flux").classList.toggle("dc", tx.dc);
-    $("tFlux").textContent = tx.dc ? "DC: a steady field in the core induces nothing in the secondary" : "Orange dashes: magnetic field in the core, reversing 50 times a second";
+    $("tFlux").textContent = txMode === "narrow"
+      ? (tx.dc ? "DC: a steady field induces nothing" : "Orange dashes: the core's changing field")
+      : (tx.dc ? "DC: a steady field in the core induces nothing in the secondary" : "Orange dashes: magnetic field in the core, reversing 50 times a second");
     $("rVs").textContent = Course.si(vs, "V");
     $("rVss").innerHTML = tx.dc ? "No changing field, no output" : "V<sub>p</sub> × " + Course.frac("N<sub>s</sub>", "N<sub>p</sub>") + " = " + f(tx.vp) + " × " + Course.frac(tx.ns, tx.np);
     $("rIp").textContent = tx.dc ? "—" : Course.si(tx.p / tx.vp, "A");
@@ -311,7 +360,8 @@
     this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
     renderTx();
   });
-  syncInputs(); renderTx();
+  syncInputs();
+  Course.layout($("txSvg").parentNode, 600, txLayout);
 
   Course.quiz("#quiz", [
     { q: "Why does the National Grid transmit at such high voltages?",

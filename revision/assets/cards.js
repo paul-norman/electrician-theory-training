@@ -461,7 +461,11 @@
     { id: "cu-21", lesson: "consumer-units", q: "What does an SPD protect against?", a: "Voltage surges and spikes, e.g. from lightning or switching", accept: ["surges", "voltage surges", "surge", "spikes", "voltage spikes", "transient overvoltages", "overvoltage", "lightning", "surges and spikes"] },
     { id: "cu-22", lesson: "consumer-units", q: "What kind of fault does an AFDD detect?", a: "Dangerous arcing, e.g. from a loose connection or damaged cable", accept: ["arc", "arcs", "arcing", "arc faults", "arc fault", "arcing faults", "dangerous arcing"] },
     { id: "cu-23", lesson: "consumer-units", q: "What device and rating usually protects a domestic lighting circuit?", a: "A 6 A Type B MCB (or RCBO)", accept: ["6a", "6 a", "6a type b", "6 a type b", "b6", "6a mcb", "6 a mcb", "6a type b mcb", "6 a type b mcb", "6a rcbo", "6 amp"] },
-    { id: "cu-24", lesson: "consumer-units", q: "What rating of device usually protects a 2.5 mm² ring final socket circuit?", a: "32 A", num: 32, tol: 0, unit: "A" }
+    { id: "cu-24", lesson: "consumer-units", q: "What rating of device usually protects a 2.5 mm² ring final socket circuit?", a: "32 A", num: 32, tol: 0, unit: "A" },
+    // ---------------- Three-phase: why ----------------
+    { id: "tp-01", lesson: "three-phase", q: "Single-phase power pulses up and down 100 times a second. What is the total power like with a balanced three-phase load?", a: "Constant: one phase is always near its peak, so the total stays steady", accept: ["constant", "steady", "smooth", "it's constant", "its constant", "constant power", "steady power", "it stays constant", "even", "level"] },
+    { id: "tp-02", lesson: "three-phase", q: "Three single-phase circuits need six conductors. Roughly how many does a three-phase supply need to do the same job?", a: "Three or four: three lines, plus a shared neutral that carries almost nothing when balanced", num: 4, tol: 0.25 },
+    { id: "tp-03", lesson: "three-phase", q: "Three phases fed to three sets of motor windings make a magnetic field that does what?", a: "Rotates on its own, so the motor starts itself", accept: ["rotates", "it rotates", "spins", "turns", "rotating", "a rotating field", "rotates by itself", "goes round", "rotate"] }
 
   ];
 })();

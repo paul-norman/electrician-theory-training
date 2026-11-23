@@ -276,6 +276,15 @@
     el.classList.toggle("rev", !!reverse);
     if (d) el.style.setProperty("--dur", d.toFixed(2) + "s");
   }
+  // Responsive diagrams: calls fn("narrow" | "wide", width) now and whenever the element's width
+  // crosses the breakpoint, so a diagram can redraw itself in a layout suited to the space.
+  function layout(el, breakpoint, fn) {
+    if (typeof el === "string") el = document.querySelector(el);
+    var cur = null;
+    function check() { var w = el.clientWidth, m = w < breakpoint ? "narrow" : "wide"; if (m !== cur) { cur = m; fn(m, w); } }
+    if (window.ResizeObserver) new ResizeObserver(check).observe(el); else window.addEventListener("resize", check);
+    check();
+  }
   function rand(a, b) { return a + Math.random() * (b - a); }
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
@@ -365,6 +374,45 @@
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
   })();
 
+  // ---- Scroll position on reload / Back: restore it ourselves.
+  // The browser's own restore re-finds an "anchor" element, and inside widgets (whose contents are
+  // rebuilt on every click) it can pick the wrong one and land in the wrong place. The diagrams are
+  // drawn by script, so once the page's scripts have run a plain pixel offset is reliable.
+  (function () {
+    try {
+      if (!("scrollRestoration" in history)) return;
+      history.scrollRestoration = "manual";
+      var KEY = "scroll:" + location.pathname;
+      addEventListener("pagehide", function () { try { sessionStorage.setItem(KEY, String(scrollY)); } catch (e) {} });
+      var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+      if (!nav || (nav.type !== "reload" && nav.type !== "back_forward") || location.hash) return;
+      var y = parseFloat(sessionStorage.getItem(KEY));
+      if (!(y > 0)) return;
+      var moved = false;
+      var go = function () { if (!moved) scrollTo(0, y); };
+      // Run after the page's own scripts have built the diagrams, then again once fonts and images
+      // have settled (the browser nudges the offset as fonts swap in), unless the reader has taken over.
+      // Only real input counts as taking over: scroll events also fire for the browser's own nudges.
+      ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (t) {
+        addEventListener(t, function () { moved = true; }, { passive: true, capture: true });
+      });
+      document.addEventListener("DOMContentLoaded", go);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setTimeout(go, 0); });
+      addEventListener("load", function () { setTimeout(go, 0); });
+    } catch (e) { /* storage blocked: the browser just starts at the top */ }
+  })();
+
+  // ---- Clickable diagram parts: focus them without scrolling.
+  // Browsers scroll a newly focused element into view, and some SVG groups have odd bounding
+  // boxes, so a click could make the page jump. Pressing with a mouse or finger now focuses
+  // in place (and doesn't start a text selection); keyboard focus behaves as normal.
+  document.addEventListener("mousedown", function (e) {
+    var t = e.target.closest && e.target.closest("svg [tabindex]");
+    if (!t) return;
+    e.preventDefault();
+    try { t.focus({ preventScroll: true }); } catch (err) { /* very old browsers: skip focusing */ }
+  });
+
   // ---- Acronyms: tap an <abbr title> to see its meaning (hover tooltips don't work on touch screens)
   (function () {
     var tip = null;
@@ -388,7 +436,7 @@
 
   window.Course = {
     MODULES: MODULES, ACRONYMS: ACRONYMS, score: score, frac: frac, quiz: quiz, practice: practice, triangle: triangle,
-    sig: sig, si: si, cssVar: cssVar, setFlow: setFlow, rand: rand, pick: pick
+    sig: sig, si: si, layout: layout, cssVar: cssVar, setFlow: setFlow, rand: rand, pick: pick
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", nav); else nav();
 })();

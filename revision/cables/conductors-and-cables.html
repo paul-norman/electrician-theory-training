@@ -25,7 +25,7 @@
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p>A cable is conductors, insulation and an outer sheath. The best conductors are silver, then copper, gold and aluminium; copper is used for almost all wiring because it conducts nearly as well as silver at a fraction of the price. A conductor's resistance is R = <span class="frac"><span>ρ × L</span><span>A</span></span>: it rises with length and falls with cross-sectional area. Cable sizes are that area (<abbr title="cross-sectional area">CSA</abbr>) in mm², not a diameter: "2.5 mm²" cable has conductors about 1.8 mm across. Twin and earth has brown and blue insulated cores and a bare copper <abbr title="circuit protective conductor">CPC</abbr>, which must be sleeved green and yellow wherever it's exposed. Current heats a conductor (P = I²R); general-purpose <abbr title="polyvinyl chloride">PVC</abbr> insulation is rated for conductors up to 70 °C. So a bigger load needs a bigger <abbr title="cross-sectional area">CSA</abbr>, and how much current a cable can safely carry also depends on how easily its heat can escape.</p>
+    <p>A cable is made up of conductors, insulation and an outer sheath. The best conductors are silver, then copper, gold and aluminium; copper is used for almost all wiring because it conducts nearly as well as silver at a fraction of the price. A conductor's resistance is R = <span class="frac"><span>ρ × L</span><span>A</span></span>: it rises with length and falls with cross-sectional area. Cable sizes are that area (<abbr title="cross-sectional area">CSA</abbr>) in mm², not a diameter: "2.5 mm²" cable has conductors about 1.8 mm across. Twin and earth has brown and blue insulated cores and a bare copper <abbr title="circuit protective conductor">CPC</abbr>, which must be sleeved green and yellow wherever it's exposed. Current heats a conductor (P = I²R); general-purpose <abbr title="polyvinyl chloride">PVC</abbr> insulation is rated for conductors up to 70 °C. So a bigger load needs a bigger <abbr title="cross-sectional area">CSA</abbr>, and how much current a cable can safely carry also depends on how easily its heat can escape.</p>
   </aside>
 
   <section class="prose">
@@ -45,7 +45,7 @@
       <h3 id="w1">Inside flat twin and earth</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 720 260" class="wide" role="img" aria-labelledby="w1d">
+      <svg id="teSvg" viewBox="0 0 720 260" class="wide" role="img" aria-labelledby="w1d">
         <title id="w1d">Cross-section of flat twin and earth cable: a grey oval sheath containing a brown insulated line core, a bare copper protective conductor in the middle, and a blue insulated neutral core.</title>
         <g id="cable"></g>
       </svg>
@@ -163,6 +163,7 @@
     "10": [4.0, 1.0, 1.2, "Electric showers, EV chargers"]
   };
   var K = 13; // px per mm
+  var teMode = "wide";
   var dia = function (a) { return 2 * Math.sqrt(a / Math.PI); };
   var cur = "2.5";
   // Explicit order: object keys like "10" would otherwise sort before "1.0"
@@ -174,7 +175,8 @@
   function drawCable() {
     var t = TE[cur], a = parseFloat(cur), dc = dia(a) * K, ins = t[1] * K, dcp = dia(t[0]) * K, sh = t[2] * K;
     var core = dc / 2 + ins, gap = 0.4 * K;
-    var cy = 130, cx = 200;
+    var N = teMode === "narrow", cy = N ? 92 : 130, cx = N ? 180 : 200;
+    $("teSvg").setAttribute("viewBox", N ? "0 0 360 318" : "0 0 720 260"); $("teSvg").classList.toggle("wide", !N);
     var xL = cx - (core + gap + dcp / 2), xN = cx + (core + gap + dcp / 2);
     var h = 2 * core + 2 * sh, w = (xN + core + sh) - (xL - core - sh);
     var x0 = xL - core - sh;
@@ -191,11 +193,21 @@
       [x0 + w - sh * 0.5, cy + h / 2 - 4, 168, "Sheath: grey PVC"],
       [xL, cy, 200, "Copper conductor, " + cur + " mm²"]
     ];
-    labels.forEach(function (l) {
-      g += '<path class="leader" d="M' + l[0].toFixed(1) + "," + l[1].toFixed(1) + " L" + (lx - 14) + "," + l[2] + " H" + (lx - 4) + '"/>' +
-        '<circle cx="' + l[0].toFixed(1) + '" cy="' + l[1].toFixed(1) + '" r="2.5" fill="var(--fg)"/>' +
-        '<text x="' + lx + '" y="' + (l[2] + 4) + '">' + l[3] + "</text>";
-    });
+    if (N) {
+      // Phones: a key under the cable, each part with a colour swatch, instead of pointer lines
+      var sw = ["var(--line)", "#c8794a", "var(--neutral)", "#c9cdd1", "#c8794a"];
+      labels.forEach(function (l, k) {
+        var y = 200 + k * 23;
+        g += '<rect x="20" y="' + (y - 12) + '" width="16" height="16" rx="' + (k === 1 || k === 4 ? 8 : 3) + '" fill="' + sw[k] + '" stroke="var(--muted)" stroke-width="1"/>' +
+          '<text x="46" y="' + y + '">' + l[3] + "</text>";
+      });
+    } else {
+      labels.forEach(function (l) {
+        g += '<path class="leader" d="M' + l[0].toFixed(1) + "," + l[1].toFixed(1) + " L" + (lx - 14) + "," + l[2] + " H" + (lx - 4) + '"/>' +
+          '<circle cx="' + l[0].toFixed(1) + '" cy="' + l[1].toFixed(1) + '" r="2.5" fill="var(--fg)"/>' +
+          '<text x="' + lx + '" y="' + (l[2] + 4) + '">' + l[3] + "</text>";
+      });
+    }
     g += '<text x="' + cx + '" y="' + (cy + h / 2 + 30) + '" text-anchor="middle" class="small">About ' + f(w / K, 2) + " × " + f(h / K, 2) + " mm overall</text>";
     $("cable").innerHTML = g;
     document.querySelectorAll("#sz button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-s") === cur)); });
@@ -204,7 +216,7 @@
     $("tCPC").textContent = f(t[0], 2) + " mm²";
     $("tUse").textContent = t[3];
   }
-  drawCable();
+  Course.layout($("teSvg").parentNode, 600, function (m) { teMode = m; drawCable(); });
 
   // ---- Resistance calculator ----
   var RHO = { silver: 1.59e-8, copper: 1.72e-8, gold: 2.44e-8, aluminium: 2.82e-8 };

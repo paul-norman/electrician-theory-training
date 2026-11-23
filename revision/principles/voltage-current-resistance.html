@@ -98,59 +98,9 @@
       <h3 id="w2">A simple series circuit</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 700 310" class="wide" role="img" aria-labelledby="w2d">
+      <svg id="ser" viewBox="0 0 700 310" class="wide" role="img" aria-labelledby="w2d">
         <title id="w2d">A battery feeding a lamp and a second load in series, with the voltage at each point labelled.</title>
-        <!-- wires -->
-        <path class="wire w-plain" d="M80,146 V60 H276"/>
-        <path class="wire w-plain" d="M324,60 H560 V120"/>
-        <path class="wire w-plain" d="M560,200 V260 H80 V164"/>
-        <path id="bWire" class="wire w-plain" d="M560,120 V200"/>
-        <!-- battery -->
-        <line x1="56" y1="146" x2="104" y2="146" stroke="var(--fg)" stroke-width="3"/>
-        <line x1="68" y1="164" x2="92" y2="164" stroke="var(--fg)" stroke-width="7"/>
-        <text class="tag" x="112" y="150">+</text>
-        <text class="tag" x="112" y="172">−</text>
-        <text x="20" y="214" class="small">Supply</text>
-        <text id="tSupply" class="tag" x="20" y="232">12 V</text>
-        <!-- lamp A -->
-        <circle id="glow" class="lampglow" cx="300" cy="60" r="34" opacity="0.3"/>
-        <circle class="comp" cx="300" cy="60" r="24"/>
-        <path d="M283,43 L317,77 M317,43 L283,77" stroke="var(--fg)" stroke-width="2"/>
-        <text x="300" y="112" text-anchor="middle" class="small">Lamp (load A)</text>
-        <text id="tRA" class="tag" x="300" y="132" text-anchor="middle">R<tspan dy="4" font-size="0.75em">A</tspan><tspan dy="-4"> = 6 Ω</tspan></text>
-        <text id="tVA" class="tag" x="300" y="22" text-anchor="middle">V<tspan dy="4" font-size="0.75em">A</tspan><tspan dy="-4"> = 7.2 V</tspan></text>
-        <!-- load B -->
-        <g id="loadB">
-          <rect class="comp" x="545" y="120" width="30" height="80" rx="3"/>
-          <text x="588" y="138" class="small">Heater</text>
-          <text x="588" y="152" class="small">(load B)</text>
-          <text id="tRB" class="tag" x="588" y="176">R<tspan dy="4" font-size="0.75em">B</tspan><tspan dy="-4"> = 4 Ω</tspan></text>
-          <text id="tVB" class="tag" x="588" y="198">V<tspan dy="4" font-size="0.75em">B</tspan><tspan dy="-4"> = 4.8 V</tspan></text>
-        </g>
-        <!-- potentials -->
-        <g>
-          <rect x="94" y="72" width="74" height="22" rx="4" fill="var(--surface)" stroke="var(--rule)"/>
-          <text id="p1" class="tag" x="131" y="88" text-anchor="middle">12 V</text>
-          <rect x="446" y="72" width="74" height="22" rx="4" fill="var(--surface)" stroke="var(--rule)"/>
-          <text id="p2" class="tag" x="483" y="88" text-anchor="middle">4.8 V</text>
-          <rect x="300" y="226" width="74" height="22" rx="4" fill="var(--surface)" stroke="var(--rule)"/>
-          <text id="p3" class="tag" x="337" y="242" text-anchor="middle">0 V</text>
-          <!-- currents at the same three points -->
-          <rect x="94" y="100" width="86" height="22" rx="4" fill="var(--surface)" stroke="var(--flow)"/>
-          <text id="c1" class="tag" x="137" y="116" text-anchor="middle" fill="var(--flow)">I = 1.2 A</text>
-          <rect x="446" y="100" width="86" height="22" rx="4" fill="var(--surface)" stroke="var(--flow)"/>
-          <text id="c2" class="tag" x="489" y="116" text-anchor="middle" fill="var(--flow)">I = 1.2 A</text>
-          <rect x="380" y="226" width="86" height="22" rx="4" fill="var(--surface)" stroke="var(--flow)"/>
-          <text id="c3" class="tag" x="423" y="242" text-anchor="middle" fill="var(--flow)">I = 1.2 A</text>
-          <!-- legend -->
-          <rect x="150" y="169" width="11" height="11" rx="2" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5"/>
-          <text x="168" y="179" class="small">Grey boxes: voltage at that point, from the − terminal</text>
-          <rect x="150" y="187" width="11" height="11" rx="2" fill="var(--surface)" stroke="var(--flow)" stroke-width="1.5"/>
-          <text x="168" y="197" class="small">Orange boxes: current flowing past that point</text>
-        </g>
-        <!-- current -->
-        <path id="flow" class="flow" d="M80,146 V60 H560 V260 H80 V164"/>
-        <text id="tDir" x="200" y="292" class="small">Orange dots: conventional current, + to −</text>
+        <g id="serG"></g>
       </svg>
     </div>
     <div class="controls">
@@ -195,7 +145,7 @@
       <h3 id="w3">Voltmeter across, ammeter in series</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 520 220" role="img" aria-labelledby="w3d" style="max-width:560px;margin:0 auto">
+      <svg class="only-wide" viewBox="0 0 520 220" role="img" aria-labelledby="w3d" style="max-width:560px;margin:0 auto">
         <title id="w3d">A battery and lamp. The ammeter sits in the loop so current passes through it. The voltmeter connects across the lamp's two ends.</title>
         <path class="wire w-plain" d="M60,96 V40 H170 M230,40 H300 M360,40 H460 V180 H60 V124"/>
         <line x1="38" y1="96" x2="82" y2="96" stroke="var(--fg)" stroke-width="3"/>
@@ -207,6 +157,21 @@
         <path class="wire w-plain" d="M300,40 V120 H310 M350,120 H360 V40" stroke-width="2.5"/>
         <circle class="meter-c" cx="330" cy="120" r="22"/><text class="meter-t" x="330" y="126" text-anchor="middle">V</text>
         <text x="330" y="164" text-anchor="middle" class="small">Across the lamp: measures between two points</text>
+      </svg>
+      <svg class="only-narrow" viewBox="0 0 360 214" role="img" aria-labelledby="w3n">
+        <title id="w3n">A battery and lamp. The ammeter sits in the loop so current passes through it. The voltmeter connects across the lamp's two ends.</title>
+        <path class="wire w-plain" d="M30,96 V40 H92 M148,40 H196 M244,40 H330 V200 H30 V124"/>
+        <line x1="10" y1="96" x2="50" y2="96" stroke="var(--fg)" stroke-width="3"/>
+        <line x1="19" y1="124" x2="41" y2="124" stroke="var(--fg)" stroke-width="7"/>
+        <circle class="meter-c" cx="120" cy="40" r="28"/><text class="meter-t" x="120" y="46" text-anchor="middle">A</text>
+        <text x="112" y="92" text-anchor="middle" class="small">In series: current</text>
+        <text x="112" y="106" text-anchor="middle" class="small">flows through it</text>
+        <circle class="comp" cx="220" cy="40" r="24"/>
+        <path d="M203,23 L237,57 M237,23 L203,57" stroke="var(--fg)" stroke-width="2"/>
+        <path class="wire w-plain" d="M196,40 V120 H200 M240,120 H244 V40" stroke-width="2.5"/>
+        <circle class="meter-c" cx="220" cy="120" r="20"/><text class="meter-t" x="220" y="126" text-anchor="middle">V</text>
+        <text x="220" y="164" text-anchor="middle" class="small">Across the lamp:</text>
+        <text x="220" y="178" text-anchor="middle" class="small">measures between two points</text>
       </svg>
     </div>
   </section>
@@ -225,6 +190,49 @@
   var st = { v: 12, ra: 6, rb: 4, b: true, dir: "conv" };
   var $ = function (id) { return document.getElementById(id); };
   var f = function (x) { return Course.sig(x, 3); };
+  // ---- series circuit diagram: wide layout, or a narrower one for phones ----
+  var SG = {
+    wide: { vb: "0 0 700 310", S: 80, T: 60, Lx: 300, H: 560, Hy1: 120, Hy2: 200, Bt: 260, pm: 112, sup: [20, 214], lampLbl: [112, 132],
+      hx: 588, hAnchor: "start", hy: [138, 152, 176, 198], p1: [94, 72], c1: [94, 100], p2: [446, 72], c2: [446, 100], p3: [300, 226], c3: [380, 226],
+      leg: [150, 169], dir: [200, 292] },
+    narrow: { vb: "0 0 360 374", S: 40, T: 60, Lx: 190, H: 320, Hy1: 128, Hy2: 208, Bt: 292, pm: 70, sup: [50, 206], lampLbl: [108, 126],
+      hx: 296, hAnchor: "end", hy: [142, 156, 178, 200], p1: [52, 72], c1: [52, 100], p2: [230, 72], c2: [230, 100], p3: [118, 256], c3: [200, 256],
+      leg: [14, 312], dir: [14, 364] }
+  };
+  function buildSer(m) {
+    var G = SG[m], S = G.S, T = G.T, L = G.Lx, H = G.H;
+    var box = function (xy, w, stroke, id, txt, fill) {
+      return '<rect x="' + xy[0] + '" y="' + xy[1] + '" width="' + w + '" height="22" rx="4" fill="var(--surface)" stroke="' + stroke + '"/>' +
+        '<text id="' + id + '" class="tag" x="' + (xy[0] + w / 2) + '" y="' + (xy[1] + 16) + '" text-anchor="middle"' + (fill ? ' fill="' + fill + '"' : "") + ">" + txt + "</text>";
+    };
+    var ht = function (k, cls, id, inner) { return '<text' + (id ? ' id="' + id + '"' : "") + ' x="' + G.hx + '" y="' + G.hy[k] + '" class="' + cls + '" text-anchor="' + G.hAnchor + '">' + inner + "</text>"; };
+    $("ser").setAttribute("viewBox", G.vb); $("ser").classList.toggle("wide", m === "wide");
+    $("serG").innerHTML =
+      '<path class="wire w-plain" d="M' + S + ',146 V' + T + ' H' + (L - 24) + '"/>' +
+      '<path class="wire w-plain" d="M' + (L + 24) + ',' + T + ' H' + H + ' V' + G.Hy1 + '"/>' +
+      '<path class="wire w-plain" d="M' + H + ',' + G.Hy2 + ' V' + G.Bt + ' H' + S + ' V164"/>' +
+      '<path id="bWire" class="wire w-plain" d="M' + H + ',' + G.Hy1 + ' V' + G.Hy2 + '"/>' +
+      '<line x1="' + (S - 24) + '" y1="146" x2="' + (S + 24) + '" y2="146" stroke="var(--fg)" stroke-width="3"/>' +
+      '<line x1="' + (S - 12) + '" y1="164" x2="' + (S + 12) + '" y2="164" stroke="var(--fg)" stroke-width="7"/>' +
+      '<text class="tag" x="' + G.pm + '" y="150">+</text><text class="tag" x="' + G.pm + '" y="172">−</text>' +
+      '<text x="' + G.sup[0] + '" y="' + G.sup[1] + '" class="small">Supply</text><text id="tSupply" class="tag" x="' + G.sup[0] + '" y="' + (G.sup[1] + 18) + '">12 V</text>' +
+      '<circle id="glow" class="lampglow" cx="' + L + '" cy="' + T + '" r="34" opacity="0.3"/>' +
+      '<circle class="comp" cx="' + L + '" cy="' + T + '" r="24"/>' +
+      '<path d="M' + (L - 17) + ',' + (T - 17) + ' L' + (L + 17) + ',' + (T + 17) + ' M' + (L + 17) + ',' + (T - 17) + ' L' + (L - 17) + ',' + (T + 17) + '" stroke="var(--fg)" stroke-width="2"/>' +
+      '<text x="' + L + '" y="' + G.lampLbl[0] + '" text-anchor="middle" class="small">Lamp (load A)</text>' +
+      '<text id="tRA" class="tag" x="' + L + '" y="' + G.lampLbl[1] + '" text-anchor="middle"></text>' +
+      '<text id="tVA" class="tag" x="' + L + '" y="22" text-anchor="middle"></text>' +
+      '<g id="loadB"><rect class="comp" x="' + (H - 15) + '" y="' + G.Hy1 + '" width="30" height="' + (G.Hy2 - G.Hy1) + '" rx="3"/>' +
+        ht(0, "small", null, "Heater") + ht(1, "small", null, "(load B)") + ht(2, "tag", "tRB", "") + ht(3, "tag", "tVB", "") + "</g>" +
+      box(G.p1, 74, "var(--rule)", "p1", "12 V") + box(G.p2, 74, "var(--rule)", "p2", "4.8 V") + box(G.p3, 74, "var(--rule)", "p3", "0 V") +
+      box(G.c1, 86, "var(--flow)", "c1", "", "var(--flow)") + box(G.c2, 86, "var(--flow)", "c2", "", "var(--flow)") + box(G.c3, 86, "var(--flow)", "c3", "", "var(--flow)") +
+      '<rect x="' + G.leg[0] + '" y="' + G.leg[1] + '" width="11" height="11" rx="2" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5"/>' +
+      '<text x="' + (G.leg[0] + 18) + '" y="' + (G.leg[1] + 10) + '" class="small">Grey boxes: voltage at that point, from the − terminal</text>' +
+      '<rect x="' + G.leg[0] + '" y="' + (G.leg[1] + 18) + '" width="11" height="11" rx="2" fill="var(--surface)" stroke="var(--flow)" stroke-width="1.5"/>' +
+      '<text x="' + (G.leg[0] + 18) + '" y="' + (G.leg[1] + 28) + '" class="small">Orange boxes: current flowing past that point</text>' +
+      '<path id="flow" class="flow" d="M' + S + ',146 V' + T + ' H' + H + ' V' + G.Bt + ' H' + S + ' V164"/>' +
+      '<text id="tDir" x="' + G.dir[0] + '" y="' + G.dir[1] + '" class="small"></text>';
+  }
   function render() {
     var rt = st.ra + (st.b ? st.rb : 0);
     var I = st.v / rt, va = I * st.ra, vb = st.b ? I * st.rb : 0;
@@ -258,7 +266,7 @@
     this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
     render();
   });
-  render();
+  Course.layout($("ser").parentNode, 600, function (m) { buildSer(m); render(); });
 
   Course.quiz("#quiz", [
     { q: "How do you connect a voltmeter to measure the voltage across a lamp?",

@@ -118,7 +118,7 @@
       <h3 id="w2">Three layers of protection</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 720 250" class="wide prot" role="img" aria-labelledby="w2d">
+      <svg class="wide prot only-wide" viewBox="0 0 720 250" role="img" aria-labelledby="w2d">
         <title id="w2d">Three panels. Basic protection: insulation around a live conductor. Fault protection: a metal case connected by a circuit protective conductor to earth, with a circuit breaker that disconnects the supply. Additional protection: a 30 milliamp RCD.</title>
         <rect class="pb" x="10" y="10" width="220" height="230" rx="10"/>
         <rect class="pb" x="250" y="10" width="220" height="230" rx="10"/>
@@ -150,6 +150,39 @@
         <text x="600" y="190" text-anchor="middle" class="small">Trips on a small leakage,</text>
         <text x="600" y="205" text-anchor="middle" class="small">a backup if basic or fault</text>
         <text x="600" y="220" text-anchor="middle" class="small">protection fails</text>
+      </svg>
+      <svg class="prot only-narrow" viewBox="0 0 360 478" role="img" aria-labelledby="w2n">
+        <title id="w2n">Three panels. Basic protection: insulation around a live conductor. Fault protection: a metal case connected by a circuit protective conductor to earth, with a circuit breaker that disconnects the supply. Additional protection: a 30 milliamp RCD.</title>
+        <rect class="pb" x="6" y="6" width="348" height="150" rx="10"/>
+        <text x="186" y="40" font-weight="600">Basic protection</text>
+        <g transform="translate(-30,-29)"><circle cx="120" cy="120" r="46" fill="var(--line)"/>
+        <circle cx="120" cy="120" r="24" fill="#c8794a" stroke="#8a4d2b"/></g>
+        <text x="186" y="66" class="small">Insulation keeps the</text>
+        <text x="186" y="83" class="small">live conductor out of</text>
+        <text x="186" y="100" class="small">reach when nothing's</text>
+        <text x="186" y="117" class="small">wrong</text>
+        <rect class="pb" x="6" y="164" width="348" height="150" rx="10"/>
+        <text x="186" y="198" font-weight="600">Fault protection</text>
+        <g transform="translate(-272,118)"><rect x="290" y="62" width="90" height="76" rx="6" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="3"/>
+        <text x="335" y="104" text-anchor="middle" class="small">metal case</text>
+        <path d="M380,120 H420 V160" class="wire w-cpc-g" style="stroke-width:3"/><path d="M380,120 H420 V160" class="wire w-cpc-y" style="stroke-width:3"/>
+        <path d="M408,160 H432 M412,166 H428 M417,172 H423" stroke="var(--cpc-g)" stroke-width="2.5"/>
+        <text x="426" y="114" class="small">CPC</text>
+        <rect x="296" y="150" width="50" height="22" rx="3" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>
+        <text x="321" y="166" text-anchor="middle" class="tag" style="font-size:11px">MCB</text></g>
+        <text x="186" y="224" class="small">If a fault makes the</text>
+        <text x="186" y="241" class="small">case live, earthing lets</text>
+        <text x="186" y="258" class="small">enough current flow to</text>
+        <text x="186" y="275" class="small">trip the breaker fast</text>
+        <rect class="pb" x="6" y="322" width="348" height="150" rx="10"/>
+        <text x="186" y="356" font-weight="600">Additional protection</text>
+        <g transform="translate(-510,297)"><rect x="560" y="70" width="80" height="70" rx="6" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="600" y="100" text-anchor="middle" class="tag">RCD</text>
+        <text x="600" y="120" text-anchor="middle" class="tag" fill="var(--flow)">30 mA</text></g>
+        <text x="186" y="382" class="small">Trips on a small</text>
+        <text x="186" y="399" class="small">leakage: a backup if</text>
+        <text x="186" y="416" class="small">basic or fault</text>
+        <text x="186" y="433" class="small">protection fails</text>
       </svg>
     </div>
   </section>

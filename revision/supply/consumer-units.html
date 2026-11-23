@@ -52,96 +52,9 @@
       <h3 id="w0">Inside a consumer unit for a small flat</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 760 350" class="wide" role="img" aria-labelledby="w0d">
+      <svg id="ovSvg" viewBox="0 0 760 350" class="wide" role="img" aria-labelledby="w0d">
         <title id="w0d">Wiring inside a modern UK consumer unit. Meter tails enter from the top into the main switch on the right. The main switch's line output feeds a busbar along the bottom, which feeds three RCBOs: cooker 32 amps, sockets 32 amps and lights 6 amps, numbered from the right. The main switch's neutral output feeds the neutral bar at the top. Each RCBO has a flying neutral lead to the neutral bar. Each circuit cable enters from the top: its line and neutral connect to the top of its RCBO, crossing the bars without connecting, and its CPC connects to the earth bar, which is also connected to the earthing conductor.</title>
-        <text x="22" y="70" class="tag" text-anchor="start">Key</text>
-        <path class="wire w-line" d="M22,92 H62" style="stroke-width:4"/><text x="74" y="96" class="small" text-anchor="start">Line</text>
-        <path class="wire w-neutral" d="M22,117 H62" style="stroke-width:4"/><text x="74" y="121" class="small" text-anchor="start">Neutral</text>
-        <path class="wire w-cpc-g" d="M22,142 H62" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M22,142 H62" style="stroke-width:3.5"/><text x="74" y="146" class="small" text-anchor="start">CPC and earthing conductor</text>
-        <rect x="22" y="162" width="40" height="10" rx="2" fill="var(--line)"/><text x="74" y="171" class="small" text-anchor="start">Busbar: feeds every RCBO</text>
-        <rect x="22" y="187" width="40" height="10" rx="2" fill="var(--neutral)"/><text x="74" y="196" class="small" text-anchor="start">Neutral bar</text>
-        <rect x="22" y="212" width="40" height="10" rx="2" fill="var(--cpc-g)"/><text x="74" y="221" class="small" text-anchor="start">Earth bar</text>
-        <path d="M24,242 c6,-10 12,10 18,0 s12,10 18,0" fill="none" stroke="var(--neutral)" stroke-width="2.5"/><text x="74" y="246" class="small" text-anchor="start">RCBO flying neutral lead</text>
-        <path class="wire w-plain" d="M22,267 H62" style="stroke-width:2"/><circle cx="42" cy="267" r="4.5" fill="var(--fg)"/><text x="74" y="271" class="small" text-anchor="start">Joint: connected</text>
-        <rect x="22" y="287" width="40" height="10" rx="2" fill="var(--neutral)"/><path d="M42,283 V301" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/><path class="wire w-line" d="M42,280 V304" style="stroke-width:3"/><text x="74" y="296" class="small" text-anchor="start">Crossing: not connected</text>
-        <rect x="330" y="70" width="360" height="270" rx="10" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2.5"/>
-        
-        <rect x="395" y="114" width="190" height="12" rx="2" fill="var(--cpc-g)"/>
-        <rect x="395" y="139" width="190" height="12" rx="2" fill="var(--neutral)"/>
-        <rect x="415" y="286" width="215" height="10" rx="2" fill="var(--line)"/>
-        
-        <path class="wire w-cpc-g" d="M368,10 V120 H395" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M368,10 V120 H395" style="stroke-width:3.5"/>
-        <circle cx="400" cy="120" r="4.5" fill="var(--fg)"/>
-        <text x="360" y="24" class="small" text-anchor="end">Earthing</text>
-        <text x="360" y="38" class="small" text-anchor="end">conductor</text>
-        <path class="wire w-line" d="M618,10 V170" style="stroke-width:6"/>
-        <path class="wire w-neutral" d="M652,10 V170" style="stroke-width:6"/>
-        <text x="664" y="26" class="small" text-anchor="start">Meter tails</text>
-        <text x="664" y="40" class="small" text-anchor="start">from the meter</text>
-        <rect x="600" y="170" width="70" height="100" rx="5" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
-        <text x="635" y="186" class="tag" text-anchor="middle" style="font-size:11px">MAIN</text>
-        <text x="635" y="198" class="tag" text-anchor="middle" style="font-size:11px">SWITCH</text>
-        <rect x="623" y="204" width="24" height="40" rx="3" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.5"/><rect id="lvMain" x="625" y="206" width="20" height="18" rx="2" fill="var(--fg)"/><text id="stMain" x="635" y="257" class="tag" text-anchor="middle" style="font-size:10px;fill:var(--ok)">ON</text>
-        <text x="635" y="267" class="tag" text-anchor="middle" style="font-size:9px">100 A</text>
-        <path class="wire w-line" d="M618,270 V286" style="stroke-width:4"/>
-        <circle cx="618" cy="291" r="4.5" fill="var(--fg)"/>
-        <path class="wire w-neutral" d="M652,270 V319 H380 V145 H395" style="stroke-width:4"/>
-        <circle cx="400" cy="145" r="4.5" fill="var(--fg)"/>
-        <path class="wire w-line" d="M550,270 V286" style="stroke-width:4"/>
-        <circle cx="550" cy="291" r="4.5" fill="var(--fg)"/>
-        <rect x="530" y="170" width="40" height="100" rx="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
-        <text x="550" y="184" class="tag" text-anchor="middle" style="font-size:9px">RCBO</text>
-        <rect x="543" y="190" width="14" height="36" rx="2" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/><rect id="lvR1" x="545" y="192" width="10" height="16" rx="2" fill="var(--fg)"/><text id="stR1" x="550" y="238" class="tag" text-anchor="middle" style="font-size:8.5px;fill:var(--ok)">ON</text>
-        <circle cx="550" cy="250" r="4" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.3"/>
-        <text x="550" y="266" class="tag" text-anchor="middle" style="font-size:9px">32 A</text>
-        <path d="M566,172 c-8,-4 8,-8 0,-12 s8,-6 0,-9" fill="none" stroke="var(--neutral)" stroke-width="2.5"/>
-        <circle cx="566" cy="145" r="4.5" fill="var(--fg)"/>
-        <path class="wire w-line" d="M490,270 V286" style="stroke-width:4"/>
-        <circle cx="490" cy="291" r="4.5" fill="var(--fg)"/>
-        <rect x="470" y="170" width="40" height="100" rx="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
-        <text x="490" y="184" class="tag" text-anchor="middle" style="font-size:9px">RCBO</text>
-        <rect x="483" y="190" width="14" height="36" rx="2" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/><rect id="lvR2" x="485" y="192" width="10" height="16" rx="2" fill="var(--fg)"/><text id="stR2" x="490" y="238" class="tag" text-anchor="middle" style="font-size:8.5px;fill:var(--ok)">ON</text>
-        <circle cx="490" cy="250" r="4" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.3"/>
-        <text x="490" y="266" class="tag" text-anchor="middle" style="font-size:9px">32 A</text>
-        <path d="M506,172 c-8,-4 8,-8 0,-12 s8,-6 0,-9" fill="none" stroke="var(--neutral)" stroke-width="2.5"/>
-        <circle cx="506" cy="145" r="4.5" fill="var(--fg)"/>
-        <path class="wire w-line" d="M430,270 V286" style="stroke-width:4"/>
-        <circle cx="430" cy="291" r="4.5" fill="var(--fg)"/>
-        <rect x="410" y="170" width="40" height="100" rx="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
-        <text x="430" y="184" class="tag" text-anchor="middle" style="font-size:9px">RCBO</text>
-        <rect x="423" y="190" width="14" height="36" rx="2" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/><rect id="lvR3" x="425" y="192" width="10" height="16" rx="2" fill="var(--fg)"/><text id="stR3" x="430" y="238" class="tag" text-anchor="middle" style="font-size:8.5px;fill:var(--ok)">ON</text>
-        <circle cx="430" cy="250" r="4" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.3"/>
-        <text x="430" y="266" class="tag" text-anchor="middle" style="font-size:9px">6 A</text>
-        <path d="M446,172 c-8,-4 8,-8 0,-12 s8,-6 0,-9" fill="none" stroke="var(--neutral)" stroke-width="2.5"/>
-        <circle cx="446" cy="145" r="4.5" fill="var(--fg)"/>
-        <path d="M540,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
-        <path class="wire w-line" d="M540,62 V172" style="stroke-width:4"/>
-        <path d="M552,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
-        <path class="wire w-neutral" d="M552,62 V172" style="stroke-width:4"/>
-        <path class="wire w-cpc-g" d="M564,62 V114" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M564,62 V114" style="stroke-width:3.5"/>
-        <circle cx="564" cy="120" r="4.5" fill="var(--fg)"/>
-        <rect x="532" y="44" width="40" height="20" rx="6" fill="#c9cdd1" stroke="var(--muted)" stroke-width="1.2"/>
-        <text x="552" y="20" class="small" text-anchor="middle" style="font-weight:600;fill:var(--fg);font-size:11px">1. Cooker</text>
-        <text x="552" y="34" class="small" text-anchor="middle" style="font-size:11px">32 A</text>
-        <path d="M480,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
-        <path class="wire w-line" d="M480,62 V172" style="stroke-width:4"/>
-        <path d="M492,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
-        <path class="wire w-neutral" d="M492,62 V172" style="stroke-width:4"/>
-        <path class="wire w-cpc-g" d="M504,62 V114" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M504,62 V114" style="stroke-width:3.5"/>
-        <circle cx="504" cy="120" r="4.5" fill="var(--fg)"/>
-        <rect x="472" y="44" width="40" height="20" rx="6" fill="#c9cdd1" stroke="var(--muted)" stroke-width="1.2"/>
-        <text x="492" y="20" class="small" text-anchor="middle" style="font-weight:600;fill:var(--fg);font-size:11px">2. Sockets</text>
-        <text x="492" y="34" class="small" text-anchor="middle" style="font-size:11px">32 A</text>
-        <path d="M420,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
-        <path class="wire w-line" d="M420,62 V172" style="stroke-width:4"/>
-        <path d="M432,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
-        <path class="wire w-neutral" d="M432,62 V172" style="stroke-width:4"/>
-        <path class="wire w-cpc-g" d="M444,62 V114" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M444,62 V114" style="stroke-width:3.5"/>
-        <circle cx="444" cy="120" r="4.5" fill="var(--fg)"/>
-        <rect x="412" y="44" width="40" height="20" rx="6" fill="#c9cdd1" stroke="var(--muted)" stroke-width="1.2"/>
-        <text x="432" y="20" class="small" text-anchor="middle" style="font-weight:600;fill:var(--fg);font-size:11px">3. Lights</text>
-        <text x="432" y="34" class="small" text-anchor="middle" style="font-size:11px">6 A</text>
-        <rect class="sw-hit" data-sw="main" x="600" y="170" width="70" height="100" rx="5" tabindex="0" role="switch" aria-checked="true" aria-label="Main switch"/><rect class="sw-hit" data-sw="r1" x="530" y="170" width="40" height="100" rx="4" tabindex="0" role="switch" aria-checked="true" aria-label="RCBO for circuit 1"/><rect class="sw-hit" data-sw="r2" x="470" y="170" width="40" height="100" rx="4" tabindex="0" role="switch" aria-checked="true" aria-label="RCBO for circuit 2"/><rect class="sw-hit" data-sw="r3" x="410" y="170" width="40" height="100" rx="4" tabindex="0" role="switch" aria-checked="true" aria-label="RCBO for circuit 3"/>
+        <g id="ovG"></g>
         <g id="flowG"></g>
       </svg>
     </div>
@@ -236,7 +149,7 @@
       <h3 id="w2">Inside an <abbr title="residual current device">RCD</abbr></h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 720 260" class="wide" role="img" aria-labelledby="w2d">
+      <svg id="rcdSvg" viewBox="0 0 720 260" class="wide" role="img" aria-labelledby="w2d">
         <title id="w2d">Line and neutral conductors pass through a ring-shaped core. A sensing coil on the core detects any difference between the two currents and trips the device.</title>
         <g id="rcdG"></g>
       </svg>
@@ -281,13 +194,13 @@
       </div>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 720 230" class="wide" role="img" aria-labelledby="w3d">
+      <svg id="cuSvg" viewBox="0 0 720 230" class="wide" role="img" aria-labelledby="w3d">
         <title id="w3d">A consumer unit front view with a main switch and a row of protective devices. Devices that trip are shown in red.</title>
         <g id="cuG"></g>
       </svg>
     </div>
-    <div class="info" id="devInfo" aria-live="polite"></div>
     <div class="circ" id="circ" aria-live="polite"></div>
+    <div class="info" id="devInfo" aria-live="polite"></div>
     <p class="caption">Tap the main switch, an RCD or a circuit's device to switch it off or on. Then add a fault and compare the two boards: on the split-load board one RCD takes three circuits off with it. Try resetting a tripped device while the fault is still there: it flicks straight back off. Choose "No fault" to clear it, then reset.</p>
   </section>
 
@@ -338,19 +251,102 @@
   var $ = function (id) { return document.getElementById(id); };
   var f = function (x, s) { return Course.sig(x, s || 3); };
 
-  // ---------------- Overview: current flow animation ----------------
+  // ---------------- Overview: board drawing, switches and current flow ----------------
+  // Drawn from one set of positions per layout. Every height is shared; only x positions change.
+  // Phones: a narrower board, circuit numbers only on the cables, and the key underneath.
   (function () {
-    var CX = [550, 490, 430];                       // RCBO centres for circuits 1, 2, 3
-    var on = [true, true, true], show = true, main = true, rcbo = [true, true, true];
+    var OV = {
+      wide: { vb: "0 0 760 350", encl: [330, 360], bar: [395, 190], bus: [415, 215], earthX: 368, ms: 600, CX: [550, 490, 430], nRoute: 380, nConn: 400, keyX: 22, keyY: 92, narrow: false },
+      narrow: { vb: "0 0 360 666", encl: [26, 324], bar: [70, 172], bus: [96, 192], earthX: 46, ms: 258, CX: [216, 166, 116], nRoute: 54, nConn: 75, keyX: 16, keyY: 392, narrow: true }
+    };
+    var NAMES = ["Cooker", "Sockets", "Lights"], RATES = ["32 A", "32 A", "6 A"];
+    var G = OV.wide, on = [true, true, true], show = true, main = true, rcbo = [true, true, true];
     var live = function (k) { return main && rcbo[k] && on[k]; };
+    var tL = function () { return G.ms + 18; }, tN = function () { return G.ms + 52; };
+    function line(d, cls, w) { return '<path class="wire ' + cls + '" d="' + d + '" style="stroke-width:' + (w || 4) + '"/>'; }
+    function halo(d) { return '<path d="' + d + '" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>'; }
+    function cpc(d, w) { return line(d, "w-cpc-g", w || 3.5) + line(d, "w-cpc-y", w || 3.5); }
+    function dot(x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="4.5" fill="var(--fg)"/>'; }
+    function text(x, y, t, cls, anchor, extra) { return '<text x="' + x + '" y="' + y + '" class="' + (cls || "small") + '" text-anchor="' + (anchor || "start") + '"' + (extra || "") + ">" + t + "</text>"; }
+    function build(m) {
+      G = OV[m];
+      var svg = document.getElementById("ovSvg"); svg.setAttribute("viewBox", G.vb); svg.classList.toggle("wide", !G.narrow);
+      var g = "", ms = G.ms, L1 = tL(), N1 = tN();
+      // key
+      var ky = G.keyY, kx = G.keyX;
+      var leg = function (sample, label) { var out = sample(kx, ky) + text(kx + 52, ky + 4, label); ky += G.narrow ? 24 : 25; return out; };
+      g += text(kx, G.keyY - 22, "Key", "tag");
+      g += leg(function (x, y) { return line("M" + x + "," + y + " H" + (x + 40), "w-line"); }, "Line");
+      g += leg(function (x, y) { return line("M" + x + "," + y + " H" + (x + 40), "w-neutral"); }, "Neutral");
+      g += leg(function (x, y) { return cpc("M" + x + "," + y + " H" + (x + 40)); }, "CPC and earthing conductor");
+      g += leg(function (x, y) { return '<rect x="' + x + '" y="' + (y - 5) + '" width="40" height="10" rx="2" fill="var(--line)"/>'; }, "Busbar: feeds every RCBO");
+      g += leg(function (x, y) { return '<rect x="' + x + '" y="' + (y - 5) + '" width="40" height="10" rx="2" fill="var(--neutral)"/>'; }, "Neutral bar");
+      g += leg(function (x, y) { return '<rect x="' + x + '" y="' + (y - 5) + '" width="40" height="10" rx="2" fill="var(--cpc-g)"/>'; }, "Earth bar");
+      g += leg(function (x, y) { return '<path d="M' + (x + 2) + "," + y + ' c6,-10 12,10 18,0 s12,10 18,0" fill="none" stroke="var(--neutral)" stroke-width="2.5"/>'; }, "RCBO flying neutral lead");
+      g += leg(function (x, y) { return line("M" + x + "," + y + " H" + (x + 40), "w-plain", 2) + dot(x + 20, y); }, "Joint: connected");
+      g += leg(function (x, y) { return '<rect x="' + x + '" y="' + (y - 5) + '" width="40" height="10" rx="2" fill="var(--neutral)"/>' + '<path d="M' + (x + 20) + "," + (y - 9) + " V" + (y + 9) + '" fill="none" stroke="var(--surface)" stroke-width="10"/>' + line("M" + (x + 20) + "," + (y - 12) + " V" + (y + 12), "w-line", 3); }, "Crossing: not connected");
+      if (G.narrow) {
+        g += text(kx, ky + 10, "Circuits: 1. Cooker 32 A · 2. Sockets 32 A · 3. Lights 6 A");
+        g += text(kx, ky + 28, "The meter tails come in at the top right, and");
+        g += text(kx, ky + 44, "the earthing conductor at the top left.");
+      }
+      // enclosure and bars
+      g += '<rect x="' + G.encl[0] + '" y="70" width="' + G.encl[1] + '" height="270" rx="10" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2.5"/>';
+      g += '<rect x="' + G.bar[0] + '" y="114" width="' + G.bar[1] + '" height="12" rx="2" fill="var(--cpc-g)"/>';
+      g += '<rect x="' + G.bar[0] + '" y="139" width="' + G.bar[1] + '" height="12" rx="2" fill="var(--neutral)"/>';
+      g += '<rect x="' + G.bus[0] + '" y="286" width="' + G.bus[1] + '" height="10" rx="2" fill="var(--line)"/>';
+      // earthing conductor and meter tails
+      g += cpc("M" + G.earthX + ",10 V120 H" + G.bar[0]) + dot(G.bar[0] + 5, 120);
+      if (!G.narrow) g += text(G.earthX - 8, 24, "Earthing", "small", "end") + text(G.earthX - 8, 38, "conductor", "small", "end");
+      g += line("M" + L1 + ",10 V170", "w-line", 6) + line("M" + N1 + ",10 V170", "w-neutral", 6);
+      if (!G.narrow) g += text(ms + 64, 26, "Meter tails") + text(ms + 64, 40, "from the meter");
+      // main switch
+      g += '<rect x="' + ms + '" y="170" width="70" height="100" rx="5" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>';
+      g += text(ms + 35, 186, "MAIN", "tag", "middle", ' style="font-size:11px"') + text(ms + 35, 198, "SWITCH", "tag", "middle", ' style="font-size:11px"');
+      g += '<rect x="' + (ms + 23) + '" y="204" width="24" height="40" rx="3" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.5"/>';
+      g += '<rect id="lvMain" x="' + (ms + 25) + '" y="206" width="20" height="18" rx="2" fill="var(--fg)"/>';
+      g += '<text id="stMain" x="' + (ms + 35) + '" y="257" class="tag" text-anchor="middle" style="font-size:10px;fill:var(--ok)">ON</text>';
+      g += text(ms + 35, 267, "100 A", "tag", "middle", ' style="font-size:9px"');
+      g += line("M" + L1 + ",270 V286", "w-line") + dot(L1, 291);
+      g += line("M" + N1 + ",270 V319 H" + G.nRoute + " V145 H" + G.bar[0], "w-neutral") + dot(G.nConn, 145);
+      // RCBOs
+      G.CX.forEach(function (cx, k) {
+        g += line("M" + cx + ",270 V286", "w-line") + dot(cx, 291);
+        g += '<rect x="' + (cx - 20) + '" y="170" width="40" height="100" rx="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>';
+        g += text(cx, 184, "RCBO", "tag", "middle", ' style="font-size:9px"');
+        g += '<rect x="' + (cx - 7) + '" y="190" width="14" height="36" rx="2" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/>';
+        g += '<rect id="lvR' + (k + 1) + '" x="' + (cx - 5) + '" y="192" width="10" height="16" rx="2" fill="var(--fg)"/>';
+        g += '<text id="stR' + (k + 1) + '" x="' + cx + '" y="238" class="tag" text-anchor="middle" style="font-size:8.5px;fill:var(--ok)">ON</text>';
+        g += '<circle cx="' + cx + '" cy="250" r="4" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.3"/>';
+        g += text(cx, 266, RATES[k], "tag", "middle", ' style="font-size:9px"');
+        var fx = cx + 16;
+        g += '<path d="M' + fx + ',172 c-8,-4 8,-8 0,-12 s8,-6 0,-9" fill="none" stroke="var(--neutral)" stroke-width="2.5"/>' + dot(fx, 145);
+      });
+      // circuit cables down from the top
+      G.CX.forEach(function (cx, k) {
+        var L = cx - 10, N = cx + 2, E = cx + 14;
+        g += halo("M" + L + ",110 V155") + line("M" + L + ",62 V172", "w-line");
+        g += halo("M" + N + ",110 V155") + line("M" + N + ",62 V172", "w-neutral");
+        g += cpc("M" + E + ",62 V114") + dot(E, 120);
+        g += '<rect x="' + (cx - 18) + '" y="44" width="40" height="20" rx="6" fill="#c9cdd1" stroke="var(--muted)" stroke-width="1.2"/>';
+        if (G.narrow) g += text(cx + 2, 34, String(k + 1), "tag", "middle");
+        else g += text(cx + 2, 20, (k + 1) + ". " + NAMES[k], "small", "middle", ' style="font-weight:600;fill:var(--fg);font-size:11px"') + text(cx + 2, 34, RATES[k], "small", "middle", ' style="font-size:11px"');
+      });
+      // clickable switches
+      g += '<rect class="sw-hit" data-sw="main" x="' + ms + '" y="170" width="70" height="100" rx="5" tabindex="0" role="switch" aria-checked="true" aria-label="Main switch"/>';
+      G.CX.forEach(function (cx, k) { g += '<rect class="sw-hit" data-sw="r' + (k + 1) + '" x="' + (cx - 20) + '" y="170" width="40" height="100" rx="4" tabindex="0" role="switch" aria-checked="true" aria-label="RCBO for circuit ' + (k + 1) + '"/>'; });
+      document.getElementById("ovG").innerHTML = g;
+      draw();
+    }
     function path(d) { return '<path class="flow thin" d="' + d + '"/>'; }
     function draw() {
+      var CX = G.CX, L1 = tL(), N1 = tN();
       var g = "", any = [0, 1, 2].some(live);
       if (show && any) {
         // out: meter → line tail → main switch → busbar
-        g += path("M618,8 V170") + path("M618,270 V291");
+        g += path("M" + L1 + ",8 V170") + path("M" + L1 + ",270 V291");
         // busbar segments: from the main switch leftwards, only as far as the furthest circuit that's on
-        var stops = [618].concat(CX);
+        var stops = [L1].concat(CX);
         for (var k = 0; k < 3; k++) {
           if ([0, 1, 2].slice(k).some(live)) g += path("M" + stops[k] + ",291 H" + stops[k + 1]);
         }
@@ -362,13 +358,13 @@
           g += path("M" + N + ",40 V172");              // back along the circuit's neutral
           g += path("M" + F + ",170 V145");             // out through the flying neutral lead
         });
-        // neutral bar segments: each flying lead's current flows left to the main neutral connection at x = 400
-        var fl = CX.map(function (cx) { return cx + 16; }).concat([400]);
+        // neutral bar segments: each flying lead's current flows left to the main neutral connection
+        var fl = CX.map(function (cx) { return cx + 16; }).concat([G.nConn]);
         for (k = 0; k < 3; k++) {
           if ([0, 1, 2].slice(0, k + 1).some(live)) g += path("M" + fl[k] + ",145 H" + fl[k + 1]);
         }
         // back: neutral bar → round under the board → main switch → neutral tail → meter
-        g += path("M400,145 H380 V319 H652 V270") + path("M652,170 V8");
+        g += path("M" + G.nConn + ",145 H" + G.nRoute + " V319 H" + N1 + " V270") + path("M" + N1 + ",170 V8");
       }
       document.getElementById("flowG").innerHTML = g;
       // levers: up = on, down = off
@@ -389,12 +385,12 @@
         : "Orange dashes show conventional current at one instant: out along the line, back along the neutral. On AC the direction reverses every 10 ms. With the " + names.join(" and ") + " on, the busbar and neutral bar only carry current as far as they need to." + (offR.length ? (offR.length > 1 ? " RCBOs " + offR.join(" and ") + " are off, so those circuits are dead." : " RCBO " + offR[0] + " is off, so that circuit is dead.") : "") + " The CPCs and earth bar carry nothing at all unless there's a fault.";
     }
     document.getElementById("fShow").addEventListener("change", function (e) { show = e.target.checked; draw(); });
+    // switches: delegated from the SVG, so they keep working after a rebuild
     function flip(h) { var w = h.getAttribute("data-sw"); if (w === "main") main = !main; else rcbo[+w[1] - 1] = !rcbo[+w[1] - 1]; draw(); }
-    document.querySelectorAll(".sw-hit").forEach(function (h) {
-      h.addEventListener("click", function () { flip(h); });
-      h.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(h); } });
-    });
-    draw();
+    var ov = document.getElementById("ovSvg");
+    ov.addEventListener("click", function (e) { var h = e.target.closest(".sw-hit"); if (h) flip(h); });
+    ov.addEventListener("keydown", function (e) { var h = e.target.closest(".sw-hit"); if (h && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); flip(h); } });
+    Course.layout(ov.parentNode, 600, build);
   })();
 
   // ---------------- MCB time-current curve (log-log) ----------------
@@ -402,7 +398,15 @@
   var mc = { t: "B", In: 32, I: 0 };
   [6, 10, 16, 20, 32, 40, 50].forEach(function (r) { var o = document.createElement("option"); o.value = r; o.textContent = r + " A"; $("inr").appendChild(o); });
   $("inr").value = 32;
-  var X0 = 70, X1 = 700, Y0 = 290, Y1 = 20;           // plot box
+  // plot box per layout; phones get a narrower chart with fewer current ticks
+  var MCG = { wide: { vb: "0 0 720 330", X0: 70, X1: 700, Y0: 290, Y1: 20, ticks: [1, 2, 3, 5, 10, 20, 30, 50, 100] },
+              narrow: { vb: "0 0 360 300", X0: 62, X1: 334, Y0: 252, Y1: 22, ticks: [1, 2, 5, 10, 20, 50, 100] } };
+  var X0 = 70, X1 = 700, Y0 = 290, Y1 = 20, mcNarrow = false, mcTicks = MCG.wide.ticks;
+  function mcLayout(m) {
+    var G = MCG[m]; X0 = G.X0; X1 = G.X1; Y0 = G.Y0; Y1 = G.Y1; mcTicks = G.ticks; mcNarrow = m === "narrow";
+    $("curve").setAttribute("viewBox", G.vb); $("curve").classList.toggle("wide", !mcNarrow);
+    drawCurve();
+  }
   var LX0 = Math.log10(1), LX1 = Math.log10(100);      // 1 to 100 × In
   var LY0 = Math.log10(0.001), LY1 = Math.log10(10000); // 1 ms to 10,000 s
   var px = function (m) { return X0 + (X1 - X0) * (Math.log10(m) - LX0) / (LX1 - LX0); };
@@ -433,18 +437,20 @@
       g += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + py(t) + '" y2="' + py(t) + '" stroke="var(--rule)"/>' +
         '<text class="axis-t" x="' + (X0 - 6) + '" y="' + (py(t) + 4) + '" text-anchor="end">' + (t < 1 ? t * 1000 + " ms" : t >= 3600 ? "" : t + " s") + (t === 10000 ? "10,000 s" : "") + "</text>";
     });
-    [1, 2, 3, 5, 10, 20, 30, 50, 100].forEach(function (m) {
+    mcTicks.forEach(function (m) {
       g += '<line x1="' + px(m) + '" x2="' + px(m) + '" y1="' + Y1 + '" y2="' + Y0 + '" stroke="var(--rule)"/>' +
         '<text class="axis-t" x="' + px(m) + '" y="' + (Y0 + 16) + '" text-anchor="middle">' + m + "×</text>";
     });
-    g += '<text class="axis-t" x="' + X1 + '" y="' + (Y0 + 32) + '" text-anchor="end">current, as a multiple of the rating I<tspan dy="3" font-size="0.8em">n</tspan></text>';
+    g += '<text class="axis-t" x="' + X1 + '" y="' + (Y0 + 32) + '" text-anchor="end">' + (mcNarrow ? "current, × the rating" : "current, as a multiple of the rating") + ' I<tspan dy="3" font-size="0.8em">n</tspan></text>';
     g += '<text class="axis-t" x="' + X0 + '" y="12">trip time</text>';
     // band polygon
     var poly = b.upper.concat(b.lower).map(function (p) { return px(p[0]).toFixed(1) + "," + py(p[1]).toFixed(1); }).join(" ");
     g += '<polygon points="' + poly + '" fill="var(--flow)" opacity="0.22" stroke="var(--flow)" stroke-width="2"/>';
     // region labels
     g += '<text x="' + px(1.6) + '" y="' + py(3000) + '" class="small">thermal (overload)</text>';
-    g += '<text x="' + px(b.kh * 1.15) + '" y="' + py(0.04) + '" class="small">magnetic (instant)</text>';
+    g += mcNarrow
+      ? '<text x="' + (X1 - 6) + '" y="' + py(0.03) + '" class="small" text-anchor="end">magnetic</text><text x="' + (X1 - 6) + '" y="' + (py(0.03) + 15) + '" class="small" text-anchor="end">(instant)</text>'
+      : '<text x="' + px(b.kh * 1.15) + '" y="' + py(0.04) + '" class="small">magnetic (instant)</text>';
     // current marker
     var m = mc.I / mc.In;
     if (m >= 1 && m <= 100) {
@@ -467,31 +473,41 @@
   $("cur").addEventListener("input", function (e) { mc.I = toI(+e.target.value); drawCurve(); });
   $("inr").addEventListener("change", function (e) { mc.In = +e.target.value; drawCurve(); });
   $("ty").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; mc.t = b.getAttribute("data-t"); this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); drawCurve(); });
-  mc.I = toI(+$("cur").value); drawCurve();
+  mc.I = toI(+$("cur").value);
+  Course.layout($("curve").parentNode, 600, mcLayout);
 
   // ---------------- RCD toroid ----------------
   var rc = { load: 10, leak: 0 };
+  // C core centre, W wire start/end, K leak drop, B trip box [x, w]
+  var RG = { wide: { vb: "0 0 720 260", C: 300, W: [40, 600], K: 620, B: [500, 130], narrow: false },
+             narrow: { vb: "0 0 360 278", C: 196, W: [6, 352], K: 336, B: [236, 118], narrow: true } };
+  var R = RG.wide;
+  function rcdLayout(m) { R = RG[m]; $("rcdSvg").setAttribute("viewBox", R.vb); $("rcdSvg").classList.toggle("wide", !R.narrow); drawRCD(); }
   function drawRCD() {
+    var C = R.C;
     var IL = rc.load + rc.leak / 1000, IN = rc.load, res = rc.leak; // mA
     var g = "";
     // Core (toroid): back half behind the wires, front half in front, so the wires pass through it.
     var CORE = 'fill="none" stroke="var(--muted)" style="stroke:color-mix(in srgb, var(--muted) 40%, var(--surface-2))" stroke-width="22"';
-    g += '<path d="M300,44 A70,86 0 0,0 300,216" ' + CORE + '/>';                       // left (back) half
-    g += '<path class="wire w-line" d="M40,105 H600"/><path class="wire w-neutral" d="M40,155 H600"/>';
-    g += '<path d="M300,44 A70,86 0 0,1 300,216" ' + CORE + '/>';                       // right (front) half
-    g += '<text x="40" y="95" class="tag" fill="var(--line)">L  ' + f(IL, 4) + ' A →</text><text x="40" y="180" class="tag" fill="var(--neutral)">N  ← ' + f(IN, 4) + " A</text>";
+    g += '<path d="M' + C + ',44 A70,86 0 0,0 ' + C + ',216" ' + CORE + '/>';                       // left (back) half
+    g += '<path class="wire w-line" d="M' + R.W[0] + ',105 H' + R.W[1] + '"/><path class="wire w-neutral" d="M' + R.W[0] + ',155 H' + R.W[1] + '"/>';
+    g += '<path d="M' + C + ',44 A70,86 0 0,1 ' + C + ',216" ' + CORE + '/>';                       // right (front) half
+    g += '<text x="' + R.W[0] + '" y="95" class="tag" fill="var(--line)">L  ' + f(IL, 4) + ' A →</text><text x="' + R.W[0] + '" y="180" class="tag" fill="var(--neutral)">N  ← ' + f(IN, 4) + " A</text>";
     // Sense coil: turns of wire wound round the top of the core
-    for (var t = 0; t < 7; t++) g += '<ellipse cx="' + (281 + t * 6.3) + '" cy="44" rx="3.2" ry="16" fill="none" stroke="var(--fg)" stroke-width="2"/>';
-    g += '<text x="268" y="20" text-anchor="end" class="small">Sense coil</text>';
+    for (var t = 0; t < 7; t++) g += '<ellipse cx="' + (C - 19 + t * 6.3) + '" cy="44" rx="3.2" ry="16" fill="none" stroke="var(--fg)" stroke-width="2"/>';
+    g += '<text x="' + (C - 32) + '" y="20" text-anchor="end" class="small">Sense coil</text>';
     // Leads from the coil to the trip mechanism
     var tripped = res >= 30;
-    g += '<path d="M278,30 V12 H500 M322,30 V24 H500" fill="none" stroke="var(--fg)" stroke-width="1.5"/>';
-    g += '<rect x="500" y="4" width="130" height="30" rx="4" fill="' + (tripped ? "var(--bad-bg)" : "var(--surface)") + '" stroke="' + (tripped ? "var(--bad)" : "var(--fg)") + '" stroke-width="1.5"/>';
-    g += '<text x="565" y="24" text-anchor="middle" class="tag" style="font-size:12px' + (tripped ? ";fill:var(--bad)" : "") + '">' + (tripped ? "TRIPPED" : "Trip mechanism") + "</text>";
-    g += '<text x="300" y="242" text-anchor="middle" class="small">Core (toroid): line and neutral both pass through it</text>';
+    g += '<path d="M' + (C - 22) + ',30 V12 H' + R.B[0] + ' M' + (C + 22) + ',30 V24 H' + R.B[0] + '" fill="none" stroke="var(--fg)" stroke-width="1.5"/>';
+    g += '<rect x="' + R.B[0] + '" y="4" width="' + R.B[1] + '" height="30" rx="4" fill="' + (tripped ? "var(--bad-bg)" : "var(--surface)") + '" stroke="' + (tripped ? "var(--bad)" : "var(--fg)") + '" stroke-width="1.5"/>';
+    g += '<text x="' + (R.B[0] + R.B[1] / 2) + '" y="24" text-anchor="middle" class="tag" style="font-size:' + (R.narrow ? 11 : 12) + 'px' + (tripped ? ";fill:var(--bad)" : "") + '">' + (tripped ? "TRIPPED" : "Trip mechanism") + "</text>";
+    g += R.narrow
+      ? '<text x="' + C + '" y="242" text-anchor="middle" class="small">Core (toroid): line and neutral</text><text x="' + C + '" y="258" text-anchor="middle" class="small">both pass through it</text>'
+      : '<text x="' + C + '" y="242" text-anchor="middle" class="small">Core (toroid): line and neutral both pass through it</text>';
     if (rc.leak > 0) {
-      g += '<path d="M620,105 V215" stroke="var(--cpc-g)" stroke-width="3" stroke-dasharray="4 4"/><path d="M608,215 H632 M612,221 H628 M617,227 H623" stroke="var(--cpc-g)" stroke-width="2.5"/>';
-      g += '<text x="634" y="170" class="tag" fill="var(--cpc-g)" style="font-size:12px">' + rc.leak + ' mA</text><text x="634" y="186" class="small">to earth</text>';
+      var K = R.K, lx = R.narrow ? K - 10 : K + 14, la = R.narrow ? "end" : "start", ly = R.narrow ? 200 : 170;
+      g += '<path d="M' + K + ',105 V215" stroke="var(--cpc-g)" stroke-width="3" stroke-dasharray="4 4"/><path d="M' + (K - 12) + ',215 H' + (K + 12) + ' M' + (K - 8) + ',221 H' + (K + 8) + ' M' + (K - 3) + ',227 H' + (K + 3) + '" stroke="var(--cpc-g)" stroke-width="2.5"/>';
+      g += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + la + '" class="tag" fill="var(--cpc-g)" style="font-size:12px">' + rc.leak + ' mA</text><text x="' + lx + '" y="' + (ly + 16) + '" text-anchor="' + la + '" class="small">to earth</text>';
     }
     $("rcdG").innerHTML = g;
     $("ldOut").textContent = rc.load + " A"; $("lkOut").textContent = rc.leak + " mA";
@@ -504,7 +520,7 @@
   }
   $("ld").addEventListener("input", function (e) { rc.load = +e.target.value; drawRCD(); });
   $("lk").addEventListener("input", function (e) { rc.leak = +e.target.value; drawRCD(); });
-  drawRCD();
+  Course.layout($("rcdSvg").parentNode, 600, rcdLayout);
 
   // ---------------- Consumer unit fault simulator ----------------
   // In circuit-number order: circuit 1 sits next to the main switch (on the right) and numbering runs leftwards.
@@ -553,21 +569,46 @@
     if (sub) g += '<text x="' + cx + '" y="164" text-anchor="middle" class="small" style="font-size:10px">' + sub + "</text>";
     return g + "</g>";
   }
+  var cuNarrow = false;
+  function cuLayout(m) {
+    cuNarrow = m === "narrow";
+    $("cuSvg").setAttribute("viewBox", cuNarrow ? "0 0 360 232" : "0 0 720 230"); $("cuSvg").classList.toggle("wide", !cuNarrow);
+    drawCU();
+  }
   function drawCU() {
-    var g = '<rect x="10" y="30" width="700" height="170" rx="10" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2"/>' +
-      '<text x="24" y="190" class="small">Numbers above the devices are circuit numbers, counting from the main switch.</text>';
-    var x = 696, i;
+    var g, x, i;
     var put = function (w, gap, key, label, sub, opts) { x -= w; var out = devSVG(x, w, key, label, sub, opts); x -= gap; return out; };
-    g += put(64, 12, "main", "MAIN", "100 A");
-    if (cu.b === "split") {
-      g += put(60, 6, "rcd1", "RCD 1", "30 mA", { test: true });
-      for (i = 0; i < 3; i++) g += put(44, 6, "c" + i, "MCB", RATE[i], { num: String(i + 1) });
-      x -= 10;
-      g += put(60, 6, "rcd2", "RCD 2", "30 mA", { test: true });
-      for (i = 3; i < 6; i++) g += put(44, 6, "c" + i, "MCB", RATE[i], { num: String(i + 1) });
+    if (!cuNarrow) {
+      g = '<rect x="10" y="30" width="700" height="170" rx="10" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2"/>' +
+        '<text x="24" y="190" class="small">Numbers above the devices are circuit numbers, counting from the main switch.</text>';
+      x = 696;
+      g += put(64, 12, "main", "MAIN", "100 A");
+      if (cu.b === "split") {
+        g += put(60, 6, "rcd1", "RCD 1", "30 mA", { test: true });
+        for (i = 0; i < 3; i++) g += put(44, 6, "c" + i, "MCB", RATE[i], { num: String(i + 1) });
+        x -= 10;
+        g += put(60, 6, "rcd2", "RCD 2", "30 mA", { test: true });
+        for (i = 3; i < 6; i++) g += put(44, 6, "c" + i, "MCB", RATE[i], { num: String(i + 1) });
+      } else {
+        g += put(44, 12, "spd", "SPD", "surge", { noswitch: true });
+        for (i = 0; i < 6; i++) g += put(44, 6, "c" + i, "RCBO", RATE[i], { num: String(i + 1), test: true });   // single-module, same width as an MCB
+      }
     } else {
-      g += put(44, 12, "spd", "SPD", "surge", { noswitch: true });
-      for (i = 0; i < 6; i++) g += put(64, 8, "c" + i, "RCBO", RATE[i], { num: String(i + 1), test: true });
+      // Phones: still one row, in the same order (the layout matters), with slim modules close together.
+      g = '<rect x="4" y="30" width="352" height="170" rx="10" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2"/>' +
+        '<text x="10" y="222" class="small">Numbers above the devices are circuit numbers.</text>';
+      x = 352;
+      g += put(40, 6, "main", "MAIN", "100 A");
+      if (cu.b === "split") {
+        g += put(36, 2, "rcd1", "RCD 1", "30 mA", { test: true });
+        for (i = 0; i < 3; i++) g += put(34, 2, "c" + i, "MCB", RATE[i], { num: String(i + 1) });
+        x -= 4;
+        g += put(36, 2, "rcd2", "RCD 2", "30 mA", { test: true });
+        for (i = 3; i < 6; i++) g += put(34, 2, "c" + i, "MCB", RATE[i], { num: String(i + 1) });
+      } else {
+        g += put(34, 6, "spd", "SPD", "surge", { noswitch: true });
+        for (i = 0; i < 6; i++) g += put(34, 2, "c" + i, "RCBO", RATE[i], { num: String(i + 1), test: true });
+      }
     }
     $("cuG").innerHTML = g;
     $("circ").innerHTML = CIRCS.map(function (n, k) { var o = !live(k); return '<div class="' + (o ? "off" : "") + '"><span>' + (k + 1) + ". " + n + "</span><b>" + (o ? "OFF" : "on") + "</b></div>"; }).join("");
@@ -606,7 +647,7 @@
     if (cu.fault === "none") msg = "";
     drawCU();
   });
-  drawCU();
+  Course.layout($("cuSvg").parentNode, 600, cuLayout);
 
   Course.quiz("#quiz", [
     { q: "Is the main switch in a consumer unit a protective device?",

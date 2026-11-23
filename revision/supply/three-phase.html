@@ -22,13 +22,24 @@
   <header class="lesson-head">
     <span class="eyebrow">Supply and distribution</span>
     <h1>Three-phase supplies</h1>
-    <p class="lead">How a power station makes three supplies at once, how they reach a building, and when a building gets one phase or all three.</p>
+    <p class="lead">Why the grid uses three phases instead of one, how a power station makes them, and when a building gets one phase or all three.</p>
   </header>
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p>Power stations make three-phase <abbr title="alternating current">AC</abbr>: a magnet spinning inside three coils spaced 120° apart gives three sine waves a third of a cycle apart, on L1 (brown), L2 (black) and L3 (grey). A coil's voltage peaks when the field through it is changing fastest. At the local substation the transformer's three windings meet at the star point, which provides the neutral and is connected to earth. Each line is 230 V to neutral and 400 V to another line (230 × √3). At every instant the three voltages add up to zero, so a balanced load puts almost no current in the neutral. Most homes have a single-phase supply (one line and neutral, usually with a 60 to 100 A main fuse); larger buildings and big loads such as motors use all three phases.</p>
+    <p>The grid uses three phases because they carry more power with less conductor, deliver a steady flow of power instead of pulses, and drive motors smoothly. Power stations make three-phase <abbr title="alternating current">AC</abbr>: a magnet spinning inside three coils spaced 120° apart gives three sine waves a third of a cycle apart, on L1 (brown), L2 (black) and L3 (grey). A coil's voltage peaks when the field through it is changing fastest. At the local substation the transformer's three windings meet at the star point, which provides the neutral and is connected to earth. Each line is 230 V to neutral and 400 V to another line (230 × √3). At every instant the three voltages add up to zero, so a balanced load puts almost no current in the neutral. Most homes have a single-phase supply (one line and neutral, usually with a 60 to 100 A main fuse); larger buildings and big loads such as motors use all three phases.</p>
   </aside>
+
+  <section class="prose">
+    <h2>Why three phases?</h2>
+    <p>A single <abbr title="alternating current">AC</abbr> supply works perfectly well for a lamp or a kettle. But for generating and distributing electricity on a large scale, and for running motors, three supplies a third of a cycle apart are much better than one:</p>
+    <ul>
+      <li><strong>More power with less conductor.</strong> Three separate single-phase circuits would need six conductors. Three phases can share one neutral, and when the load is balanced that neutral carries almost nothing, so three or four conductors do the same job. That saves a huge amount of copper and aluminium across the whole network.</li>
+      <li><strong>A steady flow of power.</strong> With a single phase, the voltage passes through zero 100 times a second, so the power delivered pulses up and down. With three phases, one is always near its peak while another is near zero, and the total power stays constant. Generators and motors run smoother, with less vibration.</li>
+      <li><strong>Motors that start themselves.</strong> Three phases fed to three sets of windings make a magnetic field that rotates on its own. Three-phase motors are simple, efficient and self-starting; single-phase motors need extra parts to get going.</li>
+      <li><strong>Two voltages from one network.</strong> The same three-phase supply gives 230 V (line to neutral) for homes and 400 V (line to line) for heavy equipment.</li>
+    </ul>
+  </section>
 
   <section class="prose">
     <h2>How three-phase is made</h2>
@@ -45,6 +56,7 @@
     <div class="stage">
       <svg id="gen" viewBox="0 0 780 310" class="wide" role="img" aria-labelledby="w5d">
         <title id="w5d">A magnet spins inside three coils spaced 120 degrees apart. Beside it, a graph draws the three voltages L1, L2 and L3 as sine waves a third of a cycle apart.</title>
+        <g id="genBody">
         <!-- stator -->
         <circle cx="150" cy="160" r="118" fill="none" stroke="var(--muted)" stroke-width="14" opacity="0.25"/>
         <path d="M228,62 A128,128 0 0,1 268,110" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#rot)"/>
@@ -58,6 +70,7 @@
           <text x="150" y="212" text-anchor="middle" class="tag" style="fill:var(--surface)">S</text>
         </g>
         <circle cx="150" cy="160" r="5" fill="var(--fg)"/>
+        </g>
         <!-- chart -->
         <g id="axes"></g>
         <g id="ll" hidden>
@@ -120,7 +133,7 @@
       <h3 id="w4">A star-connected secondary</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 610 300" role="img" aria-labelledby="w4d" style="max-width:660px;margin:0 auto">
+      <svg class="only-wide" viewBox="0 0 610 300" role="img" aria-labelledby="w4d" style="max-width:660px;margin:0 auto">
         <title id="w4d">Three windings joined at the star point. Neutral and an earth electrode connect to the star point. 230 volts between each line and neutral, 400 volts between lines.</title>
         <!-- windings at 90°, 210°, 330° from centre (200,150) -->
         <path class="winding ph1" d="M200,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/>
@@ -150,6 +163,33 @@
         <text x="563" y="180" class="tag" fill="var(--flow)">400 V</text>
         <text x="563" y="194" class="small">L–L</text>
         <defs><marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="var(--flow)"/></marker></defs>
+      </svg>
+      <svg class="only-narrow" viewBox="0 0 360 300" role="img" aria-labelledby="w4n">
+        <title id="w4n">Three windings joined at the star point. Neutral and an earth electrode connect to the star point. 230 volts between each line and neutral, 400 volts between lines.</title>
+        <path class="winding ph1" d="M110,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/>
+        <g transform="rotate(120 110 150)"><path class="winding ph2-halo" d="M110,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/><path class="winding ph2" d="M110,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/></g>
+        <g transform="rotate(240 110 150)"><path class="winding ph3" d="M110,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/></g>
+        <circle cx="110" cy="150" r="6" fill="var(--fg)"/>
+        <path class="wire ph1" d="M110,40 H250"/>
+        <path class="wire ph2-halo" d="M205,205 V230 H250" style="stroke-width:6"/>
+        <path class="wire ph2" d="M205,205 V230 H250" style="stroke-width:3"/>
+        <path class="wire ph3" d="M15,205 V262 H250" style="stroke-width:3"/>
+        <text class="tag" x="256" y="45">L1</text>
+        <text class="tag" x="256" y="235">L2</text>
+        <text class="tag" x="256" y="267">L3</text>
+        <path class="wire w-neutral" d="M110,150 H160 V130 H250" style="stroke-width:3"/>
+        <text class="tag" x="256" y="135">N</text>
+        <path class="wire w-cpc-g" d="M110,150 V232" style="stroke-width:3"/><path class="wire w-cpc-y" d="M110,150 V232" style="stroke-width:3"/>
+        <path d="M98,232 H122 M103,238 H117 M108,244 H112" stroke="var(--cpc-g)" stroke-width="2.5"/>
+        <text x="100" y="146" class="small" text-anchor="end">Star point</text>
+        <text x="128" y="250" class="small">Earth electrode</text>
+        <path d="M290,45 V128" stroke="var(--flow)" stroke-width="2" marker-end="url(#ahn)" marker-start="url(#ahn)"/>
+        <text x="297" y="88" class="tag" fill="var(--flow)">230 V</text>
+        <text x="297" y="102" class="small">L–N</text>
+        <path d="M346,45 V228" stroke="var(--flow)" stroke-width="2" marker-end="url(#ahn)" marker-start="url(#ahn)"/>
+        <text x="297" y="176" class="tag" fill="var(--flow)">400 V</text>
+        <text x="297" y="190" class="small">L–L</text>
+        <defs><marker id="ahn" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="var(--flow)"/></marker></defs>
       </svg>
     </div>
   </section>
@@ -182,6 +222,7 @@
 
   // Three-phase generator
   (function () {
+    // Wide: generator beside the graph. Narrow (phones): generator on top, graph underneath.
     var C = { x: 150, y: 160 }, PK = 325, X0 = 352, X1 = 764, YC = 160, K = 0.2; // 600 V ↔ 120 px
     var PH = [0, 120, 240], NAMES = ["L1", "L2", "L3"];
     var sx = function (deg) { return X0 + (X1 - X0) * deg / 720; };
@@ -199,6 +240,12 @@
       coils += '<text class="tag" x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="middle">' + NAMES[k] + "</text>";
     });
     $("coils").innerHTML = coils;
+    function setup(m) {
+    var N = m === "narrow";
+    X0 = N ? 58 : 352; X1 = N ? 330 : 764; YC = N ? 440 : 160;
+    $("gen").setAttribute("viewBox", N ? "0 0 360 596" : "0 0 780 310"); $("gen").classList.toggle("wide", !N);
+    $("genBody").setAttribute("transform", N ? "translate(30,0)" : "");
+    $("cur").setAttribute("y1", YC - 126); $("cur").setAttribute("y2", YC + 126);
     // axes
     var ax = "";
     [[PK, "+325 V"], [0, "0 V"], [-PK, "−325 V"]].forEach(function (t) {
@@ -211,14 +258,17 @@
         '<text class="axis-t" x="' + (X0 - 6) + '" y="' + (sy(t[0]) + 4) + '" text-anchor="end">' + t[1] + "</text>";
     });
     ax += "</g>";
-    for (var d = 0; d <= 720; d += 180) ax += '<text class="axis-t" x="' + sx(d) + '" y="302" text-anchor="middle">' + (d / 18) + (d === 720 ? " ms" : "") + "</text>";
-    ax += '<text class="axis-t" x="' + X0 + '" y="22">Two full turns. At 50 Hz each turn takes 20 ms.</text>';
+    for (var d = 0; d <= 720; d += 180) ax += '<text class="axis-t" x="' + sx(d) + '" y="' + (YC + 142) + '" text-anchor="middle">' + (d / 18) + (d === 720 ? " ms" : "") + "</text>";
+    ax += '<text class="axis-t" x="' + X0 + '" y="' + (YC - 138) + '">Two full turns. At 50 Hz each turn takes 20 ms.</text>';
     $("axes").innerHTML = ax;
     function curve(fn) { var dd = ""; for (var t = 0; t <= 720; t += 3) dd += (dd ? "L" : "M") + sx(t).toFixed(1) + "," + sy(fn(t)).toFixed(1); return dd; }
     $("c1").setAttribute("d", curve(function (t) { return volt(t, 0); }));
     var c2 = curve(function (t) { return volt(t, 1); }); $("c2").setAttribute("d", c2); $("c2h").setAttribute("d", c2);
     $("c3").setAttribute("d", curve(function (t) { return volt(t, 2); }));
     $("cLL").setAttribute("d", curve(function (t) { return volt(t, 0) - volt(t, 1); }));
+    ["ll", "llAxes", "dLL"].forEach(function (id) { $(id).toggleAttribute("hidden", !g.ll); });
+    draw();
+    }
     var fv = function (v) { return (v >= 0.5 ? "+" : v <= -0.5 ? "−" : "") + Math.abs(Math.round(v)) + " V"; };
     function draw() {
       var th = ((g.th % 720) + 720) % 720, x = sx(th);
@@ -251,7 +301,8 @@
     });
     $("gSpeedOut").textContent = g.period + " s";
     if (!g.playing) g.th = 90;
-    draw(); setPlay(g.playing);
+    Course.layout($("gen").parentNode, 600, setup);
+    setPlay(g.playing);
   })();
 
 
