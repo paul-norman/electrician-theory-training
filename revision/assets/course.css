@@ -105,9 +105,10 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .callout { border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
 .callout h3 { font-size: 1rem; }
 .callout ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; }
-.callout.info { background: var(--info-bg); }
+/* Tinted border in each box's own colour, so the boxes stand out on the grey page (plain colour as a fallback). */
+.callout.info { background: var(--info-bg); border: 1px solid var(--info); border-color: color-mix(in srgb, var(--info) 45%, transparent); }
 .callout.info h3 { color: var(--info); }
-.callout.takeaway { background: var(--take-bg); }
+.callout.takeaway { background: var(--take-bg); border: 1px solid var(--take); border-color: color-mix(in srgb, var(--take) 45%, transparent); }
 .callout.takeaway h3 { color: var(--take); }
 .callout.takeaway p { font-size: 1.02rem; }
 .callout.key { background: var(--surface); border: 1px solid var(--rule); }
