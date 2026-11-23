@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impedance and Power Factor</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .axis-t { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
+  .tri-r { stroke: var(--fg); }
+  .tri-x { stroke: var(--neutral); }
+  .tri-z { stroke: var(--flow); }
+  .comp { fill: var(--surface); stroke: var(--fg); stroke-width: 2.5; }
+</style>
+</head>
+<body data-lesson="impedance">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Electrical principles</span>
+    <h1>Impedance and power factor</h1>
+    <p class="lead">On <abbr title="alternating current">AC</abbr>, coils and capacitors oppose current in a different way from resistance. Together they make impedance, which also explains why a motor can draw more current than its wattage suggests.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>On <abbr title="alternating current">AC</abbr>, current is opposed by <strong>resistance</strong> (R), which turns energy into heat, and by <strong>reactance</strong> (X), which stores energy and hands it back each cycle. Coils (inductors) have inductive reactance X<sub>L</sub> = 2πfL, which rises with frequency. Capacitors have capacitive reactance X<sub>C</sub> = <span class="frac"><span>1</span><span>2πfC</span></span>, which falls with frequency. The two oppose each other. Together, resistance and reactance make <strong>impedance</strong>: Z = √(R² + X²), in ohms, and Ohm's law becomes I = <span class="frac"><span>V</span><span>Z</span></span>. Reactance shifts the current out of step with the voltage: it lags in an inductive circuit and leads in a capacitive one. <strong>Power factor</strong> = cos φ = <span class="frac"><span>R</span><span>Z</span></span> = <span class="frac"><span>P</span><span>S</span></span>: real power P in watts, apparent power S = V × I in volt-amperes (VA), and reactive power Q in var. Motors have a lagging power factor, which capacitors can correct.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Resistance isn't the whole story on <abbr title="alternating current">AC</abbr></h2>
+    <p>On <abbr title="direct current">DC</abbr>, only resistance limits the current. On <abbr title="alternating current">AC</abbr>, the voltage and current keep changing, and two kinds of component react to that change:</p>
+    <ul>
+      <li>An <strong>inductor</strong> is a coil of wire, as in a motor winding, a transformer or a fluorescent light's ballast. A changing current makes a changing magnetic field, which induces a voltage that opposes the change. The faster the current changes, the more it's opposed.</li>
+      <li>A <strong>capacitor</strong> is two conducting plates separated by an insulator. It stores charge, and on <abbr title="alternating current">AC</abbr> it charges and discharges every half-cycle. The faster the changes, the more easily current flows "through" it.</li>
+    </ul>
+    <p>This opposition is called <strong>reactance</strong> (X), measured in ohms like resistance. The difference is that reactance doesn't turn energy into heat. It stores energy in a magnetic or electric field for part of each cycle and returns it to the supply.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Inductive and capacitive reactance</h2>
+    <p><span class="formula">X<sub>L</sub> = 2πfL</span> &nbsp; <span class="formula">X<sub>C</sub> = <span class="frac"><span>1</span><span>2πfC</span></span></span></p>
+    <p>Here f is the frequency in hertz, L is inductance in henries (H), and C is capacitance in farads (F); in practice you'll see millihenries (mH) and microfarads (µF). Inductive reactance goes <strong>up</strong> with frequency. Capacitive reactance goes <strong>down</strong>. On <abbr title="direct current">DC</abbr> (zero frequency), an inductor is just a piece of wire and a capacitor blocks current completely.</p>
+    <p>In a circuit with both, they work against each other, so the net reactance is <span class="mono">X = X<sub>L</sub> − X<sub>C</sub></span>.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Impedance</h2>
+    <p><strong>Impedance</strong> (Z) is the total opposition to <abbr title="alternating current">AC</abbr>: resistance and reactance combined. They can't simply be added, because they act a quarter of a cycle out of step. They add like the sides of a right-angled triangle instead:</p>
+    <p><span class="formula">Z = √(R² + X²)</span></p>
+    <p>Ohm's law still works with Z in place of R: <span class="mono">V = I × Z</span>, and <span class="mono">I = <span class="frac"><span>V</span><span>Z</span></span></span>.</p>
+    <p>For most cables at 50 Hz the reactance is tiny, so impedance and resistance are almost the same. That's why earlier lessons could treat Z like R. But the word matters: the <strong>earth fault loop impedance</strong> Z<sub>s</sub> you'll test is called an impedance because the loop includes the supply transformer's windings (see the <a href="../../earth-fault-loop.html">earth fault loop explorer</a>).</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">A load on 230 V, 50 Hz</h3>
+    </div>
+    <div class="stage">
+      <svg id="imp" viewBox="0 0 760 300" class="wide" role="img" aria-labelledby="w1d">
+        <title id="w1d">Left: an impedance triangle for the whole circuit, with resistance along the bottom, reactance up or down the side, and impedance as the sloping side at angle phi. Right: the voltage and current waveforms, with the current shifted later or earlier than the voltage by the same angle.</title>
+        <g id="triG"></g>
+        <g id="waveG"></g>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex-basis:100%">
+        <span class="label" id="prL">Examples</span>
+        <div class="seg" role="group" aria-labelledby="prL" id="pres">
+          <button type="button" data-p="heater">Heater (pure resistance)</button>
+          <button type="button" data-p="motor" aria-pressed="true">Motor (inductive)</button>
+          <button type="button" data-p="pfc">Motor with power factor correction</button>
+          <button type="button" data-p="cap">Capacitive load</button>
+        </div>
+      </div>
+      <div class="ctl"><label for="r">Resistance, R</label><div class="slider"><input type="range" id="r" min="1" max="100" step="0.5" value="20"><output id="rOut" for="r"></output></div></div>
+      <div class="ctl"><label for="l">Inductance, L</label><div class="slider"><input type="range" id="l" min="0" max="300" step="1" value="60"><output id="lOut" for="l"></output></div></div>
+      <div class="ctl"><label for="c">Capacitor in parallel, C</label><div class="slider"><input type="range" id="c" min="0" max="400" step="1" value="0"><output id="cOut" for="c"></output></div></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Reactance, X</span><span class="v" id="rX">—</span><span class="s" id="rXs"></span></div>
+      <div class="ro"><span class="k">Impedance, Z</span><span class="v" id="rZ">—</span><span class="s">√(R² + X²)</span></div>
+      <div class="ro"><span class="k">Current, I</span><span class="v" id="rI">—</span><span class="s" id="rIs">From the supply</span></div>
+      <div class="ro"><span class="k">Power factor</span><span class="v" id="rPF">—</span><span class="s" id="rPFs"></span></div>
+      <div class="ro"><span class="k">Real power, P</span><span class="v" id="rP">—</span><span class="s">Watts: does the work</span></div>
+      <div class="ro"><span class="k">Apparent power, S</span><span class="v" id="rS">—</span><span class="s">VA: V × I</span></div>
+      <div class="ro"><span class="k">Reactive power, Q</span><span class="v" id="rQ">—</span><span class="s">var: stored and returned</span></div>
+    </div>
+    <p class="caption" id="cap"></p>
+  </section>
+
+  <section class="prose">
+    <h2>Phase shift and power factor</h2>
+    <p>In a pure resistance, current and voltage rise and fall together: they're <strong>in phase</strong>. Add reactance and the current shifts by an angle φ (phi). In an <strong>inductive</strong> circuit the current <strong>lags</strong> behind the voltage; in a <strong>capacitive</strong> circuit it <strong>leads</strong>. A memory aid is "CIVIL": in a <strong>C</strong>apacitor, <strong>I</strong> leads <strong>V</strong>; <strong>V</strong> leads <strong>I</strong> in an inductor (<strong>L</strong>).</p>
+    <p>Because of the shift, part of the current isn't doing useful work: it just carries energy back and forth. Three kinds of power describe this:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Power</th><th>Symbol</th><th>Unit</th><th>What it is</th></tr></thead>
+        <tbody>
+          <tr><td>Real (true) power</td><td class="mono">P</td><td>watt (W)</td><td>Turned into heat, light or movement. What the meter bills.</td></tr>
+          <tr><td>Apparent power</td><td class="mono">S</td><td>volt-ampere (VA)</td><td>Simply V × I: what the cables and supply actually have to carry.</td></tr>
+          <tr><td>Reactive power</td><td class="mono">Q</td><td>volt-ampere reactive (var)</td><td>Stored and returned each cycle by inductors and capacitors.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>They form a triangle of their own, so <span class="mono">S² = P² + Q²</span>. The <strong>power factor</strong> is the share of the apparent power that does real work:</p>
+    <p><span class="formula">power factor = cos φ = <span class="frac"><span>P</span><span>S</span></span> = <span class="frac"><span>R</span><span>Z</span></span></span></p>
+    <p>A heater has a power factor of 1. A motor might be 0.8 lagging. Then <span class="mono">P = V × I × cos φ</span>: a motor with a power factor of 0.8, drawing 10 A at 230 V, uses 1,840 W, not 2,300 W, but the cable still has to carry the full 10 A.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Why it matters on site</h2>
+    <ul>
+      <li><strong>Cable and device sizing:</strong> size by the current actually drawn, which for a low power factor load is more than its wattage suggests.</li>
+      <li><strong>Power factor correction:</strong> capacitors fitted across inductive loads cancel some of the reactance, bringing the power factor closer to 1. Older fluorescent fittings had a correction capacitor built in. Large commercial sites can be charged extra for a poor power factor.</li>
+      <li><strong>Testing:</strong> the earth fault loop impedance (Z<sub>s</sub>) and the supply's external impedance (Z<sub>e</sub>) are impedances, measured in ohms.</li>
+    </ul>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w2">Impedance and power questions</h3>
+    </div>
+    <div id="prac"></div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var f = function (x, s) { return Course.sig(x, s || 3); };
+  var V = 230, FQ = 50, W = 2 * Math.PI * FQ;
+  var PRE = { heater: { r: 26.5, l: 0, c: 0 }, motor: { r: 20, l: 60, c: 0 }, pfc: { r: 20, l: 60, c: 79 }, cap: { r: 30, l: 0, c: 100 } };
+  var st = { r: 20, l: 60, c: 0 };
+
+  // The load is R and L in series. The capacitor, if any, is connected in parallel across the
+  // supply, as power factor correction capacitors are in practice. Worked with complex numbers.
+  function calc() {
+    var xl = W * st.l / 1000, xc = st.c > 0 ? 1 / (W * st.c * 1e-6) : Infinity;
+    var zl2 = st.r * st.r + xl * xl;                       // |R + jXL|²
+    var g = st.r / zl2, b = -xl / zl2 + (st.c > 0 ? 1 / xc : 0);   // admittance Y = G + jB
+    var y2 = g * g + b * b, req = g / y2, x = -b / y2;     // equivalent Z = R_eq + jX
+    var z = Math.sqrt(req * req + x * x), i = V / z, phi = Math.atan2(x, req);
+    var iload = V / Math.sqrt(zl2), p = iload * iload * st.r, s = V * i, q = s * Math.sin(phi);
+    return { xl: xl, xc: xc, x: x, req: req, z: z, i: i, iload: iload, phi: phi, pf: Math.cos(phi), p: p, s: s, q: q };
+  }
+
+  function draw(R) {
+    // ---- impedance triangle (left panel: x 20–310, y 0–300) ----
+    // Values go in a key under the title; the triangle is scaled to fit the space below it,
+    // with its base at the bottom (inductive, X up) or the top (capacitive, X down).
+    var g = '<text x="20" y="22" class="small">Impedance triangle of the whole circuit (to scale)</text>';
+    g += '<text x="20" y="44" class="tag">R ' + f(R.req) + ' Ω</text>' +
+         '<text x="100" y="44" class="tag" fill="var(--neutral)">X ' + f(Math.abs(R.x)) + ' Ω</text>' +
+         '<text x="180" y="44" class="tag" fill="var(--flow)">Z ' + f(R.z) + ' Ω</text>' +
+         '<text x="262" y="44" class="tag" fill="var(--muted)"><tspan style="font-family:var(--font-body);font-weight:600">φ</tspan> ' + f(Math.abs(R.phi * 180 / Math.PI), 2) + '°</text>';
+    var up = R.x >= 0, W0 = 50, Wmax = 220, Hmax = 190;
+    var k = Math.min(Wmax / Math.max(R.req, 1e-6), Math.abs(R.x) > 0.01 ? Hmax / Math.abs(R.x) : Infinity);
+    var ox = W0, oy = up ? 272 : 78, rx = ox + R.req * k, xy = oy - R.x * k;
+    g += '<line class="tri-r" x1="' + ox + '" y1="' + oy + '" x2="' + rx + '" y2="' + oy + '" stroke-width="4" stroke-linecap="round"/>';
+    if (Math.abs(R.x) > 0.01) g += '<line class="tri-x" x1="' + rx + '" y1="' + oy + '" x2="' + rx + '" y2="' + xy + '" stroke-width="4" stroke-linecap="round"/>';
+    g += '<line class="tri-z" x1="' + ox + '" y1="' + oy + '" x2="' + rx + '" y2="' + xy + '" stroke-width="4" stroke-linecap="round"/>';
+    // single-letter side labels
+    g += '<text x="' + ((ox + rx) / 2) + '" y="' + (oy + (up ? 20 : -10)) + '" text-anchor="middle" class="tag">R</text>';
+    if (Math.abs(R.x) > 0.01) g += '<text x="' + (rx + 10) + '" y="' + ((oy + xy) / 2 + 5) + '" class="tag" fill="var(--neutral)">X</text>';
+    var mx = (ox + rx) / 2, my = (oy + xy) / 2;
+    g += '<text x="' + (mx - 12) + '" y="' + (my + (up ? -6 : 16)) + '" text-anchor="end" class="tag" fill="var(--flow)">Z</text>';
+    // Angle arc: sized to fit inside the triangle (at most 60% of the R side); left out when too small to read.
+    var ar = Math.min(30, (rx - ox) * 0.6);
+    if (Math.abs(R.phi) > 0.02 && ar >= 8) {
+      var a1x = ox + ar, a2x = ox + ar * Math.cos(R.phi), a2y = oy - ar * Math.sin(R.phi);
+      g += '<path d="M' + a1x + "," + oy + " A" + ar + "," + ar + " 0 0," + (R.phi > 0 ? 0 : 1) + " " + a2x.toFixed(1) + "," + a2y.toFixed(1) + '" fill="none" stroke="var(--muted)" stroke-width="1.5"/>';
+      if (ar >= 20) g += '<text x="' + (ox + ar + 4) + '" y="' + (oy + (up ? -6 : 16)) + '" class="small">φ</text>';
+    }
+    $("triG").innerHTML = g;
+
+    // ---- waveforms (right): voltage and current, each scaled to its own peak ----
+    var X0 = 340, X1 = 750, YC = 150, A = 95;
+    var sx = function (deg) { return X0 + (X1 - X0) * deg / 720; };
+    var w = '<text x="' + X0 + '" y="22" class="small">Voltage and current over two cycles (each drawn to its own peak)</text>';
+    w += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + YC + '" y2="' + YC + '" stroke="var(--rule)" stroke-width="1.5"/>';
+    for (var d = 0; d <= 720; d += 180) w += '<line x1="' + sx(d) + '" x2="' + sx(d) + '" y1="' + (YC - A - 6) + '" y2="' + (YC + A + 6) + '" stroke="var(--rule)"/><text class="axis-t" x="' + sx(d) + '" y="' + (YC + A + 22) + '" text-anchor="middle">' + (d / 18) + (d === 720 ? " ms" : "") + "</text>";
+    var pv = "", pi = "";
+    for (var t = 0; t <= 720; t += 4) {
+      var rad = t * Math.PI / 180;
+      pv += (pv ? "L" : "M") + sx(t).toFixed(1) + "," + (YC - A * Math.sin(rad)).toFixed(1);
+      pi += (pi ? "L" : "M") + sx(t).toFixed(1) + "," + (YC - A * 0.75 * Math.sin(rad - R.phi)).toFixed(1);
+    }
+    w += '<path d="' + pv + '" fill="none" stroke="var(--l1)" stroke-width="3"/>';
+    w += '<path d="' + pi + '" fill="none" stroke="var(--flow)" stroke-width="3" stroke-dasharray="8 5"/>';
+    // mark the voltage peak and the current peak in the first cycle
+    var ip = 90 + R.phi * 180 / Math.PI;
+    w += '<line x1="' + sx(90) + '" x2="' + sx(90) + '" y1="' + (YC - A) + '" y2="' + YC + '" stroke="var(--l1)" stroke-width="1.5" stroke-dasharray="3 3"/>';
+    w += '<line x1="' + sx(ip) + '" x2="' + sx(ip) + '" y1="' + (YC - A * 0.75) + '" y2="' + YC + '" stroke="var(--flow)" stroke-width="1.5" stroke-dasharray="3 3"/>';
+    w += '<text x="' + (X1 - 4) + '" y="' + (YC - A - 12) + '" text-anchor="end" class="tag" fill="var(--l1)">Voltage</text>';
+    w += '<text x="' + (X1 - 4) + '" y="' + (YC + A + 40) + '" text-anchor="end" class="tag" fill="var(--flow)">Current (dashed)</text>';
+    $("waveG").innerHTML = w;
+  }
+
+  function render() {
+    var R = calc();
+    $("rOut").textContent = f(st.r) + " Ω"; $("lOut").textContent = st.l + " mH"; $("cOut").textContent = st.c ? st.c + " µF" : "none";
+    $("rX").textContent = f(Math.abs(R.x)) + " Ω";
+    $("rXs").innerHTML = (st.l ? "Coil: X<sub>L</sub> " + f(R.xl) + " Ω" : "") + (st.l && st.c ? " · " : "") + (st.c ? "Capacitor: X<sub>C</sub> " + f(R.xc) + " Ω" : "") + (!st.l && !st.c ? "No coils or capacitors" : "");
+    $("rZ").textContent = f(R.z) + " Ω";
+    $("rI").textContent = f(R.i) + " A";
+    $("rIs").textContent = st.c && st.l ? "From the supply (the motor itself draws " + f(R.iload) + " A)" : "From the supply";
+    $("rPF").textContent = R.pf > 0.9995 ? "1.00" : R.pf.toFixed(2);
+    $("rPFs").textContent = Math.abs(R.phi) < 0.01 ? "Unity: current in phase" : (R.x > 0 ? "Lagging (inductive)" : "Leading (capacitive)");
+    $("rP").textContent = Course.si(R.p, "W"); $("rS").textContent = Course.si(R.s, "VA");
+    $("rQ").textContent = Course.si(Math.abs(R.q), "var");
+    var cap;
+    if (Math.abs(R.phi) < 0.01) cap = "Pure resistance: current and voltage peak together, the power factor is 1, and every volt-ampere does real work (P = S).";
+    else if (R.x > 0) cap = "Inductive: the current peaks " + f(R.phi * 180 / Math.PI, 2) + "° (" + f(R.phi * 180 / Math.PI / 18, 2) + " ms) after the voltage. The supply carries " + f(R.i) + " A, but only " + Math.round(100 * R.pf) + "% of the apparent power does real work." + (st.c ? " The capacitor is supplying some of the coil's reactive current locally." : " Try adding a correction capacitor.");
+    else cap = "Capacitive: the current peaks " + f(-R.phi * 180 / Math.PI, 2) + "° before the voltage (a leading power factor).";
+    if (st.l && st.c && Math.abs(R.phi) < 0.05) cap = "Corrected: the capacitor supplies the motor's reactive current locally, so the supply only carries " + f(R.i) + " A instead of " + f(R.iload) + " A. The motor's real power (" + Course.si(R.p, "W") + ") hasn't changed; the cables and supply just carry less current to deliver it.";
+    else if (st.l && st.c && R.phi < -0.05) cap = "Over-corrected: the capacitor now supplies more reactive current than the motor needs, so the power factor has become leading. Real correction aims for just under 1.";
+    $("cap").textContent = cap;
+    draw(R);
+  }
+  function setPreset(name) {
+    var p = PRE[name]; st.r = p.r; st.l = p.l; st.c = p.c;
+    $("r").value = st.r; $("l").value = st.l; $("c").value = st.c;
+    document.querySelectorAll("#pres button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-p") === name)); });
+    render();
+  }
+  $("pres").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) setPreset(b.getAttribute("data-p")); });
+  ["r", "l", "c"].forEach(function (k) {
+    $(k).addEventListener("input", function (e) {
+      st[k] = parseFloat(e.target.value);
+      document.querySelectorAll("#pres button").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+      render();
+    });
+  });
+  setPreset("motor");
+
+  // ---- practice ----
+  Course.practice("#prac", function () {
+    var t = Course.pick(["z", "z", "xl", "xc", "p"]);
+    if (t === "z") { var pr = Course.pick([[3, 4], [6, 8], [5, 12], [8, 15], [12, 16], [20, 21], [9, 12]]), r = pr[0], x = pr[1], z = Math.sqrt(r * r + x * x);
+      return { q: "A load has " + r + " Ω resistance and " + x + " Ω reactance. What is its impedance?", answer: z, unit: "Ω", working: "Z = √(R² + X²) = √(" + r + "² + " + x + "²) = √" + (r * r + x * x) + " = " + f(z) + " Ω" }; }
+    if (t === "xl") { var L = Course.pick([10, 20, 50, 100, 159, 200]), xl = W * L / 1000;
+      return { q: "What is the inductive reactance of a " + L + " mH coil at 50 Hz?", answer: xl, unit: "Ω", working: "X<sub>L</sub> = 2πfL = 2π × 50 × " + (L / 1000) + " = " + f(xl) + " Ω" }; }
+    if (t === "xc") { var C = Course.pick([10, 20, 50, 100, 200]), xc = 1 / (W * C * 1e-6);
+      return { q: "What is the capacitive reactance of a " + C + " µF capacitor at 50 Hz?", answer: xc, unit: "Ω", working: "X<sub>C</sub> = " + Course.frac("1", "2πfC") + " = " + Course.frac("1", "2π × 50 × " + C + " × 10<sup>−6</sup>") + " = " + f(xc) + " Ω" }; }
+    var I = Course.pick([4, 5, 8, 10, 12, 16]), pf = Course.pick([0.7, 0.75, 0.8, 0.85, 0.9]), P = 230 * I * pf;
+    return { q: "A motor draws " + I + " A at 230 V with a power factor of " + pf + ". What real power does it use?", answer: P, unit: "W", working: "P = V × I × cos φ = 230 × " + I + " × " + pf + " = " + f(P, 4) + " W" };
+  });
+
+  Course.quiz("#quiz", [
+    { q: "What two things combine to make impedance?",
+      options: ["Voltage and current", "Resistance and reactance", "Power and energy", "Inductance and frequency only"], answer: 1,
+      why: "Impedance Z = √(R² + X²): resistance and reactance combined, both in ohms." },
+    { q: "A load has 6 Ω resistance and 8 Ω reactance. What is its impedance?",
+      options: ["14 Ω", "2 Ω", "10 Ω", "48 Ω"], answer: 2,
+      why: "Z = √(6² + 8²) = √100 = 10 Ω. They add like the sides of a right-angled triangle, not straight." },
+    { q: "The frequency goes up. What happens to an inductor's reactance?",
+      options: ["It goes up", "It goes down", "It stays the same", "It becomes zero"], answer: 0,
+      why: "X<sub>L</sub> = 2πfL, so it rises with frequency. A capacitor's reactance falls instead." },
+    { q: "In an inductive circuit, such as a motor, the current:",
+      options: ["Leads the voltage", "Lags the voltage", "Is in phase with the voltage", "Is always zero"], answer: 1,
+      why: "CIVIL: V leads I in an inductor (L), so the current lags." },
+    { q: "What unit is apparent power measured in?",
+      options: ["Watts (W)", "Volt-amperes (VA)", "var", "Ohms (Ω)"], answer: 1,
+      why: "Apparent power S = V × I, in VA. Real power is in W and reactive power in var." },
+    { q: "A motor draws 10 A at 230 V with a power factor of 0.8. What real power does it use?",
+      options: ["2,300 W", "1,840 W", "2,875 W", "184 W"], answer: 1,
+      why: "P = V × I × cos φ = 230 × 10 × 0.8 = 1,840 W. The cable still carries the full 10 A." },
+    { q: "How is a poor lagging power factor usually corrected?",
+      options: ["Adding resistance", "Fitting capacitors", "Using thicker cable", "Raising the voltage"], answer: 1,
+      why: "Capacitive reactance cancels some of the inductive reactance, bringing the current back towards being in phase." },
+    { q: "Why is Z<sub>s</sub> called an impedance rather than a resistance?",
+      options: ["It's measured in volts", "The fault loop includes the supply transformer's windings, which add reactance on AC", "It only applies to DC", "Impedance is just an old word for resistance"], answer: 1,
+      why: "On AC the loop's opposition includes some reactance, mostly from the transformer, so impedance is the right term." }
+  ]);
+})();
+</script>
+</body>
+</html>

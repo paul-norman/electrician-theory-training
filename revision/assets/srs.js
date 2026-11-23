@@ -197,9 +197,11 @@
     if (accept.indexOf(n) !== -1) return { ok: true };
     // Allow one typo in longer word answers (not in short symbols like "I" or "R"),
     // but never one that changes a number: "sqrt2" must not pass for "sqrt3".
+    // Nor one that changes a short word: "type a" must not pass for "type b", or "part p" for "part b".
     var digits = function (x) { return x.replace(/\D/g, ""); };
+    var shorts = function (x) { return x.split(/[^a-z0-9]+/).filter(function (w) { return w && w.length <= 2; }).join(" "); };
     for (var i = 0; i < accept.length; i++) {
-      if (accept[i].length >= 5 && /[a-z]{3}/.test(accept[i]) && digits(n) === digits(accept[i]) && lev(n, accept[i]) <= 1) return { ok: true, typo: true };
+      if (accept[i].length >= 5 && /[a-z]{3}/.test(accept[i]) && digits(n) === digits(accept[i]) && shorts(n) === shorts(accept[i]) && lev(n, accept[i]) <= 1) return { ok: true, typo: true };
     }
     // Cards with a numeric value as well (e.g. √2): accept anything that works out to it.
     if (typeof card.alsoNum === "number") {

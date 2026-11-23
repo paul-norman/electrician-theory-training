@@ -15,7 +15,9 @@
         { id: "vir", file: "voltage-current-resistance.html", title: "Voltage, current and resistance", desc: "The pressure, the flow and the opposition." },
         { id: "ohms-law", file: "ohms-law.html", title: "Ohm's law", desc: "V = I × R, units, and where current really goes." },
         { id: "series-parallel", file: "series-and-parallel.html", title: "Series and parallel circuits", desc: "Switches, Kirchhoff's laws, and combining resistances." },
-        { id: "power", file: "power.html", title: "Power", desc: "Watts, appliance currents and heat in cables." }
+        { id: "power", file: "power.html", title: "Power", desc: "Watts, appliance currents and heat in cables." },
+        { id: "dc-ac", file: "dc-and-ac.html", title: "DC and AC", desc: "Steady and alternating current, sine waves, RMS, and DC safety." },
+        { id: "impedance", file: "impedance.html", title: "Impedance and power factor", desc: "Reactance, Z = √(R² + X²), phase shift, W, VA and var." }
       ]
     },
     {
@@ -29,7 +31,7 @@
       id: "supply", dir: "supply", title: "Supply and distribution",
       desc: "How electricity reaches a building, and what each conductor does when it gets there.",
       lessons: [
-        { id: "ac", file: "ac-and-three-phase.html", title: "AC and three-phase", desc: "Sine waves, RMS, and how three phases are generated." },
+        { id: "three-phase", file: "three-phase.html", title: "Three-phase supplies", desc: "How three phases are generated, the star point, and single vs three-phase." },
         { id: "grid", file: "the-grid.html", title: "The grid and transformers", desc: "From 400 kV to 230 V, and how transformers do it." },
         { id: "your-supply", file: "your-supply.html", title: "Your supply: conductors and earthing", desc: "Who owns what, and what each conductor does." }
       ]
@@ -54,7 +56,7 @@
   function sset(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { /* ignore */ } }
   function score(id) { var s = sget("rev:quiz:" + id); return s ? JSON.parse(s) : null; }
   // One-off: carry quiz scores over from the old video-based lesson ids.
-  [["v01-1", "atoms"], ["v01-2", "vir"], ["v01-3", "ohms-law"], ["v01-4", "power"], ["v01-5", "grid"], ["v01-6", "your-supply"]].forEach(function (p) {
+  [["v01-1", "atoms"], ["v01-2", "vir"], ["v01-3", "ohms-law"], ["v01-4", "power"], ["v01-5", "grid"], ["v01-6", "your-supply"], ["ac", "three-phase"]].forEach(function (p) {
     var old = sget("rev:quiz:" + p[0]);
     if (old && !sget("rev:quiz:" + p[1])) sset("rev:quiz:" + p[1], old);
   });

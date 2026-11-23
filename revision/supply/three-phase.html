@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AC and Three-Phase</title>
+<title>Three-Phase Supplies</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../assets/course.css">
 <style>
@@ -16,97 +16,24 @@
   .axis-t { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
 </style>
 </head>
-<body data-lesson="ac">
+<body data-lesson="three-phase">
 <nav class="topbar" id="topbar"></nav>
 <main class="page">
   <header class="lesson-head">
     <span class="eyebrow">Supply and distribution</span>
-    <h1><abbr title="alternating current">AC</abbr> and three-phase</h1>
-    <p class="lead">What "alternating" really means, what the 230 V on the label actually measures, and how a power station makes three supplies at once.</p>
+    <h1>Three-phase supplies</h1>
+    <p class="lead">How a power station makes three supplies at once, how they reach a building, and when a building gets one phase or all three.</p>
   </header>
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p>UK mains is <abbr title="alternating current">AC</abbr> at 50 Hz: the voltage follows a sine wave, and one full cycle (360°, or 2π radians) takes 20 ms. "230 V" is the <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> (effective) value; the actual peaks are about ±325 V (230 × √2). Generators make three-phase <abbr title="alternating current">AC</abbr>: three sine waves a third of a cycle (120°) apart, on L1 (brown), L2 (black) and L3 (grey). Each line is 230 V to neutral and 400 V to another line (230 × √3). At every instant the three add up to zero, so a balanced load puts almost no current in the neutral. Most homes have a single-phase supply (one line and neutral, usually with a 60 to 100 A main fuse); larger buildings and big loads use three-phase.</p>
+    <p>Power stations make three-phase <abbr title="alternating current">AC</abbr>: a magnet spinning inside three coils spaced 120° apart gives three sine waves a third of a cycle apart, on L1 (brown), L2 (black) and L3 (grey). A coil's voltage peaks when the field through it is changing fastest. At the local substation the transformer's three windings meet at the star point, which provides the neutral and is connected to earth. Each line is 230 V to neutral and 400 V to another line (230 × √3). At every instant the three voltages add up to zero, so a balanced load puts almost no current in the neutral. Most homes have a single-phase supply (one line and neutral, usually with a 60 to 100 A main fuse); larger buildings and big loads such as motors use all three phases.</p>
   </aside>
-
-  <section class="prose">
-    <h2>Alternating current</h2>
-    <p>A battery gives <strong>direct current (<abbr title="direct current">DC</abbr>)</strong>: a steady voltage, so current always flows the same way. The mains supply is <strong>alternating current</strong>: the voltage swings positive, back through zero, negative, and back again, so the current keeps reversing direction.</p>
-    <p>In the UK it completes <strong>50 cycles a second</strong>, a frequency of 50 hertz (Hz). So one cycle takes <span class="mono">T = <span class="frac"><span>1</span><span>f</span></span> = <span class="frac"><span>1</span><span>50</span></span> = 0.02 s</span>, or 20 ms.</p>
-    <p>The shape is a <strong>sine wave</strong>, because it comes from a spinning generator. One full cycle is one full turn: <strong>360°</strong>, which mathematicians also call <strong>2π radians</strong>.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Angle</th><th>Radians</th><th>Time into the cycle</th><th>Voltage</th></tr></thead>
-        <tbody>
-          <tr><td class="mono">0°</td><td class="mono">0</td><td class="mono">0 ms</td><td>0 V, rising</td></tr>
-          <tr><td class="mono">90°</td><td class="mono"><span class="frac"><span>π</span><span>2</span></span></td><td class="mono">5 ms</td><td><strong>+325 V</strong>, the positive peak</td></tr>
-          <tr><td class="mono">180°</td><td class="mono">π</td><td class="mono">10 ms</td><td>0 V, falling</td></tr>
-          <tr><td class="mono">270°</td><td class="mono"><span class="frac"><span>3π</span><span>2</span></span></td><td class="mono">15 ms</td><td><strong>−325 V</strong>, the negative peak</td></tr>
-          <tr><td class="mono">360°</td><td class="mono">2π</td><td class="mono">20 ms</td><td>0 V, and the next cycle starts</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="prose">
-    <h2>Why "230 V" isn't the peak</h2>
-    <p>The voltage is only at its peak for an instant, and spends a lot of each cycle near zero. So the peak would overstate what the supply can actually do. Instead, <abbr title="alternating current">AC</abbr> is described by its <strong><abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr></strong> (root mean square) value: the <abbr title="direct current">DC</abbr> voltage that would produce the same heating in a resistor.</p>
-    <p>For a sine wave, <span class="mono">V<sub><abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr></sub> = <span class="frac"><span>V<sub>peak</sub></span><span>√2</span></span></span>, so <span class="mono">V<sub>peak</sub> = 230 × √2 ≈ 325 V</span>. Every mains voltage you'll see quoted, including 230 V and 400 V, is an <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> value, and meters read <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> too. But insulation has to withstand the 325 V peaks, not just the 230 V average.</p>
-  </section>
-
-  <section class="widget" aria-labelledby="w6">
-    <div class="widget-title">
-      <span class="eyebrow">Try it</span>
-      <h3 id="w6">Where the sine wave comes from</h3>
-    </div>
-    <div class="stage">
-      <svg id="sine" viewBox="0 0 780 300" class="wide" role="img" aria-labelledby="w6d">
-        <title id="w6d">A point turning round a circle. Its height traces out a sine wave on the graph beside it, from 0 to 360 degrees.</title>
-        <g id="sAxes"></g>
-        <circle cx="130" cy="150" r="100" fill="none" stroke="var(--rule)" stroke-width="2"/>
-        <line x1="20" y1="150" x2="240" y2="150" stroke="var(--rule)"/>
-        <line x1="130" y1="40" x2="130" y2="260" stroke="var(--rule)"/>
-        <path id="sArc" fill="none" stroke="var(--flow)" stroke-width="2" opacity="0.6"/>
-        <line id="sArm" x1="130" y1="150" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>
-        <line id="sDrop" stroke="var(--flow)" stroke-width="2" stroke-dasharray="3 4"/>
-        <line id="sLink" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 4"/>
-        <path id="sCurve" fill="none" stroke="var(--l1)" stroke-width="3"/>
-        <path id="sDone" fill="none" stroke="var(--flow)" stroke-width="4"/>
-        <circle id="sP" r="7" fill="var(--flow)" stroke="var(--surface)" stroke-width="2"/>
-        <circle id="sQ" r="7" fill="var(--flow)" stroke="var(--surface)" stroke-width="2"/>
-        <text id="sAng" class="tag" x="146" y="140"></text>
-      </svg>
-    </div>
-    <div class="controls">
-      <div class="ctl">
-        <label for="sA">Angle (how far through the cycle)</label>
-        <div class="slider"><input type="range" id="sA" min="0" max="360" step="1" value="60"><output id="sAOut" for="sA"></output></div>
-      </div>
-      <div class="ctl" style="flex:0 1 auto">
-        <span class="label">Jump to</span>
-        <div class="seg" id="sJump">
-          <button type="button" data-a="0">0°</button><button type="button" data-a="90">90°</button><button type="button" data-a="180">180°</button><button type="button" data-a="270">270°</button><button type="button" data-a="360">360°</button>
-        </div>
-      </div>
-      <div class="ctl" style="flex:0 1 auto">
-        <span class="label">&nbsp;</span>
-        <div class="seg"><button type="button" id="sPlay">Play</button></div>
-      </div>
-    </div>
-    <div class="readouts">
-      <div class="ro"><span class="k">Angle</span><span class="v" id="rDeg">—</span></div>
-      <div class="ro"><span class="k">In radians</span><span class="v" id="rRad">—</span></div>
-      <div class="ro"><span class="k">Time into the cycle</span><span class="v" id="rT">—</span><span class="s">At 50 Hz</span></div>
-      <div class="ro"><span class="k">Voltage at this instant</span><span class="v" id="rV">—</span><span class="s">325 × sin(angle)</span></div>
-    </div>
-    <p class="caption">As the arm turns, the height of its tip (orange dot on the circle) is copied across to the graph. That height, plotted against the angle, is the sine wave. The dashed lines at ±230 V mark the <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> value for comparison. It isn't a level the voltage sits at: the wave swings right past it to ±325 V.</p>
-  </section>
 
   <section class="prose">
     <h2>How three-phase is made</h2>
     <p>A power station generator has a magnet (the <strong>rotor</strong>) spinning inside three fixed coils (the <strong>stator</strong>), spaced a third of a turn (120°) apart. As the magnet turns, the magnetic field through each coil rises, falls and reverses. That changing field induces an alternating voltage in the coil.</p>
-    <p>Each coil gets the same wave, but a third of a turn later than the one before. A coil's voltage is biggest when the field through it is changing fastest: as the poles sweep <em>across</em> it, not when a pole points straight at it. A two-pole generator spinning at 3,000 revolutions per minute makes 50 turns a second, which gives 50 Hz.</p>
+    <p>(For what a sine wave, <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> and 50 Hz mean, see <a href="../principles/dc-and-ac.html"><abbr title="direct current">DC</abbr> and <abbr title="alternating current">AC</abbr></a>.) Each coil gets the same wave, but a third of a turn later than the one before. A coil's voltage is biggest when the field through it is changing fastest: as the poles sweep <em>across</em> it, not when a pole points straight at it. A two-pole generator spinning at 3,000 revolutions per minute makes 50 turns a second, which gives 50 Hz.</p>
   </section>
 
 
@@ -253,63 +180,6 @@
   var $ = function (id) { return document.getElementById(id); };
   var f = function (x, s) { return Course.sig(x, s || 3); };
 
-  // Sine wave from a rotating arm
-  (function () {
-    var CX = 130, CY = 150, R = 100, X0 = 300, X1 = 756, PK = 325;
-    var sx = function (a) { return X0 + (X1 - X0) * a / 360; };
-    var sy = function (v) { return CY - v * R / PK; };
-    var rad = function (a) { return a * Math.PI / 180; };
-    var st = { a: 60, playing: false, last: null };
-    var ax = "";
-    [[PK, "+325 V peak", "solid"], [230, "+230 V RMS", "dash"], [0, "0 V", "solid"], [-230, "−230 V RMS", "dash"], [-PK, "−325 V peak", "solid"]].forEach(function (t) {
-      ax += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + sy(t[0]) + '" y2="' + sy(t[0]) + '" stroke="var(--rule)"' + (t[2] === "dash" ? ' stroke-dasharray="5 5"' : "") + (t[0] === 0 ? ' stroke-width="1.5"' : "") + "/>" +
-        '<text class="axis-t" x="' + (X1 + 0) + '" y="' + (sy(t[0]) - 4) + '" text-anchor="end">' + t[1] + "</text>";
-    });
-    [[0, "0°", "0"], [90, "90°", "π/2"], [180, "180°", "π"], [270, "270°", "3π/2"], [360, "360°", "2π"]].forEach(function (t) {
-      ax += '<line x1="' + sx(t[0]) + '" x2="' + sx(t[0]) + '" y1="' + (sy(-PK) ) + '" y2="' + (sy(-PK) + 6) + '" stroke="var(--muted)"/>' +
-        '<text class="axis-t" x="' + sx(t[0]) + '" y="' + (sy(-PK) + 20) + '" text-anchor="middle">' + t[1] + "</text>" +
-        '<text class="axis-t" x="' + sx(t[0]) + '" y="' + (sy(-PK) + 34) + '" text-anchor="middle">' + t[2] + " · " + (t[0] / 18) + " ms</text>";
-    });
-    $("sAxes").innerHTML = ax;
-    function path(to) { var d = ""; for (var a = 0; a <= to + 0.001; a += 2) d += (d ? "L" : "M") + sx(Math.min(a, to)).toFixed(1) + "," + sy(PK * Math.sin(rad(Math.min(a, to)))).toFixed(1); return d; }
-    $("sCurve").setAttribute("d", path(360));
-    function piText(a) {
-      var map = { 0: "0", 30: "π/6", 45: "π/4", 60: "π/3", 90: "π/2", 120: "2π/3", 135: "3π/4", 150: "5π/6", 180: "π", 210: "7π/6", 225: "5π/4", 240: "4π/3", 270: "3π/2", 300: "5π/3", 315: "7π/4", 330: "11π/6", 360: "2π" };
-      var t = map[a]; if (!t) return "";
-      if (t.indexOf("/") < 0) return " = " + t;
-      var p = t.split("/"); return " = " + Course.frac(p[0], p[1]);
-    }
-    function draw() {
-      var a = st.a, v = PK * Math.sin(rad(a));
-      var px = CX + R * Math.cos(rad(a)), py = CY - R * Math.sin(rad(a));
-      $("sArm").setAttribute("x2", px); $("sArm").setAttribute("y2", py);
-      $("sP").setAttribute("cx", px); $("sP").setAttribute("cy", py);
-      var large = a > 180 ? 1 : 0;
-      $("sArc").setAttribute("d", a > 0 ? "M" + (CX + 28) + "," + CY + " A28,28 0 " + large + ",0 " + (CX + 28 * Math.cos(rad(a))).toFixed(1) + "," + (CY - 28 * Math.sin(rad(a))).toFixed(1) : "");
-      var qx = sx(a), qy = sy(v);
-      $("sQ").setAttribute("cx", qx); $("sQ").setAttribute("cy", qy);
-      var link = $("sLink"); link.setAttribute("x1", px); link.setAttribute("y1", py); link.setAttribute("x2", qx); link.setAttribute("y2", qy);
-      var drop = $("sDrop"); drop.setAttribute("x1", qx); drop.setAttribute("x2", qx); drop.setAttribute("y1", sy(0)); drop.setAttribute("y2", qy);
-      $("sDone").setAttribute("d", path(a));
-      $("sAng").textContent = a + "°";
-      $("sA").value = a; $("sAOut").textContent = a + "°";
-      $("rDeg").textContent = a + "°";
-      $("rRad").innerHTML = f(rad(a)) + piText(a);
-      $("rT").textContent = f(a / 18) + " ms";
-      $("rV").textContent = (Math.round(v) > 0 ? "+" : Math.round(v) < 0 ? "−" : "") + Math.abs(Math.round(v)) + " V";
-    }
-    function tick(ts) {
-      if (!st.playing) { st.last = null; return; }
-      if (st.last !== null) { st.a = Math.round(st.a + 60 * (ts - st.last) / 1000); if (st.a > 360) st.a = 0; }
-      st.last = ts; draw(); requestAnimationFrame(tick);
-    }
-    function setPlay(on) { st.playing = on; $("sPlay").textContent = on ? "Pause" : "Play"; if (on) requestAnimationFrame(tick); }
-    $("sPlay").addEventListener("click", function () { setPlay(!st.playing); });
-    $("sA").addEventListener("input", function (e) { setPlay(false); st.a = parseInt(e.target.value, 10); draw(); });
-    $("sJump").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; setPlay(false); st.a = parseInt(b.getAttribute("data-a"), 10); draw(); });
-    draw();
-  })();
-
   // Three-phase generator
   (function () {
     var C = { x: 150, y: 160 }, PK = 325, X0 = 352, X1 = 764, YC = 160, K = 0.2; // 600 V ↔ 120 px
@@ -386,18 +256,6 @@
 
 
   Course.quiz("#quiz", [
-    { q: "At 50 Hz, how long does one complete cycle take?",
-      options: ["50 ms", "20 ms", "2 ms", "1 second"], answer: 1,
-      why: "T = <span class=\"frac\"><span>1</span><span>f</span></span> = <span class=\"frac\"><span>1</span><span>50</span></span> = 0.02 s = 20 ms." },
-    { q: "UK mains is quoted as 230 V. What is its peak voltage?",
-      options: ["230 V", "About 163 V", "About 325 V", "400 V"], answer: 2,
-      why: "230 V is the RMS value. Peak = 230 × √2 ≈ 325 V." },
-    { q: "What does the RMS value of an AC voltage tell you?",
-      options: ["The highest voltage reached", "The DC voltage that would give the same heating effect", "The average of the positive half only", "The voltage at 0°"], answer: 1,
-      why: "RMS is the effective value: 230 V AC heats a resistor exactly as much as 230 V DC would." },
-    { q: "How many degrees, and how many radians, in one full cycle?",
-      options: ["180° and π", "360° and 2π", "360° and π", "90° and <span class=\"frac\"><span>π</span><span>2</span></span>"], answer: 1,
-      why: "One cycle is one full turn of the generator: 360°, which is 2π radians." },
     { q: "On a three-phase 400/230 V supply, what's the voltage between two line conductors?",
       options: ["230 V", "400 V", "690 V", "0 V"], answer: 1,
       why: "Line to neutral is 230 V. Line to line is 230 × √3 ≈ 400 V." },
