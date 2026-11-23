@@ -40,6 +40,68 @@
     return { id: id, lesson: "vir", q: "What does this circuit symbol represent?" + box(SYM[key]), a: name, accept: accept, why: why };
   };
 
+
+  // ---- Diagram builders for picture cards (drawn like the lesson diagrams) ----
+  var fig = function (w, h, inner, label) { return '<svg class="card-fig" viewBox="0 0 ' + w + " " + h + '" role="img" aria-label="' + label + '">' + inner + "</svg>"; };
+  var T = function (x, y, t, fill, anchor, extra) { return '<text x="' + x + '" y="' + y + '" text-anchor="' + (anchor || "middle") + '" style="font-family:var(--font-mono);font-size:13px;font-weight:600;fill:' + (fill || "var(--fg)") + '"' + (extra || "") + ">" + t + "</text>"; };
+  // Voltage-time graph: kind "dc" or "ac"; mark = angle in degrees to mark with "?"; rms = show dashed RMS lines; cycles = 1 or 2
+  function graph(kind, opts) {
+    opts = opts || {};
+    var X0 = 40, X1 = 340, YC = 85, A = 60, cyc = opts.cycles || 2;
+    var sx = function (deg) { return X0 + (X1 - X0) * deg / (360 * cyc); }, sy = function (v) { return YC - v * A; };
+    var g = '<line x1="' + X0 + '" y1="' + YC + '" x2="' + X1 + '" y2="' + YC + '" stroke="var(--rule)" stroke-width="1.5"/>' +
+      '<line x1="' + X0 + '" y1="18" x2="' + X0 + '" y2="152" stroke="var(--muted)" stroke-width="1.5"/>' +
+      T(X0 - 8, 22, "V", "var(--muted)", "end") + T(X1, 108, "time", "var(--muted)", "end");
+    if (kind === "dc") g += '<line x1="' + X0 + '" y1="' + sy(0.7) + '" x2="' + X1 + '" y2="' + sy(0.7) + '" stroke="var(--flow)" stroke-width="3.5"/>';
+    else {
+      var d = "";
+      for (var a = 0; a <= 360 * cyc; a += 4) d += (d ? "L" : "M") + sx(a).toFixed(1) + "," + sy(Math.sin(a * Math.PI / 180)).toFixed(1);
+      g += '<path d="' + d + '" fill="none" stroke="var(--l1)" stroke-width="3.5"/>';
+    }
+    if (opts.rms) [1, -1].forEach(function (k) { g += '<line x1="' + X0 + '" y1="' + sy(k * 0.707) + '" x2="' + X1 + '" y2="' + sy(k * 0.707) + '" stroke="var(--flow)" stroke-width="2" stroke-dasharray="6 5"/>'; });
+    if (opts.rms) g += T(X1 + 4, sy(0.707) + 4, "?", "var(--flow)", "start");
+    if (opts.mark != null) {
+      var mx = sx(opts.mark), my = sy(Math.sin(opts.mark * Math.PI / 180));
+      g += '<line x1="' + mx + '" y1="' + YC + '" x2="' + mx + '" y2="' + my + '" stroke="var(--fg)" stroke-dasharray="3 3"/><circle cx="' + mx + '" cy="' + my + '" r="6" fill="var(--flow)" stroke="var(--surface)" stroke-width="2"/>' +
+        T(mx + 12, my + (opts.mark > 180 ? 18 : -8), "?", "var(--flow)", "start");
+    }
+    if (opts.period) g += '<line x1="' + sx(0) + '" y1="162" x2="' + sx(360) + '" y2="162" stroke="var(--fg)" stroke-width="1.5"/><line x1="' + sx(0) + '" y1="156" x2="' + sx(0) + '" y2="168" stroke="var(--fg)" stroke-width="1.5"/><line x1="' + sx(360) + '" y1="156" x2="' + sx(360) + '" y2="168" stroke="var(--fg)" stroke-width="1.5"/>' + T(sx(180), 180, "? ms", "var(--fg)");
+    return fig(360, opts.period ? 188 : 160, g, "Voltage against time graph");
+  }
+  // Triangle: base (horizontal), side (vertical, up if inductive), hyp; labels; down = points downward; phi = mark the angle
+  function triangle(base, side, labels, opts) {
+    opts = opts || {};
+    var k = Math.min(200 / base, 110 / side), ox = 40, oy = opts.down ? 30 : 140;
+    var rx = ox + base * k, ty = opts.down ? oy + side * k : oy - side * k;
+    var g = '<line x1="' + ox + '" y1="' + oy + '" x2="' + rx + '" y2="' + oy + '" stroke="var(--fg)" stroke-width="4" stroke-linecap="round"/>' +
+      '<line x1="' + rx + '" y1="' + oy + '" x2="' + rx + '" y2="' + ty + '" stroke="var(--neutral)" stroke-width="4" stroke-linecap="round"/>' +
+      '<line x1="' + ox + '" y1="' + oy + '" x2="' + rx + '" y2="' + ty + '" stroke="var(--flow)" stroke-width="4" stroke-linecap="round"/>';
+    g += T((ox + rx) / 2, oy + (opts.down ? -10 : 22), labels[0]);
+    g += T(rx + 10, (oy + ty) / 2 + 5, labels[1], "var(--neutral)", "start");
+    g += T((ox + rx) / 2 - 12, (oy + ty) / 2 + (opts.down ? 18 : -6), labels[2], "var(--flow)", "end");
+    if (opts.phi) {
+      var ar = 30, ang = Math.atan2(side, base), ex = ox + ar * Math.cos(ang), ey = opts.down ? oy + ar * Math.sin(ang) : oy - ar * Math.sin(ang);
+      g += '<path d="M' + (ox + ar) + "," + oy + " A" + ar + "," + ar + " 0 0," + (opts.down ? 1 : 0) + " " + ex.toFixed(1) + "," + ey.toFixed(1) + '" fill="none" stroke="var(--muted)" stroke-width="1.5"/>' +
+        '<text x="' + (ox + ar + 5) + '" y="' + (oy + (opts.down ? 16 : -6)) + '" style="font-family:var(--font-body);font-size:13px;font-weight:600;fill:var(--muted)">φ</text>';
+    }
+    return fig(360, 170, g, "Right-angled triangle");
+  }
+  // Voltage (solid) and current (dashed) waveforms, current shifted by phi degrees (positive = lagging)
+  function waves(phi) {
+    var X0 = 20, X1 = 340, YC = 80, A = 55;
+    var sx = function (deg) { return X0 + (X1 - X0) * deg / 720; };
+    var pv = "", pi = "";
+    for (var a = 0; a <= 720; a += 4) {
+      var r = a * Math.PI / 180;
+      pv += (pv ? "L" : "M") + sx(a).toFixed(1) + "," + (YC - A * Math.sin(r)).toFixed(1);
+      pi += (pi ? "L" : "M") + sx(a).toFixed(1) + "," + (YC - A * 0.7 * Math.sin(r - phi * Math.PI / 180)).toFixed(1);
+    }
+    var g = '<line x1="' + X0 + '" y1="' + YC + '" x2="' + X1 + '" y2="' + YC + '" stroke="var(--rule)" stroke-width="1.5"/>' +
+      '<path d="' + pv + '" fill="none" stroke="var(--l1)" stroke-width="3.5"/><path d="' + pi + '" fill="none" stroke="var(--flow)" stroke-width="3.5" stroke-dasharray="8 5"/>' +
+      T(X1, 155, "voltage (solid) · current (dashed)", "var(--muted)", "end");
+    return fig(360, 165, g, "Voltage and current waveforms");
+  }
+
   window.CARDS = [
     // ---------------- Atoms and free electrons ----------------
     { id: "atoms-01", lesson: "atoms", q: "What charge does an electron carry?", a: "Negative", accept: ["negative", "-", "minus", "negative charge"] },
@@ -350,7 +412,31 @@
     { id: "imp-13", lesson: "impedance", q: "Power factor = cos φ = P over ?", a: "S, the apparent power (also R over Z)", accept: ["s", "apparent power", "va", "the apparent power"] },
     { id: "imp-14", lesson: "impedance", q: "A motor draws 10 A at 230 V with a power factor of 0.8. What real power does it use (in W)?", a: "230 × 10 × 0.8 = 1,840 W", num: 1840, unit: "W" },
     { id: "imp-15", lesson: "impedance", q: "What's fitted to correct a poor lagging power factor?", a: "Capacitors", accept: ["capacitor", "capacitors", "a capacitor", "capacitance", "power factor correction capacitors"] },
-    { id: "imp-16", lesson: "impedance", q: "What is the power factor of a pure resistance, such as a heater?", a: "1 (unity)", accept: ["1", "one", "unity", "1.0"] }
+    { id: "imp-16", lesson: "impedance", q: "What is the power factor of a pure resistance, such as a heater?", a: "1 (unity)", accept: ["1", "one", "unity", "1.0"] },
+    // ---------------- Picture cards: DC and AC graphs ----------------
+    { id: "dcg-01", lesson: "dc-ac", q: "This graph shows voltage against time. What kind of supply is it?" + graph("dc"), a: "DC: a steady voltage that never changes direction", accept: ["dc", "direct current", "direct", "a dc supply"] },
+    { id: "dcg-02", lesson: "dc-ac", q: "This graph shows voltage against time. What kind of supply is it?" + graph("ac"), a: "AC: a sine wave that keeps reversing", accept: ["ac", "alternating current", "alternating", "an ac supply", "sine wave"] },
+    { id: "dcg-03", lesson: "dc-ac", q: "UK mains, 230 V RMS. What is the voltage at the marked point?" + graph("ac", { mark: 90, cycles: 1 }), a: "+325 V, the positive peak (90°)", num: 325, tol: 0.01, unit: "V" },
+    { id: "dcg-04", lesson: "dc-ac", q: "UK mains, 230 V RMS. What is the voltage at the marked point?" + graph("ac", { mark: 270, cycles: 1 }), a: "−325 V, the negative peak (270°)", num: -325, tol: 0.01, unit: "V" },
+    { id: "dcg-05", lesson: "dc-ac", q: "UK mains, 230 V RMS. What is the voltage at the marked point?" + graph("ac", { mark: 180, cycles: 1 }), a: "0 V (180°, crossing zero on the way down)", num: 0, tol: 0, unit: "V" },
+    { id: "dcg-06", lesson: "dc-ac", q: "How many degrees through the cycle is the marked point?" + graph("ac", { mark: 90, cycles: 1 }), a: "90° (" + F("π", "2") + " radians)", num: 90, tol: 0, unit: "°" },
+    { id: "dcg-07", lesson: "dc-ac", q: "On UK mains, what do the dashed lines mark?" + graph("ac", { rms: true }), a: "The RMS value, ±230 V. The wave itself peaks at ±325 V", accept: ["rms", "the rms value", "rms value", "230", "230 v", "230v", "230 v rms", "rms 230 v", "rms voltage", "the rms voltage"] },
+    { id: "dcg-08", lesson: "dc-ac", q: "At 50 Hz, how many milliseconds does the marked cycle take?" + graph("ac", { cycles: 2, period: true }), a: "20 ms (T = " + F("1", "50") + " s)", num: 20, tol: 0, unit: "ms" },
+
+    // ---------------- Picture cards: impedance ----------------
+    { id: "ig-01", lesson: "impedance", q: "In this impedance triangle, what does the side marked ? represent?" + triangle(4, 3, ["?", "X", "Z"]), a: "Resistance (R)", accept: ["resistance", "r", "the resistance"] },
+    { id: "ig-02", lesson: "impedance", q: "In this impedance triangle, what does the side marked ? represent?" + triangle(4, 3, ["R", "?", "Z"]), a: "Reactance (X)", accept: ["reactance", "x", "the reactance"] },
+    { id: "ig-03", lesson: "impedance", q: "In this impedance triangle, what does the side marked ? represent?" + triangle(4, 3, ["R", "X", "?"]), a: "Impedance (Z)", accept: ["impedance", "z", "the impedance"] },
+    { id: "ig-04", lesson: "impedance", q: "What is the impedance, in Ω?" + triangle(4, 3, ["4 Ω", "3 Ω", "?"]), a: "√(4² + 3²) = 5 Ω", num: 5, unit: "Ω" },
+    { id: "ig-05", lesson: "impedance", q: "What is the impedance, in Ω?" + triangle(6, 8, ["6 Ω", "8 Ω", "?"]), a: "√(6² + 8²) = 10 Ω", num: 10, unit: "Ω" },
+    { id: "ig-06", lesson: "impedance", q: "The reactance points downwards in this impedance triangle. Is the load inductive or capacitive?" + triangle(4, 3, ["R", "X", "Z"], { down: true }), a: "Capacitive", accept: ["capacitive", "capacitor", "capacitance"] },
+    { id: "ig-07", lesson: "impedance", q: "The reactance points upwards in this impedance triangle. Is the load inductive or capacitive?" + triangle(4, 3, ["R", "X", "Z"]), a: "Inductive, as in a motor", accept: ["inductive", "inductor", "inductance"] },
+    { id: "ig-08", lesson: "impedance", q: "Does the current lead or lag the voltage?" + waves(45), a: "It lags: it peaks after the voltage (an inductive load)", accept: ["lag", "lags", "it lags", "lagging"] },
+    { id: "ig-09", lesson: "impedance", q: "Does the current lead or lag the voltage?" + waves(-45), a: "It leads: it peaks before the voltage (a capacitive load)", accept: ["lead", "leads", "it leads", "leading"] },
+    { id: "ig-10", lesson: "impedance", q: "Current and voltage peak together. What is the power factor?" + waves(0), a: "1 (unity), as in a pure resistance", accept: ["1", "one", "unity", "1.0"] },
+    { id: "ig-11", lesson: "impedance", q: "In this power triangle, what is the side marked ?" + triangle(4, 3, ["P (W)", "Q (var)", "?"]), a: "Apparent power, S, in VA", accept: ["apparent power", "apparent", "s", "va", "apparent power s", "volt-amperes", "volt amperes"] },
+    { id: "ig-12", lesson: "impedance", q: "In this triangle, what is cos φ called?" + triangle(4, 3, ["R", "X", "Z"], { phi: true }), a: "The power factor (" + F("R", "Z") + ")", accept: ["power factor", "the power factor", "pf"] },
+    { id: "ig-13", lesson: "impedance", q: "What is the power factor of this load?" + triangle(8, 6, ["8 Ω", "6 Ω", "10 Ω"], { phi: true }), a: "cos φ = " + F("R", "Z") + " = " + F("8", "10") + " = 0.8", num: 0.8, tol: 0.01 }
 
   ];
 })();

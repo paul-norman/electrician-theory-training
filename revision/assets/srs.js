@@ -133,7 +133,7 @@
   // Read a number from typed text: "13", "13.04 A", "200,000,000", "1/1000", "10^6", "1e6", "2 x 10^-3".
   function parseNum(t) {
     // Skip leading words, so "Zone 0", "Part 7" and "Section 701" read as numbers.
-    var s = String(t).replace(/[−–]/g, "-").replace(/,/g, "").toLowerCase().replace(/^[a-z][a-z\s.:]*?(?=[-\d.])/, "").replace(/\s+/g, "").replace(/[×*]/g, "x");
+    var s = String(t).replace(/[−–]/g, "-").replace(/,/g, "").toLowerCase().replace(/^[a-z][a-z\s.:]*?(?=[-\d.])/, "").replace(/\s+/g, "").replace(/[×*]/g, "x").replace(/^\+/, "");
     var m;
     if ((m = s.match(/^(-?\d*\.?\d+)x10\^(-?\d+)/))) return parseFloat(m[1]) * Math.pow(10, parseInt(m[2], 10));
     if ((m = s.match(/^10\^(-?\d+)/))) return Math.pow(10, parseInt(m[1], 10));
