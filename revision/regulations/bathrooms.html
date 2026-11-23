@@ -57,6 +57,7 @@
         <span class="label" id="typL">Room has</span>
         <div class="seg" role="group" aria-labelledby="typL" id="typ">
           <button type="button" data-t="bath" aria-pressed="true">A bath</button>
+          <button type="button" data-t="tray" aria-pressed="false">A shower tray</button>
           <button type="button" data-t="walkin" aria-pressed="false">A walk-in shower (no tray)</button>
         </div>
       </div>
@@ -83,6 +84,7 @@
         </tbody>
       </table>
     </div>
+    <p><strong>A shower with a tray</strong> is zoned just like a bath. Zone 0 is inside the tray. Zone 1 rises straight up from the tray's edge to 2.25 m, or to the fixed shower head if that's higher. Zone 2 then extends 0.6 m beyond it. Only a walk-in shower with no tray is different: its zone 0 is the floor up to 10 cm high, its zone 1 reaches 1.2 m from the fixed water outlet, and it has no zone 2. Walls, ceilings and fixed partitions do limit a zone where they actually close it off, so a fixed screen can cut zone 2 short behind it. A shower curtain doesn't.</p>
     <p>Where water jets are used for cleaning, as in communal showers, equipment in the zones needs IPX5. And whatever the zone, <strong>every circuit</strong> serving the room, or passing through it, needs additional protection by a 30 mA <abbr title="residual current device">RCD</abbr>.</p>
     <p>Light switches normally go outside the room, or are ceiling-mounted pull-cord switches, whose insulating cord can safely hang within reach.</p>
   </section>
@@ -130,9 +132,9 @@
   var y = function (m) { return FL - m * M; }, x = function (m) { return WX + m * M; };
   var INFO = {
     z0: ["Zone 0", "IPX7", "Inside the bath or shower tray (for a walk-in shower, the floor area up to 10 cm). Only equipment made for zone 0, on SELV at no more than 12 V AC, with the power source outside the zones."],
-    z1: ["Zone 1", "IPX4", "Above zone 0 up to 2.25 m, or to the fixed shower head if that's higher. Only fixed equipment suitable for zone 1: electric shower, shower pump, extractor fan, towel rail, luminaire."],
+    z1: ["Zone 1", "IPX4", "Directly above the bath or shower tray, out to its edge, up to 2.25 m, or to the fixed shower head if that's higher. (For a walk-in shower, 1.2 m from the outlet.) Only fixed equipment suitable for zone 1: electric shower, shower pump, extractor fan, towel rail, luminaire."],
     zu: ["Zone 1 (under the bath)", "IPX4", "The space under a bath counts as zone 1 when you can get into it without a tool. If the panel needs a tool to remove, the space is outside the zones."],
-    z2: ["Zone 2", "IPX4", "0.6 m beyond zone 1, to the same height. Fixed equipment suitable for the zone, and a shaver supply unit if it's out of the direct spray."],
+    z2: ["Zone 2", "IPX4", "0.6 m beyond zone 1, to the same height, around a bath or shower tray. Fixed equipment suitable for the zone, and a shaver supply unit if it's out of the direct spray."],
     out: ["Outside the zones", "No special rating", "Ordinary equipment is allowed, but socket-outlets must be at least 3 m horizontally from the boundary of zone 1, and every circuit needs 30 mA RCD protection."]
   };
   function draw() {
@@ -140,37 +142,51 @@
     // grid
     for (var gx = 0; gx <= 7; gx += 0.5) g += '<line x1="' + x(gx) + '" y1="' + y(0) + '" x2="' + x(gx) + '" y2="' + y(2.7) + '" stroke="var(--rule)" stroke-width="' + (gx % 1 ? 0.5 : 1) + '"/>';
     for (var gy = 0; gy <= 2.5; gy += 0.5) g += '<line x1="' + x(0) + '" y1="' + y(gy) + '" x2="' + x(7) + '" y2="' + y(gy) + '" stroke="var(--rule)" stroke-width="' + (gy % 1 ? 0.5 : 1) + '"/>';
+    var zoneP = function (id, d, fill) { return '<path class="zone' + (st.sel === id ? " sel" : "") + '" data-z="' + id + '" tabindex="0" role="button" aria-label="' + INFO[id][0] + '" d="' + d + '" fill="' + fill + '" opacity="0.75"/>'; };
+    // zone 0 on a tray or walk-in floor is a thin strip, so its label sits just above it
+    var label0 = function (cx, stripTop) { return '<text x="' + cx + '" y="' + (y(stripTop) - 4) + '" text-anchor="middle" pointer-events="none" style="font-family:var(--font-display);font-weight:800;font-size:' + (zNarrow ? 11 : 14) + 'px;fill:var(--fg)">0</text>'; };
     var z1x, z1w, zone = function (id, X, Y, W, H, fill) { return '<rect class="zone' + (st.sel === id ? " sel" : "") + '" data-z="' + id + '" tabindex="0" role="button" aria-label="' + INFO[id][0] + '" x="' + X + '" y="' + Y + '" width="' + W + '" height="' + H + '" fill="' + fill + '" opacity="0.75"/>'; };
     if (st.t === "bath") {
-      var bw = 1.7, bh = 0.55;
+      var bw = 1.7, bh = 0.55, tb = 0.15;   // length, rim height, height of the tub's bottom
+      var tub = "M" + x(0) + "," + y(bh) + " H" + x(bw) + " V" + y(tb + 0.12) + " Q" + x(bw) + "," + y(tb) + " " + x(bw - 0.12) + "," + y(tb) + " H" + x(0.12) + " Q" + x(0) + "," + y(tb) + " " + x(0) + "," + y(tb + 0.12) + " Z";
       z1x = x(0); z1w = bw * M;
       g += zone("out", x(bw + 0.6), y(2.7), x(7) - x(bw + 0.6), 2.7 * M, "transparent");
       g += zone("z2", x(bw), y(top), 0.6 * M, top * M, "var(--z2)");
       g += zone("z1", x(0), y(top), bw * M, (top - bh) * M, "var(--z1)");
-      if (st.panel) g += zone("zu", x(0.1), y(bh - 0.05), (bw - 0.2) * M, (bh - 0.05) * M, "var(--z1)");
-      g += zone("z0", x(0.08), y(bh - 0.03), (bw - 0.16) * M, (bh - 0.18) * M, "var(--z0)");
+      // the space under the tub (behind the bath panel)
+      if (st.panel) g += zoneP("zu", "M" + x(0) + "," + y(0) + " V" + y(tb + 0.12) + " Q" + x(0) + "," + y(tb) + " " + x(0.12) + "," + y(tb) + " H" + x(bw - 0.12) + " Q" + x(bw) + "," + y(tb) + " " + x(bw) + "," + y(tb + 0.12) + " V" + y(0) + " Z", "var(--z1)");
+      g += zoneP("z0", tub, "var(--z0)");
       // bath outline
-      g += '<path d="M' + x(0) + "," + y(bh) + " H" + x(bw) + " V" + y(0.12) + " Q" + x(bw) + "," + y(0.02) + " " + x(bw - 0.12) + "," + y(0.02) + " H" + x(0.12) + " Q" + x(0) + "," + y(0.02) + " " + x(0) + "," + y(0.12) + ' Z" fill="none" stroke="var(--fg)" stroke-width="3" pointer-events="none"/>';
+      g += '<path d="' + tub + '" fill="none" stroke="var(--fg)" stroke-width="3" pointer-events="none"/>';
       g += '<line x1="' + x(bw) + '" y1="' + y(bh) + '" x2="' + x(bw) + '" y2="' + y(0) + '" stroke="var(--fg)" stroke-width="2" stroke-dasharray="' + (st.panel ? "6 4" : "0") + '" pointer-events="none"/>';
-      g += label(x(bw / 2), y(0.3), "0") + label(x(bw / 2), y((top + bh) / 2), "1") + label(x(bw + 0.3), y(top / 2), "2");
-      if (st.panel) g += '<text x="' + x(bw / 2) + '" y="' + (y(0.06)) + '" text-anchor="middle" class="small" pointer-events="none"' + (zNarrow ? ' style="font-size:9px"' : "") + '>under bath: zone 1</text>';
+      g += label(x(bw / 2), y((bh + tb) / 2), "0") + label(x(bw / 2), y((top + bh) / 2), "1") + label(x(bw + 0.3), y(top / 2), "2");
+      if (st.panel && !zNarrow) g += '<text x="' + x(bw / 2) + '" y="' + y(0.03) + '" text-anchor="middle" class="small" pointer-events="none">under the bath: zone 1</text>';
       var z1edge = bw;
       // shower head over the bath
       g += shower(0.1, st.head);
       g += dims(z1edge, top);
+    } else if (st.t === "tray") {
+      // A shower tray works like a bath: zone 1 rises straight up from the tray's edge, and zone 2 is 0.6 m beyond it
+      var tw = 0.9, th = 0.12;  // tray width and the height of its top edge
+      z1x = x(0); z1w = tw * M;
+      g += zone("out", x(tw + 0.6), y(2.7), x(7) - x(tw + 0.6), 2.7 * M, "transparent");
+      g += zone("z2", x(tw), y(top), 0.6 * M, top * M, "var(--z2)");
+      g += zone("z1", x(0), y(top), tw * M, (top - th) * M, "var(--z1)");
+      g += zone("z0", x(0), y(th), tw * M, th * M, "var(--z0)");   // the whole tray, edge to edge
+      g += '<path d="M' + x(0) + "," + y(th) + " H" + x(tw) + " V" + y(0) + '" fill="none" stroke="var(--fg)" stroke-width="3" pointer-events="none"/>';
+      g += label(x(tw / 2), y((top + th) / 2), "1") + label(x(tw + 0.3), y(top / 2), "2") + label0(x(tw / 2), th);
+      g += shower(0.3, st.head);
+      g += dims(tw, top);
     } else {
       var outlet = 0.35, r = 1.2;  // outlet 0.35 m from the wall
       z1x = x(0); var z1end = outlet + r;
       g += zone("out", x(z1end), y(2.7), x(7) - x(z1end), 2.7 * M, "transparent");
       g += zone("z1", x(0), y(top), z1end * M, (top - 0.1) * M, "var(--z1)");
       g += zone("z0", x(0), y(0.1), z1end * M, 0.1 * M, "var(--z0)");
-      // zone 0 is a 10 cm strip; on phones that's 5 px, so its label sits just above it
-      g += label(x(z1end / 2), y(top / 2), "1") + (zNarrow
-        ? '<text x="' + x(z1end / 2) + '" y="' + (y(0.1) - 4) + '" text-anchor="middle" pointer-events="none" style="font-family:var(--font-display);font-weight:800;font-size:11px;fill:var(--fg)">0</text>'
-        : label(x(z1end / 2), y(0.05) + 4, "0"));
+      g += label(x(z1end / 2), y(top / 2), "1") + label0(x(z1end / 2), 0.1);
       g += shower(outlet, st.head);
       g += '<line x1="' + x(outlet) + '" y1="' + y(st.head) + '" x2="' + x(outlet) + '" y2="' + y(0) + '" stroke="var(--fg)" stroke-dasharray="3 4" pointer-events="none"/>';
-      g += arrow(x(outlet), y(1.4), x(z1end), y(1.4), zNarrow ? "1.2 m" : "1.2 m from the outlet");
+      g += arrow(x(outlet), y(1.4), x(z1end), y(1.4), "1.2 m");
       g += dims(z1end, top);
     }
     // floor and wall
@@ -211,7 +227,7 @@
   $("typ").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b) return; st.t = b.getAttribute("data-t");
     this.querySelectorAll("button").forEach(function (k) { k.setAttribute("aria-pressed", String(k === b)); });
-    if (st.t === "walkin" && (st.sel === "z2" || st.sel === "zu")) st.sel = "z1";
+    if ((st.t === "walkin" && st.sel === "z2") || (st.t !== "bath" && st.sel === "zu")) st.sel = "z1";
     $("panel").disabled = st.t !== "bath"; draw();
   });
   $("head").addEventListener("input", function (e) { st.head = parseFloat(e.target.value); draw(); });

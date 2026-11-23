@@ -156,8 +156,8 @@
           <line x1="530" y1="290" x2="530" y2="200"/><line x1="522" y1="200" x2="538" y2="200"/><line x1="522" y1="290" x2="538" y2="290"/>
           <line x1="585" y1="290" x2="585" y2="50"/><line x1="577" y1="50" x2="593" y2="50"/><line x1="577" y1="290" x2="593" y2="290"/>
         </g>
-        <text x="538" y="250" class="tag" fill="var(--flow)">450 mm</text>
-        <text x="592" y="160" class="tag" fill="var(--flow)" transform="rotate(-90 592 160)" text-anchor="middle">1,200 mm</text>
+        <text x="530" y="190" class="tag" fill="var(--flow)" text-anchor="middle">450 mm</text>
+        <text x="585" y="40" class="tag" fill="var(--flow)" text-anchor="middle">1,200 mm</text>
       </svg>
       <svg class="only-narrow" viewBox="0 0 360 320" role="img" aria-labelledby="w3n">
         <title id="w3n">A wall in a new home. Switches and sockets must sit in a band between 450 millimetres and 1,200 millimetres above the finished floor.</title>
@@ -174,11 +174,11 @@
         <rect x="42" y="170" width="6" height="12" fill="var(--fg)"/><rect x="58" y="170" width="6" height="12" fill="var(--fg)"/><rect x="74" y="170" width="6" height="12" fill="var(--fg)"/>
         <text x="100" y="184" class="small">Socket</text>
         <g stroke="var(--flow)" stroke-width="2">
-          <line x1="276" y1="290" x2="276" y2="200"/><line x1="268" y1="200" x2="284" y2="200"/><line x1="268" y1="290" x2="284" y2="290"/>
-          <line x1="336" y1="290" x2="336" y2="50"/><line x1="328" y1="50" x2="344" y2="50"/><line x1="328" y1="290" x2="344" y2="290"/>
+          <line x1="282" y1="290" x2="282" y2="200"/><line x1="274" y1="200" x2="290" y2="200"/><line x1="274" y1="290" x2="290" y2="290"/>
+          <line x1="328" y1="290" x2="328" y2="50"/><line x1="320" y1="50" x2="336" y2="50"/><line x1="320" y1="290" x2="336" y2="290"/>
         </g>
-        <text x="282" y="250" class="tag" fill="var(--flow)">450 mm</text>
-        <text x="350" y="160" class="tag" fill="var(--flow)" transform="rotate(-90 350 160)" text-anchor="middle">1,200 mm</text>
+        <text x="282" y="190" class="tag" fill="var(--flow)" text-anchor="middle" style="font-size:12px">450 mm</text>
+        <text x="328" y="40" class="tag" fill="var(--flow)" text-anchor="middle" style="font-size:12px">1,200 mm</text>
       </svg>
     </div>
     <p class="caption">Measured to the centre of the accessory, from the finished floor (the floor surface once it's laid, not the bare concrete). The band keeps switches and sockets within easy reach for wheelchair users and people who can't bend easily. It applies to new homes; when you're working in an existing one, matching the existing heights is usually acceptable.</p>
@@ -206,7 +206,11 @@
     ["Guidance Note 3: Inspection and Testing", false, "An IET guide to inspection and testing."]
   ];
   function build() {
-    $("sorter").innerHTML = ITEMS.map(function (it, k) {
+    // Show the items in a random order each time (the list above runs from law down to guidance).
+    // Each row keeps its index into ITEMS, so checking still works.
+    var order = ITEMS.map(function (it, k) { return k; });
+    for (var n = order.length - 1; n > 0; n--) { var r = Math.floor(Math.random() * (n + 1)), t = order[n]; order[n] = order[r]; order[r] = t; }
+    $("sorter").innerHTML = order.map(function (k) { var it = ITEMS[k];
       return '<div class="sort-row" data-k="' + k + '"><span class="name">' + it[0] + '</span><span class="seg"><button type="button" data-a="1">Law</button><button type="button" data-a="0">Guidance</button></span><span class="fb" hidden></span></div>';
     }).join("");
   }

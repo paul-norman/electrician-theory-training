@@ -383,6 +383,8 @@
     { id: "bath-14", lesson: "bathrooms", q: "Which IP water digit means protected against splashing from any direction?", a: "4", num: 4, tol: 0 },
     { id: "bath-15", lesson: "bathrooms", q: "Which IP solids digit means dust-tight?", a: "6", num: 6, tol: 0 },
     { id: "bath-16", lesson: "bathrooms", q: "What is the maximum SELV voltage (AC) for equipment in zone 0?", a: "12 V AC", num: 12, tol: 0, unit: "V" },
+    { id: "bath-17", lesson: "bathrooms", q: "In a room with a shower tray, where does zone 1 end horizontally?", a: "At the edge of the shower tray", accept: ["edge of the tray", "the edge of the tray", "at the edge of the tray", "tray edge", "the tray edge", "edge of tray", "at the tray edge", "the edge of the shower tray", "edge of the shower tray", "at the edge of the shower tray"] },
+    { id: "bath-18", lesson: "bathrooms", q: "Does a walk-in shower with no tray have a zone 2?", a: "No", accept: ["no", "no zone 2", "none", "it doesn't", "no it doesn't", "no, it doesn't"] },
     // ---------------- DC and AC (DC-specific) ----------------
     { id: "dc-01", lesson: "dc-ac", q: "Current that always flows the same way, at a steady voltage, is called ___ current.", a: "Direct current (DC)", accept: ["direct", "direct current", "dc"] },
     { id: "dc-02", lesson: "dc-ac", q: "Do solar PV panels generate AC or DC?", a: "DC", accept: ["dc", "direct current", "direct"] },
