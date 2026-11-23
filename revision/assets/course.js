@@ -33,7 +33,8 @@
       lessons: [
         { id: "three-phase", file: "three-phase.html", title: "Three-phase supplies", desc: "How three phases are generated, the star point, and single vs three-phase." },
         { id: "grid", file: "the-grid.html", title: "The grid and transformers", desc: "From 400 kV to 230 V, and how transformers do it." },
-        { id: "your-supply", file: "your-supply.html", title: "Your supply: conductors and earthing", desc: "Who owns what, and what each conductor does." }
+        { id: "your-supply", file: "your-supply.html", title: "Your supply: conductors and earthing", desc: "Who owns what, and what each conductor does." },
+        { id: "consumer-units", file: "consumer-units.html", title: "Consumer units and protective devices", desc: "Main switch, MCBs, RCDs, RCBOs, and split-load vs RCBO boards." }
       ]
     },
     {
@@ -282,6 +283,7 @@
   // The one list of meanings. Pages tag acronyms in their markup with <abbr title> using these
   // same words; this also wraps acronyms in text that scripts add later (quizzes, readouts, captions).
   var ACRONYMS = {
+    "AFDD": "arc fault detection device",
     "AC": "alternating current",
     "ADS": "automatic disconnection of supply",
     "BS 7671": "British Standard 7671: the IET Wiring Regulations",
@@ -312,9 +314,11 @@
     "PV": "photovoltaic",
     "PVC": "polyvinyl chloride",
     "RCBO": "residual current breaker with overcurrent protection",
+    "RCCB": "residual current circuit breaker: an RCD without overcurrent protection",
     "RCD": "residual current device",
     "RMS": "root mean square: the effective value of an AC voltage or current",
     "SELV": "separated extra-low voltage",
+    "SPD": "surge protective device",
     "TN-C-S": "TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation",
     "TN-S": "TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer",
     "TT": "TT earthing: the installation has its own earth electrode, with no earth from the supply"

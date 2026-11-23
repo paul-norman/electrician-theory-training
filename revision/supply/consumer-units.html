@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consumer Units and Protective Devices</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .flow.thin { stroke-width: 3.5; stroke-dasharray: 2 11; animation-name: march13; }
+  @keyframes march13 { to { stroke-dashoffset: -13; } }
+  .sw-hit { fill: transparent; cursor: pointer; }
+  .sw-hit:focus { outline: none; }
+  .sw-hit:focus-visible { stroke: var(--flow); stroke-width: 2; stroke-dasharray: 4 3; }
+  .flow.thin.n { stroke: var(--flow); opacity: 0.85; }
+  .axis-t { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
+  .dev { cursor: pointer; }
+  .dev rect.body { fill: var(--surface); stroke: var(--fg); stroke-width: 1.5; }
+  .dev.sel rect.body { stroke: var(--flow); stroke-width: 3; }
+  .dev.tripped rect.body { fill: var(--bad-bg); stroke: var(--bad); }
+  .dev:focus { outline: none; }
+  .dev:focus-visible rect.body { stroke: var(--flow); stroke-dasharray: 4 3; }
+  .info { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-height: 84px; }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); } .verdict.ok strong { color: var(--ok); }
+  .verdict.warn { background: var(--note-bg); } .verdict.warn strong { color: var(--note); }
+  .verdict.bad { background: var(--bad-bg); } .verdict.bad strong { color: var(--bad); }
+  .circ { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+  .circ div { border-radius: 8px; padding: 8px 10px; font-size: 0.88rem; display: flex; justify-content: space-between; gap: 8px; background: var(--ok-bg); }
+  .circ div.off { background: var(--surface-2); color: var(--muted); }
+  .circ div b { font-family: var(--font-mono); font-size: 0.8rem; }
+</style>
+</head>
+<body data-lesson="consumer-units">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Supply and distribution</span>
+    <h1>Consumer units and protective devices</h1>
+    <p class="lead">Every circuit in a home starts at the consumer unit. Here's what's inside it, how each protective device works, and why the way they're arranged decides how much of the house goes dark when something trips.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>A consumer unit holds the <strong>main switch</strong> (a double-pole isolator, not a protective device), the busbars, neutral and earth bars, and a protective device for every circuit. In homes it must have a non-combustible (usually steel) enclosure. An <abbr title="miniature circuit breaker">MCB</abbr> protects against overcurrent: a <strong>thermal</strong> trip handles slow overloads and a <strong>magnetic</strong> trip handles short circuits and earth faults almost instantly. Types B, C and D trip instantly at 3–5, 5–10 and 10–20 times their rating. An <abbr title="residual current device">RCD</abbr> (a stand-alone one is an <abbr title="residual current circuit breaker: an RCD without overcurrent protection">RCCB</abbr>) compares line and neutral current and trips on an imbalance, 30 mA for additional protection, but gives no overcurrent protection at all. An <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> does both jobs for one circuit. On a split-load board one <abbr title="residual current device">RCD</abbr> covers several circuits, so one fault turns them all off; with an <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> per circuit only the faulty one goes off. Press the <abbr title="residual current device">RCD</abbr> test buttons every six months.</p>
+  </aside>
+
+  <section class="widget" aria-labelledby="w0">
+    <div class="widget-title">
+      <span class="eyebrow">Overview</span>
+      <h3 id="w0">Inside a consumer unit for a small flat</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 760 350" class="wide" role="img" aria-labelledby="w0d">
+        <title id="w0d">Wiring inside a modern UK consumer unit. Meter tails enter from the top into the main switch on the right. The main switch's line output feeds a busbar along the bottom, which feeds three RCBOs: cooker 32 amps, sockets 32 amps and lights 6 amps, numbered from the right. The main switch's neutral output feeds the neutral bar at the top. Each RCBO has a flying neutral lead to the neutral bar. Each circuit cable enters from the top: its line and neutral connect to the top of its RCBO, crossing the bars without connecting, and its CPC connects to the earth bar, which is also connected to the earthing conductor.</title>
+        <text x="22" y="70" class="tag" text-anchor="start">Key</text>
+        <path class="wire w-line" d="M22,92 H62" style="stroke-width:4"/><text x="74" y="96" class="small" text-anchor="start">Line</text>
+        <path class="wire w-neutral" d="M22,117 H62" style="stroke-width:4"/><text x="74" y="121" class="small" text-anchor="start">Neutral</text>
+        <path class="wire w-cpc-g" d="M22,142 H62" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M22,142 H62" style="stroke-width:3.5"/><text x="74" y="146" class="small" text-anchor="start">CPC and earthing conductor</text>
+        <rect x="22" y="162" width="40" height="10" rx="2" fill="var(--line)"/><text x="74" y="171" class="small" text-anchor="start">Busbar: feeds every RCBO</text>
+        <rect x="22" y="187" width="40" height="10" rx="2" fill="var(--neutral)"/><text x="74" y="196" class="small" text-anchor="start">Neutral bar</text>
+        <rect x="22" y="212" width="40" height="10" rx="2" fill="var(--cpc-g)"/><text x="74" y="221" class="small" text-anchor="start">Earth bar</text>
+        <path d="M24,242 c6,-10 12,10 18,0 s12,10 18,0" fill="none" stroke="var(--neutral)" stroke-width="2.5"/><text x="74" y="246" class="small" text-anchor="start">RCBO flying neutral lead</text>
+        <path class="wire w-plain" d="M22,267 H62" style="stroke-width:2"/><circle cx="42" cy="267" r="4.5" fill="var(--fg)"/><text x="74" y="271" class="small" text-anchor="start">Joint: connected</text>
+        <rect x="22" y="287" width="40" height="10" rx="2" fill="var(--neutral)"/><path d="M42,283 V301" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/><path class="wire w-line" d="M42,280 V304" style="stroke-width:3"/><text x="74" y="296" class="small" text-anchor="start">Crossing: not connected</text>
+        <rect x="330" y="70" width="360" height="270" rx="10" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2.5"/>
+        
+        <rect x="395" y="114" width="190" height="12" rx="2" fill="var(--cpc-g)"/>
+        <rect x="395" y="139" width="190" height="12" rx="2" fill="var(--neutral)"/>
+        <rect x="415" y="286" width="215" height="10" rx="2" fill="var(--line)"/>
+        
+        <path class="wire w-cpc-g" d="M368,10 V120 H395" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M368,10 V120 H395" style="stroke-width:3.5"/>
+        <circle cx="400" cy="120" r="4.5" fill="var(--fg)"/>
+        <text x="360" y="24" class="small" text-anchor="end">Earthing</text>
+        <text x="360" y="38" class="small" text-anchor="end">conductor</text>
+        <path class="wire w-line" d="M618,10 V170" style="stroke-width:6"/>
+        <path class="wire w-neutral" d="M652,10 V170" style="stroke-width:6"/>
+        <text x="664" y="26" class="small" text-anchor="start">Meter tails</text>
+        <text x="664" y="40" class="small" text-anchor="start">from the meter</text>
+        <rect x="600" y="170" width="70" height="100" rx="5" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="635" y="186" class="tag" text-anchor="middle" style="font-size:11px">MAIN</text>
+        <text x="635" y="198" class="tag" text-anchor="middle" style="font-size:11px">SWITCH</text>
+        <rect x="623" y="204" width="24" height="40" rx="3" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.5"/><rect id="lvMain" x="625" y="206" width="20" height="18" rx="2" fill="var(--fg)"/><text id="stMain" x="635" y="257" class="tag" text-anchor="middle" style="font-size:10px;fill:var(--ok)">ON</text>
+        <text x="635" y="267" class="tag" text-anchor="middle" style="font-size:9px">100 A</text>
+        <path class="wire w-line" d="M618,270 V286" style="stroke-width:4"/>
+        <circle cx="618" cy="291" r="4.5" fill="var(--fg)"/>
+        <path class="wire w-neutral" d="M652,270 V319 H380 V145 H395" style="stroke-width:4"/>
+        <circle cx="400" cy="145" r="4.5" fill="var(--fg)"/>
+        <path class="wire w-line" d="M550,270 V286" style="stroke-width:4"/>
+        <circle cx="550" cy="291" r="4.5" fill="var(--fg)"/>
+        <rect x="530" y="170" width="40" height="100" rx="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="550" y="184" class="tag" text-anchor="middle" style="font-size:9px">RCBO</text>
+        <rect x="543" y="190" width="14" height="36" rx="2" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/><rect id="lvR1" x="545" y="192" width="10" height="16" rx="2" fill="var(--fg)"/><text id="stR1" x="550" y="238" class="tag" text-anchor="middle" style="font-size:8.5px;fill:var(--ok)">ON</text>
+        <circle cx="550" cy="250" r="4" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.3"/>
+        <text x="550" y="266" class="tag" text-anchor="middle" style="font-size:9px">32 A</text>
+        <path d="M566,172 c-8,-4 8,-8 0,-12 s8,-6 0,-9" fill="none" stroke="var(--neutral)" stroke-width="2.5"/>
+        <circle cx="566" cy="145" r="4.5" fill="var(--fg)"/>
+        <path class="wire w-line" d="M490,270 V286" style="stroke-width:4"/>
+        <circle cx="490" cy="291" r="4.5" fill="var(--fg)"/>
+        <rect x="470" y="170" width="40" height="100" rx="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="490" y="184" class="tag" text-anchor="middle" style="font-size:9px">RCBO</text>
+        <rect x="483" y="190" width="14" height="36" rx="2" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/><rect id="lvR2" x="485" y="192" width="10" height="16" rx="2" fill="var(--fg)"/><text id="stR2" x="490" y="238" class="tag" text-anchor="middle" style="font-size:8.5px;fill:var(--ok)">ON</text>
+        <circle cx="490" cy="250" r="4" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.3"/>
+        <text x="490" y="266" class="tag" text-anchor="middle" style="font-size:9px">32 A</text>
+        <path d="M506,172 c-8,-4 8,-8 0,-12 s8,-6 0,-9" fill="none" stroke="var(--neutral)" stroke-width="2.5"/>
+        <circle cx="506" cy="145" r="4.5" fill="var(--fg)"/>
+        <path class="wire w-line" d="M430,270 V286" style="stroke-width:4"/>
+        <circle cx="430" cy="291" r="4.5" fill="var(--fg)"/>
+        <rect x="410" y="170" width="40" height="100" rx="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="430" y="184" class="tag" text-anchor="middle" style="font-size:9px">RCBO</text>
+        <rect x="423" y="190" width="14" height="36" rx="2" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/><rect id="lvR3" x="425" y="192" width="10" height="16" rx="2" fill="var(--fg)"/><text id="stR3" x="430" y="238" class="tag" text-anchor="middle" style="font-size:8.5px;fill:var(--ok)">ON</text>
+        <circle cx="430" cy="250" r="4" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.3"/>
+        <text x="430" y="266" class="tag" text-anchor="middle" style="font-size:9px">6 A</text>
+        <path d="M446,172 c-8,-4 8,-8 0,-12 s8,-6 0,-9" fill="none" stroke="var(--neutral)" stroke-width="2.5"/>
+        <circle cx="446" cy="145" r="4.5" fill="var(--fg)"/>
+        <path d="M540,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
+        <path class="wire w-line" d="M540,62 V172" style="stroke-width:4"/>
+        <path d="M552,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
+        <path class="wire w-neutral" d="M552,62 V172" style="stroke-width:4"/>
+        <path class="wire w-cpc-g" d="M564,62 V114" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M564,62 V114" style="stroke-width:3.5"/>
+        <circle cx="564" cy="120" r="4.5" fill="var(--fg)"/>
+        <rect x="532" y="44" width="40" height="20" rx="6" fill="#c9cdd1" stroke="var(--muted)" stroke-width="1.2"/>
+        <text x="552" y="20" class="small" text-anchor="middle" style="font-weight:600;fill:var(--fg);font-size:11px">1. Cooker</text>
+        <text x="552" y="34" class="small" text-anchor="middle" style="font-size:11px">32 A</text>
+        <path d="M480,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
+        <path class="wire w-line" d="M480,62 V172" style="stroke-width:4"/>
+        <path d="M492,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
+        <path class="wire w-neutral" d="M492,62 V172" style="stroke-width:4"/>
+        <path class="wire w-cpc-g" d="M504,62 V114" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M504,62 V114" style="stroke-width:3.5"/>
+        <circle cx="504" cy="120" r="4.5" fill="var(--fg)"/>
+        <rect x="472" y="44" width="40" height="20" rx="6" fill="#c9cdd1" stroke="var(--muted)" stroke-width="1.2"/>
+        <text x="492" y="20" class="small" text-anchor="middle" style="font-weight:600;fill:var(--fg);font-size:11px">2. Sockets</text>
+        <text x="492" y="34" class="small" text-anchor="middle" style="font-size:11px">32 A</text>
+        <path d="M420,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
+        <path class="wire w-line" d="M420,62 V172" style="stroke-width:4"/>
+        <path d="M432,110 V155" fill="none" stroke="var(--surface-2)" stroke-width="10" stroke-linecap="butt"/>
+        <path class="wire w-neutral" d="M432,62 V172" style="stroke-width:4"/>
+        <path class="wire w-cpc-g" d="M444,62 V114" style="stroke-width:3.5"/><path class="wire w-cpc-y" d="M444,62 V114" style="stroke-width:3.5"/>
+        <circle cx="444" cy="120" r="4.5" fill="var(--fg)"/>
+        <rect x="412" y="44" width="40" height="20" rx="6" fill="#c9cdd1" stroke="var(--muted)" stroke-width="1.2"/>
+        <text x="432" y="20" class="small" text-anchor="middle" style="font-weight:600;fill:var(--fg);font-size:11px">3. Lights</text>
+        <text x="432" y="34" class="small" text-anchor="middle" style="font-size:11px">6 A</text>
+        <rect class="sw-hit" data-sw="main" x="600" y="170" width="70" height="100" rx="5" tabindex="0" role="switch" aria-checked="true" aria-label="Main switch"/><rect class="sw-hit" data-sw="r1" x="530" y="170" width="40" height="100" rx="4" tabindex="0" role="switch" aria-checked="true" aria-label="RCBO for circuit 1"/><rect class="sw-hit" data-sw="r2" x="470" y="170" width="40" height="100" rx="4" tabindex="0" role="switch" aria-checked="true" aria-label="RCBO for circuit 2"/><rect class="sw-hit" data-sw="r3" x="410" y="170" width="40" height="100" rx="4" tabindex="0" role="switch" aria-checked="true" aria-label="RCBO for circuit 3"/>
+        <g id="flowG"></g>
+      </svg>
+    </div>
+    <div class="controls">
+      <span class="muted" style="font-size:0.9rem">Tap the main switch or an RCBO to switch it.</span>
+      <label class="check" for="fShow"><input type="checkbox" id="fShow" checked> Show current flow</label>
+    </div>
+    <p class="caption" id="flowCap"></p>
+    <p class="caption">Follow the supply from the right. The <strong>meter tails</strong> bring line and neutral into the top of the <strong>main switch</strong>. Its line output feeds the <strong>busbar</strong> along the bottom, which supplies every <strong><abbr title="residual current breaker with overcurrent protection">RCBO</abbr></strong> from below. Its neutral output feeds the <strong>neutral bar</strong> at the top. Each circuit's cable comes in from the top: the line and neutral connect to the top of that circuit's <abbr title="residual current breaker with overcurrent protection">RCBO</abbr>, and the <abbr title="circuit protective conductor">CPC</abbr> goes to the shared <strong>earth bar</strong>, which connects through the <strong>earthing conductor</strong> to the supply's earth. Each <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> also has a <strong>flying neutral lead</strong> to the neutral bar. The circuit's own neutral goes into the <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> (not to the bar), so the <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> can compare that circuit's line and neutral currents. Where a wire crosses a bar without a dot, it isn't connected to it. Layouts vary between manufacturers, and in a flat the cables may come in from below instead.</p>
+  </section>
+
+  <section class="prose">
+    <h2>What's in a consumer unit</h2>
+    <ul>
+      <li><strong>Main switch:</strong> a double-pole switch (it breaks line and neutral) that isolates the whole installation, typically rated 100 A. It's for switching off, not for protection: it won't trip on a fault.</li>
+      <li><strong>Busbars:</strong> copper bars that carry the supply from the main switch to each device.</li>
+      <li><strong>Protective devices:</strong> one per circuit, such as <abbr title="miniature circuit breaker">MCBs</abbr> or <abbr title="residual current breaker with overcurrent protection">RCBOs</abbr>, and sometimes <abbr title="residual current device">RCDs</abbr> covering groups of them.</li>
+      <li><strong>Neutral bar(s):</strong> where each circuit's neutral connects. On a split-load board there's one per <abbr title="residual current device">RCD</abbr>, and a circuit's neutral must go to the bar for the <abbr title="residual current device">RCD</abbr> that protects it.</li>
+      <li><strong>Earth bar:</strong> where every circuit's <abbr title="circuit protective conductor">CPC</abbr> connects, linked to the main earthing terminal.</li>
+    </ul>
+    <p><strong>Layout.</strong> It varies between manufacturers, but in UK consumer units the main switch is commonly on the right, and the circuits are numbered outwards from it, right to left. The highest-rated circuits, such as the cooker or shower, usually go nearest the main switch and lighting furthest away. The circuit chart on the door lists them in the same numbered order.</p>
+    <p>Fires starting in plastic consumer units led to a rule, since 2016, that consumer units in homes must have an enclosure made of non-combustible material, usually steel (or sit inside a non-combustible cabinet). Many also include a <strong>surge protective device</strong> (<abbr title="surge protective device">SPD</abbr>), which diverts voltage spikes from lightning and switching to earth. Some include <strong>arc fault detection devices</strong> (<abbr title="arc fault detection device">AFDDs</abbr>), which spot the electrical signature of a dangerous arc, such as a loose connection or damaged cable, and disconnect before it starts a fire. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> calls for them in some higher-risk buildings and recommends them in others.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Fuses</h2>
+    <p>The oldest protective device is a <strong>fuse</strong>: a thin conductor that melts and breaks the circuit when too much current flows. You'll meet old rewirable fuses (a length of fuse wire in a carrier, BS 3036) in older homes, cartridge fuses in older fuse boards and cut-outs, and the 3 A or 13 A cartridge fuse in every UK plug (BS 1362). A blown fuse has to be replaced, which is one reason <abbr title="miniature circuit breaker">MCBs</abbr> took over.</p>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="miniature circuit breaker">MCBs</abbr>: miniature circuit breakers</h2>
+    <p>An <abbr title="miniature circuit breaker">MCB</abbr> protects a circuit's cables against <strong>overcurrent</strong>, using two mechanisms in one:</p>
+    <ul>
+      <li><strong>Thermal trip (overload):</strong> a bimetallic strip, two metals bonded together that expand at different rates. Current heats it, it bends, and when it bends far enough it releases the trip. The bigger the overload, the faster it trips: a small overload might take an hour, a large one a few seconds. This copes with harmless short surges, like a motor starting.</li>
+      <li><strong>Magnetic trip (short circuit or earth fault):</strong> a coil that the current flows through. A large fault current makes a magnetic field strong enough to pull a plunger and trip the breaker within milliseconds.</li>
+    </ul>
+    <p>The <strong>type</strong> letter says how big a current the magnetic trip needs, as a multiple of the rating (I<sub>n</sub>). The higher types ride through the large start-up surges of motors and transformers:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Instant (magnetic) trip</th><th>Typical use</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">B</td><td>3 to 5 × I<sub>n</sub></td><td>Homes and general circuits: the usual choice</td></tr>
+          <tr><td class="mono">C</td><td>5 to 10 × I<sub>n</sub></td><td>Motors, fluorescent lighting, commercial loads with switch-on surges</td></tr>
+          <tr><td class="mono">D</td><td>10 to 20 × I<sub>n</sub></td><td>Big inrush loads: large motors, transformers, welders</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Higher types need a lower earth fault loop impedance to trip in time, because the fault current has to be bigger (see the <a href="../../earth-fault-loop.html">earth fault loop explorer</a>). Domestic <abbr title="miniature circuit breaker">MCBs</abbr> are usually rated to break fault currents up to 6,000 A (6 kA).</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">How fast does an <abbr title="miniature circuit breaker">MCB</abbr> trip?</h3>
+    </div>
+    <div class="stage">
+      <svg id="curve" viewBox="0 0 720 330" class="wide" role="img" aria-labelledby="w1d">
+        <title id="w1d">An MCB time-current curve on log scales: current as a multiple of the rating across, trip time down. A shaded band shows the range of trip times, falling steeply through the overload region and dropping to under a tenth of a second in the magnetic region.</title>
+        <g id="curveG"></g>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label" id="tyL">Type</span>
+        <div class="seg" role="group" aria-labelledby="tyL" id="ty">
+          <button type="button" data-t="B" aria-pressed="true">B</button><button type="button" data-t="C" aria-pressed="false">C</button><button type="button" data-t="D" aria-pressed="false">D</button>
+        </div>
+      </div>
+      <div class="ctl" style="flex:0 1 auto"><label for="inr">Rating (I<sub>n</sub>)</label><select id="inr"></select></div>
+      <div class="ctl"><label for="cur">Current flowing</label><div class="slider"><input type="range" id="cur" min="0" max="1000" step="1" value="380"><output id="curOut" for="cur"></output></div></div>
+    </div>
+    <div class="verdict" id="mcbV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">The band is the range the standard allows: any genuine breaker trips somewhere inside it. Both scales are logarithmic, so each grid step is ten times the last. This is a simplified illustration of the BS EN 60898 limits; real breakers come with the manufacturer's own curves.</p>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="residual current device">RCDs</abbr>: residual current devices</h2>
+    <p>An <abbr title="residual current device">RCD</abbr> doesn't measure how much current flows. It compares the current going out on the line with the current coming back on the neutral. In a healthy circuit they're equal. If some current leaks to earth, perhaps through a person, less comes back on the neutral. That difference is the <strong>residual current</strong>.</p>
+    <p>Inside, line and neutral both pass through a ring-shaped iron core (a toroid). When the currents are equal, their magnetic fields cancel. An imbalance leaves a field in the core, which induces a current in a small sensing coil, and that trips the device.</p>
+    <ul>
+      <li>For <strong>additional protection</strong>, the rated residual current (I<sub>Δn</sub>) is 30 mA. A general-type <abbr title="residual current device">RCD</abbr> must trip within 300 ms at 30 mA, and within 40 ms at five times that (150 mA).</li>
+      <li>An <abbr title="residual current device">RCD</abbr> gives <strong>no overcurrent protection</strong>. An overload, or a short circuit between line and neutral, is balanced, so the <abbr title="residual current device">RCD</abbr> doesn't see it. A stand-alone <abbr title="residual current device">RCD</abbr>, an <strong><abbr title="residual current circuit breaker: an RCD without overcurrent protection">RCCB</abbr></strong>, always needs <abbr title="miniature circuit breaker">MCBs</abbr> or fuses as well.</li>
+      <li>It also can't protect someone touching line and neutral at the same time, because that current is balanced too.</li>
+      <li>Press the <strong>test button</strong> every six months. It creates a deliberate small imbalance to prove the mechanism still works. (It doesn't measure the trip time; that's an <abbr title="residual current device">RCD</abbr> test with an instrument.)</li>
+      <li><abbr title="residual current device">RCD</abbr> types <abbr title="alternating current">AC</abbr>, A, F and B differ in which kinds of leakage they detect (see <a href="../principles/dc-and-ac.html"><abbr title="direct current">DC</abbr> and <abbr title="alternating current">AC</abbr></a>).</li>
+    </ul>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">Inside an <abbr title="residual current device">RCD</abbr></h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 720 260" class="wide" role="img" aria-labelledby="w2d">
+        <title id="w2d">Line and neutral conductors pass through a ring-shaped core. A sensing coil on the core detects any difference between the two currents and trips the device.</title>
+        <g id="rcdG"></g>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="ld">Load current</label><div class="slider"><input type="range" id="ld" min="0" max="32" step="0.5" value="10"><output id="ldOut" for="ld"></output></div></div>
+      <div class="ctl"><label for="lk">Leakage to earth</label><div class="slider"><input type="range" id="lk" min="0" max="200" step="1" value="0"><output id="lkOut" for="lk"></output></div></div>
+    </div>
+    <div class="verdict" id="rcdV" aria-live="polite"><strong></strong><span></span></div>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="residual current breaker with overcurrent protection">RCBOs</abbr>: both in one</h2>
+    <p>An <strong><abbr title="residual current breaker with overcurrent protection">RCBO</abbr></strong> (residual current breaker with overcurrent protection) combines an <abbr title="miniature circuit breaker">MCB</abbr> and an <abbr title="residual current device">RCD</abbr> in one device, protecting a single circuit against overload, short circuit and earth leakage. Because each circuit has its own, an earth fault only turns off that circuit. They cost more, but they've become the usual choice for new and replacement consumer units.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Split-load and <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> boards</h2>
+    <p>On a <strong>split-load</strong> (or dual-RCD) board, the circuits are divided into two groups, each fed through one <abbr title="residual current device">RCD</abbr> and protected individually by <abbr title="miniature circuit breaker">MCBs</abbr>. It's cheaper, but one fault, or a few small leakages adding up across several circuits, trips the <abbr title="residual current device">RCD</abbr> and takes the whole group off, perhaps half the lights and sockets in the house. Spreading circuits sensibly between the two (upstairs lights with downstairs sockets, say) means a trip never leaves anyone in complete darkness. An <strong><abbr title="residual current breaker with overcurrent protection">RCBO</abbr> board</strong> avoids the problem: only the faulty circuit goes off.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w3">Fault a circuit</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label" id="bdL">Board</span>
+        <div class="seg" role="group" aria-labelledby="bdL" id="bd">
+          <button type="button" data-b="split" aria-pressed="true">Split-load (two <abbr title="residual current device">RCDs</abbr> + <abbr title="miniature circuit breaker">MCBs</abbr>)</button>
+          <button type="button" data-b="rcbo" aria-pressed="false"><abbr title="residual current breaker with overcurrent protection">RCBO</abbr> board</button>
+        </div>
+      </div>
+      <div class="ctl" style="flex:0 1 auto">
+        <label for="flt">Fault</label>
+        <select id="flt">
+          <option value="none">No fault</option>
+          <option value="earth">Earth leakage on the kitchen sockets</option>
+          <option value="overload">Overload on the kitchen sockets</option>
+        </select>
+      </div>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 720 230" class="wide" role="img" aria-labelledby="w3d">
+        <title id="w3d">A consumer unit front view with a main switch and a row of protective devices. Devices that trip are shown in red.</title>
+        <g id="cuG"></g>
+      </svg>
+    </div>
+    <div class="info" id="devInfo" aria-live="polite"></div>
+    <div class="circ" id="circ" aria-live="polite"></div>
+    <p class="caption">Tap the main switch, an RCD or a circuit's device to switch it off or on. Then add a fault and compare the two boards: on the split-load board one RCD takes three circuits off with it. Try resetting a tripped device while the fault is still there: it flicks straight back off. Choose "No fault" to clear it, then reset.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Which device protects against what</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Overload</th><th>Short circuit</th><th>Earth fault</th><th>Additional protection (30 mA)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fuse</strong></td><td>Yes</td><td>Yes</td><td>Yes, if the fault current is high enough</td><td>No</td></tr>
+          <tr><td><strong><abbr title="miniature circuit breaker">MCB</abbr></strong></td><td>Yes (thermal)</td><td>Yes (magnetic)</td><td>Yes, if the fault current is high enough</td><td>No</td></tr>
+          <tr><td><strong><abbr title="residual current device">RCD</abbr> / <abbr title="residual current circuit breaker: an RCD without overcurrent protection">RCCB</abbr></strong></td><td>No</td><td>No (line to neutral)</td><td>Yes</td><td>Yes, if 30 mA or less</td></tr>
+          <tr><td><strong><abbr title="residual current breaker with overcurrent protection">RCBO</abbr></strong></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes, if 30 mA or less</td></tr>
+          <tr><td><strong>Main switch</strong></td><td colspan="4">None: it's for isolation only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>Typical domestic circuits</h2>
+    <p>As a rough guide. The real choice always comes from the circuit's design: the load, cable length, how the cable is installed, and the earth fault loop impedance.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Circuit</th><th>Typical device</th><th>Typical cable</th></tr></thead>
+        <tbody>
+          <tr><td>Lighting</td><td class="mono">6 A Type B</td><td>1.0 or 1.5 mm²</td></tr>
+          <tr><td>Immersion heater</td><td class="mono">16 A Type B</td><td>2.5 mm²</td></tr>
+          <tr><td>Radial sockets</td><td class="mono">20 A Type B</td><td>2.5 mm²</td></tr>
+          <tr><td>Ring final sockets, or larger radial</td><td class="mono">32 A Type B</td><td>2.5 mm² ring, or 4.0 mm² radial</td></tr>
+          <tr><td>Cooker, car charger</td><td class="mono">32 A Type B</td><td>6.0 mm²</td></tr>
+          <tr><td>Electric shower</td><td class="mono">40 or 45 A Type B</td><td>10 mm²</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var f = function (x, s) { return Course.sig(x, s || 3); };
+
+  // ---------------- Overview: current flow animation ----------------
+  (function () {
+    var CX = [550, 490, 430];                       // RCBO centres for circuits 1, 2, 3
+    var on = [true, true, true], show = true, main = true, rcbo = [true, true, true];
+    var live = function (k) { return main && rcbo[k] && on[k]; };
+    function path(d) { return '<path class="flow thin" d="' + d + '"/>'; }
+    function draw() {
+      var g = "", any = [0, 1, 2].some(live);
+      if (show && any) {
+        // out: meter → line tail → main switch → busbar
+        g += path("M618,8 V170") + path("M618,270 V291");
+        // busbar segments: from the main switch leftwards, only as far as the furthest circuit that's on
+        var stops = [618].concat(CX);
+        for (var k = 0; k < 3; k++) {
+          if ([0, 1, 2].slice(k).some(live)) g += path("M" + stops[k] + ",291 H" + stops[k + 1]);
+        }
+        CX.forEach(function (cx, k) {
+          if (!live(k)) return;
+          var L = cx - 10, N = cx + 2, F = cx + 16;
+          g += path("M" + cx + ",291 V270");            // up into the RCBO
+          g += path("M" + L + ",172 V40");              // out along the circuit's line
+          g += path("M" + N + ",40 V172");              // back along the circuit's neutral
+          g += path("M" + F + ",170 V145");             // out through the flying neutral lead
+        });
+        // neutral bar segments: each flying lead's current flows left to the main neutral connection at x = 400
+        var fl = CX.map(function (cx) { return cx + 16; }).concat([400]);
+        for (k = 0; k < 3; k++) {
+          if ([0, 1, 2].slice(0, k + 1).some(live)) g += path("M" + fl[k] + ",145 H" + fl[k + 1]);
+        }
+        // back: neutral bar → round under the board → main switch → neutral tail → meter
+        g += path("M400,145 H380 V319 H652 V270") + path("M652,170 V8");
+      }
+      document.getElementById("flowG").innerHTML = g;
+      // levers: up = on, down = off
+      var lever = function (id, label, isOn, up, down) {
+        var el = document.getElementById(id), t = document.getElementById(label);
+        el.setAttribute("y", isOn ? up : down); el.setAttribute("fill", isOn ? "var(--fg)" : "var(--muted)");
+        t.textContent = isOn ? "ON" : "OFF"; t.style.fill = isOn ? "var(--ok)" : "var(--muted)";
+      };
+      lever("lvMain", "stMain", main, 206, 224);
+      rcbo.forEach(function (r, k) { lever("lvR" + (k + 1), "stR" + (k + 1), r, 192, 208); });
+      document.querySelectorAll(".sw-hit").forEach(function (h) { var w = h.getAttribute("data-sw"); h.setAttribute("aria-checked", String(w === "main" ? main : rcbo[+w[1] - 1])); });
+      var names = ["cooker", "sockets", "lights"].filter(function (n, k) { return live(k); });
+      var offR = ["1", "2", "3"].filter(function (n, k) { return !rcbo[k]; });
+      document.getElementById("flowCap").textContent = !show ? "Current flow hidden." : !main
+        ? "Main switch off: line and neutral are both disconnected, so nothing beyond it carries current. The meter tails and the main switch's incoming terminals are still live."
+        : !any
+        ? "All three RCBOs are off, so no circuit carries current. The busbar and the RCBOs' supply terminals are still live."
+        : "Orange dashes show conventional current at one instant: out along the line, back along the neutral. On AC the direction reverses every 10 ms. With the " + names.join(" and ") + " on, the busbar and neutral bar only carry current as far as they need to." + (offR.length ? (offR.length > 1 ? " RCBOs " + offR.join(" and ") + " are off, so those circuits are dead." : " RCBO " + offR[0] + " is off, so that circuit is dead.") : "") + " The CPCs and earth bar carry nothing at all unless there's a fault.";
+    }
+    document.getElementById("fShow").addEventListener("change", function (e) { show = e.target.checked; draw(); });
+    function flip(h) { var w = h.getAttribute("data-sw"); if (w === "main") main = !main; else rcbo[+w[1] - 1] = !rcbo[+w[1] - 1]; draw(); }
+    document.querySelectorAll(".sw-hit").forEach(function (h) {
+      h.addEventListener("click", function () { flip(h); });
+      h.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(h); } });
+    });
+    draw();
+  })();
+
+  // ---------------- MCB time-current curve (log-log) ----------------
+  var MAG = { B: [3, 5], C: [5, 10], D: [10, 20] };
+  var mc = { t: "B", In: 32, I: 0 };
+  [6, 10, 16, 20, 32, 40, 50].forEach(function (r) { var o = document.createElement("option"); o.value = r; o.textContent = r + " A"; $("inr").appendChild(o); });
+  $("inr").value = 32;
+  var X0 = 70, X1 = 700, Y0 = 290, Y1 = 20;           // plot box
+  var LX0 = Math.log10(1), LX1 = Math.log10(100);      // 1 to 100 × In
+  var LY0 = Math.log10(0.001), LY1 = Math.log10(10000); // 1 ms to 10,000 s
+  var px = function (m) { return X0 + (X1 - X0) * (Math.log10(m) - LX0) / (LX1 - LX0); };
+  var py = function (t) { return Y0 - (Y0 - Y1) * (Math.log10(t) - LY0) / (LY1 - LY0); };
+  // Simplified envelope of the BS EN 60898 limits (illustrative). Thermal times scale roughly as 1/I².
+  function band(t) {
+    var k = MAG[t], kl = k[0], kh = k[1];
+    var up = function (m) { return 60 * Math.pow(2.55 / m, 2); }, lo = function (m) { return Math.pow(2.55 / m, 2); };
+    var upper = [[1.13, 10000], [1.45, 3600], [2.55, 60], [kh, up(kh)], [kh, 0.1], [100, 0.1]];
+    var lower = [[100, 0.002], [kl, 0.002], [kl, Math.max(0.1, lo(kl))], [2.55, 1], [1.45, 600], [1.13, 3600]];
+    return { upper: upper, lower: lower, kl: kl, kh: kh, up: up, lo: lo };
+  }
+  function interp(pts, m) { // log-log interpolation along a polyline of [m, t]
+    for (var i = 0; i < pts.length - 1; i++) {
+      var a = pts[i], b = pts[i + 1];
+      if ((m >= a[0] && m <= b[0]) || (m <= a[0] && m >= b[0])) {
+        if (a[0] === b[0]) return Math.min(a[1], b[1]);
+        var u = (Math.log10(m) - Math.log10(a[0])) / (Math.log10(b[0]) - Math.log10(a[0]));
+        return Math.pow(10, Math.log10(a[1]) + u * (Math.log10(b[1]) - Math.log10(a[1])));
+      }
+    }
+    return NaN;
+  }
+  var tTxt = function (t) { return t >= 3600 ? f(t / 3600, 2) + " h" : t >= 60 ? f(t / 60, 2) + " min" : t >= 1 ? f(t, 2) + " s" : f(t * 1000, 2) + " ms"; };
+  function drawCurve() {
+    var b = band(mc.t), g = "";
+    [0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000].forEach(function (t) {
+      g += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + py(t) + '" y2="' + py(t) + '" stroke="var(--rule)"/>' +
+        '<text class="axis-t" x="' + (X0 - 6) + '" y="' + (py(t) + 4) + '" text-anchor="end">' + (t < 1 ? t * 1000 + " ms" : t >= 3600 ? "" : t + " s") + (t === 10000 ? "10,000 s" : "") + "</text>";
+    });
+    [1, 2, 3, 5, 10, 20, 30, 50, 100].forEach(function (m) {
+      g += '<line x1="' + px(m) + '" x2="' + px(m) + '" y1="' + Y1 + '" y2="' + Y0 + '" stroke="var(--rule)"/>' +
+        '<text class="axis-t" x="' + px(m) + '" y="' + (Y0 + 16) + '" text-anchor="middle">' + m + "×</text>";
+    });
+    g += '<text class="axis-t" x="' + X1 + '" y="' + (Y0 + 32) + '" text-anchor="end">current, as a multiple of the rating I<tspan dy="3" font-size="0.8em">n</tspan></text>';
+    g += '<text class="axis-t" x="' + X0 + '" y="12">trip time</text>';
+    // band polygon
+    var poly = b.upper.concat(b.lower).map(function (p) { return px(p[0]).toFixed(1) + "," + py(p[1]).toFixed(1); }).join(" ");
+    g += '<polygon points="' + poly + '" fill="var(--flow)" opacity="0.22" stroke="var(--flow)" stroke-width="2"/>';
+    // region labels
+    g += '<text x="' + px(1.6) + '" y="' + py(3000) + '" class="small">thermal (overload)</text>';
+    g += '<text x="' + px(b.kh * 1.15) + '" y="' + py(0.04) + '" class="small">magnetic (instant)</text>';
+    // current marker
+    var m = mc.I / mc.In;
+    if (m >= 1 && m <= 100) {
+      g += '<line x1="' + px(m) + '" x2="' + px(m) + '" y1="' + Y1 + '" y2="' + Y0 + '" stroke="var(--fg)" stroke-width="2" stroke-dasharray="5 4"/>';
+      g += '<text x="' + (px(m) + (m > 40 ? -6 : 6)) + '" y="' + (Y1 + 14) + '" text-anchor="' + (m > 40 ? "end" : "start") + '" class="tag">' + f(mc.I) + " A</text>";
+    }
+    $("curveG").innerHTML = g;
+    // verdict
+    var v = $("mcbV"), cls, head, body;
+    $("curOut").textContent = f(mc.I) + " A";
+    if (m < 1.13) { cls = "ok"; head = "Won't trip"; body = f(m, 2) + " × the rating. At up to 1.13 × I" + "n" + " an MCB must carry the current indefinitely."; }
+    else if (m < 1.45) { cls = "warn"; head = "Slow overload: may run for over an hour"; body = "Between 1.13 and 1.45 × I" + "n" + " the breaker may take more than an hour to trip, and must trip within an hour at 1.45 ×. Cables are sized so this doesn't harm them."; }
+    else if (m < b.kl) { cls = "warn"; head = "Overload: thermal trip in roughly " + tTxt(interp(b.lower, m)) + " to " + tTxt(interp(b.upper, m)); body = "The bimetal heats and bends. The bigger the overload, the sooner it trips."; }
+    else if (m < b.kh) { cls = "warn"; head = "Grey zone: may trip instantly, or within " + tTxt(b.up(m)); body = "Between " + b.kl + " and " + b.kh + " × I" + "n" + " a Type " + mc.t + " breaker may trip magnetically or still on the thermal element. Protection design never relies on this zone."; }
+    else { cls = "bad"; head = "Instant magnetic trip: under 0.1 s"; body = "At " + f(m, 2) + " × the rating, a fault current this big trips the magnetic coil within milliseconds. This is what disconnects a short circuit or earth fault fast enough."; }
+    v.className = "verdict " + cls; v.querySelector("strong").textContent = head; v.querySelector("span").innerHTML = body.replace(/I(n)\b/g, "I<sub>n</sub>");
+  }
+  // slider: logarithmic 1 A to 2,000 A
+  var toI = function (s) { return Math.round(Math.pow(10, Math.log10(1) + (Math.log10(2000) - 0) * s / 1000) * 10) / 10; };
+  $("cur").addEventListener("input", function (e) { mc.I = toI(+e.target.value); drawCurve(); });
+  $("inr").addEventListener("change", function (e) { mc.In = +e.target.value; drawCurve(); });
+  $("ty").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; mc.t = b.getAttribute("data-t"); this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); drawCurve(); });
+  mc.I = toI(+$("cur").value); drawCurve();
+
+  // ---------------- RCD toroid ----------------
+  var rc = { load: 10, leak: 0 };
+  function drawRCD() {
+    var IL = rc.load + rc.leak / 1000, IN = rc.load, res = rc.leak; // mA
+    var g = "";
+    // Core (toroid): back half behind the wires, front half in front, so the wires pass through it.
+    var CORE = 'fill="none" stroke="var(--muted)" style="stroke:color-mix(in srgb, var(--muted) 40%, var(--surface-2))" stroke-width="22"';
+    g += '<path d="M300,44 A70,86 0 0,0 300,216" ' + CORE + '/>';                       // left (back) half
+    g += '<path class="wire w-line" d="M40,105 H600"/><path class="wire w-neutral" d="M40,155 H600"/>';
+    g += '<path d="M300,44 A70,86 0 0,1 300,216" ' + CORE + '/>';                       // right (front) half
+    g += '<text x="40" y="95" class="tag" fill="var(--line)">L  ' + f(IL, 4) + ' A →</text><text x="40" y="180" class="tag" fill="var(--neutral)">N  ← ' + f(IN, 4) + " A</text>";
+    // Sense coil: turns of wire wound round the top of the core
+    for (var t = 0; t < 7; t++) g += '<ellipse cx="' + (281 + t * 6.3) + '" cy="44" rx="3.2" ry="16" fill="none" stroke="var(--fg)" stroke-width="2"/>';
+    g += '<text x="268" y="20" text-anchor="end" class="small">Sense coil</text>';
+    // Leads from the coil to the trip mechanism
+    var tripped = res >= 30;
+    g += '<path d="M278,30 V12 H500 M322,30 V24 H500" fill="none" stroke="var(--fg)" stroke-width="1.5"/>';
+    g += '<rect x="500" y="4" width="130" height="30" rx="4" fill="' + (tripped ? "var(--bad-bg)" : "var(--surface)") + '" stroke="' + (tripped ? "var(--bad)" : "var(--fg)") + '" stroke-width="1.5"/>';
+    g += '<text x="565" y="24" text-anchor="middle" class="tag" style="font-size:12px' + (tripped ? ";fill:var(--bad)" : "") + '">' + (tripped ? "TRIPPED" : "Trip mechanism") + "</text>";
+    g += '<text x="300" y="242" text-anchor="middle" class="small">Core (toroid): line and neutral both pass through it</text>';
+    if (rc.leak > 0) {
+      g += '<path d="M620,105 V215" stroke="var(--cpc-g)" stroke-width="3" stroke-dasharray="4 4"/><path d="M608,215 H632 M612,221 H628 M617,227 H623" stroke="var(--cpc-g)" stroke-width="2.5"/>';
+      g += '<text x="634" y="170" class="tag" fill="var(--cpc-g)" style="font-size:12px">' + rc.leak + ' mA</text><text x="634" y="186" class="small">to earth</text>';
+    }
+    $("rcdG").innerHTML = g;
+    $("ldOut").textContent = rc.load + " A"; $("lkOut").textContent = rc.leak + " mA";
+    var v = $("rcdV"), cls, head, body;
+    if (res === 0) { cls = "ok"; head = "Balanced: no residual current"; body = "Line and neutral carry the same " + rc.load + " A, so their magnetic fields cancel in the core. Note that the size of the load makes no difference."; }
+    else if (res < 15) { cls = "ok"; head = "Won't trip: " + res + " mA residual"; body = "A 30 mA RCD isn't allowed to trip below half its rating (15 mA), so small normal leakages don't cause nuisance trips."; }
+    else if (res < 30) { cls = "warn"; head = "May trip: " + res + " mA residual"; body = "Between 15 and 30 mA a 30 mA RCD may or may not trip. Leakages from several appliances on one RCD add up here, which is a common cause of nuisance tripping on split-load boards."; }
+    else { cls = "bad"; head = "Trips: " + res + " mA residual"; body = res >= 150 ? "At five times its rating or more, a general-type RCD must trip within 40 ms." : "At or above its 30 mA rating, a general-type RCD must trip within 300 ms."; }
+    v.className = "verdict " + cls; v.querySelector("strong").textContent = head; v.querySelector("span").textContent = body;
+  }
+  $("ld").addEventListener("input", function (e) { rc.load = +e.target.value; drawRCD(); });
+  $("lk").addEventListener("input", function (e) { rc.leak = +e.target.value; drawRCD(); });
+  drawRCD();
+
+  // ---------------- Consumer unit fault simulator ----------------
+  // In circuit-number order: circuit 1 sits next to the main switch (on the right) and numbering runs leftwards.
+  // Within each RCD group the higher-rated circuits sit nearest the main switch.
+  var CIRCS = ["Cooker", "Kitchen sockets", "Lights upstairs", "Sockets upstairs", "Sockets downstairs", "Lights downstairs"];
+  var RATE = ["32 A", "32 A", "6 A", "32 A", "32 A", "6 A"];
+  var KITCHEN = 1;
+  var INFO = {
+    main: ["Main switch", "Double-pole isolator, typically 100 A. Switches the whole installation off, line and neutral. Not a protective device: it doesn't trip."],
+    rcd: ["RCD (RCCB), 30 mA", "Watches the circuits fed through it for leakage to earth and trips them all off together. No overcurrent protection: the MCBs after it do that."],
+    mcb: ["MCB", "Overcurrent protection for one circuit: thermal trip for overloads, magnetic trip for short circuits and earth faults big enough to trigger it."],
+    rcbo: ["RCBO", "MCB and 30 mA RCD in one device, for one circuit. A fault on this circuit only turns this circuit off."],
+    spd: ["SPD (surge protection)", "Diverts voltage spikes from lightning or switching to earth, protecting equipment throughout the installation. It isn't a switch."]
+  };
+  var cu, msg = "";
+  function reset(board) {
+    cu = { b: board, fault: (cu && cu.fault) || "none", sel: "main",
+      on: { main: true, rcd1: true, rcd2: true, c0: true, c1: true, c2: true, c3: true, c4: true, c5: true },
+      trip: {} };
+  }
+  reset("split");
+  var group = function (k) { return k < 3 ? "rcd1" : "rcd2"; };
+  // Is circuit k energised? Main switch on, its RCD on (split board), and its own device on.
+  var live = function (k) { return cu.on.main && (cu.b !== "split" || cu.on[group(k)]) && cu.on["c" + k]; };
+  // If the selected fault is energised, the protecting device trips. Returns the device that tripped, if any.
+  function settle() {
+    if (cu.fault === "none" || !live(KITCHEN)) return null;
+    var dev = cu.fault === "earth" && cu.b === "split" ? group(KITCHEN) : "c" + KITCHEN;
+    cu.on[dev] = false; cu.trip[dev] = true;
+    return dev;
+  }
+  function devSVG(x, w, key, label, sub, opts) {
+    opts = opts || {};
+    var cx = x + w / 2, isOn = cu.on[key], tripped = !isOn && cu.trip[key];
+    var g = (opts.num ? '<text x="' + cx + '" y="54" text-anchor="middle" class="tag" style="font-size:12px;fill:var(--muted)">' + opts.num + "</text>" : "");
+    g += '<g class="dev' + (cu.sel === key ? " sel" : "") + (tripped ? " tripped" : "") + '" data-k="' + key + '" tabindex="0" role="' + (opts.noswitch ? "button" : "switch") + '"' +
+      (opts.noswitch ? "" : ' aria-checked="' + !!isOn + '"') + ' aria-label="' + label + (opts.num ? " for circuit " + opts.num : "") + '">' +
+      '<rect class="body" x="' + x + '" y="60" width="' + w + '" height="110" rx="4"/>' +
+      '<text x="' + cx + '" y="76" text-anchor="middle" class="tag" style="font-size:10px">' + label + "</text>";
+    if (!opts.noswitch) {
+      g += '<rect x="' + (cx - 8) + '" y="84" width="16" height="38" rx="2" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/>' +
+        '<rect x="' + (cx - 6) + '" y="' + (isOn ? 86 : 104) + '" width="12" height="16" rx="2" fill="' + (isOn ? "var(--fg)" : tripped ? "var(--bad)" : "var(--muted)") + '"/>' +
+        '<text x="' + cx + '" y="136" text-anchor="middle" class="tag" style="font-size:9px;fill:' + (isOn ? "var(--ok)" : tripped ? "var(--bad)" : "var(--muted)") + '">' + (isOn ? "ON" : tripped ? "TRIP" : "OFF") + "</text>";
+    }
+    if (opts.test) g += '<circle cx="' + cx + '" cy="148" r="4" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.2"/>';
+    if (sub) g += '<text x="' + cx + '" y="164" text-anchor="middle" class="small" style="font-size:10px">' + sub + "</text>";
+    return g + "</g>";
+  }
+  function drawCU() {
+    var g = '<rect x="10" y="30" width="700" height="170" rx="10" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2"/>' +
+      '<text x="24" y="190" class="small">Numbers above the devices are circuit numbers, counting from the main switch.</text>';
+    var x = 696, i;
+    var put = function (w, gap, key, label, sub, opts) { x -= w; var out = devSVG(x, w, key, label, sub, opts); x -= gap; return out; };
+    g += put(64, 12, "main", "MAIN", "100 A");
+    if (cu.b === "split") {
+      g += put(60, 6, "rcd1", "RCD 1", "30 mA", { test: true });
+      for (i = 0; i < 3; i++) g += put(44, 6, "c" + i, "MCB", RATE[i], { num: String(i + 1) });
+      x -= 10;
+      g += put(60, 6, "rcd2", "RCD 2", "30 mA", { test: true });
+      for (i = 3; i < 6; i++) g += put(44, 6, "c" + i, "MCB", RATE[i], { num: String(i + 1) });
+    } else {
+      g += put(44, 12, "spd", "SPD", "surge", { noswitch: true });
+      for (i = 0; i < 6; i++) g += put(64, 8, "c" + i, "RCBO", RATE[i], { num: String(i + 1), test: true });
+    }
+    $("cuG").innerHTML = g;
+    $("circ").innerHTML = CIRCS.map(function (n, k) { var o = !live(k); return '<div class="' + (o ? "off" : "") + '"><span>' + (k + 1) + ". " + n + "</span><b>" + (o ? "OFF" : "on") + "</b></div>"; }).join("");
+    var key = cu.sel, kind = key === "main" ? "main" : key === "spd" ? "spd" : /^rcd/.test(key) ? "rcd" : cu.b === "split" ? "mcb" : "rcbo";
+    var inf = INFO[kind], extra = "";
+    if (/^c\d/.test(key)) extra = " This one protects circuit " + (+key[1] + 1) + ": " + CIRCS[+key[1]] + " (" + RATE[+key[1]] + ").";
+    if (/^rcd/.test(key)) extra = " This one covers circuits " + (key === "rcd1" ? "1 to 3" : "4 to 6") + ".";
+    var faultNote = cu.fault === "none" ? "" : cu.fault === "earth"
+      ? (cu.b === "split" ? "Earth leakage on the kitchen sockets: RCD 1 trips, taking circuits 1 to 3 off with it." : "Earth leakage on the kitchen sockets: only that circuit's RCBO trips.")
+      : "Overload on the kitchen sockets: it's balanced (no leakage), so no RCD sees it. The kitchen circuit's own " + (cu.b === "split" ? "MCB" : "RCBO") + " trips on its thermal element.";
+    $("devInfo").innerHTML = (msg ? '<span style="color:var(--bad);font-weight:600">' + msg + "</span>" : "") +
+      "<strong>" + inf[0] + "</strong><span>" + inf[1] + extra + "</span>" + (faultNote ? '<span style="color:var(--muted)">' + faultNote + "</span>" : "");
+  }
+  function toggle(key) {
+    msg = ""; cu.sel = key;
+    if (key === "spd") { drawCU(); return; }
+    if (cu.on[key]) { cu.on[key] = false; cu.trip[key] = false; }
+    else {
+      cu.on[key] = true; cu.trip[key] = false;
+      var t = settle();
+      if (t === key) msg = "It tripped straight back off: the fault is still there. Clear it (choose “No fault”) before resetting.";
+      else if (t) msg = "Switching that on energised the faulty kitchen circuit, so " + (t === "rcd1" ? "RCD 1" : "its " + (cu.b === "split" ? "MCB" : "RCBO")) + " tripped.";
+    }
+    drawCU();
+  }
+  $("cuG").addEventListener("click", function (e) { var d = e.target.closest(".dev"); if (d) toggle(d.getAttribute("data-k")); });
+  $("cuG").addEventListener("keydown", function (e) { var d = e.target.closest(".dev"); if (d && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); toggle(d.getAttribute("data-k")); } });
+  $("bd").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    reset(b.getAttribute("data-b")); msg = ""; var t = settle(); if (t) cu.sel = t; drawCU();
+  });
+  $("flt").addEventListener("change", function (e) {
+    cu.fault = e.target.value; msg = "";
+    var t = settle(); if (t) cu.sel = t;
+    if (cu.fault === "none") msg = "";
+    drawCU();
+  });
+  drawCU();
+
+  Course.quiz("#quiz", [
+    { q: "Is the main switch in a consumer unit a protective device?",
+      options: ["Yes, it trips on overload", "No, it's a double-pole isolator for switching the installation off", "Only on three-phase", "Only if it's a 100 A switch"], answer: 1,
+      why: "The main switch isolates line and neutral. It doesn't trip on faults; the devices after it do that." },
+    { q: "In an MCB, what deals with a slow overload?",
+      options: ["The magnetic coil", "The bimetallic (thermal) strip", "The test button", "The toroid"], answer: 1,
+      why: "The bimetal heats up and bends, tripping the breaker after a delay that shortens as the overload grows." },
+    { q: "A Type B MCB trips instantly (magnetically) at what multiple of its rating?",
+      options: ["1.13 to 1.45 ×", "3 to 5 ×", "5 to 10 ×", "10 to 20 ×"], answer: 1,
+      why: "Type B: 3 to 5 × I<sub>n</sub>. Type C is 5 to 10 ×, and Type D 10 to 20 ×." },
+    { q: "What does an RCD actually measure?",
+      options: ["The total current", "The voltage", "The difference between line and neutral current", "The earth fault loop impedance"], answer: 2,
+      why: "It compares current out on line with current back on neutral. Any difference has leaked somewhere, usually to earth." },
+    { q: "An RCD (RCCB) on its own protects against overload:",
+      options: ["Yes, always", "No: an overload is balanced, so it needs MCBs or fuses as well", "Only below 30 mA", "Only on lighting circuits"], answer: 1,
+      why: "An overload or a line–neutral short is balanced, so an RCD can't see it." },
+    { q: "Within what time must a 30 mA general-type RCD trip at its rated current?",
+      options: ["40 ms", "300 ms", "1 second", "5 seconds"], answer: 1,
+      why: "300 ms at I<sub>Δn</sub>, and 40 ms at 5 × I<sub>Δn</sub>." },
+    { q: "What's the main advantage of an RCBO board over a split-load board?",
+      options: ["It's cheaper", "A fault only turns off the faulty circuit", "It doesn't need a main switch", "It doesn't need earthing"], answer: 1,
+      why: "Each circuit has its own RCBO, so one earth fault doesn't take a whole group of circuits off." },
+    { q: "How often should an RCD's test button be pressed?",
+      options: ["Every day", "Every six months", "Every ten years", "Never: only electricians may test RCDs"], answer: 1,
+      why: "Every six months, to prove the trip mechanism still works." },
+    { q: "Why must consumer units in homes now have a non-combustible enclosure?",
+      options: ["To stop rust", "To contain a fire starting inside the unit", "To improve earthing", "To meet Part M heights"], answer: 1,
+      why: "Fires starting in plastic consumer units, often from loose connections, led to the rule for non-combustible (usually steel) enclosures." }
+  ]);
+})();
+</script>
+</body>
+</html>
