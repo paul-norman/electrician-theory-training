@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Grid and Transformers</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .node { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .tx { fill: none; stroke: var(--fg); stroke-width: 2.2; }
+  .band-t { fill: var(--info-bg); }
+  .band-d { fill: var(--note-bg); }
+  .core { fill: none; stroke: var(--muted); stroke-width: 22; stroke-linejoin: miter; opacity: 0.45; }
+  .coil-p { fill: none; stroke: var(--line); stroke-width: 3.5; }
+  .coil-s { fill: none; stroke: var(--neutral); stroke-width: 3.5; }
+  .flux { fill: none; stroke: var(--flow); stroke-width: 3; stroke-dasharray: 6 10; animation: march 0.5s linear infinite alternate; }
+  .flux.dc { animation: none; opacity: 0.6; }
+  @media (prefers-reduced-motion: reduce) { .flux { animation: none; } }
+  .lossbar { height: 18px; background: var(--surface-2); border-radius: 4px; overflow: hidden; position: relative; }
+  .lossbar span { position: absolute; inset: 0 auto 0 0; background: var(--bad); }
+  .winding { fill: none; stroke: var(--line); stroke-width: 3; }
+  .winding.ph1 { stroke: var(--l1); }
+  .winding.ph2 { stroke: var(--l2); }
+  .winding.ph3 { stroke: var(--l3); }
+  .winding.ph2-halo { stroke: var(--l2-halo); stroke-width: 6; }
+  .coil { stroke: var(--fg); stroke-width: 1.5; }
+  .axis-t { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
+</style>
+</head>
+<body data-lesson="grid">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Supply and distribution</span>
+    <h1>The grid and transformers</h1>
+    <p class="lead">How electricity gets from a power station to a socket, why it travels at 400,000 volts on the way, and the job transformers do.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Electricity is generated at around 20 kV, stepped up to 400 kV or 275 kV for transmission, then down in stages (132, 33 and 11 kV) to 400/230 V at your local substation. High voltage means low current, and so far lower I²R losses in the lines. A transformer changes voltage by its turns ratio (<span class="frac"><span>V<sub>s</sub></span><span>V<sub>p</sub></span></span> = <span class="frac"><span>N<sub>s</sub></span><span>N<sub>p</sub></span></span>). Power in roughly equals power out, so stepping the voltage down steps the current up. Transformers only work on <abbr title="alternating current">AC</abbr>, which is a big reason the grid uses it.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>The journey</h2>
+    <p>The grid carries 50 Hz alternating current, made by three-phase generators at power stations (see <a href="ac-and-three-phase.html">AC and three-phase</a> for how that works). Between the generator and your socket, the voltage is changed several times by transformers.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">The journey</span>
+      <h3 id="w1">From power station to plug</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 980 300" class="wide" style="min-width:760px" role="img" aria-labelledby="w1d">
+        <title id="w1d">The supply chain: a power station generates at around 20 kV, a transformer steps it up to 400 kV for the National Grid, then substations step it down to 132 kV, 33 kV, 11 kV and finally 400 or 230 V for homes. Line thickness shows current: thin at high voltage, thick at low voltage.</title>
+        <!-- ownership bands -->
+        <rect class="band-t" x="10" y="238" width="430" height="28" rx="4"/>
+        <text x="22" y="257" font-weight="600">Transmission network (National Grid in England and Wales)</text>
+        <rect class="band-d" x="450" y="238" width="520" height="28" rx="4"/>
+        <text x="462" y="257" font-weight="600">Distribution network: your DNO</text>
+
+        <!-- lines, thickness ∝ current for the same power -->
+        <path class="wire w-plain" d="M86,130 H130" stroke-width="7"/>
+        <path class="wire w-plain" d="M190,130 H420" stroke-width="2"/>
+        <path class="wire w-plain" d="M480,130 H560" stroke-width="3"/>
+        <path class="wire w-plain" d="M620,130 H690" stroke-width="5"/>
+        <path class="wire w-plain" d="M750,130 H820" stroke-width="7"/>
+        <path class="wire w-plain" d="M880,130 H905" stroke-width="13"/>
+        <path class="flow" d="M86,130 H130" style="--dur:1.6s"/>
+        <path class="flow" d="M190,130 H420" style="--dur:0.5s; stroke-width:3"/>
+        <path class="flow" d="M480,130 H560" style="--dur:0.7s; stroke-width:4"/>
+        <path class="flow" d="M620,130 H690" style="--dur:1s; stroke-width:5"/>
+        <path class="flow" d="M750,130 H820" style="--dur:1.6s; stroke-width:6"/>
+        <path class="flow" d="M880,130 H905" style="--dur:3s; stroke-width:9"/>
+
+        <!-- pylons -->
+        <g stroke="var(--muted)" stroke-width="2" fill="none">
+          <path d="M262,180 L272,96 L282,180 M266,150 H278 M258,108 H286"/>
+          <path d="M342,180 L352,96 L362,180 M346,150 H358 M338,108 H366"/>
+        </g>
+
+        <!-- power station -->
+        <rect class="node" x="18" y="98" width="68" height="64" rx="6"/>
+        <path d="M30,98 V70 H44 V98 M56,98 V80 H68 V98" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="52" y="136" text-anchor="middle" class="tag">G</text>
+        <text x="52" y="186" text-anchor="middle">Power station</text>
+        <text x="52" y="202" text-anchor="middle" class="small">~20 kV</text>
+
+        <!-- transformer icon helper: two overlapping circles -->
+        <g><circle class="tx" cx="150" cy="130" r="16"/><circle class="tx" cx="170" cy="130" r="16"/>
+          <text x="160" y="94" text-anchor="middle" class="tag" fill="var(--flow)">↑ step up</text>
+          <text x="160" y="186" text-anchor="middle">Transformer</text></g>
+        <text x="305" y="78" text-anchor="middle" class="tag">400 kV / 275 kV</text>
+        <text x="305" y="202" text-anchor="middle" class="small">Overhead lines on pylons</text>
+
+        <g><circle class="tx" cx="440" cy="130" r="16"/><circle class="tx" cx="460" cy="130" r="16"/>
+          <text x="450" y="94" text-anchor="middle" class="tag" fill="var(--flow)">↓</text>
+          <text x="450" y="186" text-anchor="middle">Grid supply</text>
+          <text x="450" y="202" text-anchor="middle">point</text></g>
+        <text x="520" y="116" text-anchor="middle" class="tag">132 kV</text>
+
+        <g><circle class="tx" cx="580" cy="130" r="16"/><circle class="tx" cx="600" cy="130" r="16"/>
+          <text x="590" y="94" text-anchor="middle" class="tag" fill="var(--flow)">↓</text>
+          <text x="590" y="186" text-anchor="middle">Bulk supply</text>
+          <text x="590" y="202" text-anchor="middle">point</text></g>
+        <text x="655" y="116" text-anchor="middle" class="tag">33 kV</text>
+
+        <g><circle class="tx" cx="710" cy="130" r="16"/><circle class="tx" cx="730" cy="130" r="16"/>
+          <text x="720" y="94" text-anchor="middle" class="tag" fill="var(--flow)">↓</text>
+          <text x="720" y="186" text-anchor="middle">Primary</text>
+          <text x="720" y="202" text-anchor="middle">substation</text></g>
+        <text x="785" y="116" text-anchor="middle" class="tag">11 kV</text>
+
+        <g><circle class="tx" cx="840" cy="130" r="16"/><circle class="tx" cx="860" cy="130" r="16"/>
+          <text x="850" y="94" text-anchor="middle" class="tag" fill="var(--flow)">↓</text>
+          <text x="850" y="186" text-anchor="middle">Local</text>
+          <text x="850" y="202" text-anchor="middle">substation</text></g>
+
+        <!-- house -->
+        <path d="M905,150 V118 L935,94 L965,118 V150 Z" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>
+        <text x="935" y="78" text-anchor="middle" class="tag">230 V</text>
+        <text x="935" y="186" text-anchor="middle">Homes</text>
+        <text x="935" y="202" text-anchor="middle" class="small">400 V 3-phase</text>
+        <text x="20" y="30" class="small">Line thickness shows current for the same power: thin at high voltage, thick at low voltage.</text>
+      </svg>
+    </div>
+    <p class="caption">Exact voltages vary by region, but this is the usual chain. The voltage is stepped down in stages, not in one jump. Your local substation (the green box at the end of the street, or a pole-mounted transformer in the country) takes 11 kV down to 400 V three-phase, which gives 230 V to each home.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Why such high voltages?</h2>
+    <p>Power lines have resistance, and current through resistance makes heat: <span class="mono">P = I² × R</span>, from the <a href="../principles/power.html">Power</a> lesson. That heat is wasted energy.</p>
+    <p>For the same power, <span class="mono">P = V × I</span>. Raise the voltage and the current needed goes down by the same factor. Because losses depend on I², <strong>10 times the voltage means 1/100th of the losses</strong>.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">Send 10 MW down a line</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex-basis:100%">
+        <span class="label" id="lvL">Transmission voltage</span>
+        <div class="seg" role="group" aria-labelledby="lvL" id="lv">
+          <button type="button" data-v="230" aria-pressed="false">230 V</button>
+          <button type="button" data-v="11000" aria-pressed="false">11 kV</button>
+          <button type="button" data-v="33000" aria-pressed="true">33 kV</button>
+          <button type="button" data-v="132000" aria-pressed="false">132 kV</button>
+          <button type="button" data-v="400000" aria-pressed="false">400 kV</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label for="lr">Line resistance</label>
+        <div class="slider"><input type="range" id="lr" min="0.5" max="10" step="0.5" value="2"><output id="lrOut" for="lr"></output></div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Current needed</span><span class="v" id="lI">—</span><span class="s">I = <span class="frac"><span>P</span><span>V</span></span></span></div>
+      <div class="ro"><span class="k">Power lost as heat</span><span class="v" id="lP">—</span><span class="s">I² × R</span></div>
+      <div class="ro"><span class="k">Share of the 10 MW lost</span><span class="v" id="lPc">—</span><span class="s" id="lPcs"></span></div>
+    </div>
+    <div class="lossbar" aria-hidden="true"><span id="lBar"></span></div>
+    <p class="caption">Simplified: it ignores the voltage lost along the line. But the pattern is real. At 230 V the "losses" come out bigger than the power being sent, which just means it can't be done.</p>
+  </section>
+
+  <section class="prose">
+    <h2>How a transformer works</h2>
+    <p>A transformer is two coils of wire wound on the same iron core. The coils don't touch electrically.</p>
+    <ol>
+      <li>AC in the <strong>primary</strong> coil creates a magnetic field in the core. Because the current keeps reversing, the field keeps reversing too.</li>
+      <li>A <em>changing</em> magnetic field passing through a coil induces a voltage in it. So the reversing field induces an AC voltage in the <strong>secondary</strong> coil.</li>
+      <li>The voltage depends on the number of turns. Fewer turns on the secondary means a lower voltage (step down); more turns means a higher voltage (step up).</li>
+    </ol>
+    <p><span class="formula"><span class="frac"><span>V<sub>s</sub></span><span>V<sub>p</sub></span></span> = <span class="frac"><span>N<sub>s</sub></span><span>N<sub>p</sub></span></span></span></p>
+    <p>Power in ≈ power out (real transformers are around 98–99% efficient). So when the voltage goes down, the current goes up by the same factor.</p>
+    <p>With <abbr title="direct current">DC</abbr>, the field in the core is steady. A steady field induces nothing, so the secondary gets no voltage. Try it below.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w3">Turns ratio</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 600 260" role="img" aria-labelledby="w3d" style="max-width:640px;margin:0 auto">
+        <title id="w3d">A transformer core with the primary coil on the left and the secondary on the right. The number of loops drawn shows the turns ratio.</title>
+        <rect class="core" x="170" y="40" width="260" height="170"/>
+        <rect id="flux" class="flux" x="170" y="40" width="260" height="170"/>
+        <g id="coilP"></g>
+        <g id="coilS"></g>
+        <text x="60" y="30" class="small">Primary (input)</text>
+        <text id="tVp" class="tag" x="60" y="128">11 kV</text>
+        <text id="tNp" class="small" x="60" y="146">4,783 turns</text>
+        <text x="490" y="30" class="small">Secondary (output)</text>
+        <text id="tVs" class="tag" x="490" y="128">230 V</text>
+        <text id="tNs" class="small" x="490" y="146">100 turns</text>
+        <text x="300" y="242" text-anchor="middle" class="small" id="tFlux">Orange dashes: magnetic field in the core, reversing 50 times a second</text>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex-basis:100%">
+        <span class="label" id="txL">Examples</span>
+        <div class="seg" role="group" aria-labelledby="txL" id="txp">
+          <button type="button" data-p="local" aria-pressed="true">Local substation 11 kV → 230 V</button>
+          <button type="button" data-p="up" aria-pressed="false">Power station 20 kV → 400 kV</button>
+          <button type="button" data-p="bell" aria-pressed="false">Doorbell 230 V → 8 V</button>
+        </div>
+      </div>
+      <div class="ctl"><label for="vp">Primary voltage (V)</label><input type="number" id="vp" min="1" step="any" value="11000"></div>
+      <div class="ctl"><label for="np">Primary turns</label><input type="number" id="np" min="1" step="1" value="4783"></div>
+      <div class="ctl"><label for="ns">Secondary turns</label><input type="number" id="ns" min="1" step="1" value="100"></div>
+      <div class="ctl"><label for="tp">Load power (W)</label><input type="number" id="tp" min="0" step="any" value="10000"></div>
+      <div class="ctl" style="flex:0 1 auto"><span class="label">Supply type</span>
+        <div class="seg" role="group" aria-label="Supply type" id="acdc">
+          <button type="button" data-v="ac" aria-pressed="true">AC</button>
+          <button type="button" data-v="dc" aria-pressed="false">DC</button>
+        </div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Secondary voltage</span><span class="v" id="rVs">—</span><span class="s" id="rVss"></span></div>
+      <div class="ro"><span class="k">Primary current</span><span class="v" id="rIp">—</span><span class="s"><span class="frac"><span>P</span><span>V<sub>p</sub></span></span></span></div>
+      <div class="ro"><span class="k">Secondary current</span><span class="v" id="rIs">—</span><span class="s"><span class="frac"><span>P</span><span>V<sub>s</sub></span></span></span></div>
+    </div>
+  </section>
+
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var f = function (x, s) { return Course.sig(x, s || 3); };
+
+  // Losses
+  var ls = { v: 33000, r: 2 }, P = 10e6;
+  function renderLoss() {
+    var I = P / ls.v, L = I * I * ls.r, pc = 100 * L / P;
+    $("lrOut").textContent = ls.r + " Ω";
+    $("lI").textContent = Course.si(I, "A");
+    $("lP").textContent = Course.si(L, "W");
+    $("lPc").textContent = pc > 100 ? "> 100%" : f(pc, 2) + "%";
+    $("lPcs").textContent = pc > 100 ? "Impossible: the line would melt" : pc > 10 ? "Far too wasteful" : pc > 1 ? "Noticeable" : "Tiny";
+    $("lBar").style.width = Math.min(100, pc) + "%";
+  }
+  $("lv").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; ls.v = Number(b.getAttribute("data-v"));
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    renderLoss();
+  });
+  $("lr").addEventListener("input", function (e) { ls.r = parseFloat(e.target.value); renderLoss(); });
+  renderLoss();
+
+  // Transformer
+  var TX = {
+    local: { vp: 11000, np: 4783, ns: 100, p: 10000 },
+    up: { vp: 20000, np: 100, ns: 2000, p: 100000000 },
+    bell: { vp: 230, np: 2300, ns: 80, p: 8 }
+  };
+  var tx = { vp: 11000, np: 4783, ns: 100, p: 10000, dc: false };
+  function coil(x, n, max, cls) {
+    var loops = Math.max(2, Math.min(14, Math.round(14 * n / max)));
+    var top = 125 - loops * 6, d = "M" + (x - 30) + "," + top;
+    for (var i = 0; i < loops; i++) {
+      var y = top + i * 12;
+      d += " M" + (x - 24) + "," + y + " C" + (x - 24) + "," + (y - 10) + " " + (x + 24) + "," + (y - 10) + " " + (x + 24) + "," + y +
+           " C" + (x + 24) + "," + (y + 10) + " " + (x - 24) + "," + (y + 2) + " " + (x - 24) + "," + (y + 12);
+    }
+    return '<path class="' + cls + '" d="' + d.replace(/^M[^ ]+ /, "") + '"/>' +
+      '<path class="' + cls + '" d="M' + (x - 24) + "," + top + " H" + (cls === "coil-p" ? 120 : 480) + '" stroke-width="2.5"/>' +
+      '<path class="' + cls + '" d="M' + (x - 24) + "," + (top + loops * 12) + " H" + (cls === "coil-p" ? 120 : 480) + '" stroke-width="2.5"/>';
+  }
+  function renderTx() {
+    var max = Math.max(tx.np, tx.ns);
+    $("coilP").innerHTML = coil(170, tx.np, max, "coil-p");
+    $("coilS").innerHTML = coil(430, tx.ns, max, "coil-s");
+    var vs = tx.dc ? 0 : tx.vp * tx.ns / tx.np;
+    $("tVp").textContent = Course.si(tx.vp, "V") + (tx.dc ? " DC" : "");
+    $("tNp").textContent = tx.np.toLocaleString("en-GB") + " turns";
+    $("tVs").textContent = Course.si(vs, "V");
+    $("tNs").textContent = tx.ns.toLocaleString("en-GB") + " turns";
+    $("flux").classList.toggle("dc", tx.dc);
+    $("tFlux").textContent = tx.dc ? "DC: a steady field in the core induces nothing in the secondary" : "Orange dashes: magnetic field in the core, reversing 50 times a second";
+    $("rVs").textContent = Course.si(vs, "V");
+    $("rVss").innerHTML = tx.dc ? "No changing field, no output" : "V<sub>p</sub> × " + Course.frac("N<sub>s</sub>", "N<sub>p</sub>") + " = " + f(tx.vp) + " × " + Course.frac(tx.ns, tx.np);
+    $("rIp").textContent = tx.dc ? "—" : Course.si(tx.p / tx.vp, "A");
+    $("rIs").textContent = tx.dc ? "—" : Course.si(tx.p / vs, "A");
+  }
+  function syncInputs() { $("vp").value = tx.vp; $("np").value = tx.np; $("ns").value = tx.ns; $("tp").value = tx.p; }
+  ["vp", "np", "ns", "tp"].forEach(function (id) {
+    $(id).addEventListener("input", function (e) {
+      var v = parseFloat(e.target.value); if (!(v > 0) && !(id === "tp" && v === 0)) return;
+      tx[id === "tp" ? "p" : id] = v; renderTx();
+    });
+  });
+  $("txp").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; var p = TX[b.getAttribute("data-p")];
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    tx.vp = p.vp; tx.np = p.np; tx.ns = p.ns; tx.p = p.p; syncInputs(); renderTx();
+  });
+  $("acdc").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; tx.dc = b.getAttribute("data-v") === "dc";
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    renderTx();
+  });
+  syncInputs(); renderTx();
+
+  Course.quiz("#quiz", [
+    { q: "Why does the National Grid transmit at such high voltages?",
+      options: ["High voltage travels faster", "For the same power the current is lower, so far less energy is wasted as heat (I²R)", "Homes need 400 kV", "It's safer near pylons"], answer: 1,
+      why: "P = V × I, so higher voltage means lower current. Losses are I² × R, so 10 × the voltage gives 1/100th of the losses." },
+    { q: "A transformer has 1,000 primary turns and 50 secondary turns. 4,000 V goes in. What comes out?",
+      options: ["80,000 V", "200 V", "4,000 V", "20 V"], answer: 1,
+      why: "V<sub>s</sub> = V<sub>p</sub> × <span class=\"frac\"><span>N<sub>s</sub></span><span>N<sub>p</sub></span></span> = 4,000 × <span class=\"frac\"><span>50</span><span>1,000</span></span> = 200 V. Fewer turns on the secondary means a lower voltage." },
+    { q: "A transformer steps voltage down from 11 kV to 230 V. What happens to the current?",
+      options: ["It goes down by the same factor", "It stays the same", "It goes up by the same factor", "It becomes DC"], answer: 2,
+      why: "Power in ≈ power out. If V goes down about 48 times, I goes up about 48 times." },
+    { q: "Why won't a transformer work on DC?",
+      options: ["DC is too dangerous", "A steady current makes a steady magnetic field, which induces no voltage in the secondary", "DC voltages are too low", "The core would melt"], answer: 1,
+      why: "Only a changing magnetic field induces a voltage. AC keeps the field changing; DC doesn't." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earth Fault Loop Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+html, body { margin: 0; }
+[hidden] { display: none !important; }
+/* Layout: one column; wiring diagram across the top, then controls beside a tester-style readout, then the loop walk-through. */
+:root {
+  --bg: #edf0f2;
+  --surface: #ffffff;
+  --surface-2: #f6f8f9;
+  --fg: #14202a;
+  --muted: #586773;
+  --rule: #d3dae0;
+  --fault: #e07800;          /* fault current overlay */
+  --line: #7a4a1e;           /* UK line conductor: brown */
+  --neutral: #1f5fbf;        /* UK neutral: blue */
+  --cpc-g: #1e8a3a;          /* CPC: green/yellow */
+  --cpc-y: #d9b800;
+  --ground: #c9b79c;
+  --ok: #1b7a45;
+  --ok-bg: #e2f3e9;
+  --bad: #b8322a;
+  --bad-bg: #fbe6e4;
+  --warn: #8a5a00;
+  --warn-bg: #fdf0d6;
+  --meter-bg: #1c2731;
+  --meter-fg: #d7f5c4;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1419; --surface: #162029; --surface-2: #1b2731; --fg: #e4ebf1; --muted: #94a3b0; --rule: #2a3742;
+    --fault: #ffa53a; --line: #c48c5c; --neutral: #6aa5ff; --cpc-g: #3fc066; --cpc-y: #f0d23a; --ground: #4f4434;
+    --ok: #4fcf88; --ok-bg: #173226; --bad: #ff7b6e; --bad-bg: #3a1d1b; --warn: #f2c063; --warn-bg: #3a2e14;
+    --meter-bg: #0a1015; --meter-fg: #c8f2ae;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1419; --surface: #162029; --surface-2: #1b2731; --fg: #e4ebf1; --muted: #94a3b0; --rule: #2a3742;
+  --fault: #ffa53a; --line: #c48c5c; --neutral: #6aa5ff; --cpc-g: #3fc066; --cpc-y: #f0d23a; --ground: #4f4434;
+  --ok: #4fcf88; --ok-bg: #173226; --bad: #ff7b6e; --bad-bg: #3a1d1b; --warn: #f2c063; --warn-bg: #3a2e14;
+  --meter-bg: #0a1015; --meter-fg: #c8f2ae;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 48px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: 1.2rem; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 600; }
+header { display: flex; flex-direction: column; gap: 10px; max-width: 68ch; }
+.lead { color: var(--muted); font-size: 1.02rem; }
+.formula {
+  font-family: var(--font-mono); font-weight: 600; font-size: 1.05rem;
+  display: inline-flex; gap: 0.5ch; flex-wrap: wrap; align-items: baseline;
+}
+.frac { display: inline-flex; flex-direction: column; align-items: stretch; vertical-align: middle; text-align: center; line-height: 1.15; margin: 0 0.12em; font-size: 0.9em; }
+.frac > span:last-child { border-top: 1.5px solid currentColor; padding-top: 1px; }
+.frac > span:first-child { padding: 0 0.2em 1px; }
+.formula .ze { color: var(--fault); }
+.formula .r1 { color: var(--line); }
+.formula .r2 { color: var(--cpc-g); }
+
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+
+/* Diagram */
+.diagram-wrap { overflow-x: auto; padding: 8px; }
+.diagram { display: block; width: 100%; min-width: 640px; height: auto; }
+.diagram text { font-family: var(--font-body); font-size: 12.5px; fill: var(--fg); }
+.diagram text.small { font-size: 11px; fill: var(--muted); }
+.diagram text.tag { font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+.box { fill: var(--surface-2); stroke: var(--rule); stroke-width: 1.5; }
+.wire { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.w-line { stroke: var(--line); }
+.w-neutral { stroke: var(--neutral); }
+.w-cpc-g { stroke: var(--cpc-g); }
+.w-cpc-y { stroke: var(--cpc-y); stroke-dasharray: 8 8; }
+.w-earth { stroke: var(--muted); stroke-width: 2.5; }
+.w-ground { stroke: var(--fault); stroke-width: 3; stroke-dasharray: 2 7; }
+.faded { opacity: 0.35; }
+.ground { fill: var(--ground); opacity: 0.55; }
+.spark { fill: none; stroke: var(--fault); stroke-width: 3; stroke-linejoin: round; }
+.loop {
+  fill: none; stroke: var(--fault); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 3 18; opacity: 0.9;
+  animation: march var(--dur, 1.2s) linear infinite;
+}
+.loop-glow { fill: none; stroke: var(--fault); stroke-width: 16; opacity: 0.12; stroke-linejoin: round; stroke-linecap: round; }
+@keyframes march { to { stroke-dashoffset: -21; } }
+@media (prefers-reduced-motion: reduce) { .loop { animation: none; } }
+.no-fault .loop, .no-fault .loop-glow, .no-fault .spark { display: none; }
+[data-seg] { transition: opacity 0.15s; }
+.diagram.focusing [data-seg] { opacity: 0.18; }
+.diagram.focusing [data-seg].on { opacity: 1; }
+.diagram.focusing .loop, .diagram.focusing .loop-glow { opacity: 0.25; }
+
+/* Controls + readout */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 20px; }
+@media (max-width: 820px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+.controls { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label, .field .label { font-weight: 600; font-size: 0.9rem; }
+.hint { font-size: 0.82rem; color: var(--muted); }
+.seg-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg-btns button, .presets button {
+  font: inherit; font-size: 0.88rem; font-weight: 500;
+  border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg);
+  padding: 7px 12px; border-radius: 6px; cursor: pointer;
+}
+.seg-btns button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.seg-btns button:hover, .presets button:hover { border-color: var(--muted); }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--fault); outline-offset: 2px; }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+select {
+  font: inherit; font-size: 0.92rem; color: var(--fg); background: var(--surface-2);
+  border: 1px solid var(--rule); border-radius: 6px; padding: 7px 8px; width: 100%;
+}
+.slider { display: flex; align-items: center; gap: 12px; }
+.slider input[type="range"] { flex: 1; accent-color: var(--fault); min-width: 0; }
+.slider output { font-family: var(--font-mono); font-weight: 600; min-width: 7ch; text-align: left; font-variant-numeric: tabular-nums; }
+.check { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+.check input { accent-color: var(--fault); width: 16px; height: 16px; }
+
+.readout { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.meter {
+  background: var(--meter-bg); color: var(--meter-fg); border-radius: 10px; padding: 16px 18px;
+  display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: end;
+  font-family: var(--font-mono);
+}
+.meter .m-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75; }
+.meter .m-big { font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.meter .m-side { text-align: right; }
+.meter .m-mid { font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.meter .m-sum { grid-column: 1 / -1; font-size: 0.8rem; opacity: 0.8; margin-top: 6px; }
+
+.verdict { border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+.verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+.verdict.ok { background: var(--ok-bg); color: var(--ok); }
+.verdict.bad { background: var(--bad-bg); color: var(--bad); }
+.verdict.warn { background: var(--warn-bg); color: var(--warn); }
+.verdict p { color: var(--fg); font-size: 0.9rem; }
+
+.rows { display: flex; flex-direction: column; }
+.r { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 8px 2px; border-top: 1px solid var(--rule); font-size: 0.9rem; }
+.r:first-child { border-top: 0; }
+.r .v { font-family: var(--font-mono); font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+.r .sub { display: block; font-size: 0.78rem; color: var(--muted); }
+.pill { font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; letter-spacing: 0.03em; white-space: nowrap; }
+.pill.ok { background: var(--ok-bg); color: var(--ok); }
+.pill.bad { background: var(--bad-bg); color: var(--bad); }
+.pill.na { background: var(--surface-2); color: var(--muted); }
+[data-hl] { cursor: default; }
+
+/* Walk the loop */
+.walk { padding: 20px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; }
+@media (max-width: 820px) { .walk { grid-template-columns: minmax(0, 1fr); } }
+.steps { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 2px; counter-reset: s; }
+.steps li {
+  counter-increment: s; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 10px; align-items: start;
+  padding: 8px 8px; border-radius: 6px;
+}
+.steps li::before {
+  content: counter(s); font-family: var(--font-mono); font-weight: 600; font-size: 0.8rem;
+  width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--surface-2); border: 1px solid var(--rule);
+}
+.steps li:hover, .steps li:focus-within, .steps li:focus { background: var(--surface-2); outline: none; }
+.steps .t { font-weight: 600; }
+.steps .d { font-size: 0.86rem; color: var(--muted); display: block; }
+.tagc { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; border: 1px solid currentColor; white-space: nowrap; }
+.tagc.ze { color: var(--fault); }
+.tagc.r1 { color: var(--line); }
+.tagc.r2 { color: var(--cpc-g); }
+.tagc.none { color: var(--muted); }
+.why { display: flex; flex-direction: column; gap: 12px; max-width: 60ch; }
+.why p { font-size: 0.93rem; }
+.notes { font-size: 0.8rem; color: var(--muted); max-width: 80ch; display: flex; flex-direction: column; gap: 6px; }
+/* Acronyms: dotted underline, meaning on hover (title) or tap (popup) */
+abbr[title] { text-decoration: underline dotted; text-decoration-color: var(--muted); text-underline-offset: 2px; cursor: help; }
+.abbr-tip { position: absolute; z-index: 50; max-width: min(320px, calc(100vw - 16px)); background: var(--fg); color: var(--bg); font-size: 0.85rem; line-height: 1.4; padding: 8px 10px; border-radius: 6px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2); }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Fault protection · Automatic disconnection of supply</span>
+    <h1>Earth fault loop impedance</h1>
+    <p class="lead">When a line conductor touches a metal case, current needs a complete loop back to the transformer. The lower the impedance of that loop, the more current flows, and the faster the breaker trips. Change the settings and watch the loop.</p>
+    <div class="formula" aria-label="Zs equals Ze plus R1 plus R2">
+      <span>Z<sub>s</sub> =</span><span class="ze">Z<sub>e</sub></span><span>+</span><span>(</span><span class="r1">R<sub>1</sub></span><span>+</span><span class="r2">R<sub>2</sub></span><span>)</span>
+    </div>
+  </header>
+
+  <section class="panel diagram-wrap" aria-label="Wiring diagram of the earth fault loop">
+    <svg id="diagram" class="diagram" viewBox="0 0 900 428" role="img" aria-labelledby="dg-title">
+      <title id="dg-title">Earth fault loop from the supply transformer, through the line conductor and breaker to a faulty appliance, back through the protective conductor and the earth return path.</title>
+
+      <!-- ground -->
+      <rect class="ground" x="100" y="352" width="470" height="44" rx="4"/>
+      <text class="small" x="170" y="388">Ground (general mass of earth)</text>
+
+      <!-- Transformer -->
+      <g data-seg="winding">
+        <rect class="box" x="24" y="50" width="104" height="130" rx="6"/>
+        <text x="36" y="74" font-weight="600">Supply</text>
+        <text x="36" y="90" font-weight="600">transformer</text>
+        <text class="small" x="36" y="110">230 V line</text>
+        <text class="small" x="36" y="124">to earth (U₀)</text>
+        <path class="wire w-line" d="M150,150 a8,7.5 0 0,1 0,-15 a8,7.5 0 0,1 0,-15 a8,7.5 0 0,1 0,-15 a8,7.5 0 0,1 0,-15"/>
+        <circle cx="150" cy="150" r="5" fill="var(--fg)"/>
+        <text class="small" x="44" y="164">star point ▸</text>
+      </g>
+      <!-- transformer earth electrode (always present) -->
+      <path class="wire w-cpc-g" d="M150,150 V404" style="stroke-width:3"/><path class="wire w-cpc-y" d="M150,150 V404" style="stroke-width:3"/>
+      <path class="wire" d="M140,404 H160 M144,410 H156 M148,416 H152" stroke="var(--cpc-g)" stroke-width="2.5"/>
+
+      <!-- Supply line & cut-out -->
+      <g data-seg="supply">
+        <path class="wire w-line" d="M150,90 H280"/>
+        <rect class="box" x="280" y="50" width="104" height="114" rx="6"/>
+        <text x="290" y="68" font-weight="600" font-size="12">Cut-out &amp; meter</text>
+        <rect x="316" y="82" width="32" height="16" rx="3" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+        <path class="wire w-line" d="M384,90 H466"/>
+        <text class="small" x="176" y="80">Supply cable: line</text>
+      </g>
+      <!-- Neutral (not part of the fault loop) -->
+      <g class="faded">
+        <path class="wire w-neutral" d="M384,150 H446 M560,150 H740"/>
+        <text class="small" x="590" y="166">Neutral (not in the fault loop)</text>
+      </g>
+      <path id="nSupply" class="wire w-neutral faded" d="M150,150 H280"/>
+
+      <!-- Consumer unit -->
+      <g data-seg="mcb">
+        <rect class="box" x="446" y="50" width="114" height="226" rx="6"/>
+        <text x="456" y="68" font-weight="600" font-size="12">Consumer unit</text>
+        <rect x="468" y="80" width="40" height="22" rx="3" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>
+        <text id="mcbLabel" class="tag" x="472" y="96">B32</text>
+        <path class="wire w-line" d="M466,90 H468"/>
+      </g>
+      <g>
+        <rect x="462" y="240" width="64" height="20" rx="3" fill="var(--surface)" stroke="var(--cpc-g)" stroke-width="2"/>
+        <text class="tag" x="474" y="255">MET</text>
+      </g>
+
+      <!-- R1: circuit line conductor -->
+      <g data-seg="r1">
+        <path class="wire w-line" d="M508,91 H780"/>
+        <text class="tag" x="610" y="80" fill="var(--line)">R<tspan dy="4" font-size="0.75em">1</tspan><tspan dy="-4"> · circuit line</tspan></text>
+      </g>
+
+      <!-- Appliance -->
+      <g>
+        <rect class="box" x="740" y="44" width="136" height="166" rx="6" stroke="var(--muted)" stroke-width="2.5"/>
+        <text x="798" y="66" font-weight="600" font-size="12">Metal case</text>
+        <text class="small" x="798" y="81">(Class I)</text>
+      </g>
+      <g data-seg="fault">
+        <path class="spark" d="M780,91 l12,14 l-24,14 l24,14 l-24,14 l24,14 l-24,14 l12,14 V210"/>
+        <text class="small" x="804" y="150">Fault: line</text>
+        <text class="small" x="804" y="164">touches case</text>
+      </g>
+
+      <!-- R2: CPC -->
+      <g data-seg="r2">
+        <path class="wire w-cpc-g" d="M780,210 V250 H526"/>
+        <path class="wire w-cpc-y" d="M780,210 V250 H526"/>
+        <text class="tag" x="590" y="272" fill="var(--cpc-g)">R<tspan dy="4" font-size="0.75em">2</tspan><tspan dy="-4"> · circuit protective conductor</tspan></text>
+      </g>
+
+      <!-- Return paths (Ze) per earthing system -->
+      <g data-seg="ret" data-sys="tns">
+        <path class="wire w-cpc-g" d="M494,260 V310 H150"/>
+        <path class="wire w-cpc-y" d="M494,260 V310 H150"/>
+        <text class="small" x="196" y="302">Supply cable sheath / separate PE conductor</text>
+      </g>
+      <g data-seg="ret" data-sys="tncs">
+        <path class="wire w-cpc-g" d="M462,250 H332 V164"/>
+        <path class="wire w-cpc-y" d="M462,250 H332 V164"/>
+        <path class="wire" d="M150,150 H280" stroke="var(--neutral)" stroke-width="7"/>
+        <path class="wire w-cpc-y" d="M150,150 H280" stroke-width="2"/>
+        <text class="small" x="160" y="170">PEN conductor</text>
+        <text class="small" x="160" y="184">(neutral + earth combined)</text>
+        <text class="small" x="342" y="232">Earthing conductor</text>
+        <text class="small" x="342" y="245">to PEN at cut-out</text>
+      </g>
+      <g data-seg="ret" data-sys="tt">
+        <path class="wire w-cpc-g" d="M494,260 V404"/>
+        <path class="wire w-cpc-y" d="M494,260 V404"/>
+        <path class="wire" d="M484,404 H504 M488,410 H500 M492,416 H496" stroke="var(--cpc-g)" stroke-width="2.5"/>
+        <path class="wire w-ground" d="M494,372 H150"/>
+        <text class="small" x="506" y="330">Your earth</text>
+        <text class="small" x="506" y="343">electrode (R<tspan dy="3" font-size="0.75em">a</tspan><tspan dy="-3">)</tspan></text>
+        <text class="small" x="230" y="366">Fault current returns through the ground</text>
+      </g>
+
+      <!-- Fault current overlay -->
+      <path id="loopGlow" class="loop-glow" d=""/>
+      <path id="loop" class="loop" d=""/>
+    </svg>
+  </section>
+
+  <div class="grid">
+    <section class="panel controls" aria-label="Settings">
+      <div class="field">
+        <span class="label" id="sysLabel">Earthing system</span>
+        <div class="seg-btns" role="group" aria-labelledby="sysLabel" id="sysBtns">
+          <button type="button" data-sys="tncs" aria-pressed="true"><abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> (<abbr title="protective multiple earthing">PME</abbr>)</button>
+          <button type="button" data-sys="tns" aria-pressed="false"><abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr></button>
+          <button type="button" data-sys="tt" aria-pressed="false">TT</button>
+        </div>
+        <span class="hint" id="sysHint"></span>
+      </div>
+
+      <div class="field">
+        <label for="ze">Z<sub>e</sub>: external earth fault loop impedance</label>
+        <div class="slider"><input type="range" id="ze" min="0.05" max="1.5" step="0.01" value="0.35"><output id="zeOut" for="ze"></output></div>
+        <span class="hint" id="zeHint"></span>
+      </div>
+
+      <div class="field">
+        <span class="label">Example circuits</span>
+        <div class="presets" id="presets">
+          <button type="button" data-p="light">Lighting</button>
+          <button type="button" data-p="radial">Radial sockets</button>
+          <button type="button" data-p="cooker">Cooker</button>
+          <button type="button" data-p="shower">Shower</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="cable">Cable (line / <abbr title="circuit protective conductor">CPC</abbr>)</label>
+        <select id="cable"></select>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="type">Breaker type</label>
+          <select id="type">
+            <option value="B">Type B (trips at 3–5 × Iₙ)</option>
+            <option value="C">Type C (trips at 5–10 × Iₙ)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rating">Rating (I<sub>n</sub>)</label>
+          <select id="rating"></select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="len">Cable length</label>
+        <div class="slider"><input type="range" id="len" min="1" max="80" step="1" value="25"><output id="lenOut" for="len"></output></div>
+      </div>
+
+      <label class="check" for="faultOn"><input type="checkbox" id="faultOn" checked> Show the fault current</label>
+    </section>
+
+    <section class="panel readout" aria-label="Results" aria-live="polite">
+      <div class="meter">
+        <div>
+          <div class="m-label">Z<sub>s</sub> · expected test reading</div>
+          <div class="m-big" id="zsBig">0.00 Ω</div>
+        </div>
+        <div class="m-side">
+          <div class="m-label">Fault current</div>
+          <div class="m-mid" id="ipfBig">0 A</div>
+        </div>
+        <div class="m-sum" id="zsSum"></div>
+      </div>
+
+      <div class="verdict" id="verdict"><strong></strong><p></p></div>
+
+      <div class="rows" id="rows"></div>
+    </section>
+  </div>
+
+  <section class="panel walk" aria-label="Walk the loop">
+    <div>
+      <h2>Walk the loop</h2>
+      <p class="hint">Hover or tap a step to find it on the diagram.</p>
+      <ol class="steps" id="steps"></ol>
+    </div>
+    <div class="why">
+      <h2>Why it matters</h2>
+      <p>A breaker clears an earth fault quickly only when the fault current is big enough to trip it magnetically. A Type B breaker needs <strong>5 × its rating</strong> to be sure of that: 160 A for a B32.</p>
+      <p>Fault current is <span class="frac"><span>U₀</span><span>Z<sub>s</sub></span></span>. Double the loop impedance and you halve the current. That's why long runs of thin cable can fail, even though nothing is wrong with them.</p>
+      <p>On a <strong><abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr></strong> system the loop goes through the ground, so Z<sub>s</sub> is tens or hundreds of ohms. The fault current is a few amps, far too small to trip a breaker. An <abbr title="residual current device">RCD</abbr> does the job instead: it trips on as little as 30 mA of imbalance.</p>
+      <p>On site, you measure Z<sub>e</sub> at the origin with the main earthing conductor disconnected, and measure R<sub>1</sub>+R<sub>2</sub> during dead testing. You can then check a live Z<sub>s</sub> reading against Z<sub>e</sub> + (R<sub>1</sub>+R<sub>2</sub>).</p>
+    </div>
+  </section>
+
+  <footer class="notes">
+    <p><strong>Learning prototype.</strong> Not for design or certification. Check every figure against the current <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, the On-Site Guide and Guidance Note 3, and with your tutor.</p>
+    <p>Maximum Z<sub>s</sub> values follow BS 7671 Table 41.3 (0.4 s, U₀ = 230 V, C<sub>min</sub> = 0.95). The 80% figure is the usual rule of thumb for readings taken at room temperature. The design check multiplies R<sub>1</sub>+R<sub>2</sub> by 1.20 for 70 °C thermoplastic cable. Conductor resistances (mΩ/m at 20 °C) are from the On-Site Guide. Radial circuits only; ring finals work differently.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var U0 = 230, CMIN = 0.95;
+  var CABLES = {
+    "1.0": { label: "1.0 / 1.0 mm² T&E", m: 36.20 },
+    "1.5": { label: "1.5 / 1.0 mm² T&E", m: 30.20 },
+    "2.5": { label: "2.5 / 1.5 mm² T&E", m: 19.51 },
+    "4.0": { label: "4.0 / 1.5 mm² T&E", m: 16.71 },
+    "6.0": { label: "6.0 / 2.5 mm² T&E", m: 10.49 },
+    "10":  { label: "10 / 4.0 mm² T&E",  m: 6.44 }
+  };
+  var RATINGS = [6, 10, 16, 20, 25, 32, 40, 50];
+  var SYS = {
+    tncs: { ze: 0.35, min: 0.05, max: 1.5, step: 0.01,
+      hint: "Most UK homes. The supply neutral doubles as the earth (<abbr title='protective earth and neutral: one conductor doing both jobs'>PEN</abbr>).",
+      zeHint: "Distribution network operators declare a maximum of 0.35 Ω.",
+      ret: ["Earthing conductor and PEN conductor", "From the MET to the cut-out, then back along the combined neutral and earth."] },
+    tns:  { ze: 0.80, min: 0.05, max: 1.5, step: 0.01,
+      hint: "Older supplies. A separate earth, often the lead sheath of the supply cable.",
+      zeHint: "Distribution network operators declare a maximum of 0.80 Ω.",
+      ret: ["Supply cable sheath (separate <abbr title='protective earth'>PE</abbr>)", "From the MET back along a separate protective conductor (often the cable sheath) to the transformer star point."] },
+    tt:   { ze: 60, min: 5, max: 300, step: 1,
+      hint: "Rural or overhead supplies. No earth from the supply: your own electrode does the job.",
+      zeHint: "Mostly your electrode's resistance (R<sub>a</sub>). Above 200 Ω may not be stable.",
+      ret: ["Earth electrode and the ground", "From the MET down your electrode, through the ground to the transformer's electrode."] }
+  };
+  var PRESETS = {
+    light:  { cable: "1.5", type: "B", rating: 6,  len: 30 },
+    radial: { cable: "2.5", type: "B", rating: 20, len: 25 },
+    cooker: { cable: "6.0", type: "B", rating: 32, len: 15 },
+    shower: { cable: "10",  type: "B", rating: 40, len: 18 }
+  };
+  var LOOPS = {
+    common: "M150,150 V90 H780 V250 H526",
+    tns:  " H494 V310 H150 V150",
+    tncs: " H332 V150 H150",
+    tt:   " H494 V372 H150 V150"
+  };
+
+  var st = { sys: "tncs", ze: 0.35, cable: "2.5", type: "B", rating: 32, len: 25, fault: true };
+  var $ = function (id) { return document.getElementById(id); };
+  var r2 = function (x) { return Math.round(x * 100) / 100; };
+  var fmtOhm = function (x) { return (x >= 100 ? x.toFixed(0) : x >= 10 ? x.toFixed(1) : x.toFixed(2)) + " Ω"; };
+  var fmtA = function (x) { return (x >= 100 ? Math.round(x) : x >= 10 ? x.toFixed(0) : x.toFixed(1)) + " A"; };
+
+  // populate selects
+  var cableSel = $("cable");
+  Object.keys(CABLES).forEach(function (k) {
+    var o = document.createElement("option"); o.value = k; o.textContent = CABLES[k].label + " · " + CABLES[k].m.toFixed(2) + " mΩ/m"; cableSel.appendChild(o);
+  });
+  var ratingSel = $("rating");
+  RATINGS.forEach(function (r) { var o = document.createElement("option"); o.value = r; o.textContent = r + " A"; ratingSel.appendChild(o); });
+
+  function maxZs(type, In) { var k = type === "B" ? 5 : 10; return r2(U0 * CMIN / (k * In)); }
+
+  function compute() {
+    var c = CABLES[st.cable];
+    var r12 = c.m * st.len / 1000;
+    var zs = st.ze + r12;
+    var ipf = U0 / zs;
+    var k = st.type === "B" ? 5 : 10;
+    var trip = k * st.rating;
+    var zTab = maxZs(st.type, st.rating);
+    var z80 = r2(0.8 * zTab);
+    var zDesign = st.ze + 1.2 * r12;
+    var lmax = (zTab - st.ze) / (1.2 * c.m / 1000);
+    return { r12: r12, zs: zs, ipf: ipf, k: k, trip: trip, zTab: zTab, z80: z80, zDesign: zDesign, lmax: lmax };
+  }
+
+  function frac(n, d) { return '<span class="frac"><span>' + n + '</span><span>' + d + '</span></span>'; }
+  function pill(ok, txt) { return '<span class="pill ' + (ok === null ? "na" : ok ? "ok" : "bad") + '">' + txt + "</span>"; }
+  function row(hl, label, sub, val, p) {
+    return '<div class="r"' + (hl ? ' data-hl="' + hl + '" tabindex="0"' : "") + '><span>' + label + (sub ? '<span class="sub">' + sub + "</span>" : "") + '</span><span class="v">' + val + "</span>" + (p || "<span></span>") + "</div>";
+  }
+
+  function render() {
+    var R = compute();
+    var dev = st.type + st.rating;
+    var tt = st.sys === "tt";
+
+    // diagram
+    document.querySelectorAll('[data-seg="ret"]').forEach(function (g) { g.toggleAttribute("hidden", g.getAttribute("data-sys") !== st.sys); });
+    $("nSupply").style.display = st.sys === "tncs" ? "none" : "";
+    $("mcbLabel").textContent = dev;
+    var d = LOOPS.common + LOOPS[st.sys];
+    $("loop").setAttribute("d", d); $("loopGlow").setAttribute("d", d);
+    var dur = Math.max(0.35, Math.min(4.5, 3.4 - 1.25 * Math.log10(R.ipf)));
+    $("diagram").style.setProperty("--dur", dur.toFixed(2) + "s");
+    $("diagram").classList.toggle("no-fault", !st.fault);
+
+    // controls
+    document.querySelectorAll("#sysBtns button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-sys") === st.sys)); });
+    $("sysHint").innerHTML = SYS[st.sys].hint;
+    $("zeHint").innerHTML = SYS[st.sys].zeHint;
+    $("zeOut").textContent = fmtOhm(st.ze);
+    $("lenOut").textContent = st.len + " m";
+    cableSel.value = st.cable; $("type").value = st.type; ratingSel.value = String(st.rating);
+
+    // meter
+    $("zsBig").textContent = fmtOhm(R.zs);
+    $("ipfBig").textContent = fmtA(R.ipf);
+    $("zsSum").innerHTML = "Z<sub>e</sub> " + fmtOhm(st.ze) + " &nbsp;+&nbsp; R<sub>1</sub>+R<sub>2</sub> " + fmtOhm(R.r12) + " &nbsp;·&nbsp; I = " + frac(U0 + " V", "Z<sub>s</sub>");
+
+    // verdict + rows
+    var v = $("verdict"), cls, head, body;
+    var rows = "";
+    rows += row("winding supply ret", "Z<sub>e</sub>", "Everything outside the installation", fmtOhm(st.ze));
+    rows += row("r1 r2", "R<sub>1</sub>+R<sub>2</sub> at 20 °C", CABLES[st.cable].m.toFixed(2) + " mΩ/m × " + st.len + " m", fmtOhm(R.r12));
+
+    if (!tt) {
+      var okMeas = R.zs <= R.z80, okDesign = R.zDesign <= R.zTab;
+      rows += row("", "Current for instant trip", st.k + " × " + st.rating + " A (" + dev + ")", fmtA(R.trip), pill(R.ipf >= R.trip, R.ipf >= R.trip ? "reached" : "not reached"));
+      rows += row("", "Max measured Z<sub>s</sub> (80% rule)", "0.8 × " + R.zTab.toFixed(2) + " Ω from Table 41.3", fmtOhm(R.z80), pill(okMeas, okMeas ? "pass" : "fail"));
+      rows += row("", "Design check at 70 °C", "Z<sub>e</sub> + 1.20 × (R<sub>1</sub>+R<sub>2</sub>) = " + fmtOhm(R.zDesign), "≤ " + fmtOhm(R.zTab), pill(okDesign, okDesign ? "pass" : "fail"));
+      rows += row("", "Longest run of this cable on a " + dev, "Before Z<sub>s</sub> exceeds the Table 41.3 limit", R.lmax > 0 ? Math.floor(R.lmax) + " m" : "none", pill(null, "design"));
+      if (okMeas && okDesign) {
+        cls = "ok"; head = "The " + dev + " trips in under 0.4 s";
+        body = "About " + fmtA(R.ipf) + " flows through the loop. That's more than the " + fmtA(R.trip) + " needed to trip the breaker instantly, with margin to spare.";
+      } else if (okDesign || okMeas) {
+        cls = "warn"; head = "Borderline: too close to the limit";
+        body = "The fault current (" + fmtA(R.ipf) + ") only just reaches what the " + dev + " needs. A real reading this close would need investigating: shorten the run, use a bigger cable, or add RCD protection.";
+      } else {
+        cls = "bad"; head = "The " + dev + " won't trip fast enough";
+        body = "Only " + fmtA(R.ipf) + " flows, below the " + fmtA(R.trip) + " needed to trip it instantly. The metal case could stay live for too long. Shorten the run, use a bigger cable or a lower-rated breaker, or add RCD protection.";
+      }
+    } else {
+      var rcdOk = R.zs <= 1667, raOk = st.ze <= 200;
+      var mcbOk = R.ipf >= R.trip;
+      rows += row("", "Current for instant trip", st.k + " × " + st.rating + " A (" + dev + ")", fmtA(R.trip), pill(mcbOk, mcbOk ? "reached" : "not reached"));
+      rows += row("", "Max Z<sub>s</sub> with a 30 mA RCD", frac("50 V", "0.03 A") + " (Table 41.5)", "1667 Ω", pill(rcdOk, rcdOk ? "pass" : "fail"));
+      rows += row("", "Touch voltage on the case", "R<sub>a</sub> × 30 mA must not exceed 50 V", (st.ze * 0.03).toFixed(1) + " V", pill(st.ze * 0.03 <= 50, st.ze * 0.03 <= 50 ? "pass" : "fail"));
+      rows += row("", "Electrode stability", "Guidance Note 3: aim for 200 Ω or less", fmtOhm(st.ze), pill(raOk, raOk ? "ok" : "check"));
+      if (rcdOk && raOk) {
+        cls = "warn"; head = "The " + dev + " alone won't clear this fault. A 30 mA RCD will.";
+        body = "Through the ground only " + fmtA(R.ipf) + " flows, far below the " + fmtA(R.trip) + " the breaker needs. An RCD sees the imbalance between line and neutral and disconnects within 0.2 s. That's why TT circuits must have RCD protection.";
+      } else {
+        cls = "bad"; head = "Electrode resistance too high";
+        body = "An electrode above 200 Ω may not stay stable as the ground dries out or freezes. Improve the electrode: drive it deeper, or add more rods.";
+      }
+    }
+    v.className = "verdict " + cls;
+    v.querySelector("strong").textContent = head;
+    v.querySelector("p").textContent = body;
+    $("rows").innerHTML = rows;
+
+    // steps
+    var ret = SYS[st.sys].ret;
+    var steps = [
+      ["winding", "Transformer winding", "The source: 230 V between line and the star point.", "ze", "Z<sub>e</sub>"],
+      ["supply", "Supply line conductor and cut-out fuse", "The distribution network's cable up to your meter position.", "ze", "Z<sub>e</sub>"],
+      ["mcb", "Your breaker (" + dev + ")", "Carries the fault current. If it's big enough, the breaker trips.", "none", "—"],
+      ["r1", "Circuit line conductor", "From the breaker to the fault.", "r1", "R<sub>1</sub>"],
+      ["fault", "The fault", "Line touches the metal case. Assume a dead short with no resistance.", "none", "—"],
+      ["r2", "Circuit protective conductor", "From the case back to the main earthing terminal (<abbr title='main earthing terminal'>MET</abbr>).", "r2", "R<sub>2</sub>"],
+      ["ret", ret[0], ret[1], "ze", "Z<sub>e</sub>"]
+    ];
+    $("steps").innerHTML = steps.map(function (s) {
+      return '<li tabindex="0" data-hl="' + s[0] + '"><span><span class="t">' + s[1] + '</span><span class="d">' + s[2] + '</span></span><span class="tagc ' + s[3] + '">' + s[4] + "</span></li>";
+    }).join("");
+  }
+
+  // highlight linking
+  var svg = $("diagram");
+  function hl(keys) {
+    if (!keys) { svg.classList.remove("focusing"); svg.querySelectorAll("[data-seg]").forEach(function (e) { e.classList.remove("on"); }); return; }
+    var list = keys.split(" ");
+    svg.classList.add("focusing");
+    svg.querySelectorAll("[data-seg]").forEach(function (e) { e.classList.toggle("on", list.indexOf(e.getAttribute("data-seg")) !== -1); });
+  }
+  function bindHl(root) {
+    ["mouseover", "focusin"].forEach(function (ev) {
+      root.addEventListener(ev, function (e) { var t = e.target.closest("[data-hl]"); if (t && t.getAttribute("data-hl")) hl(t.getAttribute("data-hl")); });
+    });
+    ["mouseout", "focusout"].forEach(function (ev) {
+      root.addEventListener(ev, function (e) { var t = e.target.closest("[data-hl]"); if (t && (!e.relatedTarget || !t.contains(e.relatedTarget))) hl(null); });
+    });
+  }
+  bindHl($("steps")); bindHl($("rows"));
+
+  // controls
+  var zeIn = $("ze");
+  function setSys(s) {
+    st.sys = s; var c = SYS[s];
+    zeIn.min = c.min; zeIn.max = c.max; zeIn.step = c.step; st.ze = c.ze; zeIn.value = c.ze;
+    render();
+  }
+  $("sysBtns").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) setSys(b.getAttribute("data-sys")); });
+  zeIn.addEventListener("input", function () { st.ze = parseFloat(zeIn.value); render(); });
+  $("len").addEventListener("input", function (e) { st.len = parseInt(e.target.value, 10); render(); });
+  cableSel.addEventListener("change", function () { st.cable = cableSel.value; render(); });
+  $("type").addEventListener("change", function (e) { st.type = e.target.value; render(); });
+  ratingSel.addEventListener("change", function () { st.rating = parseInt(ratingSel.value, 10); render(); });
+  $("faultOn").addEventListener("change", function (e) { st.fault = e.target.checked; render(); });
+  $("presets").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var p = PRESETS[b.getAttribute("data-p")];
+    st.cable = p.cable; st.type = p.type; st.rating = p.rating; st.len = p.len; $("len").value = p.len;
+    render();
+  });
+
+  // start from the radial preset at 25 m on a B32 with 4 mm²? keep a realistic default
+  st.cable = "2.5"; st.type = "B"; st.rating = 20; st.len = 25;
+  render();
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  // ---- Acronyms: tap an <abbr title> to see its meaning (hover tooltips don't work on touch screens)
+  (function () {
+    var tip = null;
+    function hide() { if (tip) { tip.remove(); tip = null; } }
+    document.addEventListener("click", function (e) {
+      var ab = e.target.closest && e.target.closest("abbr[title]");
+      if (!ab || ab.closest("button, a, label")) { hide(); return; }
+      hide();
+      tip = document.createElement("div"); tip.className = "abbr-tip"; tip.setAttribute("role", "tooltip");
+      var b = document.createElement("strong"); b.textContent = ab.textContent + " ";
+      tip.appendChild(b); tip.appendChild(document.createTextNode(ab.title));
+      document.body.appendChild(tip);
+      var r = ab.getBoundingClientRect(), w = tip.offsetWidth;
+      tip.style.left = (Math.max(8, Math.min(window.innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + window.scrollX) + "px";
+      tip.style.top = (r.bottom + window.scrollY + 6) + "px";
+    });
+    window.addEventListener("scroll", hide, { passive: true });
+    window.addEventListener("resize", hide);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") hide(); });
+  })();
+})();
+</script>
+</body>
+</html>

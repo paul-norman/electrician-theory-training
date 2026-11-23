@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flashcard Review</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+  .tile .n { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .tile .l { font-size: 0.82rem; color: var(--muted); }
+  .tile.due .n { color: var(--flow); }
+  .start { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn.big { font-size: 1rem; padding: 11px 20px; }
+
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .card-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 0.82rem; color: var(--muted); }
+  .card-top .badge { font-weight: 600; padding: 1px 8px; border-radius: 99px; background: var(--info-bg); color: var(--info); }
+  .progress { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .progress span { display: block; height: 100%; background: var(--flow); width: 0; transition: width 0.2s; }
+  .question { font-size: 1.2rem; font-weight: 500; line-height: 1.5; }
+  .question .card-sym { display: block; width: 100%; max-width: 240px; height: auto; margin: 12px 0 0; background: var(--surface-2); border-radius: 8px; }
+  .answer-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .answer-row input { flex: 1 1 240px; min-width: 0; font: inherit; font-size: 1.05rem; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .answer-row .unit { font-family: var(--font-mono); color: var(--muted); }
+  .result { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .result.ok { background: var(--ok-bg); }
+  .result.bad { background: var(--bad-bg); }
+  .result .head { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
+  .result.ok .head { color: var(--ok); }
+  .result.bad .head { color: var(--bad); }
+  .result .yours { font-size: 0.9rem; color: var(--muted); }
+  .result .correct { font-size: 1.05rem; }
+  .result .why { font-size: 0.9rem; }
+  .grades { display: flex; flex-wrap: wrap; gap: 8px; }
+  .grades button { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 92px; }
+  .grades button small { font-size: 0.75rem; opacity: 0.75; }
+  .grades .again { border-color: var(--bad); }
+  .linkish { background: none; border: 0; padding: 0; color: var(--info); text-decoration: underline; cursor: pointer; font: inherit; font-size: 0.88rem; }
+  .keys { font-size: 0.8rem; color: var(--muted); }
+  kbd { font-family: var(--font-mono); font-size: 0.78rem; border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--surface-2); }
+
+  .module-box { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .module-box legend { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; padding: 0 4px; }
+  .module-box .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; }
+  .module-box .row .meta { font-size: 0.8rem; color: var(--muted); font-family: var(--font-mono); }
+  .settings { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .settings label { display: flex; flex-direction: column; gap: 4px; font-size: 0.88rem; font-weight: 600; }
+  .settings .hint { font-weight: 400; color: var(--muted); font-size: 0.8rem; }
+  input[type="date"] { font: inherit; font-size: 0.95rem; color: var(--fg); background: var(--surface-2); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 8px; }
+  .danger { border-color: var(--bad); color: var(--bad); }
+  .msg { font-size: 0.9rem; }
+</style>
+</head>
+<body data-root="../">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Spaced repetition</span>
+    <h1>Flashcard review</h1>
+    <p class="lead">Short daily reviews of the key facts from the lessons. Type each answer; cards you know come back less often, and cards you miss come back sooner. Progress is saved in this browser only, so export a backup now and then.</p>
+  </header>
+
+  <div class="tabs seg" role="group" aria-label="View">
+    <button type="button" data-view="review" aria-pressed="true">Review</button>
+    <button type="button" data-view="topics" aria-pressed="false">Topics &amp; settings</button>
+  </div>
+
+  <!-- REVIEW -->
+  <section id="vReview" class="prose" style="gap:18px">
+    <div id="home">
+      <div class="tiles">
+        <div class="tile due"><span class="n" id="tDue">0</span><span class="l">Due for review</span></div>
+        <div class="tile"><span class="n" id="tNew">0</span><span class="l">New cards today</span></div>
+        <div class="tile"><span class="n" id="tLearned">0</span><span class="l">Cards learned</span></div>
+        <div class="tile"><span class="n" id="tPool">0</span><span class="l">Cards in your topics</span></div>
+      </div>
+      <div class="start" style="margin-top:16px">
+        <button type="button" class="btn primary big" id="startBtn">Start review</button>
+        <span class="msg muted" id="startMsg"></span>
+      </div>
+    </div>
+
+    <div id="session" hidden>
+      <div class="card" aria-live="polite">
+        <div class="card-top"><span class="badge" id="cLesson"></span><span id="cCount"></span></div>
+        <div class="progress"><span id="cBar"></span></div>
+        <div class="question" id="cQ"></div>
+        <form class="answer-row" id="ansForm" autocomplete="off">
+          <label for="ans" style="position:absolute;left:-9999px">Your answer</label>
+          <input id="ans" type="text" spellcheck="false" autocapitalize="off" placeholder="Type your answer">
+          <span class="unit" id="cUnit"></span>
+          <button type="submit" class="btn primary" id="checkBtn">Check</button>
+          <button type="button" class="btn ghost" id="idkBtn">I don't know</button>
+        </form>
+        <div id="after" hidden>
+          <div class="result" id="res">
+            <span class="head" id="resHead"></span>
+            <span class="yours" id="resYours"></span>
+            <span class="correct" id="resA"></span>
+            <span class="why" id="resWhy"></span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+            <div class="grades" id="grades"></div>
+            <div><button type="button" class="linkish" id="override"></button></div>
+            <span class="keys">Keys: <kbd>Enter</kbd> accepts the highlighted choice · <kbd>1</kbd>–<kbd>4</kbd> Again, Hard, Good, Easy</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:10px"><button type="button" class="linkish" id="endBtn">End this session</button></div>
+    </div>
+
+    <div id="done" hidden class="callout takeaway">
+      <h3>Session complete</h3>
+      <p id="doneMsg"></p>
+      <div><button type="button" class="btn" id="backBtn">Back to overview</button></div>
+    </div>
+  </section>
+
+  <!-- TOPICS -->
+  <section id="vTopics" class="prose" hidden style="gap:18px">
+    <p>Choose which lessons' cards go into your reviews. Untick a lesson to pause its cards; your progress on them is kept.</p>
+    <div id="modules" style="display:flex;flex-direction:column;gap:12px"></div>
+
+    <h2>Settings</h2>
+    <div class="settings">
+      <label for="npd">New cards per day <input type="number" id="npd" min="0" max="200" step="1"><span class="hint">How many unseen cards to introduce each day.</span></label>
+      <label for="exam">Exam date (optional) <input type="date" id="exam"><span class="hint">No card will be scheduled later than the day before.</span></label>
+    </div>
+
+    <h2>Backup</h2>
+    <p>Your progress lives in this browser only. Clearing site data, or using another browser or device, starts from scratch. Export a copy now and then, and import it to restore or move it.</p>
+    <div class="start">
+      <button type="button" class="btn" id="exportBtn">Export progress</button>
+      <label class="btn" for="importFile" style="cursor:pointer">Import progress</label>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+      <button type="button" class="btn danger" id="resetBtn">Reset all progress</button>
+      <button type="button" class="btn danger" id="resetConfirm" hidden>Yes, delete all progress</button>
+      <span class="msg" id="backupMsg" aria-live="polite"></span>
+    </div>
+  </section>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/cards.js"></script>
+<script src="../assets/srs.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var cards = window.CARDS || [];
+  var s = SRS.load();
+  var LESSON = {};
+  Course.MODULES.forEach(function (m) { m.lessons.forEach(function (l) { LESSON[l.id] = { title: l.title, module: m.title }; }); });
+
+  // ---- views ----
+  function show(view) {
+    $("vReview").hidden = view !== "review"; $("vTopics").hidden = view !== "topics";
+    document.querySelectorAll(".tabs button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-view") === view)); });
+    if (view === "topics") renderTopics(); else renderHome();
+  }
+  document.querySelector(".tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var v = b.getAttribute("data-view");
+    try { history.replaceState(null, "", v === "topics" ? "#topics" : "#review"); } catch (err) { /* not allowed on some local file views */ }
+    show(v);
+  });
+
+  // ---- overview ----
+  function renderHome() {
+    var c = SRS.counts(s, cards);
+    var pool = cards.filter(function (k) { return SRS.inPool(s, k); }).length;
+    $("tDue").textContent = c.due; $("tNew").textContent = c.newToday; $("tLearned").textContent = c.learned; $("tPool").textContent = pool;
+    var total = c.due + c.newToday;
+    $("startBtn").disabled = total === 0;
+    $("startBtn").textContent = total ? "Start review (" + total + " cards)" : "Nothing to review";
+    if (total) $("startMsg").textContent = "";
+    else {
+      var today = SRS.dayNum(), nextDue = Infinity, nextCount = 0;
+      cards.forEach(function (k) { var st = s.cards[k.id]; if (st && SRS.inPool(s, k) && st.due > today) { if (st.due < nextDue) { nextDue = st.due; nextCount = 0; } if (st.due === nextDue) nextCount++; } });
+      $("startMsg").textContent = pool === 0 ? "No topics selected. Choose some in Topics & settings."
+        : isFinite(nextDue) ? "All done for today. Next: " + nextCount + " card" + (nextCount === 1 ? "" : "s") + " " + SRS.ivlText(nextDue - today) + "."
+        : "No new cards left today. Raise the daily limit in Topics & settings for more.";
+    }
+  }
+
+  // ---- session ----
+  var Q = [], i = 0, cur = null, outcome = null, typed = "", stats = { n: 0, ok: 0 }, requeued = {};
+  function start() {
+    Q = SRS.buildQueue(s, cards); i = 0; stats = { n: 0, ok: 0 }; requeued = {};
+    if (!Q.length) return;
+    $("home").hidden = true; $("done").hidden = true; $("session").hidden = false;
+    ask();
+  }
+  function ask() {
+    if (i >= Q.length) return finish();
+    cur = Q[i]; outcome = null;
+    var L = LESSON[cur.lesson] || { title: cur.lesson, module: "" };
+    $("cLesson").textContent = L.module + " · " + L.title;
+    $("cCount").textContent = (i + 1) + " of " + Q.length + (s.cards[cur.id] ? "" : " · new card");
+    $("cBar").style.width = (100 * i / Q.length) + "%";
+    $("cQ").innerHTML = cur.q;
+    $("cUnit").textContent = cur.unit || "";
+    $("ans").value = ""; $("ans").disabled = false; $("checkBtn").disabled = false; $("idkBtn").disabled = false;
+    $("ansForm").hidden = false; $("after").hidden = true;
+    $("ans").focus();
+  }
+  function reveal(r) {
+    outcome = r;
+    $("ans").disabled = true; $("checkBtn").disabled = true; $("idkBtn").disabled = true;
+    $("after").hidden = false;
+    $("res").className = "result " + (r.ok ? "ok" : "bad");
+    $("resHead").textContent = r.ok ? (r.typo ? "Correct (allowing for a typo)" : "Correct") : (typed ? "Not quite" : "Here's the answer");
+    $("resYours").textContent = typed ? "You typed: " + typed : "";
+    $("resA").innerHTML = "<strong>Answer:</strong> " + cur.a;
+    $("resWhy").innerHTML = cur.why || "";
+    renderGrades();
+  }
+  function renderGrades() {
+    var g = $("grades"), list = outcome.ok ? [2, 3, 4] : [1], names = { 1: "Again", 2: "Hard", 3: "Good", 4: "Easy" };
+    var def = outcome.ok ? 3 : 1;
+    g.innerHTML = list.map(function (n) {
+      var ivl = SRS.preview(s, cur.id, n);
+      return '<button type="button" class="btn' + (n === def ? " primary" : "") + (n === 1 ? " again" : "") + '" data-g="' + n + '">' + names[n] + "<small>" + SRS.ivlText(ivl) + "</small></button>";
+    }).join("");
+    $("override").textContent = outcome.ok ? "Actually, I got this wrong" : "I was right (count it as correct)";
+    var first = g.querySelector(".primary"); if (first) first.focus();
+  }
+  $("override").addEventListener("click", function () { outcome = { ok: !outcome.ok, overridden: true }; reveal(outcome); });
+  $("grades").addEventListener("click", function (e) { var b = e.target.closest("button[data-g]"); if (b) grade(+b.getAttribute("data-g")); });
+  function grade(g) {
+    if (!outcome || (outcome.ok && g === 1) || (!outcome.ok && g !== 1)) return;
+    SRS.record(s, cur, g, outcome.ok, typed);
+    stats.n++; if (outcome.ok) stats.ok++;
+    if (g === 1 && (requeued[cur.id] || 0) < 3) {   // missed: see it again later in this session
+      requeued[cur.id] = (requeued[cur.id] || 0) + 1;
+      Q.splice(Math.min(i + 4, Q.length), 0, cur);
+    }
+    i++; ask();
+  }
+  $("ansForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (outcome) return;
+    typed = $("ans").value.trim();
+    if (!typed) { $("ans").focus(); return; }
+    reveal(SRS.check(cur, typed));
+  });
+  $("idkBtn").addEventListener("click", function () { typed = ""; reveal({ ok: false }); });
+  document.addEventListener("keydown", function (e) {
+    if ($("session").hidden || !outcome || e.target.tagName === "INPUT") return;
+    var k = { "1": 1, "2": 2, "3": 3, "4": 4 }[e.key];
+    if (k) { e.preventDefault(); grade(k); }
+  });
+  function finish() {
+    $("session").hidden = true; $("done").hidden = false;
+    var pct = stats.n ? Math.round(100 * stats.ok / stats.n) : 0;
+    $("doneMsg").textContent = "You answered " + stats.n + " card" + (stats.n === 1 ? "" : "s") + ", " + pct + "% correctly first time round or on a repeat. Come back tomorrow for the next batch.";
+    $("backBtn").focus();
+  }
+  $("startBtn").addEventListener("click", start);
+  $("endBtn").addEventListener("click", function () { finish(); });
+  $("backBtn").addEventListener("click", function () { $("done").hidden = true; $("home").hidden = false; renderHome(); });
+
+  // ---- topics & settings ----
+  function renderTopics() {
+    var html = "";
+    Course.MODULES.forEach(function (m) {
+      html += '<fieldset class="module-box"><legend>' + m.title + "</legend>";
+      m.lessons.forEach(function (l) {
+        var lc = cards.filter(function (k) { return k.lesson === l.id; });
+        var learned = lc.filter(function (k) { return s.cards[k.id]; }).length;
+        var on = s.settings.excluded.indexOf(l.id) === -1;
+        html += '<div class="row"><label class="check" for="t-' + l.id + '"><input type="checkbox" id="t-' + l.id + '" data-l="' + l.id + '"' + (on ? " checked" : "") + (lc.length ? "" : " disabled") + "> " + l.title + "</label>" +
+          '<span class="meta">' + (lc.length ? learned + "/" + lc.length + " learned" : "no cards yet") + "</span></div>";
+      });
+      html += "</fieldset>";
+    });
+    $("modules").innerHTML = html;
+    $("npd").value = s.settings.newPerDay;
+    $("exam").value = s.settings.exam ? SRS.dayToDate(s.settings.exam).toISOString().slice(0, 10) : "";
+  }
+  $("modules").addEventListener("change", function (e) {
+    var id = e.target.getAttribute("data-l"); if (!id) return;
+    var ex = s.settings.excluded.filter(function (x) { return x !== id; });
+    if (!e.target.checked) ex.push(id);
+    s.settings.excluded = ex; SRS.save(s);
+  });
+  $("npd").addEventListener("change", function (e) { var v = parseInt(e.target.value, 10); if (v >= 0) { s.settings.newPerDay = Math.min(200, v); SRS.save(s); } });
+  $("exam").addEventListener("change", function (e) {
+    s.settings.exam = e.target.value ? SRS.dayNum(new Date(e.target.value + "T12:00:00")) : null; SRS.save(s);
+  });
+  $("exportBtn").addEventListener("click", function () {
+    var blob = new Blob([JSON.stringify(s)], { type: "application/json" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = "electrical-revision-progress-" + new Date().toISOString().slice(0, 10) + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    $("backupMsg").textContent = "Exported.";
+  });
+  $("importFile").addEventListener("change", function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      try {
+        var d = JSON.parse(rd.result);
+        if (!d || typeof d.cards !== "object" || !d.settings) throw new Error("bad");
+        s = d; s.log = s.log || []; s.day = s.day || { n: 0, newDone: 0 }; SRS.save(s);
+        $("backupMsg").textContent = "Imported " + Object.keys(s.cards).length + " cards' progress.";
+        renderTopics();
+      } catch (err) { $("backupMsg").textContent = "That file isn't a progress export. Choose a file made with Export progress."; }
+      e.target.value = "";
+    };
+    rd.readAsText(f);
+  });
+  $("resetBtn").addEventListener("click", function () { $("resetConfirm").hidden = false; $("backupMsg").textContent = "This can't be undone. Export first if you might want it back."; });
+  $("resetConfirm").addEventListener("click", function () {
+    var keep = s.settings; s = SRS.blank(); s.settings = keep; SRS.save(s);
+    $("resetConfirm").hidden = true; $("backupMsg").textContent = "Progress reset. Your topic choices and settings were kept."; renderTopics();
+  });
+
+  show(location.hash === "#topics" ? "topics" : "review");
+})();
+</script>
+</body>
+</html>

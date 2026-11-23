@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AC and Three-Phase</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .winding { fill: none; stroke: var(--line); stroke-width: 3; }
+  .winding.ph1 { stroke: var(--l1); }
+  .winding.ph2 { stroke: var(--l2); }
+  .winding.ph3 { stroke: var(--l3); }
+  .winding.ph2-halo { stroke: var(--l2-halo); stroke-width: 6; }
+  .coil { stroke: var(--fg); stroke-width: 1.5; }
+  .axis-t { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
+</style>
+</head>
+<body data-lesson="ac">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Supply and distribution</span>
+    <h1><abbr title="alternating current">AC</abbr> and three-phase</h1>
+    <p class="lead">What "alternating" really means, what the 230 V on the label actually measures, and how a power station makes three supplies at once.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>UK mains is AC at 50 Hz: the voltage follows a sine wave, and one full cycle (360°, or 2π radians) takes 20 ms. "230 V" is the <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> (effective) value; the actual peaks are about ±325 V (230 × √2). Generators make three-phase AC: three sine waves a third of a cycle (120°) apart, on L1 (brown), L2 (black) and L3 (grey). Each line is 230 V to neutral and 400 V to another line (230 × √3). At every instant the three add up to zero, so a balanced load puts almost no current in the neutral. Most homes have a single-phase supply (one line and neutral, usually with a 60 to 100 A main fuse); larger buildings and big loads use three-phase.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Alternating current</h2>
+    <p>A battery gives <strong>direct current (<abbr title="direct current">DC</abbr>)</strong>: a steady voltage, so current always flows the same way. The mains supply is <strong>alternating current</strong>: the voltage swings positive, back through zero, negative, and back again, so the current keeps reversing direction.</p>
+    <p>In the UK it completes <strong>50 cycles a second</strong>, a frequency of 50 hertz (Hz). So one cycle takes <span class="mono">T = <span class="frac"><span>1</span><span>f</span></span> = <span class="frac"><span>1</span><span>50</span></span> = 0.02 s</span>, or 20 ms.</p>
+    <p>The shape is a <strong>sine wave</strong>, because it comes from a spinning generator. One full cycle is one full turn: <strong>360°</strong>, which mathematicians also call <strong>2π radians</strong>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Angle</th><th>Radians</th><th>Time into the cycle</th><th>Voltage</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">0°</td><td class="mono">0</td><td class="mono">0 ms</td><td>0 V, rising</td></tr>
+          <tr><td class="mono">90°</td><td class="mono"><span class="frac"><span>π</span><span>2</span></span></td><td class="mono">5 ms</td><td><strong>+325 V</strong>, the positive peak</td></tr>
+          <tr><td class="mono">180°</td><td class="mono">π</td><td class="mono">10 ms</td><td>0 V, falling</td></tr>
+          <tr><td class="mono">270°</td><td class="mono"><span class="frac"><span>3π</span><span>2</span></span></td><td class="mono">15 ms</td><td><strong>−325 V</strong>, the negative peak</td></tr>
+          <tr><td class="mono">360°</td><td class="mono">2π</td><td class="mono">20 ms</td><td>0 V, and the next cycle starts</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>Why "230 V" isn't the peak</h2>
+    <p>The voltage is only at its peak for an instant, and spends a lot of each cycle near zero. So the peak would overstate what the supply can actually do. Instead, AC is described by its <strong>RMS</strong> (root mean square) value: the DC voltage that would produce the same heating in a resistor.</p>
+    <p>For a sine wave, <span class="mono">V<sub>RMS</sub> = <span class="frac"><span>V<sub>peak</sub></span><span>√2</span></span></span>, so <span class="mono">V<sub>peak</sub> = 230 × √2 ≈ 325 V</span>. Every mains voltage you'll see quoted, including 230 V and 400 V, is an RMS value, and meters read RMS too. But insulation has to withstand the 325 V peaks, not just the 230 V average.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w6">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w6">Where the sine wave comes from</h3>
+    </div>
+    <div class="stage">
+      <svg id="sine" viewBox="0 0 780 300" class="wide" role="img" aria-labelledby="w6d">
+        <title id="w6d">A point turning round a circle. Its height traces out a sine wave on the graph beside it, from 0 to 360 degrees.</title>
+        <g id="sAxes"></g>
+        <circle cx="130" cy="150" r="100" fill="none" stroke="var(--rule)" stroke-width="2"/>
+        <line x1="20" y1="150" x2="240" y2="150" stroke="var(--rule)"/>
+        <line x1="130" y1="40" x2="130" y2="260" stroke="var(--rule)"/>
+        <path id="sArc" fill="none" stroke="var(--flow)" stroke-width="2" opacity="0.6"/>
+        <line id="sArm" x1="130" y1="150" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>
+        <line id="sDrop" stroke="var(--flow)" stroke-width="2" stroke-dasharray="3 4"/>
+        <line id="sLink" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <path id="sCurve" fill="none" stroke="var(--l1)" stroke-width="3"/>
+        <path id="sDone" fill="none" stroke="var(--flow)" stroke-width="4"/>
+        <circle id="sP" r="7" fill="var(--flow)" stroke="var(--surface)" stroke-width="2"/>
+        <circle id="sQ" r="7" fill="var(--flow)" stroke="var(--surface)" stroke-width="2"/>
+        <text id="sAng" class="tag" x="146" y="140"></text>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <label for="sA">Angle (how far through the cycle)</label>
+        <div class="slider"><input type="range" id="sA" min="0" max="360" step="1" value="60"><output id="sAOut" for="sA"></output></div>
+      </div>
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label">Jump to</span>
+        <div class="seg" id="sJump">
+          <button type="button" data-a="0">0°</button><button type="button" data-a="90">90°</button><button type="button" data-a="180">180°</button><button type="button" data-a="270">270°</button><button type="button" data-a="360">360°</button>
+        </div>
+      </div>
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label">&nbsp;</span>
+        <div class="seg"><button type="button" id="sPlay">Play</button></div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Angle</span><span class="v" id="rDeg">—</span></div>
+      <div class="ro"><span class="k">In radians</span><span class="v" id="rRad">—</span></div>
+      <div class="ro"><span class="k">Time into the cycle</span><span class="v" id="rT">—</span><span class="s">At 50 Hz</span></div>
+      <div class="ro"><span class="k">Voltage at this instant</span><span class="v" id="rV">—</span><span class="s">325 × sin(angle)</span></div>
+    </div>
+    <p class="caption">As the arm turns, the height of its tip (orange dot on the circle) is copied across to the graph. That height, plotted against the angle, is the sine wave. The dashed lines at ±230 V mark the RMS value for comparison. It isn't a level the voltage sits at: the wave swings right past it to ±325 V.</p>
+  </section>
+
+  <section class="prose">
+    <h2>How three-phase is made</h2>
+    <p>A power station generator has a magnet (the <strong>rotor</strong>) spinning inside three fixed coils (the <strong>stator</strong>), spaced a third of a turn (120°) apart. As the magnet turns, the magnetic field through each coil rises, falls and reverses. That changing field induces an alternating voltage in the coil.</p>
+    <p>Each coil gets the same wave, but a third of a turn later than the one before. A coil's voltage is biggest when the field through it is changing fastest: as the poles sweep <em>across</em> it, not when a pole points straight at it. A two-pole generator spinning at 3,000 revolutions per minute makes 50 turns a second, which gives 50 Hz.</p>
+  </section>
+
+
+  <section class="widget" aria-labelledby="w5">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w5">A three-phase generator, in slow motion</h3>
+    </div>
+    <div class="stage">
+      <svg id="gen" viewBox="0 0 780 310" class="wide" role="img" aria-labelledby="w5d">
+        <title id="w5d">A magnet spins inside three coils spaced 120 degrees apart. Beside it, a graph draws the three voltages L1, L2 and L3 as sine waves a third of a cycle apart.</title>
+        <!-- stator -->
+        <circle cx="150" cy="160" r="118" fill="none" stroke="var(--muted)" stroke-width="14" opacity="0.25"/>
+        <path d="M228,62 A128,128 0 0,1 268,110" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#rot)"/>
+        <text x="236" y="54" class="small">turns</text>
+        <g id="coils"></g>
+        <!-- rotor -->
+        <g id="rotor">
+          <rect x="136" y="88" width="28" height="72" rx="4" fill="var(--bad)"/>
+          <rect x="136" y="160" width="28" height="72" rx="4" fill="var(--neutral)"/>
+          <text x="150" y="118" text-anchor="middle" class="tag" style="fill:var(--surface)">N</text>
+          <text x="150" y="212" text-anchor="middle" class="tag" style="fill:var(--surface)">S</text>
+        </g>
+        <circle cx="150" cy="160" r="5" fill="var(--fg)"/>
+        <!-- chart -->
+        <g id="axes"></g>
+        <g id="ll" hidden>
+          <path id="cLL" fill="none" stroke="var(--fg)" stroke-width="2" stroke-dasharray="6 5"/>
+        </g>
+        <path id="c2h" class="ph2-halo" fill="none" stroke-width="5.5"/>
+        <path id="c1" class="ph1" fill="none" stroke-width="3"/>
+        <path id="c2" class="ph2" fill="none" stroke-width="3"/>
+        <path id="c3" class="ph3" fill="none" stroke-width="3"/>
+        <line id="cur" y1="34" y2="286" stroke="var(--flow)" stroke-width="2"/>
+        <circle id="d1" r="5.5" style="fill:var(--l1)" stroke="var(--surface)" stroke-width="2"/>
+        <circle id="d2" r="5.5" style="fill:var(--l2)" stroke="var(--l2-halo)" stroke-width="2"/>
+        <circle id="d3" r="5.5" style="fill:var(--l3)" stroke="var(--surface)" stroke-width="2"/>
+        <circle id="dLL" r="5" fill="var(--fg)" stroke="var(--surface)" stroke-width="2" hidden/>
+        <defs><marker id="rot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="var(--muted)"/></marker></defs>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label">&nbsp;</span>
+        <div class="seg"><button type="button" id="gPlay">Pause</button></div>
+      </div>
+      <div class="ctl">
+        <label for="gSpeed">Slow motion: one turn every</label>
+        <div class="slider"><input type="range" id="gSpeed" min="2" max="16" step="1" value="6"><output id="gSpeedOut" for="gSpeed"></output></div>
+      </div>
+      <div class="ctl">
+        <label for="gAngle">Or drag the rotor angle</label>
+        <div class="slider"><input type="range" id="gAngle" min="0" max="359" step="1" value="0"><output id="gAngleOut" for="gAngle"></output></div>
+      </div>
+      <label class="check" for="gLL"><input type="checkbox" id="gLL"> Show L1 − L2 (line to line)</label>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">L1 (brown)</span><span class="v" id="v1">—</span></div>
+      <div class="ro"><span class="k">L2 (black)</span><span class="v" id="v2">—</span></div>
+      <div class="ro"><span class="k">L3 (grey)</span><span class="v" id="v3">—</span></div>
+      <div class="ro"><span class="k">L1 + L2 + L3</span><span class="v" id="vSum">—</span><span class="s">Always zero</span></div>
+      <div class="ro" id="roLL" hidden><span class="k">L1 − L2</span><span class="v" id="vLL">—</span><span class="s">Peaks at ±563 V = 400 V RMS</span></div>
+    </div>
+    <p class="caption">Each coil glows brighter as its voltage grows. The graph shows the voltage at each instant. The peaks reach ±325 V. The familiar "230 V" is the <strong>RMS</strong> (effective) value, which gives the same heating effect as 230 V DC: 230 × √2 ≈ 325. At every instant the three voltages add up to zero. That's why, when the load is balanced across the phases, the neutral carries almost no current. Tick "Show L1 − L2" to see the line-to-line voltage: a bigger wave peaking at 563 V, which is 400 V RMS.</p>
+  </section>
+
+
+  <section class="prose">
+    <h2>Three-phase supplies and the star point</h2>
+    <p>The grid is <strong>three-phase</strong>: three separate AC supplies, called L1, L2 and L3, each a third of a cycle (120°) out of step with the others. At the local substation, the transformer's three secondary windings are joined at one end. That junction is the <strong>star point</strong>.</p>
+    <ul>
+      <li>The <strong>neutral</strong> conductor comes from the star point.</li>
+      <li>The star point is <strong>connected to earth</strong> at the substation, through an earth electrode. That's what ties the whole supply to earth potential.</li>
+      <li>Between any line and neutral there's <strong>230 V</strong>. Between any two lines there's <strong>400 V</strong> (230 × √3 ≈ 400).</li>
+      <li>Most homes get one line plus neutral. Neighbouring houses are spread across L1, L2 and L3 to balance the load.</li>
+      <li>The three line conductors are coloured <strong>brown (L1), black (L2) and grey (L3)</strong>. Older installations used red, yellow and blue.</li>
+    </ul>
+  </section>
+
+
+  <section class="widget" aria-labelledby="w4">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="w4">A star-connected secondary</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 610 300" role="img" aria-labelledby="w4d" style="max-width:660px;margin:0 auto">
+        <title id="w4d">Three windings joined at the star point. Neutral and an earth electrode connect to the star point. 230 volts between each line and neutral, 400 volts between lines.</title>
+        <!-- windings at 90°, 210°, 330° from centre (200,150) -->
+        <path class="winding ph1" d="M200,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/>
+        <g transform="rotate(120 200 150)"><path class="winding ph2-halo" d="M200,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/><path class="winding ph2" d="M200,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/></g>
+        <g transform="rotate(240 200 150)"><path class="winding ph3" d="M200,140 V118 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 a7,6 0 0,1 0,-12 V40"/></g>
+        <circle cx="200" cy="150" r="6" fill="var(--fg)"/>
+        <!-- line ends: top (200,40), lower right (295,205), lower left (105,205) -->
+        <path class="wire ph1" d="M200,40 H420"/>
+        <path class="wire ph2-halo" d="M295,205 V230 H420" style="stroke-width:6"/>
+        <path class="wire ph2" d="M295,205 V230 H420" style="stroke-width:3"/>
+        <path class="wire ph3" d="M105,205 V262 H420" style="stroke-width:3"/>
+        <text class="tag" x="428" y="45">L1</text><text class="small" x="450" y="45">brown</text>
+        <text class="tag" x="428" y="235">L2</text><text class="small" x="450" y="235">black</text>
+        <text class="tag" x="428" y="267">L3</text><text class="small" x="450" y="267">grey</text>
+        <!-- neutral and earth -->
+        <path class="wire w-neutral" d="M200,150 H260 V130 H420" style="stroke-width:3"/>
+        <text class="tag" x="428" y="135">N</text>
+        <path class="wire w-cpc-g" d="M200,150 V232" style="stroke-width:3"/><path class="wire w-cpc-y" d="M200,150 V232" style="stroke-width:3"/>
+        <path d="M188,232 H212 M193,238 H207 M198,244 H202" stroke="var(--cpc-g)" stroke-width="2.5"/>
+        <text x="190" y="146" class="small" text-anchor="end">Star point</text>
+        <text x="218" y="244" class="small">Earth electrode</text>
+        <!-- voltages -->
+        <path d="M505,45 V128" stroke="var(--flow)" stroke-width="2" marker-end="url(#ah)" marker-start="url(#ah)"/>
+        <text x="513" y="92" class="tag" fill="var(--flow)">230 V</text>
+        <text x="513" y="106" class="small">L–N</text>
+        <path d="M555,45 V228" stroke="var(--flow)" stroke-width="2" marker-end="url(#ah)" marker-start="url(#ah)"/>
+        <text x="563" y="180" class="tag" fill="var(--flow)">400 V</text>
+        <text x="563" y="194" class="small">L–L</text>
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" fill="var(--flow)"/></marker></defs>
+      </svg>
+    </div>
+  </section>
+
+
+  <section class="prose">
+    <h2>Single-phase and three-phase supplies</h2>
+    <p>Most homes have a <strong>single-phase</strong> supply: one line conductor and a neutral, taken from one of the three phases at the local substation. That gives 230 V, and the main fuse in the cut-out is usually 60, 80 or 100 A. At 100 A that's about 23 kW, plenty for a typical house.</p>
+    <p>A <strong>three-phase</strong> supply brings all three lines plus the neutral. It's used for larger buildings and heavy loads:</p>
+    <ul>
+      <li><strong>More power through the same size of cable.</strong> Three lines at 100 A each can deliver about three times the power of a single-phase supply.</li>
+      <li><strong>Motors.</strong> Three phases a third of a cycle apart make a smoothly rotating magnetic field, so three-phase motors start themselves and run smoothly. The phase order matters: swap two lines and a three-phase motor runs backwards. The standard order is L1, L2, L3 (brown, black, grey).</li>
+      <li><strong>Big domestic loads.</strong> Fast 22 kW car chargers and larger heat pumps need three-phase, so it's turning up in more homes.</li>
+      <li><strong>Balance.</strong> Spreading loads evenly across the three phases keeps the neutral current small.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var f = function (x, s) { return Course.sig(x, s || 3); };
+
+  // Sine wave from a rotating arm
+  (function () {
+    var CX = 130, CY = 150, R = 100, X0 = 300, X1 = 756, PK = 325;
+    var sx = function (a) { return X0 + (X1 - X0) * a / 360; };
+    var sy = function (v) { return CY - v * R / PK; };
+    var rad = function (a) { return a * Math.PI / 180; };
+    var st = { a: 60, playing: false, last: null };
+    var ax = "";
+    [[PK, "+325 V peak", "solid"], [230, "+230 V RMS", "dash"], [0, "0 V", "solid"], [-230, "−230 V RMS", "dash"], [-PK, "−325 V peak", "solid"]].forEach(function (t) {
+      ax += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + sy(t[0]) + '" y2="' + sy(t[0]) + '" stroke="var(--rule)"' + (t[2] === "dash" ? ' stroke-dasharray="5 5"' : "") + (t[0] === 0 ? ' stroke-width="1.5"' : "") + "/>" +
+        '<text class="axis-t" x="' + (X1 + 0) + '" y="' + (sy(t[0]) - 4) + '" text-anchor="end">' + t[1] + "</text>";
+    });
+    [[0, "0°", "0"], [90, "90°", "π/2"], [180, "180°", "π"], [270, "270°", "3π/2"], [360, "360°", "2π"]].forEach(function (t) {
+      ax += '<line x1="' + sx(t[0]) + '" x2="' + sx(t[0]) + '" y1="' + (sy(-PK) ) + '" y2="' + (sy(-PK) + 6) + '" stroke="var(--muted)"/>' +
+        '<text class="axis-t" x="' + sx(t[0]) + '" y="' + (sy(-PK) + 20) + '" text-anchor="middle">' + t[1] + "</text>" +
+        '<text class="axis-t" x="' + sx(t[0]) + '" y="' + (sy(-PK) + 34) + '" text-anchor="middle">' + t[2] + " · " + (t[0] / 18) + " ms</text>";
+    });
+    $("sAxes").innerHTML = ax;
+    function path(to) { var d = ""; for (var a = 0; a <= to + 0.001; a += 2) d += (d ? "L" : "M") + sx(Math.min(a, to)).toFixed(1) + "," + sy(PK * Math.sin(rad(Math.min(a, to)))).toFixed(1); return d; }
+    $("sCurve").setAttribute("d", path(360));
+    function piText(a) {
+      var map = { 0: "0", 30: "π/6", 45: "π/4", 60: "π/3", 90: "π/2", 120: "2π/3", 135: "3π/4", 150: "5π/6", 180: "π", 210: "7π/6", 225: "5π/4", 240: "4π/3", 270: "3π/2", 300: "5π/3", 315: "7π/4", 330: "11π/6", 360: "2π" };
+      var t = map[a]; if (!t) return "";
+      if (t.indexOf("/") < 0) return " = " + t;
+      var p = t.split("/"); return " = " + Course.frac(p[0], p[1]);
+    }
+    function draw() {
+      var a = st.a, v = PK * Math.sin(rad(a));
+      var px = CX + R * Math.cos(rad(a)), py = CY - R * Math.sin(rad(a));
+      $("sArm").setAttribute("x2", px); $("sArm").setAttribute("y2", py);
+      $("sP").setAttribute("cx", px); $("sP").setAttribute("cy", py);
+      var large = a > 180 ? 1 : 0;
+      $("sArc").setAttribute("d", a > 0 ? "M" + (CX + 28) + "," + CY + " A28,28 0 " + large + ",0 " + (CX + 28 * Math.cos(rad(a))).toFixed(1) + "," + (CY - 28 * Math.sin(rad(a))).toFixed(1) : "");
+      var qx = sx(a), qy = sy(v);
+      $("sQ").setAttribute("cx", qx); $("sQ").setAttribute("cy", qy);
+      var link = $("sLink"); link.setAttribute("x1", px); link.setAttribute("y1", py); link.setAttribute("x2", qx); link.setAttribute("y2", qy);
+      var drop = $("sDrop"); drop.setAttribute("x1", qx); drop.setAttribute("x2", qx); drop.setAttribute("y1", sy(0)); drop.setAttribute("y2", qy);
+      $("sDone").setAttribute("d", path(a));
+      $("sAng").textContent = a + "°";
+      $("sA").value = a; $("sAOut").textContent = a + "°";
+      $("rDeg").textContent = a + "°";
+      $("rRad").innerHTML = f(rad(a)) + piText(a);
+      $("rT").textContent = f(a / 18) + " ms";
+      $("rV").textContent = (Math.round(v) > 0 ? "+" : Math.round(v) < 0 ? "−" : "") + Math.abs(Math.round(v)) + " V";
+    }
+    function tick(ts) {
+      if (!st.playing) { st.last = null; return; }
+      if (st.last !== null) { st.a = Math.round(st.a + 60 * (ts - st.last) / 1000); if (st.a > 360) st.a = 0; }
+      st.last = ts; draw(); requestAnimationFrame(tick);
+    }
+    function setPlay(on) { st.playing = on; $("sPlay").textContent = on ? "Pause" : "Play"; if (on) requestAnimationFrame(tick); }
+    $("sPlay").addEventListener("click", function () { setPlay(!st.playing); });
+    $("sA").addEventListener("input", function (e) { setPlay(false); st.a = parseInt(e.target.value, 10); draw(); });
+    $("sJump").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; setPlay(false); st.a = parseInt(b.getAttribute("data-a"), 10); draw(); });
+    draw();
+  })();
+
+  // Three-phase generator
+  (function () {
+    var C = { x: 150, y: 160 }, PK = 325, X0 = 352, X1 = 764, YC = 160, K = 0.2; // 600 V ↔ 120 px
+    var PH = [0, 120, 240], NAMES = ["L1", "L2", "L3"];
+    var sx = function (deg) { return X0 + (X1 - X0) * deg / 720; };
+    var sy = function (v) { return YC - v * K; };
+    var rad = function (d) { return d * Math.PI / 180; };
+    var volt = function (th, k) { return PK * Math.sin(rad(th - PH[k])); };
+    var g = { th: 0, period: 6, playing: !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches), ll: false, last: null };
+    // coils
+    var coils = "";
+    PH.forEach(function (a, k) {
+      var cls = ["ph1", "ph2", "ph3"][k];
+      coils += '<g transform="rotate(' + a + ' 150 160)"><rect id="coil' + k + '" class="coil" x="128" y="48" width="44" height="26" rx="4" style="fill:var(--l' + (k + 1) + ')"/>' +
+        '<path d="M136,48 V74 M144,48 V74 M152,48 V74 M160,48 V74" stroke="var(--surface)" stroke-width="1.2" opacity="0.6"/></g>';
+      var lx = C.x + 140 * Math.sin(rad(a)), ly = C.y - 140 * Math.cos(rad(a)) + 4;
+      coils += '<text class="tag" x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="middle">' + NAMES[k] + "</text>";
+    });
+    $("coils").innerHTML = coils;
+    // axes
+    var ax = "";
+    [[PK, "+325 V"], [0, "0 V"], [-PK, "−325 V"]].forEach(function (t) {
+      ax += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + sy(t[0]) + '" y2="' + sy(t[0]) + '" stroke="var(--rule)" stroke-width="' + (t[0] === 0 ? 1.5 : 1) + '"/>' +
+        '<text class="axis-t" x="' + (X0 - 6) + '" y="' + (sy(t[0]) + 4) + '" text-anchor="end">' + t[1] + "</text>";
+    });
+    ax += '<g id="llAxes" hidden>';
+    [[563, "+563"], [-563, "−563"]].forEach(function (t) {
+      ax += '<line x1="' + X0 + '" x2="' + X1 + '" y1="' + sy(t[0]) + '" y2="' + sy(t[0]) + '" stroke="var(--rule)" stroke-dasharray="3 4"/>' +
+        '<text class="axis-t" x="' + (X0 - 6) + '" y="' + (sy(t[0]) + 4) + '" text-anchor="end">' + t[1] + "</text>";
+    });
+    ax += "</g>";
+    for (var d = 0; d <= 720; d += 180) ax += '<text class="axis-t" x="' + sx(d) + '" y="302" text-anchor="middle">' + (d / 18) + (d === 720 ? " ms" : "") + "</text>";
+    ax += '<text class="axis-t" x="' + X0 + '" y="22">Two full turns. At 50 Hz each turn takes 20 ms.</text>';
+    $("axes").innerHTML = ax;
+    function curve(fn) { var dd = ""; for (var t = 0; t <= 720; t += 3) dd += (dd ? "L" : "M") + sx(t).toFixed(1) + "," + sy(fn(t)).toFixed(1); return dd; }
+    $("c1").setAttribute("d", curve(function (t) { return volt(t, 0); }));
+    var c2 = curve(function (t) { return volt(t, 1); }); $("c2").setAttribute("d", c2); $("c2h").setAttribute("d", c2);
+    $("c3").setAttribute("d", curve(function (t) { return volt(t, 2); }));
+    $("cLL").setAttribute("d", curve(function (t) { return volt(t, 0) - volt(t, 1); }));
+    var fv = function (v) { return (v >= 0.5 ? "+" : v <= -0.5 ? "−" : "") + Math.abs(Math.round(v)) + " V"; };
+    function draw() {
+      var th = ((g.th % 720) + 720) % 720, x = sx(th);
+      $("rotor").setAttribute("transform", "rotate(" + (g.th % 360).toFixed(2) + " 150 160)");
+      var vs = [0, 1, 2].map(function (k) { return volt(th, k); });
+      vs.forEach(function (v, k) {
+        $("coil" + k).style.opacity = (0.2 + 0.8 * Math.abs(v) / PK).toFixed(2);
+        var dot = $("d" + (k + 1)); dot.setAttribute("cx", x); dot.setAttribute("cy", sy(v));
+        $("v" + (k + 1)).textContent = fv(v);
+      });
+      var cur = $("cur"); cur.setAttribute("x1", x); cur.setAttribute("x2", x);
+      $("vSum").textContent = fv(vs[0] + vs[1] + vs[2]);
+      var ll = vs[0] - vs[1];
+      $("dLL").setAttribute("cx", x); $("dLL").setAttribute("cy", sy(ll)); $("vLL").textContent = fv(ll);
+      $("gAngle").value = Math.round(((g.th % 360) + 360) % 360); $("gAngleOut").textContent = $("gAngle").value + "°";
+    }
+    function tick(ts) {
+      if (!g.playing) { g.last = null; return; }
+      if (g.last !== null) g.th += 360 * (ts - g.last) / 1000 / g.period;
+      g.last = ts; draw(); requestAnimationFrame(tick);
+    }
+    function setPlay(on) { g.playing = on; $("gPlay").textContent = on ? "Pause" : "Play"; if (on) requestAnimationFrame(tick); }
+    $("gPlay").addEventListener("click", function () { setPlay(!g.playing); });
+    $("gSpeed").addEventListener("input", function (e) { g.period = parseInt(e.target.value, 10); $("gSpeedOut").textContent = g.period + " s"; });
+    $("gAngle").addEventListener("input", function (e) { setPlay(false); g.th = parseInt(e.target.value, 10) + 360 * Math.floor(g.th / 360); draw(); });
+    $("gLL").addEventListener("change", function (e) {
+      g.ll = e.target.checked;
+      ["ll", "llAxes", "dLL"].forEach(function (id) { $(id).toggleAttribute("hidden", !g.ll); });
+      $("roLL").hidden = !g.ll;
+    });
+    $("gSpeedOut").textContent = g.period + " s";
+    if (!g.playing) g.th = 90;
+    draw(); setPlay(g.playing);
+  })();
+
+
+  Course.quiz("#quiz", [
+    { q: "At 50 Hz, how long does one complete cycle take?",
+      options: ["50 ms", "20 ms", "2 ms", "1 second"], answer: 1,
+      why: "T = <span class=\"frac\"><span>1</span><span>f</span></span> = <span class=\"frac\"><span>1</span><span>50</span></span> = 0.02 s = 20 ms." },
+    { q: "UK mains is quoted as 230 V. What is its peak voltage?",
+      options: ["230 V", "About 163 V", "About 325 V", "400 V"], answer: 2,
+      why: "230 V is the RMS value. Peak = 230 × √2 ≈ 325 V." },
+    { q: "What does the RMS value of an AC voltage tell you?",
+      options: ["The highest voltage reached", "The DC voltage that would give the same heating effect", "The average of the positive half only", "The voltage at 0°"], answer: 1,
+      why: "RMS is the effective value: 230 V AC heats a resistor exactly as much as 230 V DC would." },
+    { q: "How many degrees, and how many radians, in one full cycle?",
+      options: ["180° and π", "360° and 2π", "360° and π", "90° and <span class=\"frac\"><span>π</span><span>2</span></span>"], answer: 1,
+      why: "One cycle is one full turn of the generator: 360°, which is 2π radians." },
+    { q: "On a three-phase 400/230 V supply, what's the voltage between two line conductors?",
+      options: ["230 V", "400 V", "690 V", "0 V"], answer: 1,
+      why: "Line to neutral is 230 V. Line to line is 230 × √3 ≈ 400 V." },
+    { q: "At any instant, what do the voltages of L1, L2 and L3 add up to?",
+      options: ["230 V", "400 V", "Zero", "690 V"], answer: 2,
+      why: "The three waves are a third of a cycle apart, so at every instant they cancel out. That's why a balanced three-phase load puts almost no current in the neutral." },
+    { q: "Why does each generator coil produce an alternating voltage?",
+      options: ["The coil spins", "The spinning magnet makes the field through the coil rise, fall and reverse, which induces a voltage", "The coil is connected to the grid", "The magnet heats the coil"], answer: 1,
+      why: "A changing magnetic field through a coil induces a voltage in it. The rotor keeps the field changing, so the voltage keeps alternating." },
+    { q: "What is the star point of a supply transformer?",
+      options: ["The point where the three secondary windings join, which provides the neutral and is connected to earth", "The main fuse", "The meter", "The highest-voltage terminal"], answer: 0,
+      why: "The neutral comes from the star point, and the star point is earthed at the substation." },
+    { q: "Why do large buildings and big motors use three-phase supplies?",
+      options: ["Three-phase is safer to touch", "It delivers more power through the same size of cable, and three-phase motors run smoothly and start themselves", "It doesn't need a neutral at all", "It uses DC"], answer: 1,
+      why: "Three lines can carry about three times the power of one, and three phases make a rotating magnetic field that drives motors smoothly." }
+  ]);
+})();
+</script>
+</body>
+</html>

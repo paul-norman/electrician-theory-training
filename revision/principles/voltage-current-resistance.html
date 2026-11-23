@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voltage, Current and Resistance</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .lampglow { fill: var(--flow); }
+  .comp { fill: var(--surface); stroke: var(--fg); stroke-width: 2.5; }
+  .meter-c { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .meter-t { font-family: var(--font-display); font-weight: 800; font-size: 16px; }
+</style>
+</head>
+<body data-lesson="vir">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Electrical principles</span>
+    <h1>Voltage, current and resistance</h1>
+    <p class="lead">Three quantities describe every circuit you'll ever work on. Get these straight and the rest of the course gets much easier.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Voltage (V or U, in volts) is the push between two points. Current (I, in amps) is how much charge flows past a point each second. Resistance (R, in ohms) opposes the flow and turns energy into heat, and it rises with longer, thinner or hotter conductors. Measure voltage across a component and current in series with it. In a series circuit the current is the same everywhere, and the voltages across the loads add up to the supply. Circuit diagrams use conventional current, which flows from + to −.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>The short version</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Quantity</th><th>What it is</th><th>Symbol</th><th>Unit</th><th>Measured with</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Voltage</strong></td><td>The push: energy given to (or used by) the charge between two points</td><td class="mono">V or U</td><td>volt (V)</td><td>Voltmeter, connected <em>across</em></td></tr>
+          <tr><td><strong>Current</strong></td><td>The flow: how much charge passes a point each second</td><td class="mono">I</td><td>ampere (A)</td><td>Ammeter <em>in series</em>, or a clamp meter</td></tr>
+          <tr><td><strong>Resistance</strong></td><td>The opposition to the flow, which turns electrical energy into heat</td><td class="mono">R</td><td>ohm (Ω)</td><td>Ohmmeter, with the circuit dead</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>A water comparison helps at first. Voltage is like the <strong>pressure difference</strong> between two ends of a pipe. Current is the <strong>flow rate</strong>. Resistance is how <strong>narrow</strong> the pipe is. More pressure pushes more flow; a narrower pipe lets less through. Don't push it too far, though: electricity doesn't leak out of an open switch the way water leaks out of a cut pipe.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Voltage: the push</h2>
+    <p>Voltage is properly called <strong>potential difference</strong> (p.d.). The key word is <em>difference</em>: voltage always exists <strong>between two points</strong>. "The voltage at this wire" really means "between this wire and some reference", usually earth or neutral. That's why a voltmeter has two leads.</p>
+    <p>One volt means each coulomb of charge gets (or gives up) one joule of energy. The voltage a source produces, like a battery or transformer, is called its <strong>electromotive force</strong> (e.m.f.). The voltage that appears across a component is a potential difference.</p>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> uses <strong>U</strong> for voltage. You'll see <span class="mono">U₀ = 230 V</span> a lot: the nominal voltage between line and earth in the UK.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Current: the flow</h2>
+    <p>Current is the rate that charge passes a point. One amp means one coulomb per second, which is about 6,240,000,000,000,000,000 electrons per second. The symbol I comes from the French <em>intensité</em>.</p>
+    <p>To measure current, the meter must be <strong>in series</strong>: the current has to flow through it. On site you'll normally use a <strong>clamp meter</strong> instead, which senses the magnetic field around a single conductor without breaking the circuit.</p>
+    <p><strong>Which way does it flow?</strong> Electrons are negative, so they flow from − to +. But long before electrons were discovered, scientists had already agreed that current flows from + to −. That convention stuck. It's called <strong>conventional current</strong> and it's what every circuit diagram, rule and textbook in the trade uses.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Resistance: the opposition</h2>
+    <p>Resistance is how hard it is for current to flow. As electrons bump through the lattice they give up energy as heat: useful in a kettle element, wasted in a cable. A conductor's resistance goes up when it is:</p>
+    <ul>
+      <li><strong>longer</strong>: twice the length, twice the resistance</li>
+      <li><strong>thinner</strong>: half the cross-section (mm²), twice the resistance</li>
+      <li><strong>hotter</strong>: see the <a href="atoms.html">lattice animation</a></li>
+      <li>made of a <strong>poorer conductor</strong>: aluminium has about 1.6 × the resistance of copper</li>
+    </ul>
+    <p>You'll also see <strong>Z</strong>, for <strong>impedance</strong>. It's the <abbr title="alternating current">AC</abbr> version of resistance, which also includes effects from coils and capacitors. It's still measured in ohms. For most circuit calculations in this course you can treat Z like R.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Circuit symbols</h2>
+    <p>Circuit diagrams use a standard set of symbols, so anyone can read them. These are the UK and international ones (from the standard BS EN 60617), and they're the symbols used in every diagram in these notes. Older or American material may draw a resistor as a zigzag; it means the same thing.</p>
+  </section>
+  <div class="symbols">
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Conductor symbol"><line x1="8" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg><figcaption><strong>Conductor</strong><span>A wire or cable connection. Its resistance is usually small enough to ignore in a diagram.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Junction symbol"><line x1="8" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="80" y1="40" x2="80" y2="74" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="80" cy="40" r="5.5" fill="var(--fg)"/></svg><figcaption><strong>Junction</strong><span>Conductors that are joined. The dot marks the connection; current divides or combines here. Where four conductors meet, drawings usually offset the joint as two T-junctions, so it can't be mistaken for a crossing.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Crossing, not joined: the standard plain crossing, and the older hop style"><path d="M8,40 H105 A10,10 0 0,1 125,40 H152" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="45" y1="6" x2="45" y2="74" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="115" y1="6" x2="115" y2="74" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg><figcaption><strong>Crossing, not joined</strong><span>Conductors that cross without connecting. The standard form (left) is a plain crossing: no dot means no connection. The older "hop" (right) means the same, and you'll still see it in some books.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Cell symbol"><line x1="8" y1="40" x2="74" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="88" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="74" y1="18" x2="74" y2="62" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="88" y1="28" x2="88" y2="52" stroke="var(--fg)" stroke-width="6"/><text x="62" y="20" style="font-family:var(--font-mono);font-size:13px;fill:var(--muted)">+</text><text x="94" y="24" style="font-family:var(--font-mono);font-size:13px;fill:var(--muted)">−</text></svg><figcaption><strong>Cell</strong><span>A single source of <abbr title="direct current">DC</abbr>. The long line is positive (+), the short thick line negative (−).</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Battery symbol"><line x1="8" y1="40" x2="46" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="114" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="46" y1="18" x2="46" y2="62" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="58" y1="28" x2="58" y2="52" stroke="var(--fg)" stroke-width="6"/><line x1="62" y1="40" x2="98" y2="40" stroke="var(--fg)" stroke-width="2" stroke-dasharray="4 4"/><line x1="102" y1="18" x2="102" y2="62" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="114" y1="28" x2="114" y2="52" stroke="var(--fg)" stroke-width="6"/></svg><figcaption><strong>Battery</strong><span>Several cells connected in series to give a higher voltage. Often drawn as two cells with a dashed gap.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="AC supply symbol"><line x1="8" y1="40" x2="56" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="104" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="80" cy="40" r="24" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><path d="M66,40 C70,28 76,28 80,40 S90,52 94,40" fill="none" stroke="var(--fg)" stroke-width="2.5"/></svg><figcaption><strong>AC supply</strong><span>A source of alternating current, such as the mains. The wave inside shows it's AC.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Switch symbol"><line x1="8" y1="40" x2="58" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="102" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="62" cy="40" r="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/><circle cx="98" cy="40" r="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/><line x1="64" y1="38" x2="98" y2="20" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg><figcaption><strong>Switch</strong><span>Breaks or completes the circuit. Drawn open (off). Closed, the lever lies flat against the second contact.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Resistor, or any load symbol"><line x1="8" y1="40" x2="50" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="110" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="50" y="28" width="60" height="24" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/></svg><figcaption><strong>Resistor, or any load</strong><span>A fixed resistance. The same box is used for a general load that turns electrical energy into heat or work.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Variable resistor symbol"><line x1="8" y1="40" x2="50" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="110" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="50" y="28" width="60" height="24" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><line x1="46" y1="66" x2="112" y2="12" stroke="var(--fg)" stroke-width="2"/><path d="M112,12 L100,14 L106,22 Z" fill="var(--fg)"/></svg><figcaption><strong>Variable resistor</strong><span>A resistance you can adjust, such as a dimmer or a volume control. The arrow means "variable".</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Lamp symbol"><line x1="8" y1="40" x2="58" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="102" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="80" cy="40" r="22" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><path d="M64.5,24.5 L95.5,55.5 M95.5,24.5 L64.5,55.5" stroke="var(--fg)" stroke-width="2"/></svg><figcaption><strong>Lamp</strong><span>A light, as a load. You'll see this symbol on most lighting diagrams.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Fuse symbol"><line x1="8" y1="40" x2="50" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="110" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="50" y="30" width="60" height="20" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><line x1="40" y1="40" x2="120" y2="40" stroke="var(--fg)" stroke-width="2"/></svg><figcaption><strong>Fuse</strong><span>A deliberate weak link that melts and breaks the circuit if too much current flows.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Motor symbol"><line x1="8" y1="40" x2="56" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="104" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="80" cy="40" r="24" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><text x="80" y="47" text-anchor="middle" style="font-family:var(--font-display);font-weight:800;font-size:20px;fill:var(--fg)">M</text></svg><figcaption><strong>Motor</strong><span>A load that turns electrical energy into movement: fans, pumps, washing machines.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Voltmeter symbol"><line x1="8" y1="40" x2="56" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="104" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="80" cy="40" r="24" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><text x="80" y="47" text-anchor="middle" style="font-family:var(--font-display);font-weight:800;font-size:20px;fill:var(--fg)">V</text></svg><figcaption><strong>Voltmeter</strong><span>Measures voltage. Connected across a component, between two points.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Ammeter symbol"><line x1="8" y1="40" x2="56" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="104" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="80" cy="40" r="24" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><text x="80" y="47" text-anchor="middle" style="font-family:var(--font-display);font-weight:800;font-size:20px;fill:var(--fg)">A</text></svg><figcaption><strong>Ammeter</strong><span>Measures current. Connected in series, so the current flows through it.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Ohmmeter symbol"><line x1="8" y1="40" x2="56" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="104" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="80" cy="40" r="24" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><text x="80" y="47" text-anchor="middle" style="font-family:var(--font-display);font-weight:800;font-size:20px;fill:var(--fg)">Ω</text></svg><figcaption><strong>Ohmmeter</strong><span>Measures resistance. Only used on a circuit that is switched off and proved dead.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Transformer symbol"><line x1="8" y1="40" x2="52" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="108" y1="40" x2="152" y2="40" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="70" cy="40" r="18" fill="none" stroke="var(--fg)" stroke-width="2.5"/><circle cx="90" cy="40" r="18" fill="none" stroke="var(--fg)" stroke-width="2.5"/></svg><figcaption><strong>Transformer</strong><span>Two windings on one core, changing an AC voltage up or down. This is the simple single-line form.</span></figcaption></figure>
+    <figure class="sym"><svg viewBox="0 0 160 80" role="img" aria-label="Earth symbol"><line x1="80" y1="6" x2="80" y2="44" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="58" y1="44" x2="102" y2="44" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="66" y1="54" x2="94" y2="54" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="74" y1="64" x2="86" y2="64" stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg><figcaption><strong>Earth</strong><span>A connection to earth, through an earth electrode or the supply's earthing.</span></figcaption></figure>
+  </div>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">A simple series circuit</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 700 310" class="wide" role="img" aria-labelledby="w2d">
+        <title id="w2d">A battery feeding a lamp and a second load in series, with the voltage at each point labelled.</title>
+        <!-- wires -->
+        <path class="wire w-plain" d="M80,146 V60 H276"/>
+        <path class="wire w-plain" d="M324,60 H560 V120"/>
+        <path class="wire w-plain" d="M560,200 V260 H80 V164"/>
+        <path id="bWire" class="wire w-plain" d="M560,120 V200"/>
+        <!-- battery -->
+        <line x1="56" y1="146" x2="104" y2="146" stroke="var(--fg)" stroke-width="3"/>
+        <line x1="68" y1="164" x2="92" y2="164" stroke="var(--fg)" stroke-width="7"/>
+        <text class="tag" x="112" y="150">+</text>
+        <text class="tag" x="112" y="172">−</text>
+        <text x="20" y="214" class="small">Supply</text>
+        <text id="tSupply" class="tag" x="20" y="232">12 V</text>
+        <!-- lamp A -->
+        <circle id="glow" class="lampglow" cx="300" cy="60" r="34" opacity="0.3"/>
+        <circle class="comp" cx="300" cy="60" r="24"/>
+        <path d="M283,43 L317,77 M317,43 L283,77" stroke="var(--fg)" stroke-width="2"/>
+        <text x="300" y="112" text-anchor="middle" class="small">Lamp (load A)</text>
+        <text id="tRA" class="tag" x="300" y="132" text-anchor="middle">R<tspan dy="4" font-size="0.75em">A</tspan><tspan dy="-4"> = 6 Ω</tspan></text>
+        <text id="tVA" class="tag" x="300" y="22" text-anchor="middle">V<tspan dy="4" font-size="0.75em">A</tspan><tspan dy="-4"> = 7.2 V</tspan></text>
+        <!-- load B -->
+        <g id="loadB">
+          <rect class="comp" x="545" y="120" width="30" height="80" rx="3"/>
+          <text x="588" y="138" class="small">Heater</text>
+          <text x="588" y="152" class="small">(load B)</text>
+          <text id="tRB" class="tag" x="588" y="176">R<tspan dy="4" font-size="0.75em">B</tspan><tspan dy="-4"> = 4 Ω</tspan></text>
+          <text id="tVB" class="tag" x="588" y="198">V<tspan dy="4" font-size="0.75em">B</tspan><tspan dy="-4"> = 4.8 V</tspan></text>
+        </g>
+        <!-- potentials -->
+        <g>
+          <rect x="94" y="72" width="74" height="22" rx="4" fill="var(--surface)" stroke="var(--rule)"/>
+          <text id="p1" class="tag" x="131" y="88" text-anchor="middle">12 V</text>
+          <rect x="446" y="72" width="74" height="22" rx="4" fill="var(--surface)" stroke="var(--rule)"/>
+          <text id="p2" class="tag" x="483" y="88" text-anchor="middle">4.8 V</text>
+          <rect x="300" y="226" width="74" height="22" rx="4" fill="var(--surface)" stroke="var(--rule)"/>
+          <text id="p3" class="tag" x="337" y="242" text-anchor="middle">0 V</text>
+          <!-- currents at the same three points -->
+          <rect x="94" y="100" width="86" height="22" rx="4" fill="var(--surface)" stroke="var(--flow)"/>
+          <text id="c1" class="tag" x="137" y="116" text-anchor="middle" fill="var(--flow)">I = 1.2 A</text>
+          <rect x="446" y="100" width="86" height="22" rx="4" fill="var(--surface)" stroke="var(--flow)"/>
+          <text id="c2" class="tag" x="489" y="116" text-anchor="middle" fill="var(--flow)">I = 1.2 A</text>
+          <rect x="380" y="226" width="86" height="22" rx="4" fill="var(--surface)" stroke="var(--flow)"/>
+          <text id="c3" class="tag" x="423" y="242" text-anchor="middle" fill="var(--flow)">I = 1.2 A</text>
+          <!-- legend -->
+          <rect x="150" y="169" width="11" height="11" rx="2" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5"/>
+          <text x="168" y="179" class="small">Grey boxes: voltage at that point, from the − terminal</text>
+          <rect x="150" y="187" width="11" height="11" rx="2" fill="var(--surface)" stroke="var(--flow)" stroke-width="1.5"/>
+          <text x="168" y="197" class="small">Orange boxes: current flowing past that point</text>
+        </g>
+        <!-- current -->
+        <path id="flow" class="flow" d="M80,146 V60 H560 V260 H80 V164"/>
+        <text id="tDir" x="200" y="292" class="small">Orange dots: conventional current, + to −</text>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <label for="v">Supply voltage</label>
+        <div class="slider"><input type="range" id="v" min="0" max="24" step="0.5" value="12"><output id="vOut" for="v"></output></div>
+      </div>
+      <div class="ctl">
+        <label for="ra">Lamp resistance</label>
+        <div class="slider"><input type="range" id="ra" min="1" max="50" step="1" value="6"><output id="raOut" for="ra"></output></div>
+      </div>
+      <div class="ctl">
+        <label for="rb">Heater resistance</label>
+        <div class="slider"><input type="range" id="rb" min="1" max="50" step="1" value="4"><output id="rbOut" for="rb"></output></div>
+      </div>
+    </div>
+    <div class="controls">
+      <label class="check" for="bOn"><input type="checkbox" id="bOn" checked> Include the heater (load B)</label>
+      <div class="seg" role="group" aria-label="Direction shown">
+        <button type="button" data-dir="conv" aria-pressed="true">Conventional current</button>
+        <button type="button" data-dir="elec" aria-pressed="false">Electron flow</button>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Current, I</span><span class="v" id="rI">—</span><span class="s">Same everywhere in a series loop</span></div>
+      <div class="ro"><span class="k">Across lamp, V<sub>A</sub></span><span class="v" id="rVA">—</span><span class="s" id="rVAs"></span></div>
+      <div class="ro"><span class="k">Across heater, V<sub>B</sub></span><span class="v" id="rVB">—</span><span class="s" id="rVBs"></span></div>
+      <div class="ro"><span class="k">V<sub>A</sub> + V<sub>B</sub></span><span class="v" id="rSum">—</span><span class="s">Always equals the supply</span></div>
+    </div>
+    <p class="caption">Things to try: double the supply voltage and watch the current double. Check the three orange boxes: the current is identical before the lamp, between the loads and on the way back. Raise the lamp's resistance and watch it take a bigger share of the voltage. Turn the heater off and the lamp gets the whole supply. And the voltages across the loads always add up to the supply voltage.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Voltage gets shared out</h2>
+    <p>Follow the loop from the + terminal. The voltage drops a little across each load, and by the time you're back at the − terminal it has all been used. Loads in series share the supply voltage in proportion to their resistance: the bigger resistance takes the bigger share. This rule is called <strong>Kirchhoff's voltage law</strong> (more in <a href="series-and-parallel.html">Series and parallel circuits</a>).</p>
+    <p>On a real 230 V circuit, the cable has a tiny resistance too, so a few volts are lost along the cable before the load gets its share. That's <strong>voltage drop</strong>, and BS 7671 limits how much you're allowed. You'll calculate it later in the course.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">How to connect meters</span>
+      <h3 id="w3">Voltmeter across, ammeter in series</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 520 220" role="img" aria-labelledby="w3d" style="max-width:560px;margin:0 auto">
+        <title id="w3d">A battery and lamp. The ammeter sits in the loop so current passes through it. The voltmeter connects across the lamp's two ends.</title>
+        <path class="wire w-plain" d="M60,96 V40 H170 M230,40 H300 M360,40 H460 V180 H60 V124"/>
+        <line x1="38" y1="96" x2="82" y2="96" stroke="var(--fg)" stroke-width="3"/>
+        <line x1="48" y1="124" x2="72" y2="124" stroke="var(--fg)" stroke-width="7"/>
+        <circle class="meter-c" cx="200" cy="40" r="30"/><text class="meter-t" x="200" y="46" text-anchor="middle">A</text>
+        <text x="200" y="90" text-anchor="middle" class="small">In series: current flows through it</text>
+        <circle class="comp" cx="330" cy="40" r="24"/>
+        <path d="M313,23 L347,57 M347,23 L313,57" stroke="var(--fg)" stroke-width="2"/>
+        <path class="wire w-plain" d="M300,40 V120 H310 M350,120 H360 V40" stroke-width="2.5"/>
+        <circle class="meter-c" cx="330" cy="120" r="22"/><text class="meter-t" x="330" y="126" text-anchor="middle">V</text>
+        <text x="330" y="164" text-anchor="middle" class="small">Across the lamp: measures between two points</text>
+      </svg>
+    </div>
+  </section>
+
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var st = { v: 12, ra: 6, rb: 4, b: true, dir: "conv" };
+  var $ = function (id) { return document.getElementById(id); };
+  var f = function (x) { return Course.sig(x, 3); };
+  function render() {
+    var rt = st.ra + (st.b ? st.rb : 0);
+    var I = st.v / rt, va = I * st.ra, vb = st.b ? I * st.rb : 0;
+    $("vOut").textContent = st.v + " V"; $("raOut").textContent = st.ra + " Ω"; $("rbOut").textContent = st.rb + " Ω";
+    $("tSupply").textContent = st.v + " V";
+    $("tVA").innerHTML = 'V<tspan dy="4" font-size="0.75em">A</tspan><tspan dy="-4"> = ' + f(va) + " V</tspan>";
+    $("tRA").innerHTML = 'R<tspan dy="4" font-size="0.75em">A</tspan><tspan dy="-4"> = ' + st.ra + " Ω</tspan>";
+    $("tRB").innerHTML = 'R<tspan dy="4" font-size="0.75em">B</tspan><tspan dy="-4"> = ' + st.rb + " Ω</tspan>";
+    ["c1", "c2", "c3"].forEach(function (id) { $(id).textContent = "I = " + Course.si(I, "A"); });
+    $("tVB").innerHTML = 'V<tspan dy="4" font-size="0.75em">B</tspan><tspan dy="-4"> = ' + f(vb) + " V</tspan>";
+    $("p1").textContent = f(st.v) + " V"; $("p2").textContent = f(vb) + " V"; $("p3").textContent = "0 V";
+    $("loadB").style.display = st.b ? "" : "none";
+    $("bWire").style.display = st.b ? "none" : "";
+    $("rI").textContent = Course.si(I, "A");
+    $("rVA").textContent = f(va) + " V"; $("rVAs").innerHTML = "I × R<sub>A</sub> = " + f(I) + " × " + st.ra;
+    $("rVB").textContent = st.b ? f(vb) + " V" : "—"; $("rVBs").innerHTML = st.b ? "I × R<sub>B</sub> = " + f(I) + " × " + st.rb : "Heater not connected";
+    $("rSum").textContent = f(va + vb) + " V";
+    var pmax = 24 * 24 / 1; var p = va * I;
+    $("glow").setAttribute("opacity", Math.min(0.9, Math.sqrt(p / 96)).toFixed(2));
+    Course.setFlow($("flow"), I, 1, st.dir === "elec");
+    $("flow").style.stroke = st.dir === "elec" ? "var(--neutral)" : "";
+    $("tDir").textContent = st.dir === "elec" ? "Blue dots: electron flow, − to + (the real particles)" : "Orange dots: conventional current, + to −";
+    void pmax;
+  }
+  [["v", "v", parseFloat], ["ra", "ra", parseFloat], ["rb", "rb", parseFloat]].forEach(function (c) {
+    $(c[0]).addEventListener("input", function (e) { st[c[1]] = c[2](e.target.value); render(); });
+  });
+  $("bOn").addEventListener("change", function (e) { st.b = e.target.checked; render(); });
+  document.querySelector("[aria-label='Direction shown']").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; st.dir = b.getAttribute("data-dir");
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    render();
+  });
+  render();
+
+  Course.quiz("#quiz", [
+    { q: "How do you connect a voltmeter to measure the voltage across a lamp?",
+      options: ["In series with the lamp", "Across the lamp, one lead on each side", "Clamped around one wire", "Between the lamp and earth only"],
+      answer: 1, why: "Voltage is a difference between two points, so the meter connects across the component." },
+    { q: "What does a current of 1 A mean?",
+      options: ["One volt per ohm of resistance", "One joule of energy per second", "One coulomb of charge passing a point each second", "One electron per second"],
+      answer: 2, why: "Current is the rate of flow of charge. 1 A = 1 coulomb per second, about 6.24 × 10¹⁸ electrons per second." },
+    { q: "Which conductor has the higher resistance?",
+      options: ["10 m of 2.5 mm² copper", "50 m of 1.5 mm² copper"],
+      answer: 1, why: "It's longer (more resistance) and thinner (more resistance). Both effects point the same way." },
+    { q: "Two identical lamps are connected in series across 230 V. What's the voltage across each one?",
+      options: ["230 V", "115 V", "460 V", "0 V"],
+      answer: 1, why: "Series loads share the supply voltage in proportion to their resistance. Equal resistances get equal shares: 115 V each." },
+    { q: "Which way does conventional current flow around a circuit?",
+      options: ["From + to −", "From − to +", "It depends on the cable size"],
+      answer: 0, why: "Conventional current flows from + to −. Electrons actually drift the other way, but every diagram and rule uses the conventional direction." }
+  ]);
+})();
+</script>
+</body>
+</html>

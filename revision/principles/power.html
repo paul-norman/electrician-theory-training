@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Power</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .apps { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 6px 14px; }
+  .bars { display: flex; flex-direction: column; gap: 6px; }
+  .bar { display: grid; grid-template-columns: minmax(90px, 150px) minmax(0, 1fr) 7ch; gap: 10px; align-items: center; font-size: 0.86rem; }
+  .bar .track { position: relative; height: 16px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+  .bar .fill { position: absolute; inset: 0 auto 0 0; background: var(--flow); border-radius: 4px; }
+  .bar.total .fill { background: var(--fg); }
+  .bar .val { font-family: var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; }
+  .marks { position: relative; height: 34px; }
+  .marks span { position: absolute; top: 0; transform: translateX(-50%); font-size: 0.72rem; color: var(--muted); white-space: nowrap; text-align: center; line-height: 1.2; }
+  .marks span::before { content: ""; display: block; width: 1px; height: 8px; background: var(--muted); margin: 0 auto 2px; }
+  .chart text { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
+  .chart .grid { stroke: var(--rule); stroke-width: 1; }
+  .chart .axis { stroke: var(--muted); stroke-width: 1.2; }
+</style>
+</head>
+<body data-lesson="power">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Electrical principles</span>
+    <h1>Power</h1>
+    <p class="lead">Power tells you how fast a load turns electrical energy into heat, light or movement. It's the number on the side of every appliance, and it tells you what current the circuit has to carry.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Power (P, in watts) is how fast energy is converted: P = V × I, or P = I²R and P = <span class="frac"><span>V²</span><span>R</span></span>. I = <span class="frac"><span>P</span><span>V</span></span> turns an appliance rating into the current its circuit must carry. A 3 kW kettle draws about 13 A and a 9.5 kW shower about 41 A, which is why a shower has its own circuit. Energy is power × time, and bills charge it in kWh. Heat in a cable rises with the square of the current: double the current, four times the heat.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Power is a rate</h2>
+    <p>Power is how quickly energy is converted. <strong>One watt means one joule of energy every second.</strong> A 3,000 W (3 kW) kettle turns 3,000 joules of electrical energy into heat every second.</p>
+    <p>The symbol for power is <strong>P</strong> and the unit is the <strong>watt (W)</strong>. A <strong>load</strong> is anything that uses that energy: a lamp, a kettle, a motor.</p>
+    <p>Power depends on both the push and the flow:</p>
+    <p><span class="formula">P = V × I</span></p>
+    <p>Watts equal volts times amps. Rearranged: <span class="mono">I = <span class="frac"><span>P</span><span>V</span></span></span> and <span class="mono">V = <span class="frac"><span>P</span><span>I</span></span></span>. The one you'll use most is <strong>I = <span class="frac"><span>P</span><span>V</span></span></strong>: it turns an appliance's power rating into the current its circuit has to carry.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">The power triangle</h3>
+    </div>
+    <div id="tri"></div>
+  </section>
+
+  <section class="prose">
+    <h2>Two more versions, from Ohm's law</h2>
+    <p>Combine P = V × I with V = I × R and you get two more formulas. They're worth knowing because they show <em>where heat comes from</em>.</p>
+    <ul>
+      <li><span class="mono">P = I² × R</span>: replace V with I × R. Useful when you know the current through a resistance, such as a cable.</li>
+      <li><span class="mono">P = <span class="frac"><span>V²</span><span>R</span></span></span>: replace I with <span class="frac"><span>V</span><span>R</span></span>. Useful when you know the voltage across a load, such as a heater element.</li>
+    </ul>
+    <p>The I² in the first one matters a lot. <strong>Double the current through a cable and you get four times the heat.</strong></p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">What current does it draw?</h3>
+    </div>
+    <p class="caption">Tick appliances to switch them on. Each current is worked out at 230 V with I = <span class="frac"><span>P</span><span>V</span></span>.</p>
+    <div class="apps" id="apps"></div>
+    <div class="bars" id="bars"></div>
+    <p class="caption" id="appCap"></p>
+  </section>
+
+  <section class="prose">
+    <h2>Power and energy aren't the same</h2>
+    <p>Power is <em>how fast</em> energy is used. Energy is <em>how much</em> is used in total: power × time. Electricity bills charge for energy in <strong>kilowatt-hours (kWh)</strong>. 1 kWh is a 1 kW load running for one hour.</p>
+    <div class="examples">
+      <div class="example">
+        <span class="q">A 2 kW heater runs for 3 hours. How much energy does it use?</span>
+        <span class="w">Energy = P × t = 2 kW × 3 h</span>
+        <span class="a">6 kWh</span>
+      </div>
+      <div class="example">
+        <span class="q">A 3 kW kettle boils for 4 minutes. At 25p per kWh, what does it cost?</span>
+        <span class="w">3 kW × <span class="frac"><span>4</span><span>60</span></span> h = 0.2 kWh · 0.2 × 25p</span>
+        <span class="a">5p</span>
+      </div>
+      <div class="example">
+        <span class="q">A 9.5 kW shower runs for 10 minutes. How much energy?</span>
+        <span class="w">9.5 kW × <span class="frac"><span>10</span><span>60</span></span> h</span>
+        <span class="a">≈ 1.58 kWh</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w3">Heat wasted in a cable: P = I² × R</h3>
+    </div>
+    <div class="stage">
+      <svg id="chart" class="chart" viewBox="0 0 600 280" role="img" aria-labelledby="w3d">
+        <title id="w3d">Heat in a 20 metre cable plotted against current. The curve bends upward because heat rises with the square of the current.</title>
+        <g id="grid"></g>
+        <path id="curve" fill="none" stroke="var(--flow)" stroke-width="3"/>
+        <line id="mx" class="axis" stroke-dasharray="4 4"/>
+        <circle id="mk" r="6" fill="var(--flow)" stroke="var(--surface)" stroke-width="2"/>
+        <text id="mkT" style="font-weight:600;fill:var(--fg)"></text>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <label for="ci">Current</label>
+        <div class="slider"><input type="range" id="ci" min="0" max="40" step="1" value="16"><output id="ciOut" for="ci"></output></div>
+      </div>
+      <div class="ctl">
+        <span class="label" id="csL">Cable (20 m run, line + neutral)</span>
+        <div class="seg" role="group" aria-labelledby="csL" id="cs">
+          <button type="button" data-c="1.5" aria-pressed="false">1.5 mm²</button>
+          <button type="button" data-c="2.5" aria-pressed="true">2.5 mm²</button>
+          <button type="button" data-c="4.0" aria-pressed="false">4.0 mm²</button>
+        </div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Cable resistance (40 m of conductor)</span><span class="v" id="cR">—</span><span class="s" id="cRs"></span></div>
+      <div class="ro"><span class="k">Heat in the cable</span><span class="v" id="cP">—</span><span class="s" id="cPs"></span></div>
+      <div class="ro"><span class="k">Per metre of cable</span><span class="v" id="cPm">—</span><span class="s">Spread along the run</span></div>
+    </div>
+    <p class="caption">The current goes out along the line conductor and back along the neutral, so a 20 m run has 40 m of conductor. Doubling the current from 16 A to 32 A quadruples the heat. Thicker cable has less resistance, so it wastes less and runs cooler. That's what cable sizing is about, and it's the same reason the grid uses very high voltages (see <a href="../supply/the-grid.html">The grid and transformers</a>).</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w4">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w4">Power questions</h3>
+    </div>
+    <div id="prac"></div>
+  </section>
+
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var f = function (x, s) { return Course.sig(x, s || 3); };
+
+  Course.triangle("#tri", {
+    top: { sym: "P", name: "Power", unit: "W" },
+    left: { sym: "I", name: "Current", unit: "A" },
+    right: { sym: "V", name: "Voltage", unit: "V" },
+    start: "left",
+    values: { top: 3000, left: 13.04, right: 230 }
+  });
+
+  // Appliances
+  var APPS = [
+    ["LED lamp", 5], ["TV", 100], ["Fridge-freezer", 150], ["Microwave", 1200], ["Washing machine (heating)", 2200],
+    ["Kettle", 3000], ["Immersion heater", 3000], ["EV charger", 7400], ["Electric shower", 9500]
+  ];
+  var on = { "LED lamp": true, "Kettle": true };
+  var appsEl = $("apps");
+  APPS.forEach(function (a, i) {
+    var id = "app" + i;
+    appsEl.insertAdjacentHTML("beforeend", '<label class="check" for="' + id + '"><input type="checkbox" id="' + id + '"' + (on[a[0]] ? " checked" : "") + "> " + a[0].replace(/^(LED|EV)\b/, function (m) { return '<abbr title="' + (m === "EV" ? "electric vehicle" : "light-emitting diode") + '">' + m + "</abbr>"; }) + ' <span class="muted mono" style="font-size:0.8rem">' + (a[1] >= 1000 ? a[1] / 1000 + " kW" : a[1] + " W") + "</span></label>");
+    $(id).addEventListener("change", function (e) { on[a[0]] = e.target.checked; renderApps(); });
+  });
+  function renderApps() {
+    var list = APPS.filter(function (a) { return on[a[0]]; });
+    var total = list.reduce(function (s, a) { return s + a[1] / 230; }, 0);
+    var max = Math.max(50, total * 1.1);
+    var rows = list.map(function (a) {
+      var i = a[1] / 230;
+      return '<div class="bar"><span>' + a[0] + '</span><span class="track"><span class="fill" style="width:' + (100 * i / max) + '%"></span></span><span class="val">' + f(i) + " A</span></div>";
+    });
+    rows.push('<div class="bar total"><strong>Total</strong><span class="track"><span class="fill" style="width:' + (100 * total / max) + '%"></span></span><span class="val"><strong>' + f(total) + " A</strong></span></div>");
+    var marks = [[13, "13 A plug fuse"], [32, "32 A socket circuit"], [100, "100 A main fuse"]];
+    rows.push('<div class="bar" aria-hidden="true"><span></span><span class="marks">' + marks.filter(function (m) { return m[0] <= max; }).map(function (m) { return '<span style="left:' + (100 * m[0] / max) + '%">' + m[1].replace(" ", "<br>") + "</span>"; }).join("") + "</span><span></span></div>");
+    $("bars").innerHTML = rows.join("");
+    var cap = "Total " + f(total * 230 / 1000) + " kW, drawing " + f(total) + " A. ";
+    if (on["Electric shower"]) cap += "The shower alone draws about 41 A: far too much for a plug (max 13 A) or a socket circuit, so a shower always gets its own dedicated circuit. ";
+    else if (on["EV charger"]) cap += "An EV charger draws about 32 A for hours at a time, so it gets its own dedicated circuit. ";
+    else if (total > 13) cap += "That's more than a single 13 A plug could supply, so these would need to be on different sockets. ";
+    else cap += "A kettle at about 13 A is close to the most a single plug can supply. ";
+    $("appCap").textContent = cap;
+  }
+  renderApps();
+
+  // Cable heat chart
+  var RES = { "1.5": 12.10, "2.5": 7.41, "4.0": 4.61 }; // mΩ per metre at 20 °C
+  var cs = { i: 16, c: "2.5" };
+  var X0 = 56, X1 = 580, Y0 = 240, Y1 = 20, IMAX = 40, PMAX = 800;
+  var sx = function (i) { return X0 + (X1 - X0) * i / IMAX; };
+  var sy = function (p) { return Y0 - (Y0 - Y1) * Math.min(p, PMAX) / PMAX; };
+  (function grid() {
+    var g = "";
+    for (var p = 0; p <= PMAX; p += 200) g += '<line class="grid" x1="' + X0 + '" x2="' + X1 + '" y1="' + sy(p) + '" y2="' + sy(p) + '"/><text x="' + (X0 - 8) + '" y="' + (sy(p) + 4) + '" text-anchor="end">' + p + "</text>";
+    for (var i = 0; i <= IMAX; i += 10) g += '<text x="' + sx(i) + '" y="' + (Y0 + 18) + '" text-anchor="middle">' + i + " A</text>";
+    g += '<line class="axis" x1="' + X0 + '" x2="' + X1 + '" y1="' + Y0 + '" y2="' + Y0 + '"/>';
+    g += '<text x="' + X0 + '" y="12">watts</text>';
+    $("grid").innerHTML = g;
+  })();
+  function renderCable() {
+    var R = RES[cs.c] * 40 / 1000, P = cs.i * cs.i * R;
+    var d = "";
+    for (var i = 0; i <= IMAX; i += 0.5) { var p = i * i * R; if (p > PMAX) break; d += (d ? "L" : "M") + sx(i).toFixed(1) + "," + sy(p).toFixed(1); }
+    $("curve").setAttribute("d", d);
+    var x = sx(cs.i), y = sy(P);
+    $("mk").setAttribute("cx", x); $("mk").setAttribute("cy", y);
+    var mx = $("mx"); mx.setAttribute("x1", x); mx.setAttribute("x2", x); mx.setAttribute("y1", Y0); mx.setAttribute("y2", y);
+    var t = $("mkT"); t.textContent = f(P) + " W"; t.setAttribute("x", x > 470 ? x - 12 : x + 12); t.setAttribute("y", Math.max(y - 10, 30)); t.setAttribute("text-anchor", x > 470 ? "end" : "start");
+    $("ciOut").textContent = cs.i + " A";
+    $("cR").textContent = f(R) + " Ω"; $("cRs").textContent = RES[cs.c].toFixed(2) + " mΩ/m × 40 m";
+    $("cP").textContent = f(P) + " W"; $("cPs").textContent = cs.i + "² × " + f(R);
+    $("cPm").textContent = f(P / 20, 2) + " W/m";
+  }
+  $("ci").addEventListener("input", function (e) { cs.i = parseInt(e.target.value, 10); renderCable(); });
+  $("cs").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; cs.c = b.getAttribute("data-c");
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    renderCable();
+  });
+  renderCable();
+
+  // Practice
+  var Ps = [60, 100, 500, 1000, 1500, 2000, 2300, 3000, 4600, 7000, 8500, 9200, 10500], Vs = [12, 24, 110, 230];
+  Course.practice("#prac", function () {
+    var V = Course.pick(Vs), P = Course.pick(Ps);
+    if (V < 100 && P > 500) P = Course.pick([24, 36, 48, 60, 120]);
+    var I = Number(f(P / V)), k = Course.pick(["I", "I", "P", "V"]);
+    if (k === "I") return { q: "A " + (P >= 1000 ? P / 1000 + " kW" : P + " W") + " load runs on " + V + " V. What current does it draw?", answer: P / V, unit: "A", working: "I = " + Course.frac("P", "V") + " = " + Course.frac(P, V) + " = " + f(P / V) + " A" };
+    if (k === "P") return { q: "A load draws " + I + " A from a " + V + " V supply. What is its power?", answer: I * V, unit: "W", working: "P = V × I = " + V + " × " + I + " = " + f(I * V, 4) + " W" };
+    return { q: "A " + P + " W load draws " + I + " A. What voltage is it running on?", answer: P / I, unit: "V", working: "V = " + Course.frac("P", "I") + " = " + Course.frac(P, I) + " = " + f(P / I) + " V" };
+  });
+
+  Course.quiz("#quiz", [
+    { q: "A 3 kW kettle runs on 230 V. Roughly what current does it draw?",
+      options: ["0.08 A", "13 A", "690 A", "3 A"], answer: 1,
+      why: "I = <span class=\"frac\"><span>P</span><span>V</span></span> = <span class=\"frac\"><span>3,000</span><span>230</span></span> ≈ 13 A. Remember to convert 3 kW to 3,000 W first." },
+    { q: "Why does a 9.5 kW electric shower need its own dedicated circuit?",
+      options: ["It runs on a different voltage", "It draws about 41 A, far more than a plug or socket circuit can carry", "Water and electricity don't mix", "It needs a <abbr title='circuit protective conductor'>CPC</abbr>"], answer: 1,
+      why: "I = <span class=\"frac\"><span>9,500</span><span>230</span></span> ≈ 41 A. A plug is limited to 13 A, so the shower needs a cable and breaker sized for it." },
+    { q: "The current through a cable doubles. What happens to the heat produced in the cable?",
+      options: ["It doubles", "It halves", "It stays the same", "It goes up four times"], answer: 3,
+      why: "P = I² × R. Double I and I² goes up four times." },
+    { q: "A 2 kW heater runs for 3 hours. How much energy does it use?",
+      options: ["6 kWh", "0.67 kWh", "6 kW", "1.5 kWh"], answer: 0,
+      why: "Energy = power × time = 2 kW × 3 h = 6 kWh. kWh is energy; kW is power." },
+    { q: "Which is the unit of power?",
+      options: ["P", "Joule", "Watt", "Volt-ohm"], answer: 2,
+      why: "P is the symbol, the watt (W) is the unit. 1 W = 1 joule per second." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+/* Flashcards for spaced repetition (review/index.html).
+   Each card:
+     id      stable and unique: never reuse or renumber, progress is stored against it
+     lesson  lesson id from MODULES in course.js
+     q       question (HTML allowed: fractions, sub/superscripts, abbr, inline SVG)
+     a       the answer as shown after checking (HTML)
+     accept  typed answers that count as correct (case, spacing and punctuation are ignored)
+     num     for numeric answers instead of accept: the value, with optional tol (fraction, default 0.02)
+     alsoNum with accept: also accept any typed expression worth this value (e.g. 2^0.5 for √2), within alsoTol (default 0.005)
+     unit    optional hint shown after the input box
+     why     optional explanation shown after checking */
+(function () {
+  "use strict";
+  var F = function (n, d) { return '<span class="frac"><span>' + n + "</span><span>" + d + "</span></span>"; };
+
+  // Circuit symbols, drawn as on the "Voltage, current and resistance" page.
+  var S = 'stroke="var(--fg)" stroke-width="2.5" fill="none" stroke-linecap="round"';
+  var wires = function (a, b) { return '<line x1="8" y1="40" x2="' + a + '" y2="40" ' + S + '/><line x1="' + b + '" y1="40" x2="152" y2="40" ' + S + "/>"; };
+  var meter = function (L) {
+    return wires(56, 104) + '<circle cx="80" cy="40" r="24" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/>' +
+      '<text x="80" y="47" text-anchor="middle" style="font-family:var(--font-display);font-weight:800;font-size:20px;fill:var(--fg)">' + L + "</text>";
+  };
+  var box = function (inner) { return '<svg class="card-sym" viewBox="0 0 160 80" role="img" aria-label="Circuit symbol">' + inner + "</svg>"; };
+  var SYM = {
+    cell: wires(74, 88) + '<line x1="74" y1="18" x2="74" y2="62" ' + S + '/><line x1="88" y1="28" x2="88" y2="52" stroke="var(--fg)" stroke-width="6"/>',
+    battery: wires(46, 114) + '<line x1="46" y1="18" x2="46" y2="62" ' + S + '/><line x1="58" y1="28" x2="58" y2="52" stroke="var(--fg)" stroke-width="6"/><line x1="62" y1="40" x2="98" y2="40" stroke="var(--fg)" stroke-width="2" stroke-dasharray="4 4"/><line x1="102" y1="18" x2="102" y2="62" ' + S + '/><line x1="114" y1="28" x2="114" y2="52" stroke="var(--fg)" stroke-width="6"/>',
+    ac: wires(56, 104) + '<circle cx="80" cy="40" r="24" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><path d="M66,40 C70,28 76,28 80,40 S90,52 94,40" fill="none" stroke="var(--fg)" stroke-width="2.5"/>',
+    sw: wires(58, 102) + '<circle cx="62" cy="40" r="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/><circle cx="98" cy="40" r="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/><line x1="64" y1="38" x2="98" y2="20" ' + S + "/>",
+    res: wires(50, 110) + '<rect x="50" y="28" width="60" height="24" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/>',
+    vres: wires(50, 110) + '<rect x="50" y="28" width="60" height="24" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><line x1="46" y1="66" x2="112" y2="12" stroke="var(--fg)" stroke-width="2"/><path d="M112,12 L100,14 L106,22 Z" fill="var(--fg)"/>',
+    lamp: wires(58, 102) + '<circle cx="80" cy="40" r="22" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><path d="M64.5,24.5 L95.5,55.5 M95.5,24.5 L64.5,55.5" stroke="var(--fg)" stroke-width="2"/>',
+    fuse: wires(50, 110) + '<rect x="50" y="30" width="60" height="20" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="2.5"/><line x1="40" y1="40" x2="120" y2="40" stroke="var(--fg)" stroke-width="2"/>',
+    motor: meter("M"), volt: meter("V"), amp: meter("A"), ohm: meter("Ω"),
+    tx: wires(52, 108) + '<circle cx="70" cy="40" r="18" fill="none" stroke="var(--fg)" stroke-width="2.5"/><circle cx="90" cy="40" r="18" fill="none" stroke="var(--fg)" stroke-width="2.5"/>',
+    earth: '<line x1="80" y1="6" x2="80" y2="44" ' + S + '/><line x1="58" y1="44" x2="102" y2="44" ' + S + '/><line x1="66" y1="54" x2="94" y2="54" ' + S + '/><line x1="74" y1="64" x2="86" y2="64" ' + S + "/>",
+    junction: '<line x1="8" y1="40" x2="152" y2="40" ' + S + '/><line x1="80" y1="40" x2="80" y2="74" ' + S + '/><circle cx="80" cy="40" r="5.5" fill="var(--fg)"/>',
+    cross: '<line x1="8" y1="40" x2="152" y2="40" ' + S + '/><line x1="80" y1="6" x2="80" y2="74" ' + S + "/>"
+  };
+  var sym = function (id, key, name, accept, why) {
+    return { id: id, lesson: "vir", q: "What does this circuit symbol represent?" + box(SYM[key]), a: name, accept: accept, why: why };
+  };
+
+  window.CARDS = [
+    // ---------------- Atoms and free electrons ----------------
+    { id: "atoms-01", lesson: "atoms", q: "What charge does an electron carry?", a: "Negative", accept: ["negative", "-", "minus", "negative charge"] },
+    { id: "atoms-02", lesson: "atoms", q: "What charge does a proton carry?", a: "Positive", accept: ["positive", "+", "plus", "positive charge"] },
+    { id: "atoms-03", lesson: "atoms", q: "Opposite charges (+ and −) ___ each other.", a: "Attract", accept: ["attract", "attract each other"] },
+    { id: "atoms-04", lesson: "atoms", q: "Like charges (− and −, or + and +) ___ each other.", a: "Repel", accept: ["repel", "repel each other"] },
+    { id: "atoms-05", lesson: "atoms", q: "In a metal, the outer electrons that leave their atoms and wander through the whole metal are called ___ electrons.", a: "Free (also called delocalised or valence) electrons", accept: ["free", "free electrons", "delocalised", "delocalized", "delocalised electrons", "delocalized electrons", "valence", "valence electrons"] },
+    { id: "atoms-06", lesson: "atoms", q: "After giving up an electron, each metal atom in the lattice is left as a positive ___.", a: "Ion", accept: ["ion", "ions", "positive ion", "cation", "cations"] },
+    { id: "atoms-07", lesson: "atoms", q: "The neat, repeating grid that metal atoms pack into is called a crystal ___.", a: "Lattice", accept: ["lattice", "crystal lattice"] },
+    { id: "atoms-08", lesson: "atoms", q: "A material with free charges, so current can flow through it, is called a ___.", a: "Conductor", accept: ["conductor", "a conductor"] },
+    { id: "atoms-09", lesson: "atoms", q: "A material with no free charges, such as PVC or rubber, is called an ___.", a: "Insulator", accept: ["insulator", "an insulator"] },
+    { id: "atoms-10", lesson: "atoms", q: "A copper conductor heats up. Does its resistance rise or fall?", a: "It rises: the ions vibrate harder and get in the electrons' way", accept: ["rise", "rises", "it rises", "increase", "increases", "goes up", "up", "higher"] },
+    { id: "atoms-11", lesson: "atoms", q: "Roughly how much higher (in %) is a copper cable's resistance at its working temperature of 70 °C than at 20 °C?", a: "About 20%", num: 20, tol: 0.1, unit: "%" },
+    { id: "atoms-12", lesson: "atoms", q: "With a battery connected, do the free electrons in a wire drift towards the + terminal or the − terminal?", a: "Towards the + terminal (opposite charges attract)", accept: ["+", "positive", "the positive terminal", "positive terminal", "+ terminal", "the + terminal", "towards +", "towards positive"] },
+
+    // ---------------- Voltage, current and resistance ----------------
+    { id: "vir-01", lesson: "vir", q: "What is the unit of voltage?", a: "The volt (V)", accept: ["volt", "volts", "v"] },
+    { id: "vir-02", lesson: "vir", q: "What is the unit of current?", a: "The ampere, or amp (A)", accept: ["ampere", "amperes", "amp", "amps", "a"] },
+    { id: "vir-03", lesson: "vir", q: "What is the unit of resistance?", a: "The ohm (Ω)", accept: ["ohm", "ohms", "Ω"] },
+    { id: "vir-04", lesson: "vir", q: "What letter is the symbol for current?", a: "I (from the French <em>intensité</em>)", accept: ["i"] },
+    { id: "vir-05", lesson: "vir", q: "What letter does <abbr title=\"British Standard 7671: the IET Wiring Regulations\">BS 7671</abbr> use as the symbol for voltage?", a: "U (as in U<sub>0</sub> = 230 V)", accept: ["u"] },
+    { id: "vir-06", lesson: "vir", q: "What letter is the symbol for resistance?", a: "R", accept: ["r"] },
+    { id: "vir-07", lesson: "vir", q: "What letter is the symbol for impedance, the AC version of resistance?", a: "Z", accept: ["z"] },
+    { id: "vir-08", lesson: "vir", q: "Voltage is properly called potential ___.", a: "Difference (p.d.)", accept: ["difference", "potential difference", "pd", "p d"] },
+    { id: "vir-09", lesson: "vir", q: "The voltage that a source (such as a battery) produces is called its ___ force.", a: "Electromotive force (e.m.f.)", accept: ["electromotive", "electromotive force", "electro-motive", "electro motive force", "emf", "e m f"] },
+    { id: "vir-10", lesson: "vir", q: "1 amp means one ___ of charge passing a point every second.", a: "Coulomb", accept: ["coulomb", "coulombs"] },
+    { id: "vir-11", lesson: "vir", q: "1 volt means each coulomb of charge gets (or gives up) one ___ of energy.", a: "Joule", accept: ["joule", "joules"] },
+    { id: "vir-12", lesson: "vir", q: "How is a voltmeter connected to measure the voltage across a component: in series, or across it (in parallel)?", a: "Across it, in parallel", accept: ["across", "across it", "parallel", "in parallel", "across the component"] },
+    { id: "vir-13", lesson: "vir", q: "How is an ammeter connected: in series, or across the component?", a: "In series, so the current flows through it", accept: ["series", "in series"] },
+    { id: "vir-14", lesson: "vir", q: "What kind of meter measures current without breaking into the circuit?", a: "A clamp meter", accept: ["clamp", "clamp meter", "clamp-meter", "clampmeter"] },
+    { id: "vir-15", lesson: "vir", q: "Which way does <strong>conventional</strong> current flow round a circuit?", a: "From + to −", accept: ["+ to -", "from + to -", "positive to negative", "from positive to negative", "+ -"] },
+    { id: "vir-16", lesson: "vir", q: "Which way do <strong>electrons</strong> actually flow round a circuit?", a: "From − to +", accept: ["- to +", "from - to +", "negative to positive", "from negative to positive", "- +"] },
+    { id: "vir-17", lesson: "vir", q: "A conductor's length is doubled. What happens to its resistance?", a: "It doubles", accept: ["doubles", "it doubles", "double", "x2", "2x", "twice"] },
+    { id: "vir-18", lesson: "vir", q: "A conductor's cross-sectional area is doubled. What happens to its resistance?", a: "It halves", accept: ["halves", "it halves", "half", "halved", "/2"] },
+    { id: "vir-19", lesson: "vir", q: "What is U<sub>0</sub>, the nominal voltage between line and earth in the UK?", a: "230 V", num: 230, tol: 0, unit: "V" },
+    { id: "vir-20", lesson: "vir", q: "Two identical lamps are in series across 230 V. What voltage does each get?", a: "115 V", num: 115, tol: 0.01, unit: "V" },
+    sym("vir-s01", "lamp", "Lamp", ["lamp", "light", "bulb", "lamp bulb", "light bulb"]),
+    sym("vir-s02", "res", "Resistor (or any general load)", ["resistor", "resistance", "load", "a resistor", "fixed resistor", "general load"]),
+    sym("vir-s03", "vres", "Variable resistor", ["variable resistor", "variable resistance", "rheostat", "potentiometer"]),
+    sym("vir-s04", "cell", "Cell (long line +, short line −)", ["cell", "a cell", "single cell"]),
+    sym("vir-s05", "battery", "Battery (several cells in series)", ["battery", "batteries"]),
+    sym("vir-s06", "ac", "AC supply", ["ac supply", "ac", "ac source", "alternating current supply", "supply", "mains", "ac power supply"]),
+    sym("vir-s07", "sw", "Switch (shown open)", ["switch", "open switch", "a switch", "spst switch"]),
+    sym("vir-s08", "fuse", "Fuse", ["fuse"]),
+    sym("vir-s09", "motor", "Motor", ["motor"]),
+    sym("vir-s10", "volt", "Voltmeter", ["voltmeter", "volt meter"]),
+    sym("vir-s11", "amp", "Ammeter", ["ammeter", "amp meter", "ampmeter", "ampere meter"]),
+    sym("vir-s12", "ohm", "Ohmmeter (only on dead circuits)", ["ohmmeter", "ohm meter", "ohmeter"]),
+    sym("vir-s13", "tx", "Transformer", ["transformer"]),
+    sym("vir-s14", "earth", "Earth", ["earth", "earth connection", "ground", "earthing"]),
+    sym("vir-s15", "junction", "Junction: conductors joined (the dot)", ["junction", "joined", "connected", "connection", "joint", "t junction", "t-junction", "junction joined"]),
+    sym("vir-s16", "cross", "Conductors crossing, not joined (no dot)", ["crossing", "not joined", "not connected", "crossing not joined", "crossing not connected", "crossover", "wires crossing", "unjoined"]),
+
+    // ---------------- Ohm's law ----------------
+    { id: "ohm-01", lesson: "ohms-law", q: "Ohm's law: V = ?", a: "I × R", accept: ["i x r", "ir", "i r", "ixr", "r x i", "ri"] },
+    { id: "ohm-02", lesson: "ohms-law", q: "Rearrange Ohm's law: I = ?", a: F("V", "R"), accept: ["v/r", "v over r", "v divided by r"] },
+    { id: "ohm-03", lesson: "ohms-law", q: "Rearrange Ohm's law: R = ?", a: F("V", "I"), accept: ["v/i", "v over i", "v divided by i"] },
+    { id: "ohm-04", lesson: "ohms-law", q: "230 V is connected across a 46 Ω heater. What current flows?", a: "I = " + F("230", "46") + " = 5 A", num: 5, unit: "A" },
+    { id: "ohm-05", lesson: "ohms-law", q: "A 12 V supply drives 2 A through a load. What is its resistance?", a: "R = " + F("12", "2") + " = 6 Ω", num: 6, unit: "Ω" },
+    { id: "ohm-06", lesson: "ohms-law", q: "0.4 A flows through a 30 Ω resistor. What is the voltage across it?", a: "V = 0.4 × 30 = 12 V", num: 12, unit: "V" },
+    { id: "ohm-07", lesson: "ohms-law", q: "A kettle element is 17.6 Ω. Roughly what current does it draw on 230 V?", a: "I = " + F("230", "17.6") + " ≈ 13 A", num: 13.07, tol: 0.03, unit: "A" },
+    { id: "ohm-08", lesson: "ohms-law", q: "The resistance doubles but the voltage stays the same. What happens to the current?", a: "It halves", accept: ["halves", "it halves", "half", "halved"] },
+    { id: "ohm-09", lesson: "ohms-law", q: "The prefix M (mega) means × what?", a: "× 1,000,000 (10<sup>6</sup>)", num: 1e6, tol: 0, why: "Insulation resistance is measured in MΩ." },
+    { id: "ohm-10", lesson: "ohms-law", q: "The prefix k (kilo) means × what?", a: "× 1,000 (10<sup>3</sup>)", num: 1000, tol: 0 },
+    { id: "ohm-11", lesson: "ohms-law", q: "The prefix m (milli) means × what?", a: "× " + F("1", "1,000") + " (10<sup>−3</sup>)", num: 0.001, tol: 0, why: "Type it as 0.001, 1/1000 or 10^-3." },
+    { id: "ohm-12", lesson: "ohms-law", q: "Convert 30 mA into amps.", a: "0.03 A", num: 0.03, tol: 0, unit: "A" },
+    { id: "ohm-13", lesson: "ohms-law", q: "An insulation test reads 200 MΩ. How many ohms is that?", a: "200,000,000 Ω", num: 2e8, tol: 0, unit: "Ω" },
+    { id: "ohm-14", lesson: "ohms-law", q: "True or false: current only ever takes the path of least resistance.", a: "False. It flows through every available path, split by resistance; the easy path just gets the most", accept: ["false", "f", "no"], why: "This is why a person in parallel with a CPC still gets a share of the current." },
+
+    // ---------------- Series and parallel ----------------
+    { id: "sp-01", lesson: "series-parallel", q: "Resistances in <strong>series</strong>: how do you combine them?", a: "Add them: R<sub>T</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub>", accept: ["add", "add them", "add them up", "added", "sum", "sum them", "r1+r2+r3", "rt=r1+r2+r3"] },
+    { id: "sp-02", lesson: "series-parallel", q: "4 Ω, 6 Ω and 10 Ω are connected in series. Total resistance?", a: "20 Ω", num: 20, unit: "Ω" },
+    { id: "sp-03", lesson: "series-parallel", q: "6 Ω and 3 Ω are connected in parallel. Total resistance?", a: F("6 × 3", "6 + 3") + " = 2 Ω", num: 2, unit: "Ω" },
+    { id: "sp-04", lesson: "series-parallel", q: "Two 10 Ω resistors are connected in parallel. Total resistance?", a: F("10", "2") + " = 5 Ω", num: 5, unit: "Ω" },
+    { id: "sp-05", lesson: "series-parallel", q: "Four 100 Ω resistors are connected in parallel. Total resistance?", a: F("100", "4") + " = 25 Ω", num: 25, unit: "Ω" },
+    { id: "sp-06", lesson: "series-parallel", q: "10 Ω, 20 Ω and 20 Ω are connected in parallel. Total resistance?", a: F("1", "R<sub>T</sub>") + " = " + F("1", "10") + " + " + F("1", "20") + " + " + F("1", "20") + " = " + F("4", "20") + ", so R<sub>T</sub> = 5 Ω", num: 5, unit: "Ω" },
+    { id: "sp-07", lesson: "series-parallel", q: "The total resistance of a parallel circuit is always lower than ___.", a: "The smallest branch resistance", accept: ["the smallest", "smallest", "the lowest", "lowest", "the smallest resistance", "smallest resistance", "the smallest branch", "smallest branch", "the lowest resistance", "lowest resistance", "the smallest branch resistance"] },
+    { id: "sp-08", lesson: "series-parallel", q: "In a series circuit, how does the current compare at different points round the loop?", a: "It's the same everywhere", accept: ["same", "the same", "same everywhere", "it's the same", "its the same", "equal", "identical", "the same everywhere"] },
+    { id: "sp-09", lesson: "series-parallel", q: "In a parallel circuit, what voltage does each branch get?", a: "The full supply voltage", accept: ["full supply voltage", "the full supply voltage", "supply voltage", "the supply voltage", "full voltage", "the full voltage", "the same", "same", "all of it"] },
+    { id: "sp-10", lesson: "series-parallel", q: "Kirchhoff's <strong>current</strong> law: the current flowing into a junction equals ___.", a: "The current flowing out of it", accept: ["current out", "the current out", "the current flowing out", "current flowing out", "out", "what flows out", "the current leaving", "current leaving"] },
+    { id: "sp-11", lesson: "series-parallel", q: "Kirchhoff's <strong>voltage</strong> law: the voltage drops round a closed loop add up to ___.", a: "The supply voltage (e.m.f.)", accept: ["supply voltage", "the supply voltage", "supply", "the supply", "emf", "the emf", "source voltage", "the source voltage"] },
+    { id: "sp-12", lesson: "series-parallel", q: "Currents of 2 A and 3 A flow into a junction. One wire leaves it. What current does it carry?", a: "5 A", num: 5, unit: "A" },
+    { id: "sp-13", lesson: "series-parallel", q: "Three identical lamps are in series across 230 V. Roughly what voltage does each get?", a: F("230", "3") + " ≈ 77 V", num: 76.67, tol: 0.02, unit: "V" },
+    { id: "sp-14", lesson: "series-parallel", q: "A switch is connected in series or in parallel with the load it controls?", a: "In series", accept: ["series", "in series"] },
+    { id: "sp-15", lesson: "series-parallel", q: "Which conductor should a switch break: line or neutral?", a: "Line", accept: ["line", "the line", "line conductor", "live", "l"] },
+    { id: "sp-16", lesson: "series-parallel", q: "Are the sockets and lights in a house wired in series or in parallel?", a: "Parallel: each gets 230 V and can be switched on its own", accept: ["parallel", "in parallel"] },
+    { id: "sp-17", lesson: "series-parallel", q: "In which arrangement does one open switch or failed load turn everything off: series or parallel?", a: "Series", accept: ["series", "in series"] },
+
+    // ---------------- Power ----------------
+    { id: "pow-01", lesson: "power", q: "What is the unit of power?", a: "The watt (W)", accept: ["watt", "watts", "w"] },
+    { id: "pow-02", lesson: "power", q: "What letter is the symbol for power?", a: "P", accept: ["p"] },
+    { id: "pow-03", lesson: "power", q: "1 watt means one ___ of energy converted every second.", a: "Joule", accept: ["joule", "joules"] },
+    { id: "pow-04", lesson: "power", q: "Power is the ___ at which energy is converted.", a: "Rate", accept: ["rate", "speed"] },
+    { id: "pow-05", lesson: "power", q: "P = V × ?", a: "I", accept: ["i", "current"] },
+    { id: "pow-06", lesson: "power", q: "Combine with Ohm's law: P = I² × ?", a: "R", accept: ["r", "resistance"] },
+    { id: "pow-07", lesson: "power", q: "Combine with Ohm's law: P = ?" + " (in terms of V and R)", a: F("V²", "R"), accept: ["v^2/r", "v2/r", "vsquared/r", "v squared over r", "v squared/r", "vxv/r"] },
+    { id: "pow-08", lesson: "power", q: "The formula for the current an appliance draws from its power rating: I = ?", a: F("P", "V"), accept: ["p/v", "p over v", "p divided by v"] },
+    { id: "pow-09", lesson: "power", q: "Roughly what current does a 3 kW kettle draw on 230 V?", a: F("3,000", "230") + " ≈ 13 A", num: 13.04, tol: 0.03, unit: "A" },
+    { id: "pow-10", lesson: "power", q: "Roughly what current does a 9.5 kW electric shower draw on 230 V?", a: F("9,500", "230") + " ≈ 41 A, so it needs its own circuit", num: 41.3, tol: 0.03, unit: "A" },
+    { id: "pow-11", lesson: "power", q: "Roughly what current does a 7.4 kW car charger draw on 230 V?", a: F("7,400", "230") + " ≈ 32 A", num: 32.17, tol: 0.03, unit: "A" },
+    { id: "pow-12", lesson: "power", q: "The current through a cable doubles. How many times more heat is produced in it?", a: "4 times (P = I²R)", num: 4, tol: 0, unit: "times" },
+    { id: "pow-13", lesson: "power", q: "In what unit do electricity bills charge for energy?", a: "The kilowatt-hour (kWh)", accept: ["kwh", "kilowatt hour", "kilowatt hours", "kilowatt-hour", "kilowatt-hours", "kw h", "units"] },
+    { id: "pow-14", lesson: "power", q: "A 2 kW heater runs for 3 hours. How much energy does it use?", a: "2 × 3 = 6 kWh", num: 6, unit: "kWh" },
+    { id: "pow-15", lesson: "power", q: "What's the largest current a standard 13 A plug can supply?", a: "13 A (its fuse rating)", num: 13, tol: 0, unit: "A" },
+    // ---------------- Conductors and cables ----------------
+    { id: "cab-01", lesson: "conductors", q: "Every cable has three layers: conductors, insulation and the outer ___.", a: "Sheath", accept: ["sheath", "outer sheath", "the sheath", "sheathing"] },
+    { id: "cab-02", lesson: "conductors", q: "A cable size such as \"2.5 mm²\" describes each conductor's cross-sectional ___.", a: "Area (CSA)", accept: ["area", "cross-sectional area", "cross sectional area", "csa"] },
+    { id: "cab-03", lesson: "conductors", q: "Is \"6 mm²\" a diameter or an area?", a: "An area. A solid 6 mm² conductor is only about 2.8 mm across", accept: ["area", "an area", "cross-sectional area", "csa"] },
+    { id: "cab-04", lesson: "conductors", q: "Roughly how many millimetres across is a solid 2.5 mm² conductor?", a: "About 1.8 mm (d = 2 × √" + F("A", "π") + ")", num: 1.78, tol: 0.06, unit: "mm" },
+    { id: "cab-05", lesson: "conductors", q: "What is the smallest copper conductor size (in mm²) that BS 7671 allows for the fixed wiring of power and lighting circuits?", a: "1.0 mm²", num: 1, tol: 0, unit: "mm²" },
+    { id: "cab-06", lesson: "conductors", q: "Which metal is the best conductor of all?", a: "Silver", accept: ["silver"] },
+    { id: "cab-07", lesson: "conductors", q: "Put silver, copper, gold and aluminium in order, best conductor first.", a: "Silver, copper, gold, aluminium", accept: ["silver copper gold aluminium", "silver copper gold aluminum", "silver > copper > gold > aluminium", "silver > copper > gold > aluminum", "silver copper gold and aluminium"] },
+    { id: "cab-08", lesson: "conductors", q: "Which metal is used for almost all building wiring?", a: "Copper: nearly as good as silver, at a fraction of the price", accept: ["copper"] },
+    { id: "cab-09", lesson: "conductors", q: "Which metal is used for overhead lines and large supply cables, because it's light and cheap?", a: "Aluminium", accept: ["aluminium", "aluminum"] },
+    { id: "cab-10", lesson: "conductors", q: "Why are connector contacts often gold-plated?", a: "Gold doesn't corrode, so the contact surface stays low-resistance. (It's actually a worse conductor than copper.)", accept: ["it doesn't corrode", "doesn't corrode", "does not corrode", "doesnt corrode", "it does not corrode", "won't corrode", "no corrosion", "corrosion", "corrosion resistance", "corrosion resistant", "doesn't tarnish", "doesnt tarnish", "doesn't oxidise", "doesn't oxidize", "it doesn't tarnish"] },
+    { id: "cab-11", lesson: "conductors", q: "The formula for a conductor's resistance from its material, length and area: R = ?", a: F("ρ × L", "A"), accept: ["ρl/a", "ρxl/a", "pl/a", "pxl/a", "rho l/a", "rhol/a", "rho x l/a", "rhoxl/a", "ρ l/a"] },
+    { id: "cab-12", lesson: "conductors", q: "In R = " + F("ρ × L", "A") + ", what property of the material is ρ (rho)?", a: "Its resistivity", accept: ["resistivity", "its resistivity", "the resistivity"] },
+    { id: "cab-13", lesson: "conductors", q: "In flat twin and earth, what colour is the line core's insulation?", a: "Brown", accept: ["brown"] },
+    { id: "cab-14", lesson: "conductors", q: "In flat twin and earth, what colour is the neutral core's insulation?", a: "Blue", accept: ["blue"] },
+    { id: "cab-15", lesson: "conductors", q: "What's different about the circuit protective conductor (CPC) inside flat twin and earth?", a: "It's bare: no insulation inside the cable", accept: ["bare", "it's bare", "its bare", "it is bare", "uninsulated", "it's uninsulated", "not insulated", "no insulation", "bare copper", "it has no insulation"] },
+    { id: "cab-16", lesson: "conductors", q: "What must be fitted over the bare CPC of twin and earth wherever it's exposed?", a: "Green-and-yellow sleeving", accept: ["green and yellow sleeving", "green/yellow sleeving", "green yellow sleeving", "green-and-yellow sleeving", "green and yellow sleeve", "g/y sleeving", "sleeving", "earth sleeving", "green and yellow"] },
+    { id: "cab-17", lesson: "conductors", q: "What size (mm²) is the CPC in 2.5 mm² twin and earth?", a: "1.5 mm²", num: 1.5, tol: 0, unit: "mm²" },
+    { id: "cab-18", lesson: "conductors", q: "What is the maximum conductor temperature for general-purpose PVC-insulated cable?", a: "70 °C", num: 70, tol: 0, unit: "°C" },
+    { id: "cab-19", lesson: "conductors", q: "What is the maximum conductor temperature for thermosetting (XLPE) insulated cable?", a: "90 °C", num: 90, tol: 0, unit: "°C" },
+    { id: "cab-20", lesson: "conductors", q: "A cable is buried in loft insulation instead of clipped in open air. Does the current it can safely carry go up or down?", a: "Down: the heat can't escape as easily", accept: ["down", "goes down", "it goes down", "lower", "less", "decreases", "reduces", "falls"] },
+
+    // ---------------- AC and three-phase ----------------
+    { id: "ac-01", lesson: "ac", q: "What is the frequency of the UK mains supply?", a: "50 Hz", num: 50, tol: 0, unit: "Hz" },
+    { id: "ac-02", lesson: "ac", q: "At 50 Hz, how many milliseconds does one complete cycle take?", a: "T = " + F("1", "50") + " = 0.02 s = 20 ms", num: 20, tol: 0, unit: "ms" },
+    { id: "ac-03", lesson: "ac", q: "The time for one cycle (the period): T = ?", a: F("1", "f"), accept: ["1/f", "1 over f", "1/frequency", "one over f"] },
+    { id: "ac-04", lesson: "ac", q: "How many degrees are there in one full AC cycle?", a: "360°", num: 360, tol: 0, unit: "°" },
+    { id: "ac-05", lesson: "ac", q: "How many radians are there in one full AC cycle?", a: "2π", accept: ["2π", "2pi", "2 pi", "2xπ", "2xpi", "two pi"], alsoNum: 2 * Math.PI },
+    { id: "ac-06", lesson: "ac", q: "At what angle does a sine wave reach its positive peak?", a: "90° (" + F("π", "2") + " radians)", num: 90, tol: 0, unit: "°" },
+    { id: "ac-07", lesson: "ac", q: "What is the voltage doing at 270° in the cycle?", a: "It's at its negative peak, about −325 V", accept: ["negative peak", "at its negative peak", "the negative peak", "-325", "-325 v", "-325v", "minimum", "its minimum", "lowest", "trough"] },
+    { id: "ac-08", lesson: "ac", q: "UK mains is 230 V RMS. What is its peak voltage?", a: "230 × √2 ≈ 325 V", num: 325, tol: 0.01, unit: "V" },
+    { id: "ac-09", lesson: "ac", q: "V<sub>peak</sub> = V<sub>RMS</sub> × ?", a: "√2 (about 1.414)", accept: ["√2", "sqrt2", "sqrt 2", "root 2", "root2", "square root of 2", "1.414", "1.41"], alsoNum: Math.SQRT2 },
+    { id: "ac-10", lesson: "ac", q: "What does RMS stand for?", a: "Root mean square", accept: ["root mean square", "root-mean-square"] },
+    { id: "ac-11", lesson: "ac", q: "The RMS value of an AC voltage is the DC voltage that would give the same ___ effect in a resistor.", a: "Heating", accept: ["heating", "heat", "heating effect", "power"] },
+    { id: "ac-12", lesson: "ac", q: "In a three-phase supply, how many degrees apart are the phases?", a: "120° (a third of a cycle)", num: 120, tol: 0, unit: "°" },
+    { id: "ac-13", lesson: "ac", q: "What colour is the L1 line conductor (current UK colours)?", a: "Brown", accept: ["brown"] },
+    { id: "ac-14", lesson: "ac", q: "What colour is the L2 line conductor (current UK colours)?", a: "Black", accept: ["black"] },
+    { id: "ac-15", lesson: "ac", q: "What colour is the L3 line conductor (current UK colours)?", a: "Grey", accept: ["grey", "gray"] },
+    { id: "ac-16", lesson: "ac", q: "Before the 2004 colour change, what were the three-phase colours for L1, L2 and L3?", a: "Red, yellow, blue", accept: ["red yellow blue", "red yellow and blue", "red, yellow, blue"] },
+    { id: "ac-17", lesson: "ac", q: "On a 400/230 V three-phase supply, what is the voltage between any two line conductors?", a: "400 V", num: 400, tol: 0, unit: "V" },
+    { id: "ac-18", lesson: "ac", q: "Line-to-line voltage = 230 × ?", a: "√3 (about 1.732): 230 × √3 ≈ 400 V", accept: ["√3", "sqrt3", "sqrt 3", "root 3", "root3", "square root of 3", "1.732", "1.73"], alsoNum: Math.sqrt(3) },
+    { id: "ac-19", lesson: "ac", q: "At any instant, what do the voltages of L1, L2 and L3 add up to?", a: "Zero. So a balanced load puts almost no current in the neutral", accept: ["0", "zero", "0 v", "0v", "nothing", "they cancel", "they cancel out"] },
+    { id: "ac-20", lesson: "ac", q: "What is the point called where a transformer's three secondary windings are joined, and the neutral comes from?", a: "The star point", accept: ["star point", "the star point", "star", "neutral point", "star-point"] },
+    { id: "ac-21", lesson: "ac", q: "A generator coil's voltage peaks when the magnetic field through it is changing ___.", a: "Fastest: as a pole sweeps across it, not when it points straight at it", accept: ["fastest", "the fastest", "most quickly", "quickest", "most rapidly", "fast", "quickly"] },
+    { id: "ac-22", lesson: "ac", q: "How many revolutions per minute must a two-pole generator turn to make 50 Hz?", a: "3,000 rpm (50 turns a second)", num: 3000, tol: 0, unit: "rpm" },
+    { id: "ac-23", lesson: "ac", q: "Two line conductors feeding a three-phase motor are swapped. What does the motor do?", a: "It runs backwards", accept: ["runs backwards", "it runs backwards", "backwards", "reverses", "it reverses", "reverse", "runs in reverse", "opposite direction", "the wrong way", "turns backwards", "spins backwards"] },
+    { id: "ac-24", lesson: "ac", q: "Most homes have one line and a neutral. What is this kind of supply called?", a: "Single-phase", accept: ["single phase", "single-phase", "single phase supply", "1 phase", "one phase"] },
+
+    // ---------------- The grid and transformers ----------------
+    { id: "grid-01", lesson: "grid", q: "What is the highest UK transmission voltage, in kV?", a: "400 kV (275 kV is also used)", num: 400, tol: 0, unit: "kV" },
+    { id: "grid-02", lesson: "grid", q: "From what voltage (in kV) does a local substation step down to 400/230 V?", a: "11 kV", num: 11, tol: 0, unit: "kV" },
+    { id: "grid-03", lesson: "grid", q: "Roughly what voltage (in kV) does a power station generator produce?", a: "Around 20 kV", num: 20, tol: 0.25, unit: "kV" },
+    { id: "grid-04", lesson: "grid", q: "The grid transmits at very high voltage so that, for the same power, the ___ is low.", a: "Current", accept: ["current", "the current"] },
+    { id: "grid-05", lesson: "grid", q: "Power wasted as heat in a line = I² × ?", a: "R, the line's resistance", accept: ["r", "resistance", "the resistance"] },
+    { id: "grid-06", lesson: "grid", q: "The transmission voltage is raised 10 times. What fraction of the original line losses remains?", a: F("1", "100") + ", because losses depend on I²", num: 0.01, tol: 0, why: "Type it as 1/100 or 0.01." },
+    { id: "grid-07", lesson: "grid", q: "Complete the transformer turns ratio: " + F("V<sub>s</sub>", "V<sub>p</sub>") + " = ?", a: F("N<sub>s</sub>", "N<sub>p</sub>"), accept: ["ns/np", "n2/n1", "ns over np"] },
+    { id: "grid-08", lesson: "grid", q: "A transformer has 1,000 primary turns and 50 secondary turns. 4,000 V goes in. What comes out?", a: "4,000 × " + F("50", "1,000") + " = 200 V", num: 200, unit: "V" },
+    { id: "grid-09", lesson: "grid", q: "A transformer steps the voltage down. Does the current go up or down?", a: "Up, by the same factor (power in ≈ power out)", accept: ["up", "goes up", "it goes up", "increases", "rises", "higher", "more"] },
+    { id: "grid-10", lesson: "grid", q: "Transformers only work on which kind of supply?", a: "AC", accept: ["ac", "alternating current", "alternating"] },
+    { id: "grid-11", lesson: "grid", q: "To induce a voltage in a transformer's secondary, the magnetic field in the core must be ___.", a: "Changing (which is why DC doesn't work)", accept: ["changing", "change", "varying", "alternating", "moving", "constantly changing"] },
+    { id: "grid-12", lesson: "grid", q: "Roughly how efficient is a real transformer, in %?", a: "About 98–99%", num: 98.5, tol: 0.011, unit: "%" },
+    { id: "grid-13", lesson: "grid", q: "Who owns and runs the transmission network in England and Wales?", a: "National Grid", accept: ["national grid", "the national grid", "ng", "national grid plc"] },
+
+    // ---------------- Your supply ----------------
+    { id: "sup-01", lesson: "your-supply", q: "Who owns the service cable, and the cut-out with its main fuse?", a: "The DNO (distribution network operator)", accept: ["dno", "the dno", "distribution network operator", "the distribution network operator"] },
+    { id: "sup-02", lesson: "your-supply", q: "Who owns the electricity meter?", a: "The energy supplier (through a meter operator)", accept: ["energy supplier", "the energy supplier", "supplier", "the supplier", "electricity supplier", "the electricity supplier", "meter operator", "the meter operator"] },
+    { id: "sup-03", lesson: "your-supply", q: "Where does the consumer's installation start?", a: "At the meter tails (the meter's outgoing terminals)", accept: ["meter tails", "the meter tails", "at the meter tails", "tails", "the tails", "meter outgoing terminals", "the meter's outgoing terminals", "outgoing terminals of the meter", "after the meter"] },
+    { id: "sup-04", lesson: "your-supply", q: "What does DNO stand for?", a: "Distribution network operator", accept: ["distribution network operator"] },
+    { id: "sup-05", lesson: "your-supply", q: "What does CPC stand for?", a: "Circuit protective conductor", accept: ["circuit protective conductor", "circuit protection conductor"] },
+    { id: "sup-06", lesson: "your-supply", q: "What does MET stand for?", a: "Main earthing terminal", accept: ["main earthing terminal", "main earth terminal"] },
+    { id: "sup-07", lesson: "your-supply", q: "Main fuses in a domestic cut-out are usually 60, 80 or how many amps?", a: "100 A", num: 100, tol: 0, unit: "A" },
+    { id: "sup-08", lesson: "your-supply", q: "What colour was the line conductor before 2004?", a: "Red", accept: ["red"] },
+    { id: "sup-09", lesson: "your-supply", q: "What colour was the neutral conductor before 2004?", a: "Black", accept: ["black"] },
+    { id: "sup-10", lesson: "your-supply", q: "What colour is the circuit protective conductor (CPC)?", a: "Green and yellow", accept: ["green and yellow", "green/yellow", "green yellow", "green-and-yellow", "yellow and green", "g/y"] },
+    { id: "sup-11", lesson: "your-supply", q: "When does the CPC carry current?", a: "Only during a fault, long enough to trip the protective device", accept: ["during a fault", "only during a fault", "in a fault", "fault", "during an earth fault", "earth fault", "only in a fault", "when there's a fault", "when there is a fault", "only when there's a fault"] },
+    { id: "sup-12", lesson: "your-supply", q: "Should you treat the neutral conductor as live or as dead?", a: "Live: BS 7671 counts it as a live conductor", accept: ["live", "as live", "treat it as live"] },
+    { id: "sup-13", lesson: "your-supply", q: "The neutral is broken somewhere. What voltage could the load side of the break sit at?", a: "The full 230 V, through the load", num: 230, tol: 0, unit: "V" },
+    { id: "sup-14", lesson: "your-supply", q: "Current doesn't vanish into the ground. Where is it always trying to get back to?", a: "Its source: the transformer's star point", accept: ["source", "its source", "the source", "star point", "the star point", "transformer", "the transformer", "transformer star point", "the transformer star point", "the transformer's star point"] },
+    { id: "sup-15", lesson: "your-supply", q: "What is the rated tripping current of an RCD used for additional protection, in mA?", a: "30 mA", num: 30, tol: 0, unit: "mA" },
+    { id: "sup-16", lesson: "your-supply", q: "From roughly how many mA through the body is there a risk of the heart going into fibrillation?", a: "About 50 mA", num: 50, tol: 0, unit: "mA" },
+    { id: "sup-17", lesson: "your-supply", q: "Someone touches line and neutral at the same time. Why won't an RCD trip?", a: "There's no imbalance: the current still goes out on line and back on neutral", accept: ["no imbalance", "there's no imbalance", "theres no imbalance", "there is no imbalance", "currents balance", "the currents balance", "balanced", "it's balanced", "still balanced", "no difference", "no residual current", "line and neutral still balance"] },
+    { id: "sup-18", lesson: "your-supply", q: "What device, fitted after the meter, lets an electrician switch off the whole installation without touching the DNO's equipment?", a: "An isolator (isolator switch)", accept: ["isolator", "an isolator", "isolator switch", "isolating switch", "main isolator", "double pole isolator", "double-pole isolator"] }
+  ];
+})();

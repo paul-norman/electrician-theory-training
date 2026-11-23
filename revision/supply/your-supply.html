@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Supply: Conductors and Earthing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .part { cursor: pointer; }
+  .part rect.pbox { fill: var(--surface); stroke: var(--fg); stroke-width: 2; transition: fill 0.15s; }
+  .part:hover rect.pbox, .part:focus rect.pbox { fill: var(--surface-2); }
+  .part.sel rect.pbox { stroke: var(--flow); stroke-width: 3; }
+  .part:focus { outline: none; }
+  .part:focus-visible rect.pbox { stroke: var(--flow); stroke-dasharray: 4 3; }
+  .own-dno { fill: var(--info-bg); }
+  .own-sup { fill: var(--note-bg); }
+  .own-you { fill: var(--ok-bg); }
+  .info-panel { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-height: 92px; }
+  .info-panel .who { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 0.93rem; }
+  .swatch { height: 12px; border-radius: 6px; }
+  .sw-line { background: var(--line); }
+  .sw-neutral { background: var(--neutral); }
+  .sw-cpc { background: repeating-linear-gradient(90deg, var(--cpc-g) 0 14px, var(--cpc-y) 14px 28px); }
+  .card .old { font-size: 0.82rem; color: var(--muted); }
+  .person { fill: none; stroke: var(--fg); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .ground { fill: var(--ground); opacity: 0.6; }
+</style>
+</head>
+<body data-lesson="your-supply">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Supply and distribution</span>
+    <h1>Your supply: conductors and earthing</h1>
+    <p class="lead">Where the network's equipment ends and the installation begins, what each conductor actually does, and why earth matters for safety.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>The <abbr title="distribution network operator">DNO</abbr> owns the service cable and the sealed cut-out with its main fuse. The meter belongs to the energy supplier, and the installation starts at the meter tails. Line (brown) carries current to the load. Neutral (blue) brings it back to the star point and must always be treated as live. The circuit protective conductor (<abbr title="circuit protective conductor">CPC</abbr>, green/yellow, often just called "the earth") carries current only during a fault. Current always returns to its source, so touching a line conductor while standing on the ground completes a loop through you, the ground and the transformer.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Who owns what</h2>
+    <p>The supply into a building passes through equipment owned by three different parties. As an electrician, you only work on the consumer's side.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Explore</span>
+      <h3 id="w1">The supply intake</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 860 250" class="wide" style="min-width:720px" role="group" aria-labelledby="w1d">
+        <title id="w1d">The supply intake: service cable, cut-out, meter, isolator, meter tails, consumer unit and final circuits, with who owns each part.</title>
+        <rect class="own-dno" x="10" y="14" width="262" height="30" rx="4"/>
+        <text x="22" y="34" font-weight="600">DNO</text>
+        <rect class="own-sup" x="278" y="14" width="124" height="30" rx="4"/>
+        <text x="290" y="34" font-weight="600">Energy supplier</text>
+        <rect class="own-you" x="408" y="14" width="442" height="30" rx="4"/>
+        <text x="420" y="34" font-weight="600">Consumer (the installation)</text>
+
+        <!-- conductors -->
+        <path class="wire w-plain" d="M20,150 H170" stroke-width="7"/>
+        <path class="wire w-line" d="M250,130 H300 M380,130 H430 M480,130 H560"/>
+        <path class="wire w-neutral" d="M250,160 H300 M380,160 H430 M480,160 H560"/>
+        <path class="wire w-line" d="M680,110 H820 M680,145 H820 M680,180 H820" stroke-width="3"/>
+        <path class="wire w-cpc-g" d="M210,190 V222 H600 V200"/>
+        <path class="wire w-cpc-y" d="M210,190 V222 H600 V200"/>
+        <text x="30" y="140" class="small">Under the street</text>
+        <text x="380" y="240" class="small">Earthing conductor to the main earthing terminal</text>
+
+        <g class="part" data-k="service" tabindex="0" role="button" aria-label="Service cable">
+          <rect class="pbox" x="20" y="160" width="0" height="0"/>
+          <rect x="20" y="138" width="150" height="26" fill="transparent"/>
+          <text x="30" y="182" class="small">Service cable</text>
+        </g>
+        <g class="part" data-k="cutout" tabindex="0" role="button" aria-label="Cut-out and main fuse">
+          <rect class="pbox" x="170" y="90" width="80" height="100" rx="6"/>
+          <rect x="196" y="118" width="28" height="24" rx="3" fill="var(--surface-2)" stroke="var(--line)" stroke-width="2"/>
+          <text x="210" y="168" text-anchor="middle" class="small">Cut-out</text>
+          <text x="210" y="82" text-anchor="middle" font-weight="600" font-size="12">Main fuse</text>
+        </g>
+        <g class="part" data-k="meter" tabindex="0" role="button" aria-label="Electricity meter">
+          <rect class="pbox" x="300" y="90" width="80" height="100" rx="6"/>
+          <rect x="314" y="106" width="52" height="22" rx="3" fill="var(--meter-bg)"/>
+          <text x="340" y="122" text-anchor="middle" class="tag" style="fill:var(--meter-fg);font-size:11px">01234</text>
+          <text x="340" y="168" text-anchor="middle" class="small">kWh</text>
+          <text x="340" y="82" text-anchor="middle" font-weight="600" font-size="12">Meter</text>
+        </g>
+        <g class="part" data-k="isolator" tabindex="0" role="button" aria-label="Isolator switch">
+          <rect class="pbox" x="430" y="108" width="50" height="72" rx="6"/>
+          <path d="M445,150 L465,132" stroke="var(--fg)" stroke-width="2.5"/>
+          <text x="455" y="100" text-anchor="middle" font-weight="600" font-size="12">Isolator</text>
+        </g>
+        <g class="part" data-k="tails" tabindex="0" role="button" aria-label="Meter tails">
+          <rect x="380" y="120" width="50" height="50" fill="transparent"/>
+          <rect x="480" y="120" width="80" height="50" fill="transparent"/>
+          <text x="520" y="194" text-anchor="middle" class="small">Meter tails</text>
+          <rect class="pbox" x="0" y="0" width="0" height="0"/>
+        </g>
+        <g class="part" data-k="cu" tabindex="0" role="button" aria-label="Consumer unit">
+          <rect class="pbox" x="560" y="80" width="120" height="120" rx="6"/>
+          <rect x="574" y="100" width="18" height="30" rx="2" fill="var(--surface-2)" stroke="var(--fg)"/>
+          <rect x="598" y="100" width="18" height="30" rx="2" fill="var(--surface-2)" stroke="var(--fg)"/>
+          <rect x="622" y="100" width="18" height="30" rx="2" fill="var(--surface-2)" stroke="var(--fg)"/>
+          <rect x="646" y="100" width="18" height="30" rx="2" fill="var(--surface-2)" stroke="var(--fg)"/>
+          <text x="620" y="72" text-anchor="middle" font-weight="600" font-size="12">Consumer unit</text>
+          <text x="620" y="160" text-anchor="middle" class="small">Main switch,</text>
+          <text x="620" y="174" text-anchor="middle" class="small">breakers, RCDs</text>
+        </g>
+        <g class="part" data-k="circuits" tabindex="0" role="button" aria-label="Final circuits">
+          <rect x="690" y="95" width="150" height="100" fill="transparent"/>
+          <text x="700" y="104" class="small">Sockets</text>
+          <text x="700" y="139" class="small">Lighting</text>
+          <text x="700" y="174" class="small">Cooker, shower…</text>
+          <rect class="pbox" x="0" y="0" width="0" height="0"/>
+        </g>
+      </svg>
+    </div>
+    <div class="info-panel" id="info" aria-live="polite"></div>
+    <p class="caption">Tap any part of the diagram to see what it is and who owns it.</p>
+  </section>
+
+  <section class="callout info">
+    <h3>Hands off the network's equipment</h3>
+    <p>The cut-out and meter are <strong>sealed</strong>. Breaking a seal or interfering with them is a criminal offence, and dangerous: the cut-out is live all the time, and the only protection upstream of it is the DNO's fuse back at the substation. If a job needs the supply isolated at the cut-out, the DNO (or the supplier, for the meter) has to do it. That's why many installations have an <strong>isolator</strong> fitted after the meter: it gives the electrician a safe way to switch off.</p>
+  </section>
+
+  <section class="prose">
+    <h2>The three conductors</h2>
+  </section>
+  <div class="cards">
+    <div class="card">
+      <div class="swatch sw-line"></div>
+      <strong>Line (L): brown</strong>
+      <span>Carries current from the supply to the load, at 230 V relative to earth. Switches and fuses always go in the line conductor, so switching off leaves the load disconnected from the live supply.</span>
+      <span class="old">Before 2004: red</span>
+    </div>
+    <div class="card">
+      <div class="swatch sw-neutral"></div>
+      <strong>Neutral (N): blue</strong>
+      <span>Carries the current back from the load to the transformer's star point. In a simple circuit it carries the <em>same</em> current as the line. Normally close to 0 V, because the star point is earthed.</span>
+      <span class="old">Before 2004: black</span>
+    </div>
+    <div class="card">
+      <div class="swatch sw-cpc"></div>
+      <strong>Circuit protective conductor (CPC): green and yellow</strong>
+      <span>Connects exposed metalwork (metal cases, back boxes) to earth. Carries <strong>no current</strong> in normal use. In a fault it carries enough current to trip the breaker fast.</span>
+      <span class="old">Often called "the earth" or "earth wire" on site</span>
+    </div>
+  </div>
+
+  <section class="prose">
+    <h2>Neutral: "0 V", but treat it as live</h2>
+    <p>You'll often hear that the neutral is at 0 V. That's true when everything is healthy, but you can't rely on it:</p>
+    <ul>
+      <li>Current flowing in the neutral causes a small voltage drop along it, so it sits a few volts above earth.</li>
+      <li>If the neutral is broken anywhere, everything on the load side of the break can sit at the <strong>full 230 V</strong>, through the load.</li>
+      <li>On shared neutrals or wrongly connected circuits, a neutral can carry current from another circuit.</li>
+    </ul>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> counts the neutral as a <strong>live conductor</strong>. You'll isolate and prove dead on line <em>and</em> neutral, every time.</p>
+  </section>
+
+  <section class="prose">
+    <h2>What earth really does</h2>
+    <p>The ground is huge, so adding or removing a bit of charge doesn't change its potential. That makes it a convenient <strong>0 V reference</strong>: "230 V" means 230 V relative to earth.</p>
+    <p>A common myth is that current "wants to go to earth" and disappears into the ground. It doesn't. <strong>Current always tries to return to its source.</strong> For the mains, the source is the transformer, and its star point is connected to earth. So the ground becomes a path back to the transformer. That's how you can get a shock just by touching a line conductor while standing on the floor.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">How a shock completes the loop</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 760 320" class="wide" role="img" aria-labelledby="w2d">
+        <title id="w2d">A transformer with its star point earthed. A person touches a live conductor. The shock current flows through the person and the ground back to the transformer.</title>
+        <rect class="ground" x="10" y="262" width="740" height="48" rx="4"/>
+        <text x="20" y="302" class="small">Ground</text>
+        <!-- transformer -->
+        <rect class="box" x="24" y="50" width="86" height="100" rx="6"/>
+        <text x="34" y="74" font-weight="600" font-size="12">Substation</text>
+        <text x="34" y="90" class="small">transformer</text>
+        <path class="wire w-line" d="M130,130 a7,7.5 0 0,1 0,-15 a7,7.5 0 0,1 0,-15 a7,7.5 0 0,1 0,-15 a7,7.5 0 0,1 0,-15" stroke-width="3"/>
+        <circle cx="130" cy="130" r="5" fill="var(--fg)"/>
+        <text x="140" y="148" class="small">Star point</text>
+        <path class="wire w-cpc-g" d="M130,130 V282" style="stroke-width:3"/><path class="wire w-cpc-y" d="M130,130 V282" style="stroke-width:3"/>
+        <path d="M118,282 H142 M123,288 H137 M128,294 H132" stroke="var(--cpc-g)" stroke-width="2.5"/>
+        <!-- line -->
+        <path class="wire w-line" d="M130,70 H548 V112"/>
+        <circle cx="548" cy="116" r="6" fill="var(--line)"/>
+        <text x="420" y="60" class="small">Line conductor (230 V)</text>
+        <text x="460" y="112" class="small" text-anchor="end">Exposed live part</text>
+        <!-- neutral -->
+        <path class="wire w-neutral" d="M130,130 H190 V100 H650 V112"/>
+        <circle cx="650" cy="116" r="6" fill="var(--neutral)"/>
+        <text x="270" y="92" class="small">Neutral</text>
+        <!-- mat -->
+        <rect id="mat" x="540" y="254" width="84" height="10" rx="2" fill="var(--fg)" opacity="0.85"/>
+        <!-- person -->
+        <circle cx="582" cy="150" r="14" class="person"/>
+        <path class="person" d="M582,164 V218 M582,218 L566,258 M582,218 L598,258"/>
+        <path class="person" d="M582,176 L551,120"/>
+        <path id="armL" class="person" d="M582,176 L612,210"/>
+        <!-- flow -->
+        <path id="f1" class="flow" d="M130,130 V70 H548 V116 L582,176 V218 L582,258 V280 H130 V130"/>
+        <path id="f3" class="flow" d="M130,130 V70 H548 V116 L582,176 L650,116 V100 H190 V130 H130"/>
+        <text id="tCur" class="tag" x="620" y="172" fill="var(--flow)"></text>
+        <text id="tPath" x="160" y="302" class="small"></text>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Scenario" id="sc">
+        <button type="button" data-s="ground" aria-pressed="true">Touch line, feet on the floor</button>
+        <button type="button" data-s="mat" aria-pressed="false">Touch line, standing on a rubber mat</button>
+        <button type="button" data-s="ln" aria-pressed="false">Touch line and neutral together</button>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Current through the body</span><span class="v" id="rI">—</span><span class="s">Illustrative: about 1,500 Ω through the body</span></div>
+      <div class="ro"><span class="k">Likely effect</span><span class="v" id="rE" style="font-size:1.05rem">—</span><span class="s" id="rEs"></span></div>
+      <div class="ro"><span class="k">Would a 30 mA <abbr title="residual current device">RCD</abbr> trip?</span><span class="v" id="rR" style="font-size:1.05rem">—</span><span class="s" id="rRs"></span></div>
+    </div>
+    <p class="caption" id="scCap"></p>
+  </section>
+
+  <section class="prose">
+    <h2>How much current is dangerous?</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Current through the body (<abbr title="alternating current">AC</abbr>)</th><th>Typical effect</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">about 1 mA</td><td>Just about felt as a tingle</td></tr>
+          <tr><td class="mono">about 10 mA</td><td>Muscles clamp; you may not be able to let go</td></tr>
+          <tr><td class="mono">30 mA</td><td>The rating of the RCDs used for additional protection: they trip quickly at this level</td></tr>
+          <tr><td class="mono">50 mA and above</td><td>Risk of the heart going into fibrillation, which can kill</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Effects depend on how long the current flows and its path through the body. Wet skin lowers body resistance a lot, which is why bathrooms and outdoor locations have extra rules. For how the CPC and breaker work together to clear a fault, see the <a href="../../earth-fault-loop.html">earth fault loop explorer</a>.</p>
+  </section>
+
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  // Intake explorer
+  var PARTS = {
+    service: ["DNO", "Service cable", "The DNO's cable from the street to the building. It's live and unprotected by anything in the building."],
+    cutout: ["DNO", "Cut-out and main fuse", "Where the service cable ends. Contains the main fuse (typically 60, 80 or 100 A) that protects the service cable. Sealed: only the DNO may open it. On many supplies the earthing terminal is here too."],
+    meter: ["Energy supplier", "Electricity meter", "Measures the energy used, in kWh. Owned by your energy supplier through a meter operator, and sealed. Smart meters work the same way electrically."],
+    isolator: ["Consumer", "Isolator switch", "A double-pole switch fitted after the meter. Not always present, but it lets you safely switch off the whole installation without touching the DNO's equipment."],
+    tails: ["Consumer", "Meter tails", "Short, heavy single-core cables (often 25 mm²) from the meter to the consumer unit. The consumer's installation starts at the meter's outgoing terminals."],
+    cu: ["Consumer", "Consumer unit", "The distribution board: main switch, circuit breakers (<abbr title='miniature circuit breakers'>MCBs</abbr>), RCDs or <abbr title='residual current breakers with overcurrent protection'>RCBOs</abbr>, the neutral bar, and the earth bar where the CPCs connect. The main earthing terminal (<abbr title='main earthing terminal'>MET</abbr>) is here or close by."],
+    circuits: ["Consumer", "Final circuits", "Cables from the consumer unit to the sockets, lights and fixed appliances. This is where most of your work as an electrician will be."]
+  };
+  var parts = document.querySelectorAll(".part");
+  function show(k) {
+    var p = PARTS[k];
+    parts.forEach(function (g) { g.classList.toggle("sel", g.getAttribute("data-k") === k); });
+    var colour = p[0] === "DNO" ? "var(--info)" : p[0] === "Energy supplier" ? "var(--note)" : "var(--ok)";
+    $("info").innerHTML = '<span class="who" style="color:' + colour + '">Owned by: ' + p[0] + "</span><strong>" + p[1] + "</strong><span>" + p[2] + "</span>";
+  }
+  parts.forEach(function (g) {
+    g.addEventListener("click", function () { show(g.getAttribute("data-k")); });
+    g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(g.getAttribute("data-k")); } });
+  });
+  show("cutout");
+
+  // Shock scenarios
+  var RBODY = 1500;
+  var SC = {
+    ground: { i: 230 / RBODY, flow: "f1", mat: false, armL: false,
+      path: "Path: line → hand → body → feet → ground → substation earth → star point",
+      cap: "The loop closes through the ground, because the transformer's star point is earthed. The current flows through the person's chest, the most dangerous path.",
+      rcd: true, rcdWhy: "Current is leaking to earth, so line and neutral currents no longer match." },
+    mat: { i: 0, flow: null, mat: true, armL: false,
+      path: "No complete loop: the mat breaks the path to earth",
+      cap: "With good insulation under the feet, there's no complete loop, so no current flows. That's why insulating mats and boots help. But never rely on them: one hand on an earthed pipe or metal case completes the loop again. Always isolate and prove dead.",
+      rcd: null, rcdWhy: "Nothing to detect, because no current flows." },
+    ln: { i: 230 / RBODY, flow: "f3", mat: true, armL: true,
+      path: "Path: line → one hand → body → other hand → neutral → star point",
+      cap: "Touching line and neutral at once puts the person directly across the supply, like a load. The mat doesn't help, because the loop doesn't go through the ground at all.",
+      rcd: false, rcdWhy: "All the current goes out on the line and back on the neutral, so they still balance. The RCD can't tell the person apart from a kettle." }
+  };
+  function scenario(k) {
+    var s = SC[k];
+    $("f1").classList.toggle("off", s.flow !== "f1");
+    $("f3").classList.toggle("off", s.flow !== "f3");
+    if (s.flow) Course.setFlow($(s.flow), s.i, 0.05);
+    $("mat").style.display = s.mat ? "" : "none";
+    $("armL").setAttribute("d", s.armL ? "M582,176 L650,116" : "M582,176 L612,210");
+    $("tCur").textContent = s.i ? Course.si(s.i, "A") : "";
+    $("tPath").textContent = s.path;
+    $("rI").textContent = s.i ? Course.si(s.i, "A") : "0 mA";
+    var ma = s.i * 1000;
+    $("rE").textContent = ma === 0 ? "None" : ma >= 50 ? "Potentially fatal" : ma >= 10 ? "Can't let go" : "Tingle";
+    $("rEs").textContent = ma === 0 ? "No loop, no current" : ma >= 50 ? "Above the 50 mA fibrillation risk level" : "";
+    $("rR").textContent = s.rcd === null ? "Not needed" : s.rcd ? "Yes" : "No";
+    $("rR").style.color = s.rcd === false ? "var(--bad)" : "";
+    $("rRs").textContent = s.rcdWhy;
+    $("scCap").textContent = s.cap;
+  }
+  $("sc").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    scenario(b.getAttribute("data-s"));
+  });
+  scenario("ground");
+
+  Course.quiz("#quiz", [
+    { q: "Who owns the cut-out and main fuse?",
+      options: ["The homeowner", "The energy supplier", "The DNO", "The electrician who installed the consumer unit"], answer: 2,
+      why: "The DNO owns the service cable and cut-out. The meter belongs to the energy supplier. The installation starts at the meter tails." },
+    { q: "How should you treat the neutral conductor?",
+      options: ["As safe, because it's at 0 V", "As live: isolate and prove it dead like the line", "As a protective conductor", "It only matters on three-phase"], answer: 1,
+      why: "BS 7671 counts neutral as a live conductor. It can carry current and, if broken, can sit at full voltage." },
+    { q: "Someone touches a line conductor while standing on the ground. Why do they get a shock?",
+      options: ["Current wants to disappear into the earth", "Current flows through them and the ground back to the earthed star point of the transformer", "The line conductor has too much voltage", "Their body is magnetic"], answer: 1,
+      why: "Current returns to its source. The star point is earthed, so the ground completes the loop." },
+    { q: "When does the circuit protective conductor (CPC) carry current?",
+      options: ["All the time", "Only when the circuit is switched off", "Only during an earth fault", "Only on lighting circuits"], answer: 2,
+      why: "In normal use it carries nothing. During a fault it carries enough current to trip the protective device quickly." },
+    { q: "What are the current UK colours for line, neutral and the circuit protective conductor (CPC)?",
+      options: ["Red, black, green/yellow", "Brown, blue, green/yellow", "Brown, black, green", "Blue, brown, green/yellow"], answer: 1,
+      why: "Brown line, blue neutral, green-and-yellow CPC. Red and black are the pre-2004 colours you'll still find in older homes." },
+    { q: "Someone touches line and neutral at the same time. Why might an RCD not trip?",
+      options: ["RCDs only work on lighting circuits", "The current still goes out on line and back on neutral, so there's no imbalance to detect", "The current is too high", "RCDs only detect <abbr title='direct current'>DC</abbr>"], answer: 1,
+      why: "An RCD compares line and neutral currents. A person across L and N looks exactly like a load." }
+  ]);
+})();
+</script>
+</body>
+</html>

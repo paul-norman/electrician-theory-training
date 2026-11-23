@@ -1,0 +1,9 @@
+# Allow-list: ignore everything, then publish only the public site.
+# Anything new stays private unless it's added here on purpose.
+/*
+!/.gitignore
+!/.nojekyll
+!/README.md
+!/index.html
+!/earth-fault-loop.html
+!/revision/

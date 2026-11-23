@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Series and Parallel Circuits</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .comp { fill: var(--surface); stroke: var(--fg); stroke-width: 2.5; }
+  .glow { fill: var(--flow); }
+  .sw { cursor: pointer; }
+  .sw .lever { stroke: var(--fg); stroke-width: 3; stroke-linecap: round; transition: transform 0.15s; }
+  .sw .contact { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .sw .gap { fill: var(--surface-2); }
+  .sw:focus { outline: none; }
+  .sw:focus-visible .hit { stroke: var(--flow); stroke-width: 2; stroke-dasharray: 3 3; }
+  .sw .hit { fill: transparent; }
+  .node { fill: var(--fg); }
+</style>
+</head>
+<body data-lesson="series-parallel">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Electrical principles</span>
+    <h1>Series and parallel circuits</h1>
+    <p class="lead">There are only two ways to connect loads together. Which one you choose decides how the voltage and current are shared, and whether one switch turns everything off.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>In <strong>series</strong>, loads sit one after another on a single path: the same current flows through all of them, resistances add (R<sub>T</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub>), the supply voltage is shared between them, and one open switch or broken load stops everything. In <strong>parallel</strong>, each load has its own path across the full supply voltage: the branch currents add up to the total, each load can be switched on its own, and the total resistance is always lower than the smallest branch (<span class="frac"><span>1</span><span>R<sub>T</sub></span></span> = <span class="frac"><span>1</span><span>R<sub>1</sub></span></span> + <span class="frac"><span>1</span><span>R<sub>2</sub></span></span> + <span class="frac"><span>1</span><span>R<sub>3</sub></span></span>). Kirchhoff's current law says the current into any junction equals the current out. Kirchhoff's voltage law says the voltage drops around any loop add up to the supply voltage. The loads in a house are all wired in parallel; a switch goes in series with the load it controls.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Switches</h2>
+    <p>A switch is a deliberate break in a conductor. <strong>Closed</strong> (on), its contacts touch and current can flow. <strong>Open</strong> (off), there's an air gap, and since air is an insulator the loop is broken and no current flows anywhere in it.</p>
+    <p>A switch always goes <strong>in series with the load it controls</strong>, and in the line conductor, so that "off" disconnects the load from the live supply (see <a href="../supply/your-supply.html">Your supply</a>).</p>
+  </section>
+
+  <section class="prose">
+    <h2>Series circuits</h2>
+    <p>In a series circuit the loads are connected end to end, so there's <strong>only one path</strong> for the current.</p>
+    <ul>
+      <li><strong>The current is the same everywhere.</strong> Every bit of charge has to pass through every load.</li>
+      <li><strong>Resistances add up:</strong> <span class="mono">R<sub>T</sub> = R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub></span>. Each extra load makes the total bigger, so less current flows.</li>
+      <li><strong>The supply voltage is shared out.</strong> Each load gets a share in proportion to its resistance, and the shares add up to the supply voltage. So no load gets the full voltage it was designed for.</li>
+      <li><strong>One break stops everything.</strong> Open any switch, or let any load fail, and the whole loop goes dead. Old Christmas tree lights worked this way: one blown bulb and the whole string went out.</li>
+    </ul>
+  </section>
+
+  <section class="prose">
+    <h2>Parallel circuits</h2>
+    <p>In a parallel circuit each load is connected <strong>directly across the supply</strong>, on its own branch. That fixes both of the series problems:</p>
+    <ul>
+      <li><strong>Every load gets the full supply voltage</strong>, so each runs as designed.</li>
+      <li><strong>Each branch can be switched on its own.</strong> Turning one load off doesn't affect the others.</li>
+      <li><strong>Branch currents add up.</strong> The supply provides the total: <span class="mono">I<sub>T</sub> = I<sub>1</sub> + I<sub>2</sub> + I<sub>3</sub></span>.</li>
+      <li><strong>The total resistance falls as you add branches</strong>, because each branch is another path for current. It's always lower than the smallest single branch:</li>
+    </ul>
+    <p><span class="formula"><span class="frac"><span>1</span><span>R<sub>T</sub></span></span> = <span class="frac"><span>1</span><span>R<sub>1</sub></span></span> + <span class="frac"><span>1</span><span>R<sub>2</sub></span></span> + <span class="frac"><span>1</span><span>R<sub>3</sub></span></span></span></p>
+    <p>Work out the right-hand side, then turn the answer upside down to get R<sub>T</sub>. For just two resistors there's a shortcut, "product over sum": <span class="mono">R<sub>T</sub> = <span class="frac"><span>R<sub>1</sub> × R<sub>2</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span></span>. And for identical resistors, divide one by how many there are: four 100 Ω in parallel make 25 Ω.</p>
+    <p>Every socket, light and appliance in a building is wired in parallel, which is why each one gets 230 V and can be switched independently.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Three lamps on 230 V</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 720 320" class="wide" role="img" aria-labelledby="w1d">
+        <title id="w1d">Three lamps, each with its own switch, connected either in series on one loop or in parallel on separate branches across the supply.</title>
+        <!-- battery / supply -->
+        <line x1="46" y1="150" x2="94" y2="150" stroke="var(--fg)" stroke-width="3"/>
+        <line x1="58" y1="168" x2="82" y2="168" stroke="var(--fg)" stroke-width="7"/>
+        <text x="16" y="200" class="small">Supply</text>
+        <text x="16" y="218" class="tag">230 V</text>
+
+        <!-- SERIES layout -->
+        <g id="ser">
+          <path class="wire w-plain" d="M70,150 V60 H650 V270 H70 V168"/>
+          <path id="fSer" class="flow" d="M70,150 V60 H650 V270 H70 V168"/>
+          <text id="sI" class="tag" x="360" y="296" text-anchor="middle" fill="var(--flow)">I = 0 A</text>
+          <g id="serLoads"></g>
+        </g>
+
+        <!-- PARALLEL layout -->
+        <g id="par" hidden>
+          <path class="wire w-plain" d="M70,150 V60 H560 M70,168 V270 H560 M220,60 V270 M390,60 V270 M560,60 V270"/>
+          <path id="fP0" class="flow" d="M70,150 V60 H220"/>
+          <path id="fP1" class="flow" d="M220,60 H390"/>
+          <path id="fP2" class="flow" d="M390,60 H560"/>
+          <path id="fB0" class="flow" d="M220,60 V270"/>
+          <path id="fB1" class="flow" d="M390,60 V270"/>
+          <path id="fB2" class="flow" d="M560,60 V270"/>
+          <path id="fR2" class="flow" d="M560,270 H390"/>
+          <path id="fR1" class="flow" d="M390,270 H220"/>
+          <path id="fR0" class="flow" d="M220,270 H70 V168"/>
+          <circle class="node" cx="220" cy="60" r="5"/><circle class="node" cx="390" cy="60" r="5"/>
+          <circle class="node" cx="220" cy="270" r="5"/><circle class="node" cx="390" cy="270" r="5"/>
+          <text id="pI" class="tag" x="84" y="46" fill="var(--flow)">I<tspan dy="4" font-size="0.75em">T</tspan><tspan dy="-4"> = 0 A</tspan></text>
+          <g id="parLoads"></g>
+        </g>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label" id="modeL">Connect the lamps in</span>
+        <div class="seg" role="group" aria-labelledby="modeL" id="mode">
+          <button type="button" data-m="series" aria-pressed="true">Series</button>
+          <button type="button" data-m="parallel" aria-pressed="false">Parallel</button>
+        </div>
+      </div>
+      <div class="ctl"><label for="r0">Lamp 1 rating</label><select id="r0"></select></div>
+      <div class="ctl"><label for="r1">Lamp 2 rating</label><select id="r1"></select></div>
+      <div class="ctl"><label for="r2">Lamp 3 rating</label><select id="r2"></select></div>
+    </div>
+    <div class="controls">
+      <label class="check" for="s0"><input type="checkbox" id="s0" checked> Switch 1 on</label>
+      <label class="check" for="s1"><input type="checkbox" id="s1" checked> Switch 2 on</label>
+      <label class="check" for="s2"><input type="checkbox" id="s2" checked> Switch 3 on</label>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Total resistance, R<sub>T</sub></span><span class="v" id="rRT">—</span><span class="s" id="rRTs"></span></div>
+      <div class="ro"><span class="k">Total current, I<sub>T</sub></span><span class="v" id="rIT">—</span><span class="s">230 V over R<sub>T</sub></span></div>
+      <div class="ro"><span class="k" id="kLaw">Kirchhoff check</span><span class="v" id="rLaw" style="font-size:1rem">—</span><span class="s" id="rLaws"></span></div>
+    </div>
+    <p class="caption" id="cap"></p>
+  </section>
+
+  <section class="prose">
+    <h2>Kirchhoff's laws</h2>
+    <p>Two rules, both from the 1840s, hold in every circuit, however complicated. They're what make the series and parallel rules above work.</p>
+    <p><strong>Kirchhoff's current law</strong> (the first law): at any junction, the current flowing in equals the current flowing out. Put another way, the currents at a junction add up to zero if you count "in" as positive and "out" as negative. Charge can't pile up at a point or vanish, so whatever arrives has to leave. That's why the branch currents in a parallel circuit add up to the supply current, and why the current is the same all the way round a series loop.</p>
+    <p><strong>Kirchhoff's voltage law</strong> (the second law): go round any closed loop and the voltage drops across the loads and cables add up to the supply voltage. Counting the supply as a rise and each drop as a fall, the total round the loop is zero. That's why series loads share the supply voltage, and why, by the time the current reaches the neutral on its way back, almost all of the 230 V has been used. (The neutral isn't exactly 0 V: a few volts are dropped along it too. See <a href="../supply/your-supply.html">Your supply</a>.)</p>
+  </section>
+
+  <section class="prose">
+    <h2>Worked examples</h2>
+  </section>
+  <div class="examples">
+    <div class="example">
+      <span class="q">10 Ω, 20 Ω and 30 Ω in series on 12 V. Find the current and each voltage.</span>
+      <span class="w">R<sub>T</sub> = 10 + 20 + 30 = 60 Ω · I = <span class="frac"><span>12</span><span>60</span></span> = 0.2 A · V = I × R for each</span>
+      <span class="a">0.2 A; 2 V, 4 V and 6 V (total 12 V)</span>
+    </div>
+    <div class="example">
+      <span class="q">6 Ω and 3 Ω in parallel. What's the total resistance?</span>
+      <span class="w">R<sub>T</sub> = <span class="frac"><span>6 × 3</span><span>6 + 3</span></span> = <span class="frac"><span>18</span><span>9</span></span></span>
+      <span class="a">2 Ω (lower than 3 Ω, the smallest)</span>
+    </div>
+    <div class="example">
+      <span class="q">10 Ω, 20 Ω and 20 Ω in parallel. What's the total resistance?</span>
+      <span class="w"><span class="frac"><span>1</span><span>R<sub>T</sub></span></span> = <span class="frac"><span>1</span><span>10</span></span> + <span class="frac"><span>1</span><span>20</span></span> + <span class="frac"><span>1</span><span>20</span></span> = <span class="frac"><span>4</span><span>20</span></span></span>
+      <span class="a">R<sub>T</sub> = <span class="frac"><span>20</span><span>4</span></span> = 5 Ω</span>
+    </div>
+  </div>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w2">Series and parallel questions</h3>
+    </div>
+    <div id="prac"></div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var f = function (x, s) { return Course.sig(x, s || 3); };
+  var V = 230;
+  var RATINGS = [25, 40, 60, 100, 200];
+  var st = { mode: "series", w: [100, 60, 40], on: [true, true, true] };
+  var R = function (k) { return V * V / st.w[k]; }; // resistance of a lamp rated w watts at 230 V
+  var sub = function (base, s) { return base + '<tspan dy="4" font-size="0.75em">' + s + '</tspan><tspan dy="-4">'; };
+
+  // ---- build lamps and switches for both layouts ----
+  function lampSVG(cx, cy, k, pre) {
+    return '<circle id="' + pre + 'g' + k + '" class="glow" cx="' + cx + '" cy="' + cy + '" r="32" opacity="0"/>' +
+      '<circle class="comp" cx="' + cx + '" cy="' + cy + '" r="21"/>' +
+      '<path d="M' + (cx - 15) + "," + (cy - 15) + " L" + (cx + 15) + "," + (cy + 15) + " M" + (cx + 15) + "," + (cy - 15) + " L" + (cx - 15) + "," + (cy + 15) + '" stroke="var(--fg)" stroke-width="2"/>';
+  }
+  // horizontal switch from (x, y) to (x + 34, y); vertical when vert is true
+  function switchSVG(x, y, k, pre, vert) {
+    var a = vert ? 'transform="rotate(90 ' + x + " " + y + ')"' : "";
+    return '<g class="sw" data-k="' + k + '" tabindex="0" role="switch" aria-label="Switch ' + (k + 1) + '" ' + a + '>' +
+      '<rect class="hit" x="' + (x - 6) + '" y="' + (y - 26) + '" width="46" height="36" rx="4"/>' +
+      '<rect class="gap" x="' + (x + 2) + '" y="' + (y - 4) + '" width="30" height="8"/>' +
+      '<line id="' + pre + 'lv' + k + '" class="lever" x1="' + x + '" y1="' + y + '" x2="' + (x + 34) + '" y2="' + y + '"/>' +
+      '<circle class="contact" cx="' + x + '" cy="' + y + '" r="4"/><circle class="contact" cx="' + (x + 34) + '" cy="' + y + '" r="4"/></g>';
+  }
+  var ser = "", par = "";
+  [0, 1, 2].forEach(function (k) {
+    var sx = 120 + k * 175, lx = sx + 95;
+    ser += switchSVG(sx, 60, k, "s", false) + lampSVG(lx, 60, k, "s");
+    ser += '<text id="sL' + k + '" class="tag" x="' + lx + '" y="104" text-anchor="middle"></text><text id="sV' + k + '" class="tag" x="' + lx + '" y="122" text-anchor="middle" fill="var(--flow)"></text>';
+    var bx = 220 + k * 170;
+    par += switchSVG(bx, 86, k, "p", true) + lampSVG(bx, 180, k, "p");
+    par += '<text id="pL' + k + '" class="tag" x="' + (bx + 30) + '" y="160"></text><text id="pV' + k + '" class="tag" x="' + (bx + 30) + '" y="178"></text><text id="pC' + k + '" class="tag" x="' + (bx + 30) + '" y="196" fill="var(--flow)"></text>';
+  });
+  $("serLoads").innerHTML = ser; $("parLoads").innerHTML = par;
+
+  RATINGS.forEach(function (w) {
+    [0, 1, 2].forEach(function (k) { var o = document.createElement("option"); o.value = w; o.textContent = w + " W lamp (" + f(V * V / w) + " Ω)"; $("r" + k).appendChild(o); });
+  });
+
+  function setLever(id, on, vert) {
+    var el = $(id); var x1 = +el.getAttribute("x1"), y1 = +el.getAttribute("y1");
+    // open = lever lifted 30° away from the second contact
+    if (on) { el.setAttribute("x2", x1 + 34); el.setAttribute("y2", y1); }
+    else { el.setAttribute("x2", x1 + 34 * Math.cos(Math.PI / 6)); el.setAttribute("y2", y1 - 34 * Math.sin(Math.PI / 6)); }
+    void vert;
+  }
+
+  function render() {
+    var ser = st.mode === "series";
+    $("ser").toggleAttribute("hidden", !ser); $("par").toggleAttribute("hidden", ser);
+    document.querySelectorAll("#mode button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === st.mode)); });
+    [0, 1, 2].forEach(function (k) {
+      $("r" + k).value = st.w[k]; $("s" + k).checked = st.on[k];
+      setLever("slv" + k, st.on[k]); setLever("plv" + k, st.on[k], true);
+      document.querySelectorAll('.sw[data-k="' + k + '"]').forEach(function (g) { g.setAttribute("aria-checked", String(st.on[k])); });
+    });
+    var Rs = [R(0), R(1), R(2)];
+    if (ser) {
+      var closed = st.on.every(Boolean), RT = Rs[0] + Rs[1] + Rs[2], I = closed ? V / RT : 0;
+      var vs = Rs.map(function (r) { return I * r; });
+      [0, 1, 2].forEach(function (k) {
+        $("sL" + k).innerHTML = sub("R", k + 1) + " = " + f(Rs[k]) + " Ω</tspan>";
+        $("sV" + k).innerHTML = sub("V", k + 1) + " = " + f(vs[k]) + " V</tspan>";
+        $("sg" + k).setAttribute("opacity", Math.min(0.9, Math.pow(vs[k] / V, 2) * 0.9).toFixed(2));
+      });
+      $("sI").textContent = "I = " + Course.si(I, "A") + " everywhere in the loop";
+      Course.setFlow($("fSer"), I, 0.3);
+      $("rRT").textContent = f(RT) + " Ω"; $("rRTs").innerHTML = "R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub>";
+      $("rIT").textContent = Course.si(I, "A");
+      $("kLaw").textContent = "Kirchhoff's voltage law";
+      $("rLaw").innerHTML = closed ? f(vs[0]) + " + " + f(vs[1]) + " + " + f(vs[2]) + " = " + f(vs[0] + vs[1] + vs[2]) + " V" : "No current: loop broken";
+      $("rLaws").textContent = "The drops add up to the 230 V supply";
+      $("cap").textContent = closed
+        ? "The lamps share the 230 V, so each gets only part of it and glows dimly. The higher-resistance lamp (the lower wattage) takes the biggest share and glows brightest. Now open any one switch."
+        : "One switch is open, so the only path is broken and every lamp goes out, not just the one next to the switch. That's the big drawback of series wiring.";
+    } else {
+      var Is = Rs.map(function (r, k) { return st.on[k] ? V / r : 0; });
+      var IT = Is[0] + Is[1] + Is[2];
+      var inv = Rs.reduce(function (s, r, k) { return s + (st.on[k] ? 1 / r : 0); }, 0);
+      var RT2 = inv ? 1 / inv : Infinity;
+      [0, 1, 2].forEach(function (k) {
+        $("pL" + k).innerHTML = sub("R", k + 1) + " = " + f(Rs[k]) + " Ω</tspan>";
+        $("pV" + k).innerHTML = sub("V", k + 1) + " = " + (st.on[k] ? "230" : "0") + " V</tspan>";
+        $("pC" + k).innerHTML = sub("I", k + 1) + " = " + Course.si(Is[k], "A") + "</tspan>";
+        $("pg" + k).setAttribute("opacity", st.on[k] ? "0.9" : "0");
+        Course.setFlow($("fB" + k), Is[k], 0.3);
+      });
+      Course.setFlow($("fP0"), IT, 0.3); Course.setFlow($("fR0"), IT, 0.3);
+      Course.setFlow($("fP1"), Is[1] + Is[2], 0.3); Course.setFlow($("fR1"), Is[1] + Is[2], 0.3);
+      Course.setFlow($("fP2"), Is[2], 0.3); Course.setFlow($("fR2"), Is[2], 0.3);
+      $("pI").innerHTML = sub("I", "T") + " = " + Course.si(IT, "A") + "</tspan>";
+      $("rRT").textContent = isFinite(RT2) ? f(RT2) + " Ω" : "—";
+      $("rRTs").innerHTML = isFinite(RT2) ? "Lower than the smallest branch (" + f(Math.min.apply(null, Rs.filter(function (r, k) { return st.on[k]; }))) + " Ω)" : "No branches on";
+      $("rIT").textContent = Course.si(IT, "A");
+      $("kLaw").textContent = "Kirchhoff's current law";
+      $("rLaw").innerHTML = Course.si(Is[0], "A") + " + " + Course.si(Is[1], "A") + " + " + Course.si(Is[2], "A") + " = " + Course.si(IT, "A");
+      $("rLaws").textContent = "The branch currents add up to the supply current";
+      $("cap").textContent = "Each lamp gets the full 230 V and glows at its rated brightness. The branch currents meet at the junctions (black dots) and add up to the total. Switch any lamp off and the others carry on; the total current just drops.";
+    }
+  }
+
+  $("mode").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; st.mode = b.getAttribute("data-m"); render(); });
+  [0, 1, 2].forEach(function (k) {
+    $("r" + k).addEventListener("change", function (e) { st.w[k] = +e.target.value; render(); });
+    $("s" + k).addEventListener("change", function (e) { st.on[k] = e.target.checked; render(); });
+  });
+  document.querySelectorAll(".sw").forEach(function (g) {
+    function flip() { var k = +g.getAttribute("data-k"); st.on[k] = !st.on[k]; render(); }
+    g.addEventListener("click", flip);
+    g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
+  });
+  render();
+
+  // ---- practice ----
+  var RV = [2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 100];
+  Course.practice("#prac", function () {
+    var t = Course.pick(["s3", "p2", "p3", "sI"]);
+    var a = Course.pick(RV), b = Course.pick(RV), c = Course.pick(RV);
+    if (t === "s3") return { q: a + " Ω, " + b + " Ω and " + c + " Ω are connected in series. What is the total resistance?", answer: a + b + c, unit: "Ω", working: "R<sub>T</sub> = " + a + " + " + b + " + " + c + " = " + (a + b + c) + " Ω" };
+    if (t === "p2") { var r = a * b / (a + b); return { q: a + " Ω and " + b + " Ω are connected in parallel. What is the total resistance?", answer: r, unit: "Ω", working: "R<sub>T</sub> = " + Course.frac(a + " × " + b, a + " + " + b) + " = " + Course.frac(a * b, a + b) + " = " + f(r) + " Ω" }; }
+    if (t === "p3") { var r3 = 1 / (1 / a + 1 / b + 1 / c); return { q: a + " Ω, " + b + " Ω and " + c + " Ω are connected in parallel. What is the total resistance?", answer: r3, unit: "Ω", working: Course.frac("1", "R<sub>T</sub>") + " = " + Course.frac(1, a) + " + " + Course.frac(1, b) + " + " + Course.frac(1, c) + " = " + f(1 / a + 1 / b + 1 / c) + ", so R<sub>T</sub> = " + Course.frac(1, f(1 / a + 1 / b + 1 / c)) + " = " + f(r3) + " Ω" }; }
+    var v = Course.pick([12, 24, 48, 230]), rt = a + b, i = v / rt;
+    return { q: a + " Ω and " + b + " Ω are in series on a " + v + " V supply. What current flows?", answer: i, unit: "A", working: "R<sub>T</sub> = " + a + " + " + b + " = " + rt + " Ω, so I = " + Course.frac(v, rt) + " = " + f(i) + " A" };
+  });
+
+  Course.quiz("#quiz", [
+    { q: "Three resistors of 4 Ω, 6 Ω and 10 Ω are in series. What's the total resistance?",
+      options: ["20 Ω", "1.94 Ω", "6.7 Ω", "240 Ω"], answer: 0,
+      why: "In series, resistances add: 4 + 6 + 10 = 20 Ω." },
+    { q: "Which is true of every parallel circuit?",
+      options: ["The current is the same in every branch", "The total resistance is lower than the smallest branch resistance", "Each branch shares the supply voltage", "One open switch turns everything off"], answer: 1,
+      why: "Every branch is an extra path for current, so the total resistance always ends up below the smallest single branch." },
+    { q: "Two 10 Ω resistors are connected in parallel. What's the total resistance?",
+      options: ["20 Ω", "10 Ω", "5 Ω", "0.2 Ω"], answer: 2,
+      why: "Identical resistors in parallel: divide one by how many there are. " + Course.frac("10", "2") + " = 5 Ω." },
+    { q: "Currents of 2 A and 3 A flow into a junction. One wire leaves it. What current flows in that wire?",
+      options: ["1 A", "5 A", "6 A", "It depends on the voltage"], answer: 1,
+      why: "Kirchhoff's current law: what flows into a junction must flow out. 2 + 3 = 5 A." },
+    { q: "Three identical lamps are in series across 230 V. Roughly what voltage does each get?",
+      options: ["230 V", "About 77 V", "690 V", "0 V"], answer: 1,
+      why: "Kirchhoff's voltage law: the drops add up to the supply. Equal resistances get equal shares: " + Course.frac("230", "3") + " ≈ 77 V each." },
+    { q: "Why are the sockets and lights in a house wired in parallel?",
+      options: ["It uses less cable", "Each gets the full 230 V and can be switched on its own", "It makes the current the same everywhere", "Parallel circuits can't overload"], answer: 1,
+      why: "In parallel each load gets the full supply voltage, and switching one off doesn't affect the others." }
+  ]);
+})();
+</script>
+</body>
+</html>

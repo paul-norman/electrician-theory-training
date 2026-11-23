@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atoms and Free Electrons</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body data-lesson="atoms">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Electrical principles</span>
+    <h1>Atoms and free electrons</h1>
+    <p class="lead">Everything in this trade comes down to tiny charged particles moving through metal. Here's what's actually happening inside a copper wire.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Metals conduct because each atom gives up an outer electron to a shared "sea" of free electrons, which can move through a fixed lattice of positive ions. The electrons always move quickly at random. A voltage adds a slow drift in one direction, and that drift is the current. Insulators like <abbr title="polyvinyl chloride">PVC</abbr> have no free electrons, so no current flows. Heat makes the ions vibrate harder and get in the electrons' way, so a hot conductor has more resistance.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>A quick picture of an atom</h2>
+    <p>An atom has a small, heavy <strong>nucleus</strong> in the middle, made of <strong>protons</strong> (positive charge) and neutrons (no charge). Around it are much lighter <strong>electrons</strong> (negative charge).</p>
+    <p>A normal atom has the same number of protons and electrons, so the charges cancel out and the atom has no overall charge. Two rules about charge explain a lot of what follows:</p>
+    <ul>
+      <li>Opposite charges attract (+ pulls −).</li>
+      <li>Like charges repel (− pushes −).</li>
+    </ul>
+  </section>
+
+  <section class="prose">
+    <h2>Why metals conduct</h2>
+    <p>In a metal, the atoms pack together in a neat, repeating grid called a <strong>crystal lattice</strong>. Each atom lets go of its outermost electron (its <em>valence</em> electron). Those electrons aren't tied to any one atom. They form a shared "sea" that can wander through the whole piece of metal.</p>
+    <p>The atoms left behind are now short of an electron, so each is a positive <strong>ion</strong>. They stay fixed in the lattice. Only the electrons move.</p>
+    <p>Copper has one free electron per atom. That's about 85,000,000,000,000,000,000,000,000,000 free electrons in every cubic metre (8.5 × 10<sup>28</sup>). A wire is packed full of charge that's ready to move.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Inside a copper conductor</h3>
+    </div>
+    <div class="stage"><canvas id="lattice" height="300" aria-label="Animation of positive ions in a lattice with free electrons moving between them"></canvas></div>
+    <div class="controls">
+      <div class="ctl">
+        <span class="label" id="matL">Material</span>
+        <div class="seg" role="group" aria-labelledby="matL" id="mat">
+          <button type="button" data-v="cu" aria-pressed="true">Copper</button>
+          <button type="button" data-v="pvc" aria-pressed="false">PVC insulation</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label for="temp">Temperature</label>
+        <div class="slider"><input type="range" id="temp" min="0" max="100" value="15"><output id="tempOut" for="temp"></output></div>
+      </div>
+      <div class="ctl" style="flex: 0 1 auto">
+        <span class="label">&nbsp;</span>
+        <div class="seg">
+          <button type="button" id="batt" aria-pressed="false">Connect a battery</button>
+          <button type="button" id="pause">Pause</button>
+        </div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Battery</span><span class="v" id="rBatt">Off</span><span class="s" id="rBattS">No push on the electrons</span></div>
+      <div class="ro"><span class="k">Net electrons crossing the dashed line</span><span class="v" id="rNet">0</span><span class="s" id="rNetS">Random motion cancels out</span></div>
+    </div>
+    <p class="caption" id="cap">The orange circles are copper ions, fixed in the lattice. The blue dots are free electrons, darting about at random. With no battery, as many cross the dashed line one way as the other, so there's no overall flow. Connect the battery and watch the count.</p>
+  </section>
+
+  <section class="prose">
+    <h2>What the animation shows</h2>
+    <ul>
+      <li><strong>No battery:</strong> electrons move fast but randomly. No overall flow means no current.</li>
+      <li><strong>Battery connected:</strong> the + terminal attracts electrons and the − terminal repels them. Each electron gets a small extra push to the left, on top of its random motion. That slow overall drift is the current.</li>
+      <li><strong>Hotter:</strong> the ions vibrate harder, and electrons bump into them more often. Each bump wastes some of the push, so fewer get through. <strong>Hot metal has more resistance.</strong> You'll meet this again when testing circuits: a cable's resistance at its working temperature (around 70 °C) is about 20% higher than when it's cold.</li>
+      <li><strong>PVC:</strong> each electron stays tied to its own atom. The battery can nudge them slightly, but they can't travel. No free electrons means no current: an <strong>insulator</strong>.</li>
+    </ul>
+  </section>
+
+  <section class="prose">
+    <h2>Conductors and insulators</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Conductors (free charges)</th><th>Insulators (no free charges)</th></tr></thead>
+        <tbody>
+          <tr><td>Copper: most cables</td><td>PVC: cable insulation and sheaths</td></tr>
+          <tr><td>Aluminium: large supply cables</td><td>Rubber: gloves, mats, old cables</td></tr>
+          <tr><td>Steel: conduit, trunking, cable armour</td><td>Glass and ceramics: insulators on overhead lines</td></tr>
+          <tr><td>Brass: terminals, plug pins</td><td>Dry wood, dry air</td></tr>
+          <tr><td>Water with impurities, the human body</td><td>Thermosetting plastics: accessory faceplates</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Nothing is a perfect insulator. Push the voltage high enough and even air breaks down: that's a spark, or lightning. That's why insulation is tested with high voltages (hundreds of volts) during inspection and testing.</p>
+  </section>
+
+  <section class="callout info">
+    <h3>Surprisingly slow</h3>
+    <p>With 1 A flowing in a 1.5 mm² cable, the electrons drift at about <strong>0.05 mm per second</strong>. That's slower than a snail. So why does the light come on instantly? The wire is already full of electrons. Push at one end and every electron along the wire starts moving at once, like a tube packed full of marbles.</p>
+  </section>
+
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var cv = document.getElementById("lattice"), ctx = cv.getContext("2d");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var st = { mat: "cu", temp: 0.15, batt: false, running: !reduce, net: 0 };
+  var W = 0, H = 300, ions = [], els = [], t = 0;
+
+  function build() {
+    var dpr = window.devicePixelRatio || 1;
+    W = cv.parentElement.clientWidth; H = 300;
+    cv.width = W * dpr; cv.height = H * dpr; cv.style.height = H + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var s = 50, cols = Math.max(4, Math.floor((W - 60) / s)), rows = Math.floor((H - 30) / s);
+    var ox = (W - (cols - 1) * s) / 2, oy = (H - (rows - 1) * s) / 2;
+    ions = []; els = [];
+    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+      ions.push({ x: ox + c * s, y: oy + r * s, p1: Math.random() * 6.28, p2: Math.random() * 6.28, f: 0.25 + Math.random() * 0.15 });
+    }
+    ions.forEach(function (ion, i) {
+      var a = Math.random() * 6.28;
+      els.push({ x: Math.random() * W, y: 10 + Math.random() * (H - 20), vx: Math.cos(a) * 1.8, vy: Math.sin(a) * 1.8, home: i, ang: Math.random() * 6.28 });
+    });
+    st.net = 0;
+  }
+
+  function step() {
+    t++;
+    var mid = W / 2, pColl = 0.02 + st.temp * 0.1, acc = 0.012;
+    els.forEach(function (e) {
+      if (st.mat === "pvc") { e.ang += 0.06 + st.temp * 0.06; return; }
+      var px = e.x;
+      if (Math.random() < pColl) { var a = Math.random() * 6.28; e.vx = Math.cos(a) * 1.8; e.vy = Math.sin(a) * 1.8; }
+      if (st.batt) e.vx -= acc;
+      e.x += e.vx; e.y += e.vy;
+      if (e.y < 6) { e.y = 6; e.vy = Math.abs(e.vy); }
+      if (e.y > H - 6) { e.y = H - 6; e.vy = -Math.abs(e.vy); }
+      if (e.x < 0) e.x += W; else if (e.x > W) e.x -= W;
+      else {
+        if (px >= mid && e.x < mid) st.net++;
+        else if (px < mid && e.x >= mid) st.net--;
+      }
+    });
+  }
+
+  function draw() {
+    var cIon = Course.cssVar("--line"), cEl = Course.cssVar("--neutral"), cBg = Course.cssVar("--surface-2"),
+        cFg = Course.cssVar("--fg"), cMuted = Course.cssVar("--muted"), cSurf = Course.cssVar("--surface");
+    ctx.fillStyle = cBg; ctx.fillRect(0, 0, W, H);
+    // terminals
+    if (st.batt) {
+      ctx.fillStyle = cFg; ctx.globalAlpha = 0.12; ctx.fillRect(0, 0, 18, H); ctx.fillRect(W - 18, 0, 18, H); ctx.globalAlpha = 1;
+      ctx.fillStyle = cFg; ctx.font = "600 18px IBM Plex Mono, monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText("+", 9, H / 2); ctx.fillText("−", W - 9, H / 2);
+    }
+    // midline
+    ctx.strokeStyle = cMuted; ctx.setLineDash([4, 6]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H); ctx.stroke(); ctx.setLineDash([]);
+    // ions
+    var amp = 1 + st.temp * 7;
+    ions.forEach(function (ion) {
+      var x = ion.x + amp * Math.sin(ion.p1 + t * ion.f), y = ion.y + amp * Math.cos(ion.p2 + t * ion.f * 1.1);
+      ion.cx = x; ion.cy = y;
+      ctx.beginPath(); ctx.arc(x, y, 12, 0, 6.283);
+      ctx.fillStyle = st.mat === "cu" ? cIon : cMuted; ctx.globalAlpha = st.mat === "cu" ? 0.85 : 0.5; ctx.fill(); ctx.globalAlpha = 1;
+      if (st.mat === "cu") { ctx.fillStyle = cSurf; ctx.font = "600 14px IBM Plex Mono, monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText("+", x, y + 1); }
+    });
+    // electrons
+    ctx.fillStyle = cEl;
+    els.forEach(function (e) {
+      var x = e.x, y = e.y;
+      if (st.mat === "pvc") {
+        var ion = ions[e.home]; var shift = st.batt ? -3 : 0;
+        x = (ion.cx || ion.x) + Math.cos(e.ang) * 16 + shift; y = (ion.cy || ion.y) + Math.sin(e.ang) * 16;
+      }
+      ctx.beginPath(); ctx.arc(x, y, 3.6, 0, 6.283); ctx.fill();
+    });
+  }
+
+  function readouts() {
+    document.getElementById("rBatt").textContent = st.batt ? "On" : "Off";
+    document.getElementById("rBattS").textContent = st.batt ? "+ on the left pulls electrons left" : "No push on the electrons";
+    var n = st.net;
+    document.getElementById("rNet").textContent = (n > 0 ? "+" : "") + n;
+    var s;
+    if (st.mat === "pvc") s = st.batt ? "Electrons are bound: nothing crosses" : "Electrons stay with their own atoms";
+    else if (!st.batt) s = "Random motion cancels out";
+    else s = "Steady drift to the left: that's current";
+    document.getElementById("rNetS").textContent = s;
+    var tv = st.temp; document.getElementById("tempOut").textContent = tv < 0.33 ? "Cool" : tv < 0.66 ? "Warm" : "Hot";
+  }
+
+  function loop() {
+    if (st.running) { step(); }
+    draw();
+    if (t % 6 === 0 || !st.running) readouts();
+    if (st.running) requestAnimationFrame(loop);
+  }
+
+  function restart() { if (st.running) requestAnimationFrame(loop); else { draw(); readouts(); } }
+
+  document.getElementById("mat").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    st.mat = b.getAttribute("data-v"); st.net = 0;
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    if (!st.running) { draw(); readouts(); }
+  });
+  document.getElementById("temp").addEventListener("input", function (e) { st.temp = e.target.value / 100; if (!st.running) { draw(); readouts(); } });
+  document.getElementById("batt").addEventListener("click", function () {
+    st.batt = !st.batt; st.net = 0;
+    this.setAttribute("aria-pressed", String(st.batt));
+    this.textContent = st.batt ? "Disconnect the battery" : "Connect a battery";
+    if (!st.running) { draw(); readouts(); }
+  });
+  var pauseBtn = document.getElementById("pause");
+  function setPauseLabel() { pauseBtn.textContent = st.running ? "Pause" : "Play"; }
+  pauseBtn.addEventListener("click", function () { st.running = !st.running; setPauseLabel(); restart(); });
+  var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { build(); if (!st.running) draw(); }, 150); });
+
+  build(); setPauseLabel(); readouts(); draw(); if (st.running) requestAnimationFrame(loop);
+
+  Course.quiz("#quiz", [
+    { q: "What makes copper a good conductor?",
+      options: ["Its nuclei can move through the wire", "It has free electrons that can move through the lattice", "It contains no electrons at all", "It's magnetic"],
+      answer: 1, why: "Each copper atom gives up an electron to a shared sea of free electrons. Those can move, so charge can flow. The ions stay put." },
+    { q: "You connect a battery across a copper wire. What do the free electrons do?",
+      options: ["All race along at close to the speed of light", "Stop moving", "Keep moving randomly, with a slow drift towards the + terminal", "Drift towards the − terminal"],
+      answer: 2, why: "The random motion carries on. The battery adds a slow drift towards + (opposite charges attract). That drift is the current." },
+    { q: "Why is PVC used to insulate cables?",
+      options: ["Its electrons are bound to their atoms, so it has no free charges", "It has lots of free electrons", "It absorbs current", "It's cheaper than copper"],
+      answer: 0, why: "With no free charges, current can't flow through it (at normal voltages)." },
+    { q: "A copper conductor heats up. What happens to its resistance?",
+      options: ["It falls", "It stays the same", "It rises"],
+      answer: 2, why: "The ions vibrate harder, so electrons collide with them more often. That's why test results are adjusted for the cable's working temperature." }
+  ]);
+})();
+</script>
+</body>
+</html>

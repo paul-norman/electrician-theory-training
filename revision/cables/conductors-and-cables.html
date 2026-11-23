@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conductors and Cables</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .sheath { fill: #c9cdd1; stroke: var(--muted); stroke-width: 1.5; }
+  .ins-l { fill: var(--line); }
+  .ins-n { fill: var(--neutral); }
+  .cu { fill: #c8794a; stroke: #8a4d2b; stroke-width: 1; }
+  .leader { stroke: var(--muted); stroke-width: 1.2; fill: none; }
+</style>
+</head>
+<body data-lesson="conductors">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Cables</span>
+    <h1>Conductors and cables</h1>
+    <p class="lead">What a cable is made of, why it's almost always copper, how cable sizes are measured, and why bigger loads need bigger cables.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>A cable is conductors, insulation and an outer sheath. The best conductors are silver, then copper, gold and aluminium; copper is used for almost all wiring because it conducts nearly as well as silver at a fraction of the price. A conductor's resistance is R = <span class="frac"><span>ρ × L</span><span>A</span></span>: it rises with length and falls with cross-sectional area. Cable sizes are that area (<abbr title="cross-sectional area">CSA</abbr>) in mm², not a diameter: "2.5 mm²" cable has conductors about 1.8 mm across. Twin and earth has brown and blue insulated cores and a bare copper <abbr title="circuit protective conductor">CPC</abbr>, which must be sleeved green and yellow wherever it's exposed. Current heats a conductor (P = I²R); general-purpose <abbr title="polyvinyl chloride">PVC</abbr> insulation is rated for conductors up to 70 °C. So a bigger load needs a bigger CSA, and how much current a cable can safely carry also depends on how easily its heat can escape.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>What's in a cable</h2>
+    <p>Every cable has the same three layers:</p>
+    <ul>
+      <li><strong>Conductors</strong> carry the current. Usually copper.</li>
+      <li><strong>Insulation</strong> around each conductor stops current leaking between them or to anything else. It's colour coded so you can tell the conductors apart.</li>
+      <li><strong>The sheath</strong> wraps everything and protects the insulation from knocks, abrasion and dirt.</li>
+    </ul>
+    <p>The everyday cable for house wiring is <strong>flat twin and earth</strong> (often just "T&amp;E"). It has a brown line core, a blue neutral core and, between them, a <strong>bare</strong> copper conductor used as the circuit protective conductor (CPC). Because that CPC has no insulation inside the cable, you must slide <strong>green-and-yellow sleeving</strong> over it wherever it's exposed, at every accessory and junction.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Explore</span>
+      <h3 id="w1">Inside flat twin and earth</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 720 260" class="wide" role="img" aria-labelledby="w1d">
+        <title id="w1d">Cross-section of flat twin and earth cable: a grey oval sheath containing a brown insulated line core, a bare copper protective conductor in the middle, and a blue insulated neutral core.</title>
+        <g id="cable"></g>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex-basis:100%">
+        <span class="label" id="szL">Cable size</span>
+        <div class="seg" role="group" aria-labelledby="szL" id="sz"></div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Line and neutral</span><span class="v" id="tLN">—</span><span class="s" id="tLNs"></span></div>
+      <div class="ro"><span class="k">CPC</span><span class="v" id="tCPC">—</span><span class="s">Smaller than the line and neutral</span></div>
+      <div class="ro"><span class="k">Often used for</span><span class="v" id="tUse" style="font-size:1rem">—</span><span class="s">Actual size is always worked out per circuit</span></div>
+    </div>
+    <p class="caption">Drawn roughly to scale, so you can see how the conductors grow with size. The CPC is smaller than the line and neutral because it only carries current briefly, during a fault. The 1.0 and 1.5 mm² sizes have the same 1.0 mm² CPC.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Cable sizes are areas, not diameters</h2>
+    <p>Cables are sized by the <strong>cross-sectional area</strong> (CSA) of each conductor, in square millimetres: the area of the copper face you'd see if you cut straight through it. "6 mm² cable" doesn't mean 6 mm across; a solid 6 mm² conductor is only about 2.8 mm across.</p>
+    <p>To get the diameter from the area: <span class="mono">d = 2 × √<span class="frac"><span>A</span><span>π</span></span></span>. Doubling the area only makes the conductor about 1.4 times wider.</p>
+    <p>Common sizes are 1.0, 1.5, 2.5, 4, 6, 10 and 16 mm². <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> sets 1.0 mm² copper as the smallest for the fixed wiring of power and lighting circuits.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Choosing the conductor metal</h2>
+    <p>A material's <strong>resistivity</strong> (ρ, the Greek letter rho) says how strongly it resists current, regardless of the conductor's shape. Lower is better.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metal</th><th>Resistivity at 20 °C</th><th>Compared with copper</th><th>Where you'll find it</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Silver</strong></td><td class="mono">1.59 × 10<sup>−8</sup> Ω·m</td><td>About 6% better</td><td>Switch and relay contacts. Too expensive for cable.</td></tr>
+          <tr><td><strong>Copper</strong></td><td class="mono">1.72 × 10<sup>−8</sup> Ω·m</td><td>—</td><td>Almost all wiring: conducts nearly as well as silver, flexible, easy to terminate, affordable.</td></tr>
+          <tr><td><strong>Gold</strong></td><td class="mono">2.44 × 10<sup>−8</sup> Ω·m</td><td>About 40% worse</td><td>A thin plating on connector contacts. It doesn't corrode, so the contact surface stays clean.</td></tr>
+          <tr><td><strong>Aluminium</strong></td><td class="mono">2.82 × 10<sup>−8</sup> Ω·m</td><td>About 64% worse</td><td>Overhead lines and large supply cables, where its lightness and low cost matter. Needs a bigger CSA for the same resistance.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Gold is used on contacts not because it conducts best, but because it doesn't corrode. Copper and silver gradually form surface layers (oxide on copper, tarnish on silver) that add resistance where two surfaces touch.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Resistance of a conductor</h2>
+    <p>Resistance goes up with length and down with area. With the resistivity of the metal, that gives:</p>
+    <p><span class="formula">R = <span class="frac"><span>ρ × L</span><span>A</span></span></span></p>
+    <p>Here L is the length in metres and A the area in m² (1 mm² = 10<sup>−6</sup> m²). Double the length and the resistance doubles; double the area and it halves.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">Conductor resistance calculator</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label" id="mtL">Metal</span>
+        <div class="seg" role="group" aria-labelledby="mtL" id="mt">
+          <button type="button" data-m="silver" aria-pressed="false">Silver</button>
+          <button type="button" data-m="copper" aria-pressed="true">Copper</button>
+          <button type="button" data-m="gold" aria-pressed="false">Gold</button>
+          <button type="button" data-m="aluminium" aria-pressed="false">Aluminium</button>
+        </div>
+      </div>
+      <div class="ctl" style="flex:0 1 auto">
+        <span class="label" id="caL">Cross-sectional area</span>
+        <div class="seg" role="group" aria-labelledby="caL" id="ca"></div>
+      </div>
+      <div class="ctl">
+        <label for="len">Length of conductor</label>
+        <div class="slider"><input type="range" id="len" min="1" max="100" step="1" value="20"><output id="lenOut" for="len"></output></div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Resistance</span><span class="v" id="rR">—</span><span class="s" id="rRs"></span></div>
+      <div class="ro"><span class="k">Per metre</span><span class="v" id="rM">—</span><span class="s">Milliohms per metre</span></div>
+      <div class="ro"><span class="k">Heat in it at 20 A</span><span class="v" id="rP">—</span><span class="s">P = I² × R</span></div>
+    </div>
+    <p class="caption" id="cCap"></p>
+  </section>
+
+  <section class="prose">
+    <h2>Insulation and heat</h2>
+    <p>Current through a conductor's resistance makes heat (P = I² × R, see <a href="../principles/power.html">Power</a>). The heat has to escape through the insulation and sheath into the surroundings. If it can't escape fast enough, the conductor gets hotter and hotter.</p>
+    <p>The insulation sets the limit. General-purpose <strong>PVC</strong> (a thermoplastic, meaning it softens when heated) is rated for a conductor temperature of up to <strong>70 °C</strong>. Above that it starts to soften and age quickly, and the cable can eventually fail or catch fire. Cables with <strong>thermosetting</strong> insulation, such as XLPE, can run at up to 90 °C.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Why bigger loads need bigger cables</h2>
+    <p>A bigger load draws more current (I = <span class="frac"><span>P</span><span>V</span></span>, and V is fixed at 230 V). More current means more heat in the cable, and because heat grows with I², it grows fast. The answer is a bigger CSA: lower resistance means less heat for the same current, and a larger cable also has more surface to lose heat from.</p>
+    <p>How much current a cable can carry safely isn't fixed by its size alone. It also depends on how easily the heat gets away: a cable clipped to a wall in open air can carry more than the same cable buried in loft insulation or bundled with others. Thicker insulation doesn't help; insulation traps heat. Long runs also matter, because more resistance means more voltage lost along the way. Working all this out is cable sizing, which comes later in the course.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var f = function (x, s) { return Course.sig(x, s || 3); };
+
+  // ---- Twin and earth cross-section ----
+  // size: [CPC size, insulation thickness mm, sheath thickness mm, typical use] (approximate, for illustration)
+  var TE = {
+    "1.0": [1.0, 0.6, 0.9, "Lighting"],
+    "1.5": [1.0, 0.7, 0.9, "Lighting, some small radials"],
+    "2.5": [1.5, 0.8, 1.0, "Socket circuits"],
+    "4.0": [1.5, 0.8, 1.1, "Larger socket radials, immersion heaters"],
+    "6.0": [2.5, 0.8, 1.1, "Cookers, smaller showers"],
+    "10": [4.0, 1.0, 1.2, "Electric showers, EV chargers"]
+  };
+  var K = 13; // px per mm
+  var dia = function (a) { return 2 * Math.sqrt(a / Math.PI); };
+  var cur = "2.5";
+  // Explicit order: object keys like "10" would otherwise sort before "1.0"
+  ["1.0", "1.5", "2.5", "4.0", "6.0", "10"].forEach(function (k) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = k + " mm²"; b.setAttribute("data-s", k);
+    b.addEventListener("click", function () { cur = k; drawCable(); });
+    $("sz").appendChild(b);
+  });
+  function drawCable() {
+    var t = TE[cur], a = parseFloat(cur), dc = dia(a) * K, ins = t[1] * K, dcp = dia(t[0]) * K, sh = t[2] * K;
+    var core = dc / 2 + ins, gap = 0.4 * K;
+    var cy = 130, cx = 200;
+    var xL = cx - (core + gap + dcp / 2), xN = cx + (core + gap + dcp / 2);
+    var h = 2 * core + 2 * sh, w = (xN + core + sh) - (xL - core - sh);
+    var x0 = xL - core - sh;
+    var g = '<rect class="sheath" x="' + x0 + '" y="' + (cy - h / 2) + '" width="' + w + '" height="' + h + '" rx="' + (h / 2) + '"/>' +
+      '<circle class="ins-l" cx="' + xL + '" cy="' + cy + '" r="' + core + '"/><circle class="cu" cx="' + xL + '" cy="' + cy + '" r="' + (dc / 2) + '"/>' +
+      '<circle class="ins-n" cx="' + xN + '" cy="' + cy + '" r="' + core + '"/><circle class="cu" cx="' + xN + '" cy="' + cy + '" r="' + (dc / 2) + '"/>' +
+      '<circle class="cu" cx="' + cx + '" cy="' + cy + '" r="' + (dcp / 2) + '"/>';
+    // leaders and labels on the right
+    var lx = 420;
+    var labels = [
+      [xL, cy - core * 0.6, 40, "Line: brown insulation"],
+      [cx, cy + dcp / 2, 104, "CPC: bare copper (sleeve it green/yellow)"],
+      [xN, cy - core * 0.6, 72, "Neutral: blue insulation"],
+      [x0 + w - sh * 0.5, cy + h / 2 - 4, 168, "Sheath: grey PVC"],
+      [xL, cy, 200, "Copper conductor, " + cur + " mm²"]
+    ];
+    labels.forEach(function (l) {
+      g += '<path class="leader" d="M' + l[0].toFixed(1) + "," + l[1].toFixed(1) + " L" + (lx - 14) + "," + l[2] + " H" + (lx - 4) + '"/>' +
+        '<circle cx="' + l[0].toFixed(1) + '" cy="' + l[1].toFixed(1) + '" r="2.5" fill="var(--fg)"/>' +
+        '<text x="' + lx + '" y="' + (l[2] + 4) + '">' + l[3] + "</text>";
+    });
+    g += '<text x="' + cx + '" y="' + (cy + h / 2 + 30) + '" text-anchor="middle" class="small">About ' + f(w / K, 2) + " × " + f(h / K, 2) + " mm overall</text>";
+    $("cable").innerHTML = g;
+    document.querySelectorAll("#sz button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-s") === cur)); });
+    $("tLN").textContent = cur + " mm²";
+    $("tLNs").textContent = "About " + f(dia(a), 2) + " mm across, if solid";
+    $("tCPC").textContent = f(t[0], 2) + " mm²";
+    $("tUse").textContent = t[3];
+  }
+  drawCable();
+
+  // ---- Resistance calculator ----
+  var RHO = { silver: 1.59e-8, copper: 1.72e-8, gold: 2.44e-8, aluminium: 2.82e-8 };
+  var AREAS = [1.0, 1.5, 2.5, 4, 6, 10, 16];
+  var rc = { m: "copper", a: 2.5, l: 20 };
+  AREAS.forEach(function (a) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = a + " mm²"; b.setAttribute("data-a", a);
+    b.addEventListener("click", function () { rc.a = a; calc(); });
+    $("ca").appendChild(b);
+  });
+  $("mt").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; rc.m = b.getAttribute("data-m"); calc(); });
+  $("len").addEventListener("input", function (e) { rc.l = +e.target.value; calc(); });
+  function calc() {
+    var R = RHO[rc.m] * rc.l / (rc.a * 1e-6);
+    document.querySelectorAll("#mt button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === rc.m)); });
+    document.querySelectorAll("#ca button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.getAttribute("data-a") === rc.a)); });
+    $("lenOut").textContent = rc.l + " m";
+    $("rR").textContent = Course.si(R, "Ω");
+    $("rRs").innerHTML = Course.frac(RHO[rc.m].toExponential(2).replace("e-8", " × 10<sup>−8</sup>") + " × " + rc.l, rc.a + " × 10<sup>−6</sup>");
+    $("rM").textContent = f(R / rc.l * 1000) + " mΩ/m";
+    $("rP").textContent = f(400 * R) + " W";
+    var cap = "";
+    if (rc.m === "aluminium") cap = "Aluminium has about 1.6 times the resistance of copper, so it needs roughly 1.6 times the area for the same resistance. ";
+    else if (rc.m === "silver") cap = "Silver beats copper by only about 6%, nowhere near enough to justify the cost for cables. ";
+    else if (rc.m === "gold") cap = "Gold is a worse conductor than copper. It's used as a thin plating for its corrosion resistance, not its conductivity. ";
+    cap += "Try doubling the length (the resistance doubles), then doubling the area (it halves). Published cable data, such as in the On-Site Guide, gives slightly higher figures than this simple formula, because real conductors are stranded and allowances are built in.";
+    $("cCap").textContent = cap;
+  }
+  calc();
+
+  Course.quiz("#quiz", [
+    { q: "What does \"2.5 mm²\" describe on a cable?",
+      options: ["The diameter of each conductor", "The cross-sectional area of each conductor", "The thickness of the insulation", "The overall width of the cable"], answer: 1,
+      why: "Cable sizes are cross-sectional areas. A solid 2.5 mm² conductor is only about 1.8 mm across." },
+    { q: "Put these in order, best conductor first.",
+      options: ["Copper, silver, aluminium, gold", "Silver, copper, gold, aluminium", "Gold, silver, copper, aluminium", "Aluminium, copper, gold, silver"], answer: 1,
+      why: "Silver has the lowest resistivity, then copper, gold and aluminium." },
+    { q: "Why are connector contacts often gold-plated?",
+      options: ["Gold is the best conductor", "Gold doesn't corrode, so the contact surface stays low-resistance", "Gold is cheaper than copper", "Gold insulates the contact"], answer: 1,
+      why: "Copper and silver form surface layers over time. Gold stays clean, keeping the contact resistance low." },
+    { q: "A conductor is replaced with one twice as long and twice the cross-sectional area. Its resistance:",
+      options: ["Doubles", "Halves", "Stays the same", "Goes up four times"], answer: 2,
+      why: "R = " + Course.frac("ρ × L", "A") + ". Doubling L doubles R; doubling A halves it. The two cancel out." },
+    { q: "What's special about the CPC in flat twin and earth cable?",
+      options: ["It's insulated in green and yellow", "It's bare, so it must be sleeved green and yellow where exposed", "It's the same size as the line conductor", "It carries the neutral current"], answer: 1,
+      why: "The CPC is bare copper inside the sheath. Wherever it's exposed, at accessories and joints, it must be sleeved green and yellow." },
+    { q: "What's the maximum conductor temperature for general-purpose PVC-insulated cable?",
+      options: ["30 °C", "50 °C", "70 °C", "160 °C"], answer: 2,
+      why: "General-purpose PVC (thermoplastic) is rated for 70 °C. Thermosetting insulation such as XLPE allows 90 °C." },
+    { q: "A cable runs through thick loft insulation instead of in open air. What happens to the current it can safely carry?",
+      options: ["It goes up", "It goes down, because the heat can't escape as easily", "It stays the same", "It doesn't matter for PVC cables"], answer: 1,
+      why: "Heat that can't escape makes the conductor hotter for the same current, so the safe current is lower." }
+  ]);
+})();
+</script>
+</body>
+</html>

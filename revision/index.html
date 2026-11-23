@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electrical Theory Revision</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Revision notes · Level 3 electrical course</span>
+    <h1>Electrical Theory Revision</h1>
+    <p class="lead">Short lessons on the theory behind the course, grouped by topic. Each one explains the idea in plain English, gives you a diagram to play with, and ends with a quick quiz. Your quiz scores are saved in this browser.</p>
+  </header>
+
+  <section class="callout info" id="srsBox">
+    <h3>Flashcards</h3>
+    <p id="srsMsg">Daily typed-answer flashcards for the key facts in these lessons.</p>
+    <div><a class="btn primary" href="review/" style="text-decoration:none;display:inline-block">Open flashcards</a></div>
+  </section>
+
+  <div id="videos" class="prose"></div>
+
+  <section class="callout info">
+    <h3>Extra: the earth fault loop</h3>
+    <p>A bigger interactive diagram for later in the course: how fault current flows on <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr>, <abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr> and <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> systems, and whether the breaker trips in time. <a href="../earth-fault-loop.html">Open the earth fault loop explorer</a>.</p>
+  </section>
+
+  <p class="caption">Written from personal course notes and checked against standard UK references. If something looks wrong, ask your tutor and let me know. These notes are a revision aid, not a substitute for <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> or your course materials.</p>
+</main>
+<script src="assets/course.js"></script>
+<script src="assets/cards.js"></script>
+<script src="assets/srs.js"></script>
+<script>
+(function () {
+  var host = document.getElementById("videos");
+  Course.MODULES.forEach(function (v, mi) {
+    var done = v.lessons.filter(function (l) { return Course.score(l.id); }).length;
+    var html = '<section style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h2>' + (mi + 1) + ". " + v.title + '</h2><span class="muted" style="font-size:0.9rem">' + done + " of " + v.lessons.length + " quizzes done</span></div>" + (v.desc ? '<p class="muted">' + v.desc + "</p>" : "") + "<ol class=\"lessons\">";
+    v.lessons.forEach(function (l, i) {
+      var s = Course.score(l.id);
+      html += '<li><a href="' + v.dir + "/" + l.file + '"><span class="n">' + (i + 1) + '</span><span><span class="t">' + l.title + '</span><span class="d">' + l.desc + "</span></span>" +
+        '<span class="status' + (s ? " done" : "") + '">' + (s ? "Quiz " + s.correct + "/" + s.total : "Not started") + "</span></a></li>";
+    });
+    host.insertAdjacentHTML("beforeend", html + "</ol></section>");
+  });
+  var c = SRS.counts(SRS.load(), window.CARDS || []);
+  document.getElementById("srsMsg").textContent = c.due + c.newToday
+    ? "Today: " + c.due + " card" + (c.due === 1 ? "" : "s") + " due for review and " + c.newToday + " new. A few minutes a day is enough."
+    : "Nothing due today. Come back tomorrow, or add more topics.";
+})();
+</script>
+</body>
+</html>
