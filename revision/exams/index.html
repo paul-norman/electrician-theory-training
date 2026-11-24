@@ -15,7 +15,7 @@
   .exam-card .book { font-size: 0.9rem; }
   .exam-card .foot { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; justify-content: space-between; margin-top: auto; }
   .exam-card .when { font-weight: 600; font-size: 0.9rem; }
-  .exam-card .mock { font-size: 0.85rem; }
+  .exam-card .mock { font-size: 0.85rem; display: inline-flex; gap: 10px; align-items: center; }
 </style>
 </head>
 <body data-root="../">
@@ -63,7 +63,7 @@
       '<span class="meta">' + ex.questions + " questions · " + ex.minutes + " minutes</span>" +
       '<span class="book">Book: ' + ex.book + "</span>" +
       '<div class="foot"><span class="when">' + (d ? new Date(d + "T00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + ", " + EXAMS.countdown(d) : '<span class="muted" style="font-weight:400">No date set</span>') + "</span>" +
-      '<span class="mock">' + (ex.bank ? (best ? "Best mock: " + Math.round(100 * best.score / best.total) + "%" : '<a href="' + ex.file + '#mock">Mock exam ready</a>') : '<span class="muted">Mock coming</span>') + "</span></div></article>";
+      '<span class="mock">' + (ex.bank ? (best ? '<span class="muted">Best: ' + Math.round(100 * best.score / best.total) + "%</span> " : "") + '<a class="btn" href="' + ex.file + '#mock">Mock exam</a>' : '<span class="muted">Mock coming</span>') + "</span></div></article>";
   }).join("");
 })();
 </script>

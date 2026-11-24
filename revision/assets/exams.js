@@ -19,7 +19,7 @@
     {
       id: "bs7671", file: "bs-7671.html", title: "18th Edition (BS 7671)", day: "Monday",
       qual: "EAL Level 3 Award in the Requirements for Electrical Installations BS 7671:2018", code: "",
-      questions: 60, minutes: 120, book: "BS 7671:2018+A4:2026 (the orange book)", bank: null,
+      questions: 60, minutes: 120, book: "BS 7671:2018+A4:2026 (the orange book)", bank: "BANK_BS7671",
       covers: ["Part 1 scope and fundamental principles, and Part 2 definitions", "Part 3 assessment of general characteristics",
         "Part 4 protection for safety: shock, thermal effects, overcurrent, voltage disturbances", "Part 5 selection and erection: wiring systems, devices, earthing and bonding",
         "Part 6 inspection and testing, Part 7 special locations, Part 8 functional requirements", "The appendices: tables, time/current curves, model forms"],
@@ -42,7 +42,7 @@
     {
       id: "pat", file: "in-service-inspection-and-testing.html", title: "In-service Inspection and Testing (PAT)", day: "Tuesday",
       qual: "EAL Level 3 Award in the In-Service Inspection and Testing of Electrical Equipment", code: "",
-      questions: 40, minutes: 80, book: "IET Code of Practice for In-service Inspection and Testing of Electrical Equipment (5th edition)", bank: null,
+      questions: 40, minutes: 80, book: "IET Code of Practice for In-service Inspection and Testing of Electrical Equipment (5th edition)", bank: "BANK_PAT",
       covers: ["The law: EAWR, PUWER, the Management Regulations", "Equipment types and classes", "User checks, formal visual inspection and combined inspection and test",
         "Test methods and limits", "Test instruments", "Records and labels"],
       lessons: [["../pat/in-service-testing.html", "In-service inspection and testing"]],
@@ -53,7 +53,7 @@
     {
       id: "periodic", file: "periodic-inspection-and-testing.html", title: "Periodic Inspection and Testing", day: "Wednesday",
       qual: "EAL Level 3 Award in the Periodic Inspection, Testing and Certification of Electrical Installations", code: "QCR3001",
-      questions: 35, minutes: 60, book: "IET Guidance Note 3: Inspection & Testing", bank: null,
+      questions: 35, minutes: 60, book: "IET Guidance Note 3: Inspection & Testing", bank: "BANK_PERIODIC",
       covers: ["The purpose of periodic inspection, and agreeing the extent and limitations", "Sampling and frequency of inspection",
         "Coding observations: C1, C2, C3 and FI", "Completing an Electrical Installation Condition Report", "Testing an existing installation safely"],
       lessons: [["../testing/inspection-and-certification.html", "Inspection and certification"], ["../testing/live-tests.html", "Live tests"]],
@@ -64,7 +64,7 @@
     {
       id: "initial", file: "initial-verification.html", title: "Initial Verification", day: "Wednesday",
       qual: "EAL Level 3 Award in the Initial Verification and Certification of Electrical Installations", code: "QIT3001",
-      questions: 50, minutes: 90, book: "IET Guidance Note 3: Inspection & Testing", bank: null,
+      questions: 50, minutes: 90, book: "IET Guidance Note 3: Inspection & Testing", bank: "BANK_INITIAL",
       covers: ["Responsibilities, competence and safety", "Inspection before energising", "The full sequence of tests, including three-phase and TT systems",
         "Interpreting results against BS 7671 limits", "Electrical Installation Certificates and their schedules"],
       lessons: [["../testing/inspection-and-certification.html", "Inspection and certification"], ["../testing/dead-tests.html", "Dead tests"], ["../testing/live-tests.html", "Live tests"]],
