@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exams</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .exam-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .exam-card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .exam-card h3 a { color: var(--fg); text-decoration: none; }
+  .exam-card h3 a:hover { text-decoration: underline; }
+  .exam-card .meta { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); }
+  .exam-card .book { font-size: 0.9rem; }
+  .exam-card .foot { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; justify-content: space-between; margin-top: auto; }
+  .exam-card .when { font-weight: 600; font-size: 0.9rem; }
+  .exam-card .mock { font-size: 0.85rem; }
+</style>
+</head>
+<body data-root="../">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Revision notes · Level 3 electrical course</span>
+    <h1>Exams</h1>
+    <p class="lead">The six theory exams, what each one is like, and mock exams to practise on. All six are multiple choice, taken online, and open book.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>The theory exams are sat in one week: Building Regulations and the 18th Edition on the Monday, Fundamental Inspection and Testing and <abbr title="portable appliance testing">PAT</abbr> on the Tuesday, Periodic Inspection and Initial Verification on the Wednesday. Every exam is open book, but each allows only its own book, so know your way round it before the day. Read each question two or three times, read every answer before choosing, and never leave a question blank: answer it, flag it and come back if there's time.</p>
+  </aside>
+
+  <section class="exam-cards" id="cards" aria-label="The exams"></section>
+  <p class="caption">Exam dates are saved in this browser only. Set one on each exam's page.</p>
+
+  <section class="prose">
+    <h2>Exam technique</h2>
+    <ul>
+      <li><strong>Prepare the book.</strong> Tabs on the sections you use most save minutes. If tabs don't work for you, learn the contents and index instead.</li>
+      <li><strong>Read the question two or three times.</strong> Pick out the key words. In an open book exam they tell you where to look: "electric shock" leads to basic and fault protection, for example.</li>
+      <li><strong>Read every answer</strong>, even when the first one looks right. Several are often nearly right.</li>
+      <li><strong>Watch for negative questions</strong>: "which is <em>not</em> a method of fault protection?" They're the ones most often got wrong.</li>
+      <li><strong>Answer every question.</strong> If you're stuck, choose your best guess, flag it, and move on. Come back to the flagged ones at the end. A blank answer always scores nothing.</li>
+      <li><strong>Don't rush, and don't get stuck.</strong> Keep an eye on the clock: in most of these exams you have about two minutes a question.</li>
+    </ul>
+    <p>Question styles you'll meet: <strong>open</strong> questions, where the answer completes the sentence ("Basic protection can be provided by…"); <strong>closed</strong> questions, a direct question with one right answer; and <strong>negative</strong> questions, which ask for the answer that isn't true.</p>
+  </section>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/exams.js"></script>
+<script>
+(function () {
+  "use strict";
+  var bestOf = function (id) {
+    var h; try { h = JSON.parse(localStorage.getItem("rev:mock:" + id + ":hist") || "[]"); } catch (e) { h = []; }
+    return h.filter(function (r) { return r.mode === "timed"; }).reduce(function (b, r) { return !b || r.score / r.total > b.score / b.total ? r : b; }, null);
+  };
+  document.getElementById("cards").innerHTML = EXAMS.list.map(function (ex) {
+    var d = EXAMS.getDate(ex.id), best = bestOf(ex.id);
+    return '<article class="exam-card"><span class="eyebrow">' + ex.day + '</span><h3><a href="' + ex.file + '">' + ex.title + "</a></h3>" +
+      '<span class="meta">' + ex.questions + " questions · " + ex.minutes + " minutes</span>" +
+      '<span class="book">Book: ' + ex.book + "</span>" +
+      '<div class="foot"><span class="when">' + (d ? new Date(d + "T00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + ", " + EXAMS.countdown(d) : '<span class="muted" style="font-weight:400">No date set</span>') + "</span>" +
+      '<span class="mock">' + (ex.bank ? (best ? "Best mock: " + Math.round(100 * best.score / best.total) + "%" : '<a href="' + ex.file + '#mock">Mock exam ready</a>') : '<span class="muted">Mock coming</span>') + "</span></div></article>";
+  }).join("");
+})();
+</script>
+</body>
+</html>

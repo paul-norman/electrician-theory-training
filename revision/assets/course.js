@@ -145,7 +145,7 @@
         });
         html += "</span>";
       }
-      html += '<a class="toplink" href="' + root + 'review/">Flashcards</a>';
+      html += '<span class="toplinks"><a class="toplink" href="' + root + 'exams/">Exams</a><a class="toplink" href="' + root + 'review/">Flashcards</a></span>';
       top.innerHTML = html + "</div>";
     }
     if (pager && f) {
