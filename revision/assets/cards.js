@@ -361,6 +361,9 @@
     { id: "bs-29", lesson: "bs7671", q: "How far upwards from where a person stands does arm's reach extend?", a: "2.5 m (and 1.25 m sideways or downwards)", num: 2.5, tol: 0, unit: "m" },
     { id: "bs-30", lesson: "bs7671", q: "Which regulation says you must check the existing installation, including earthing and bonding, before an addition or alteration?", a: "Regulation 132.16", accept: ["132.16", "regulation 132.16", "reg 132.16"] },
     { id: "bs-31", lesson: "bs7671", q: "Which appendix of BS 7671 lists the British Standards that equipment should meet?", a: "Appendix 1", accept: ["1", "appendix 1", "app 1"] },
+    { id: "bs-32", lesson: "bs7671", q: "Regulation 411.3.3 covers additional protection by RCDs. What's the number of the bathroom version in Part 7?", a: "701.411.3.3", accept: ["701.411.3.3", "regulation 701.411.3.3"] },
+    { id: "bs-33", lesson: "bs7671", q: "Which voltage band covers extra-low voltage circuits such as telecoms, bells and alarms?", a: "Band I", accept: ["band i", "band 1", "i", "1", "one", "band one"] },
+    { id: "bs-34", lesson: "bs7671", q: "Band II covers voltages up to what AC limit?", a: "1,000 V AC (1,500 V DC)", num: 1000, tol: 0, unit: "V" },
 
     // ---------------- Part P and notification ----------------
     { id: "pp-01", lesson: "part-p", q: "Which two countries does Part P apply in?", a: "England and Wales", accept: ["england and wales", "wales and england", "england wales", "england & wales"] },
@@ -412,6 +415,9 @@
     { id: "bath-16", lesson: "bathrooms", q: "What is the maximum SELV voltage (AC) for equipment in zone 0?", a: "12 V AC", num: 12, tol: 0, unit: "V" },
     { id: "bath-17", lesson: "bathrooms", q: "In a room with a shower tray, where does zone 1 end horizontally?", a: "At the edge of the shower tray", accept: ["edge of the tray", "the edge of the tray", "at the edge of the tray", "tray edge", "the tray edge", "edge of tray", "at the tray edge", "the edge of the shower tray", "edge of the shower tray", "at the edge of the shower tray"] },
     { id: "bath-18", lesson: "bathrooms", q: "Does a walk-in shower with no tray have a zone 2?", a: "No", accept: ["no", "no zone 2", "none", "it doesn't", "no it doesn't", "no, it doesn't"] },
+    { id: "bath-19", lesson: "bathrooms", q: "Can a normal plate light switch go inside a room containing a bath or shower?", a: "Yes, outside the zones (at least 0.6 m from the bath or tray), with 30 mA RCD protection", accept: ["yes", "y"] },
+    { id: "bath-20", lesson: "bathrooms", q: "In an IP code, what does the second digit describe?", a: "Protection against water (moisture)", accept: ["water", "moisture", "liquids", "ingress of water", "ingress of moisture"] },
+    { id: "bath-21", lesson: "bathrooms", q: "What water protection does IPX7 give?", a: "Temporary immersion", accept: ["temporary immersion", "immersion", "temporarily immersed"] },
     // ---------------- DC and AC (DC-specific) ----------------
     { id: "dc-01", lesson: "dc-ac", q: "Current that always flows the same way, at a steady voltage, is called ___ current.", a: "Direct current (DC)", accept: ["direct", "direct current", "dc"] },
     { id: "dc-02", lesson: "dc-ac", q: "Do solar PV panels generate AC or DC?", a: "DC", accept: ["dc", "direct current", "direct"] },
@@ -504,6 +510,9 @@
     { id: "tp-01", lesson: "three-phase", q: "Single-phase power pulses up and down 100 times a second. What is the total power like with a balanced three-phase load?", a: "Constant: one phase is always near its peak, so the total stays steady", accept: ["constant", "steady", "smooth", "it's constant", "its constant", "constant power", "steady power", "it stays constant", "even", "level"] },
     { id: "tp-02", lesson: "three-phase", q: "Three single-phase circuits need six conductors. Roughly how many does a three-phase supply need to do the same job?", a: "Three or four: three lines, plus a shared neutral that carries almost nothing when balanced", num: 4, tol: 0.25 },
     { id: "tp-03", lesson: "three-phase", q: "Three phases fed to three sets of motor windings make a magnetic field that does what?", a: "Rotates on its own, so the motor starts itself", accept: ["rotates", "it rotates", "spins", "turns", "rotating", "a rotating field", "rotates by itself", "goes round", "rotate"] },
+    { id: "tp-04", lesson: "three-phase", q: "Which transformer connection has no star point, and so no neutral?", a: "Delta", accept: ["delta"] },
+    { id: "tp-05", lesson: "three-phase", q: "How many single-phase circuits can a four-way three-phase distribution board take?", a: "12", num: 12, tol: 0 },
+    { id: "ic-20", lesson: "installing-cables", q: "What colour identifies a functional earth conductor?", a: "Pink (cream in older editions)", accept: ["pink"] },
 
     // ---------------- Earthing systems ----------------
     { id: "es-01", lesson: "earthing-systems", q: "In an earthing system code, what does the first letter describe?", a: "The supply: how its star point is connected to earth", accept: ["the supply", "supply", "the source", "source", "the supply's connection to earth", "how the supply is earthed", "the transformer"] },
@@ -593,6 +602,10 @@
     { id: "lc-06", lesson: "lighting", q: "Which regulation requires 30 mA RCD protection for domestic lighting circuits?", a: "411.3.4", accept: ["411.3.4", "regulation 411.3.4"] },
     { id: "lc-07", lesson: "lighting", q: "What device feeds 12 V downlights from the mains?", a: "A safety isolating transformer (or LED driver)", accept: ["transformer", "safety isolating transformer", "a transformer", "driver", "led driver", "isolating transformer"] },
     { id: "lc-08", lesson: "lighting", q: "Does switching a light off make its loop-in ceiling rose safe to work on?", a: "No: the loop terminal stays live. Isolate the circuit", accept: ["no", "n"] },
+    { id: "lc-09", lesson: "lighting", q: "In which lighting method does the supply loop from switch to switch, with one cable up to each light?", a: "Two-plate", accept: ["two plate", "two-plate", "2 plate", "2-plate"] },
+    { id: "lc-10", lesson: "lighting", q: "With three-plate (loop-in) wiring, is there a neutral at the switch?", a: "No (unless three-core and earth is run to it)", accept: ["no", "n"] },
+    { id: "lc-11", lesson: "lighting", q: "What's it called when a neutral is taken from a different circuit, and is it allowed?", a: "A borrowed neutral: never allowed", accept: ["borrowed neutral", "a borrowed neutral", "borrowed neutral never", "borrowed neutral no"] },
+    { id: "lc-12", lesson: "lighting", q: "Minimum back box depth recommended for two-plate switch positions?", a: "35 mm", num: 35, tol: 0, unit: "mm" },
 
     // ---------------- Socket circuits ----------------
     { id: "sk-01", lesson: "sockets", q: "Maximum floor area for a 2.5 mm² ring final on a 32 A device?", a: "100 m²", num: 100, tol: 0, unit: "m²" },

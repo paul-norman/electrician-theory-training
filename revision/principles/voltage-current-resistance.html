@@ -144,33 +144,44 @@
       <h3 id="w3">Voltmeter across, ammeter in series</h3>
     </div>
     <div class="stage">
-      <svg class="only-wide" viewBox="0 0 520 220" role="img" aria-labelledby="w3d" style="max-width:560px;margin:0 auto">
-        <title id="w3d">A battery and lamp. The ammeter sits in the loop so current passes through it. The voltmeter connects across the lamp's two ends.</title>
-        <path class="wire w-plain" d="M60,95.5 V40 H170 M230,40 H300 M360,40 H460 V180 H60 V124"/>
+      <svg class="only-wide" viewBox="0 0 520 236" role="img" aria-labelledby="w3d" style="max-width:560px;margin:0 auto">
+        <title id="w3d">A battery and lamp. The ammeter sits in the loop, so all the current passes through it and the lamp. The voltmeter connects across the lamp, joining the wire a little way either side of it; a tiny current flows through the voltmeter too.</title>
+        <!-- wires, then the moving current, then the meters and lamp on top -->
+        <path class="wire w-plain" d="M60,95.5 V40 H460 V210 H60 V124"/>
+        <path class="wire w-plain" d="M270,40 V120 H390 V40" stroke-width="2.5"/>
+        <path class="flow" d="M60,90 V40 H460 V210 H60 V130"/>
+        <path class="flow" d="M270,46 V120 H390 V46" style="stroke-width:3;--dur:3.6s"/>
         <line x1="38" y1="96" x2="82" y2="96" stroke="var(--fg)" stroke-width="3"/>
         <line x1="48" y1="124" x2="72" y2="124" stroke="var(--fg)" stroke-width="7"/>
         <circle class="meter-c" cx="200" cy="40" r="30"/><text class="meter-t" x="200" y="46" text-anchor="middle">A</text>
-        <text x="200" y="90" text-anchor="middle" class="small">In series: current flows through it</text>
         <circle class="comp" cx="330" cy="40" r="24"/>
         <path d="M313,23 L347,57 M347,23 L313,57" stroke="var(--fg)" stroke-width="2"/>
-        <path class="wire w-plain" d="M300,40 V120 H310 M350,120 H360 V40" stroke-width="2.5"/>
         <circle class="meter-c" cx="330" cy="120" r="22"/><text class="meter-t" x="330" y="126" text-anchor="middle">V</text>
-        <text x="330" y="164" text-anchor="middle" class="small">Across the lamp: measures between two points</text>
+        <circle cx="270" cy="40" r="4.5" fill="var(--fg)"/><circle cx="390" cy="40" r="4.5" fill="var(--fg)"/>
+        <text x="200" y="90" text-anchor="middle" class="small">In series: all the current</text>
+        <text x="200" y="104" text-anchor="middle" class="small">flows through it</text>
+        <text x="330" y="166" text-anchor="middle" class="small">Across the lamp: measures between two points</text>
+        <text x="330" y="182" text-anchor="middle" class="small">(only a tiny current flows through it)</text>
       </svg>
-      <svg class="only-narrow" viewBox="0 0 360 214" role="img" aria-labelledby="w3n">
-        <title id="w3n">A battery and lamp. The ammeter sits in the loop so current passes through it. The voltmeter connects across the lamp's two ends.</title>
-        <path class="wire w-plain" d="M30,95.5 V40 H92 M148,40 H196 M244,40 H330 V200 H30 V124"/>
+      <svg class="only-narrow" viewBox="0 0 360 240" role="img" aria-labelledby="w3n">
+        <title id="w3n">A battery and lamp. The ammeter sits in the loop, so all the current passes through it and the lamp. The voltmeter connects across the lamp, joining the wire a little way either side of it; a tiny current flows through the voltmeter too.</title>
+        <path class="wire w-plain" d="M30,95.5 V40 H330 V224 H30 V124"/>
+        <path class="wire w-plain" d="M174,40 V120 H266 V40" stroke-width="2.5"/>
+        <path class="flow" d="M30,90 V40 H330 V224 H30 V130"/>
+        <path class="flow" d="M174,46 V120 H266 V46" style="stroke-width:3;--dur:3.6s"/>
         <line x1="10" y1="96" x2="50" y2="96" stroke="var(--fg)" stroke-width="3"/>
         <line x1="19" y1="124" x2="41" y2="124" stroke="var(--fg)" stroke-width="7"/>
-        <circle class="meter-c" cx="120" cy="40" r="28"/><text class="meter-t" x="120" y="46" text-anchor="middle">A</text>
-        <text x="112" y="92" text-anchor="middle" class="small">In series: current</text>
-        <text x="112" y="106" text-anchor="middle" class="small">flows through it</text>
+        <circle class="meter-c" cx="110" cy="40" r="28"/><text class="meter-t" x="110" y="46" text-anchor="middle">A</text>
         <circle class="comp" cx="220" cy="40" r="24"/>
         <path d="M203,23 L237,57 M237,23 L203,57" stroke="var(--fg)" stroke-width="2"/>
-        <path class="wire w-plain" d="M196,40 V120 H200 M240,120 H244 V40" stroke-width="2.5"/>
         <circle class="meter-c" cx="220" cy="120" r="20"/><text class="meter-t" x="220" y="126" text-anchor="middle">V</text>
+        <circle cx="174" cy="40" r="4" fill="var(--fg)"/><circle cx="266" cy="40" r="4" fill="var(--fg)"/>
+        <text x="110" y="100" text-anchor="middle" class="small">In series:</text>
+        <text x="110" y="114" text-anchor="middle" class="small">all the current</text>
+        <text x="110" y="128" text-anchor="middle" class="small">flows through it</text>
         <text x="220" y="164" text-anchor="middle" class="small">Across the lamp:</text>
         <text x="220" y="178" text-anchor="middle" class="small">measures between two points</text>
+        <text x="220" y="192" text-anchor="middle" class="small">(only a tiny current flows)</text>
       </svg>
     </div>
   </section>

@@ -57,6 +57,44 @@
     <p>Because the loop terminal is always live, turning a light off at the switch doesn't make the rose safe to work on. Isolate the circuit (see <a href="../testing/safe-isolation.html">Safe isolation</a>).</p>
   </section>
 
+  <section class="prose">
+    <h2>Three-plate and two-plate</h2>
+    <p>Electricians name the two common ways of wiring a domestic lighting circuit after how many of the rose's terminal blocks ("plates") get used:</p>
+    <ul>
+      <li><strong>Three-plate</strong> is the loop-in method above. The supply loops from rose to rose, and a cable drops from each rose to its switch. Each rose has three cables and uses all three blocks: loop, neutral and switch line. Each switch has just one cable.</li>
+      <li><strong>Two-plate</strong> loops the supply from switch to switch instead, and runs one cable up from each switch to its light. The light only needs two blocks: switched line and neutral. Each switch box has three cables, with the neutrals joined in a connector (such as a lever connector) inside it.</li>
+    </ul>
+  </section>
+
+  <section class="widget" aria-labelledby="wp">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="wp">Where the cables go</h3>
+    </div>
+    <div class="seg" role="group" aria-label="Wiring method" id="plate">
+      <button type="button" data-p="3" aria-pressed="true">Three-plate</button>
+      <button type="button" data-p="2" aria-pressed="false">Two-plate</button>
+    </div>
+    <div class="stage">
+      <svg id="plSvg" viewBox="0 0 360 240" role="img" aria-labelledby="wpd" style="max-width:600px;margin:0 auto">
+        <title id="wpd">Two lights on one circuit, each with its own switch on the wall below. The diagram shows which way the twin and earth cables run for the wiring method chosen.</title>
+      </svg>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>At the light</th><th>At the switch</th></tr></thead>
+        <tbody id="plTab"></tbody>
+      </table>
+    </div>
+    <p class="caption" id="plCap" aria-live="polite"></p>
+  </section>
+
+  <section class="prose">
+    <p>Neither is wrong. Three-plate suits a rewire where existing conduit drops to each switch, because only one cable has to go down it. Two-plate is common in new builds: a heavy fitting (that crystal chandelier from John Lewis) only needs one cable connecting, and there's a neutral at every switch. That neutral is handy for smart and electronic switches, or for adding an outside light by the front door from the hall switch. Two-plate switch boxes get crowded, so use deep ones: at least 35 mm.</p>
+    <p>Never take a neutral from a <strong>different circuit</strong> because it's handy (a <strong>borrowed neutral</strong>). The current wouldn't match in each circuit's line and neutral, so an <abbr title="residual current device">RCD</abbr> trips. Worse, isolating one circuit can leave the borrowed neutral carrying current from the other. Where there's no neutral at a switch, use three-core and earth, or get the neutral from the same circuit at the rose.</p>
+    <p>In conduit, lighting is usually wired in single-core cables using the same two-plate idea: the neutral runs from light to light, and the line goes down to each switch and back up.</p>
+  </section>
+
   <section class="widget" aria-labelledby="w1">
     <div class="widget-title">
       <span class="eyebrow">Try it</span>
@@ -201,6 +239,60 @@
       options: ["A safety isolating transformer or driver", "A dimmer switch rated for 12 V", "A fused connection unit with a 3 A fuse", "An autotransformer with a 12 V tap"], answer: 0,
       why: "A safety isolating transformer separates the extra-low voltage side from the mains." }
   ]);
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var mode = "3";
+  // Cables drawn as grey sheaths; [path, label?]. Roses sit on the ceiling at x 120 and 280; switches on the wall at x 60 and 220.
+  var C = {
+    "3": [
+      "M0,34 H112 V64", "M128,64 V40 H272 V64", "M288,64 V40 H360",
+      "M109,74 H60 V176", "M269,74 H220 V176"
+    ],
+    "2": [
+      "M0,34 H48 V176", "M60,176 V48 H208 V176", "M220,176 V40 H360",
+      "M72,176 V74 H109", "M232,176 V74 H269"
+    ]
+  };
+  var T = {
+    "3": [["Cables", "3: supply in, supply out, switch cable", "1: the switch cable"],
+          ["Neutral", "Yes", "No (unless you run three-core)"],
+          ["Permanent line", "Yes", "Yes"]],
+    "2": [["Cables", "1: from the switch", "3: supply in, supply out, cable to the light"],
+          ["Neutral", "Yes", "Yes, joined in a connector"],
+          ["Permanent line", "No: switched line only", "Yes"]]
+  };
+  var CAP = {
+    "3": "Three-plate (loop-in): the supply loops from rose to rose. The switch cable carries the permanent line down and the switched line back up, on the blue conductor sleeved brown.",
+    "2": "Two-plate: the supply loops from switch to switch. The cable up to the light carries the switched line (brown) and the neutral (blue), so the blue really is a neutral here."
+  };
+  function draw() {
+    document.querySelectorAll("#plate button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-p") === mode)); });
+    var h = '<rect x="0" y="0" width="360" height="74" fill="var(--surface-2)"/><line x1="0" y1="74" x2="360" y2="74" stroke="var(--rule)" stroke-width="2"/>';
+    h += '<text class="small" x="180" y="18" text-anchor="middle">ceiling void</text><text class="small" x="354" y="232" text-anchor="end">wall</text>';
+    // cables first, so the roses, lamps and switches sit on top of their ends
+    C[mode].forEach(function (d) { h += '<path d="' + d + '" fill="none" stroke="var(--muted)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>'; });
+    [120, 280].forEach(function (x) {
+      h += '<line x1="' + x + '" y1="80" x2="' + x + '" y2="106" stroke="var(--fg)" stroke-width="2"/>';
+      h += '<circle class="comp" cx="' + x + '" cy="118" r="12"/><path d="M' + (x - 8.5) + ',109.5 l17,17 M' + (x + 8.5) + ',109.5 l-17,17" stroke="var(--fg)" stroke-width="1.8"/>';
+      h += '<circle class="comp" cx="' + x + '" cy="74" r="11"/>';
+    });
+    [60, 220].forEach(function (x) {
+      h += '<rect class="comp" x="' + (x - 19) + '" y="176" width="38" height="34" rx="4"/><rect x="' + (x - 5) + '" y="184" width="10" height="18" rx="2" fill="var(--muted)"/>';
+    });
+    var many = mode === "3" ? [140, 64, "3 cables"] : [80, 222, "3 cables"], one = mode === "3" ? [80, 222, "1 cable"] : [140, 64, "1 cable"];
+    h += '<text class="tag" x="' + many[0] + '" y="' + many[1] + '" style="font-size:11px;fill:var(--flow)">' + many[2] + '</text>';
+    h += '<text class="small" x="' + one[0] + '" y="' + one[1] + '">' + one[2] + '</text>';
+    h += '<text class="small" x="4" y="26">from consumer unit</text><text class="small" x="356" y="30" text-anchor="end">' + (mode === "3" ? "to next light" : "to next switch") + '</text>';
+    $("plSvg").innerHTML = $("plSvg").querySelector("title").outerHTML + h;
+    $("plTab").innerHTML = T[mode].map(function (r) { return "<tr><td><strong>" + r[0] + "</strong></td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("");
+    $("plCap").textContent = CAP[mode];
+  }
+  document.querySelectorAll("#plate button").forEach(function (b) { b.addEventListener("click", function () { mode = b.getAttribute("data-p"); draw(); }); });
+  draw();
 })();
 </script>
 </body>

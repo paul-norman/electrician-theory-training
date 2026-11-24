@@ -696,7 +696,16 @@
       why: F("18 × 26 × 50", "4000") + " = 5.85 V. A ring divides by 4,000, not 1,000.", ref: "On-Site Guide, Appendix F" },
     { id: "bs-322", topic: "p8", q: "Where in BS 7671 are the standard ring and radial socket circuit arrangements shown?",
       options: ["Appendix 15", "Appendix 4", "Appendix 6", "Appendix 1"], answer: 0,
-      why: "Appendix 15 shows ring and radial final circuit arrangements, including spurs.", ref: B + "Appendix 15" }
+      why: "Appendix 15 shows ring and radial final circuit arrangements, including spurs.", ref: B + "Appendix 15" },
+    { id: "bs-323", topic: "p7", q: "Where may a plate switch be installed in a room containing a bath or shower?",
+      options: ["Outside the zones", "In zone 1, if it's IPX4", "In zone 2, if it's IPX4", "Nowhere in the room"], answer: 0,
+      why: "Switches and accessories other than shaver units and SELV are kept outside the zones; a pull cord's insulating cord may hang in zones 1 and 2.", ref: B + "Section 701" },
+    { id: "bs-324", topic: "p12", q: "Under which definition are voltage bands I and II found in Part 2?",
+      options: ["Voltage, nominal", "Band, voltage", "Extra-low voltage", "Low voltage"], answer: 0,
+      why: "They're listed under \"Voltage, nominal\" in the definitions, not under B.", ref: B + "Part 2" },
+    { id: "bs-325", topic: "p7", q: "What does the 701 in Regulation 701.411.3.3 tell you?", 
+      options: ["It's the Section 701 (bathroom) version of Regulation 411.3.3", "It's the 701st regulation in Chapter 41", "It applies to installations after 2001", "It's an appendix reference"], answer: 0,
+      why: "Part 7 numbers put the section in front of the general regulation they modify.", ref: B + "Part 7" }
   ];
   // Lessons to revise for each topic (paths from the course root)
   var LINKS = {"p12": [["regulations/bs-7671.html", "BS 7671 and its definitions"]], "p3": [["earthing/earthing-systems.html", "Earthing systems"]], "shock": [["earthing/automatic-disconnection.html", "Automatic disconnection"], ["supply/consumer-units.html", "Consumer units and protective devices"]], "p4": [["design/design-current.html", "Design current and diversity"], ["supply/consumer-units.html", "Consumer units and protective devices"], ["circuits/socket-circuits.html", "Socket circuits: rings and radials"]], "p5": [["design/cable-sizing.html", "Cable sizing and voltage drop"], ["earthing/protective-bonding.html", "Protective bonding"], ["cables/installing-cables.html", "Installing cables"], ["circuits/socket-circuits.html", "Socket circuits: rings and radials"]], "p6": [["testing/inspection-and-certification.html", "Inspection and certification"], ["testing/dead-tests.html", "Dead tests"]], "p7": [["regulations/bathrooms.html", "Bathrooms and special locations"]], "p8": [["regulations/bs-7671.html", "BS 7671 and its definitions"]]};

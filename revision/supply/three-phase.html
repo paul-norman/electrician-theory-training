@@ -195,6 +195,22 @@
 
 
   <section class="prose">
+    <h2>Star and delta</h2>
+    <p>A transformer's three windings can be joined in two ways:</p>
+    <ul>
+      <li><strong>Star</strong>: one end of each winding joined at the star point. There's a <strong>neutral</strong>, so it gives both 400 V between lines and 230 V from line to neutral. Supplies to buildings come from a star-connected secondary, because lighting and sockets need 230 V and a neutral.</li>
+      <li><strong>Delta</strong>: the windings joined end to end in a triangle. There's no star point, so <strong>no neutral</strong>: only 400 V between lines. High-voltage distribution uses delta, which is why overhead lines in the country carry just three wires. Many three-phase motors run in delta too, as they don't need a neutral.</li>
+    </ul>
+    <p>So if a three-phase supply has a neutral, it comes from a star point. The pole-mounted or substation transformer is usually delta on the high-voltage side and star on the low-voltage side, with the star point connected to earth. Line to neutral is the line voltage divided by √3: <span class="frac"><span>400</span><span>√3</span></span> ≈ 230 V. And the reason two 230 V phases don't add up to 460 V is that they're a third of a cycle apart: they never peak together.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Three-phase boards</h2>
+    <p>A three-phase cut-out has three fuse carriers, one per line (often up to 100 A each), with the neutral alongside. A spreader box may then split the supply. A <strong>three-phase distribution board</strong> has its busbar arranged L1, L2, L3, L1, L2, L3 along the row, so each "way" has three positions. A four-way three-phase board can therefore take 12 single-phase circuits, a three-phase circuit on a triple-pole device across all three lines, or a mix of both. Spread the single-phase circuits so the three lines carry similar loads.</p>
+    <p>Old three-phase boards use red, yellow and blue, with black as the neutral. Don't "correct" old colours when you work on them: just be certain which conductor is which. Getting the old black neutral mixed up with a new black L2 is dangerous, which is why polarity is checked during testing.</p>
+  </section>
+
+  <section class="prose">
     <h2>Single-phase and three-phase supplies</h2>
     <p>Most homes have a <strong>single-phase</strong> supply: one line conductor and a neutral, taken from one of the three phases at the local substation. That gives 230 V, and the main fuse in the cut-out is usually 60, 80 or 100 A. At 100 A that's about 23 kW, plenty for a typical house.</p>
     <p>A <strong>three-phase</strong> supply brings all three lines plus the neutral. It's used for larger buildings and heavy loads:</p>
