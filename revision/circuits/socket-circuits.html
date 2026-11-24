@@ -43,24 +43,25 @@
     <div class="stage">
       <svg viewBox="0 0 360 200" role="img" aria-labelledby="w0d" style="max-width:600px;margin:0 auto">
         <title id="w0d">A consumer unit with a ring circuit leaving and returning to it through five sockets, a non-fused spur to one extra socket, a fused connection unit feeding a fixed appliance, and a separate radial circuit ending at its last socket.</title>
+        <!-- wires first, running into the boxes, so the boxes sit on top of their ends -->
+        <path class="wire w-line" d="M38,92 H90 V30 H300 V160 H90 V112 H38"/>
+        <path class="wire w-line" d="M222,30 V72" style="stroke-width:3"/>
+        <path class="wire w-line" d="M300,130 H331" style="stroke-width:3"/>
+        <path class="wire w-line" d="M38,102 V188 H160" style="stroke-width:3"/>
         <rect class="box" x="10" y="80" width="56" height="44" rx="4"/>
-        <text class="small" x="38" y="106" text-anchor="middle">board</text>
-        <path class="wire w-line" d="M66,92 H90 V30 H300 V160 H90 V112 H66"/>
         <rect class="sock" x="132" y="22" width="20" height="16" rx="2"/>
         <rect class="sock" x="212" y="22" width="20" height="16" rx="2"/>
         <rect class="sock" x="292" y="70" width="16" height="20" rx="2"/>
         <rect class="sock" x="212" y="152" width="20" height="16" rx="2"/>
         <rect class="sock" x="132" y="152" width="20" height="16" rx="2"/>
-        <path class="wire w-line" d="M222,38 V64" style="stroke-width:3"/>
         <rect class="sock" x="212" y="64" width="20" height="16" rx="2"/>
-        <text class="small" x="206" y="76" text-anchor="end">non-fused spur</text>
-        <path class="wire w-line" d="M300,130 H322" style="stroke-width:3"/>
         <rect x="322" y="121" width="18" height="18" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.8"/>
+        <rect class="sock" x="150" y="180" width="20" height="16" rx="2"/>
+        <text class="small" x="38" y="106" text-anchor="middle">board</text>
+        <text class="small" x="206" y="76" text-anchor="end">non-fused spur</text>
         <text class="small" x="331" y="153" text-anchor="middle">FCU</text>
         <text class="small" x="170" y="104" text-anchor="middle">ring: out and back</text>
         <text class="small" x="170" y="118" text-anchor="middle">to the same device</text>
-        <path class="wire w-line" d="M38,124 V188 H150" style="stroke-width:3"/>
-        <rect class="sock" x="150" y="180" width="20" height="16" rx="2"/>
         <text class="small" x="178" y="192">radial: stops at the last socket</text>
       </svg>
     </div>

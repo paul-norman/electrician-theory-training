@@ -155,8 +155,6 @@
   function draw() {
     var h = "";
     h += '<rect class="soil" x="0" y="196" width="360" height="34"/>';
-    h += '<rect class="comp" x="220" y="26" width="40" height="128" rx="4"/>';
-    h += '<text x="240" y="168" text-anchor="middle" class="small">cut-out</text>';
     // transformer secondary winding: line at the top, star point at the bottom
     h += '<path d="M40,52 c10,6 10,14 0,20 c10,6 10,14 0,20 c10,6 10,14 0,20" fill="none" stroke="var(--fg)" stroke-width="2.5"/>';
     h += '<text x="10" y="30" class="small">Transformer</text>';
@@ -192,6 +190,9 @@
       h += '<text x="180" y="226" text-anchor="middle" class="small">fault current returns through the ground</text>';
       h += '<text x="308" y="192" class="small" text-anchor="end">own earth rod</text>';
     }
+    // boxes last, so the wires run underneath them
+    h += '<rect class="comp" x="220" y="26" width="40" height="128" rx="4"/>';
+    h += '<text x="240" y="168" text-anchor="middle" class="small">cut-out</text>';
     h += met;
     // winding terminals: line at the top, star point at the bottom. Drawn last so they sit on top of the wires.
     h += '<circle cx="40" cy="52" r="4" fill="var(--fg)"/><circle cx="40" cy="112" r="4" fill="var(--fg)"/>';

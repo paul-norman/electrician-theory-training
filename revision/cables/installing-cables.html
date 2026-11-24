@@ -98,13 +98,14 @@
         <rect class="zone" x="10" y="190" width="340" height="18"/>
         <rect class="zone" x="244" y="10" width="20" height="220"/>
         <rect class="zone" x="10" y="113" width="340" height="18"/>
+        <!-- the route is drawn before the socket and switch so they sit on top of its ends -->
+        <path id="route" class="route" d=""/>
         <rect class="acc" x="94" y="190" width="22" height="18" rx="2"/>
         <rect class="acc" x="244" y="113" width="20" height="18" rx="2"/>
         <text class="small" x="105" y="223" text-anchor="middle">socket</text>
         <text class="small" x="254" y="146" text-anchor="middle">switch</text>
         <text class="small" x="180" y="30" text-anchor="middle">ceiling: 150 mm band</text>
         <text class="small" x="44" y="80">corner</text>
-        <path id="route" class="route" d=""/>
       </svg>
     </div>
     <label for="rt" class="label" style="font-size:0.85rem;font-weight:600">Cable route (no <abbr title="residual current device">RCD</abbr> or mechanical protection, buried less than 50 mm)</label>
@@ -185,13 +186,13 @@
   var $ = function (id) { return document.getElementById(id); };
   // [label, path, in safe zone?, explanation]
   var ROUTES = [
-    ["Straight up from the socket to the ceiling", "M105,190 V20", true, "Vertically in line with the socket: inside its safe zone all the way."],
+    ["Straight up from the socket to the ceiling", "M105,199 V20", true, "Vertically in line with the socket: inside its safe zone all the way."],
     ["Along the top of the wall, under the ceiling", "M20,25 H340", true, "Within 150 mm of the top of the wall: a safe zone."],
     ["Down the corner of the wall", "M25,20 V220", true, "Within 150 mm of a corner: a safe zone."],
     ["Horizontally across from the switch", "M254,122 H40", true, "Horizontally in line with the switch: a safe zone."],
-    ["Diagonally from the socket to the switch", "M110,195 L250,125", false, "A diagonal route isn't in any safe zone. Someone hanging a picture could drill straight into it. It would need RCD or mechanical protection."],
+    ["Diagonally from the socket to the switch", "M105,199 L254,122", false, "A diagonal route isn't in any safe zone. Someone hanging a picture could drill straight into it. It would need RCD or mechanical protection."],
     ["Across the middle of the wall, in line with nothing", "M40,70 H320", false, "There's no accessory at this height, so nobody would expect a cable there. It needs RCD or mechanical protection."],
-    ["Up from the socket, then across to the switch at an angle", "M105,190 V150 L250,122", false, "The vertical part is in the socket's zone, but the angled part leaves every safe zone."]
+    ["Up from the socket, then across to the switch at an angle", "M105,199 V150 L254,122", false, "The vertical part is in the socket's zone, but the angled part leaves every safe zone."]
   ];
   ROUTES.forEach(function (r, k) { var o = document.createElement("option"); o.value = k; o.textContent = r[0]; $("rt").appendChild(o); });
   function show() {
