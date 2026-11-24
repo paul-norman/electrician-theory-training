@@ -31,7 +31,9 @@
 
   <section class="prose">
     <h2>The ring final circuit</h2>
-    <p>The ring is a British design from the 1940s. Both ends of the cable connect to the same 30 or 32 A device, so current reaches each socket along two parallel paths and the load is shared between the two legs. That lets 2.5 mm² cable, rated well below 32 A on its own, serve a 32 A circuit: <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 15 requires the cable's current-carrying capacity to be at least 0.67 × the device rating.</p>
+    <p>The ring is a British design from the 1940s. Both ends of the cable connect to the same 30 or 32 A device, so current reaches each socket along two parallel paths and the load is shared between the two legs. That lets 2.5 mm² cable, rated well below 32 A on its own, serve a 32 A circuit: regulation 433.1.204 accepts it as long as the cable's current-carrying capacity (I<sub>z</sub>, after any correction factors) is at least <strong>20 A</strong>, and the load is spread so no part of the ring carries more than that for long periods.</p>
+    <p>It was designed in the 1940s, when copper was short after the war: a ring covers a big floor area with less cable than radials would. Many electricians now prefer radials, but you'll meet rings in most existing homes, usually one downstairs, one upstairs and sometimes one just for the kitchen.</p>
+    <p>To keep the load spread, cookers, ovens and hobs over 2 kW get their own radial circuit, not the ring (Appendix 15). Rings are for socket-outlets and fused connection units only: never lighting or a cooker.</p>
     <p>The catch is that a ring needs to stay a ring. A break in one leg leaves every socket still working, fed from one side only, and nobody notices that the remaining cable could now be overloaded. That's what the ring final continuity test finds (see <a href="../testing/dead-tests.html">Dead tests</a>).</p>
   </section>
 
@@ -85,10 +87,31 @@
   </section>
 
   <section class="prose">
+    <h2>Designing a ring final</h2>
+    <p>A ring follows the same design steps as any circuit (see <a href="../design/cable-sizing.html">Cable sizing and voltage drop</a>), with three twists:</p>
+    <ul>
+      <li><strong>Design current:</strong> there's no single load, because nobody knows what will be plugged in. The On-Site Guide (Table 7.1) gives an assumed load to use: 26 A for a 32 A ring.</li>
+      <li><strong>Cable rating:</strong> divide <strong>20 A</strong> by the correction factors, not the 32 A device rating, because each leg only has to carry part of the load (regulation 433.1.204).</li>
+      <li><strong>Voltage drop:</strong> divide by <strong>4,000</strong>, not 1,000, using the total length of the ring. Assume the load is in the middle: the current splits into two halves, and each travels only half the ring, so the drop is a quarter of a radial's.</li>
+    </ul>
+    <p><span class="formula">V<sub>drop</sub> = <span class="frac"><span>mV/A/m × I<sub>b</sub> × L</span><span>4,000</span></span></span></p>
+  </section>
+
+  <div class="examples">
+    <div class="example">
+      <span class="q">A downstairs ring, 50 m long, in single-core 70 °C cables in trunking (method B), ambient 35 °C. Sockets need an <abbr title="residual current device">RCD</abbr>, so a 32 A Type B <abbr title="residual current breaker with overcurrent protection">RCBO</abbr>.</span>
+      <span class="w">I<sub>b</sub> = 26 A (assumed load), I<sub>n</sub> = 32 A<br><span class="frac"><span>20</span><span>0.94</span></span> = 21.28 A<br>2.5 mm² singles, method B: 24 A (Table 4D1A)<br>V<sub>drop</sub> = <span class="frac"><span>18 × 26 × 50</span><span>4,000</span></span> = 5.85 V</span>
+      <span class="a">2.5 mm²: 5.85 V is under 11.5 V</span>
+    </div>
+  </div>
+  <p class="caption">Use the table for the cable you're actually using: single-core cables (Table 4D1A, On-Site Guide F4) have their own ratings and voltage drops, separate from twin and earth (Table 4D5, F6). Naming the wrong table loses marks in a design assignment.</p>
+
+  <section class="prose">
     <h2>Spurs</h2>
     <ul>
       <li><strong>Non-fused spur:</strong> a branch from a ring, taken from a socket's terminals or a junction box on the ring. It may feed <strong>one single or one double socket</strong>, or one fixed appliance, and its cable must be no smaller than the ring's. The number of non-fused spurs must not exceed the number of sockets and fixed appliances connected directly on the ring.</li>
       <li><strong>Fused spur:</strong> a branch taken through a <strong>fused connection unit</strong> (<abbr title="fused connection unit">FCU</abbr>), with a fuse of no more than 13 A. Because the fuse protects the spur, its cable only has to suit the fuse, not the 32 A device. A fused spur often feeds a fixed appliance such as a boiler, extractor fan or towel rail.</li>
+      <li><strong>Selectivity:</strong> fusing down also means a fault on the spur blows the small fuse in the <abbr title="fused connection unit">FCU</abbr>, not the circuit's 32 A device, so the rest of the ring stays on. Selectivity means the device nearest the fault operates first. A 100 W security light (0.43 A) fed from a ring through an <abbr title="fused connection unit">FCU</abbr> with a 3 A fuse can use 0.75 mm² flex.</li>
       <li>Never take a spur from a spur: the extra load would all come through the first spur's cable. (A radial is different: it can branch freely, because every part of it is already sized for the device.)</li>
     </ul>
   </section>
@@ -107,8 +130,8 @@
   <section class="prose">
     <h2>Placing sockets</h2>
     <ul>
-      <li><strong>Height:</strong> in new homes, between 450 and 1200 mm from the floor (Approved Document M; see <a href="../regulations/laws-and-guidance.html">Laws and guidance</a>).</li>
-      <li><strong>Kitchens:</strong> guidance is to keep sockets at least 300 mm horizontally from the edge of a sink, and never above a gas or electric hob. Appliances hidden behind units are fed from sockets or outlets controlled by accessible switches, such as a switched <abbr title="fused connection unit">FCU</abbr> or a grid switch above the worktop.</li>
+      <li><strong>Height:</strong> in new homes, between 450 and 1200 mm from the floor (Approved Document M; see <a href="../regulations/laws-and-guidance.html">Laws and guidance</a>). In an existing home you can match the existing heights, as long as the work doesn't make the building less compliant than it was and the sockets are still usable: one so low that a plug strains its flex isn't.</li>
+      <li><strong>Kitchens:</strong> guidance is to keep sockets at least 300 mm horizontally from the edge of a sink, about 150 mm above the worktop, and never above a gas or electric hob. The Electrician's Guide to the Building Regulations has a diagram. Appliances hidden behind units are fed from sockets or outlets controlled by accessible switches, such as a switched <abbr title="fused connection unit">FCU</abbr> or a grid switch above the worktop.</li>
       <li><strong>Bathrooms:</strong> at least 3 m from zone 1 (see <a href="../regulations/bathrooms.html">Bathrooms and special locations</a>).</li>
       <li><strong>Outdoors:</strong> a weatherproof socket with a suitable <abbr title="ingress protection">IP</abbr> rating, with 30 mA <abbr title="residual current device">RCD</abbr> protection.</li>
     </ul>
@@ -156,7 +179,7 @@
       why: "13 A. The fuse protects the spur cable." },
     { q: "Why can a 2.5 mm² cable be used on a 32 A ring?",
       options: ["The load is shared between the two legs of the ring", "2.5 mm² cable is rated well above 32 A", "Rings only ever carry a few amps", "The RCD limits the current to 30 mA"], answer: 0,
-      why: "Each socket is fed from both directions, so each leg carries part of the current. The cable must be rated at least 0.67 × the device rating." },
+      why: "Each socket is fed from both directions, so each leg carries part of the current. The cable's I<sub>z</sub> must be at least 20 A (regulation 433.1.204)." },
     { q: "A break develops in one leg of a ring. What happens?",
       options: ["Every socket still works, but the cable can be overloaded", "Half the sockets stop working at once", "The circuit breaker trips straight away", "The RCD trips because of the imbalance"], answer: 0,
       why: "The sockets are fed from one side only, so nobody notices. The ring continuity test finds it." },

@@ -10,12 +10,6 @@
   /* Flashcards and Exams side by side on wider screens; the button stays at the bottom of each card. */
   .card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
   .card-row .callout > div:last-child { margin-top: auto; }
-  /* Foldable boxes: the heading becomes a button; folded boxes show just the heading. */
-  [data-fold] > h3 { display: flex; }
-  .fold-btn { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 12px; text-align: left; }
-  .fold-btn::after { content: ""; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-135deg); margin: 4px 4px 0 0; transition: transform 0.15s; }
-  [data-fold].folded .fold-btn::after { transform: rotate(45deg); margin: 0 4px 4px 0; }
-  [data-fold].folded > :not(h3) { display: none; }
   .card-row [data-fold].folded { align-self: start; }
 </style>
 </head>
@@ -60,24 +54,6 @@
 <script src="assets/cards.js"></script>
 <script src="assets/srs.js"></script>
 <script>
-// Foldable boxes: remember which are folded in this browser.
-(function () {
-  document.querySelectorAll("[data-fold]").forEach(function (box) {
-    var key = "rev:fold:" + box.getAttribute("data-fold"), h = box.querySelector("h3");
-    var b = document.createElement("button"); b.type = "button"; b.className = "fold-btn";
-    while (h.firstChild) b.appendChild(h.firstChild);
-    h.appendChild(b);
-    function set(folded, save) {
-      box.classList.toggle("folded", folded);
-      b.setAttribute("aria-expanded", String(!folded));
-      b.setAttribute("aria-label", (folded ? "Show " : "Hide ") + b.textContent.trim());
-      if (save) { try { if (folded) localStorage.setItem(key, "1"); else localStorage.removeItem(key); } catch (e) { /* ignore */ } }
-    }
-    var saved = false; try { saved = localStorage.getItem(key) === "1"; } catch (e) { /* ignore */ }
-    set(saved, false);
-    b.addEventListener("click", function () { set(!box.classList.contains("folded"), true); });
-  });
-})();
 (function () {
   var host = document.getElementById("videos");
   Course.MODULES.forEach(function (v, mi) {

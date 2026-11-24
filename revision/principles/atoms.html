@@ -6,6 +6,25 @@
 <title>Atoms and Free Electrons</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="../assets/course.css">
+<style>
+  /* Atom diagram: inner shells turn slowly; the outer shell stays put so its label can point at the electron. */
+  .atom .orbit { fill: none; stroke: var(--muted); stroke-opacity: 0.45; stroke-width: 1; }
+  .atom .lead { fill: none; stroke: var(--muted); stroke-width: 1; }
+  .atom .p { fill: var(--bad); }
+  .atom .n { fill: var(--muted); }
+  .atom .pm { stroke: #fff; stroke-width: 1.4; stroke-linecap: round; }
+  .atom .e { fill: var(--fg); }
+  .atom .e.v { fill: var(--flow); }
+  .atom .em { stroke: var(--bg); stroke-width: 1.4; stroke-linecap: round; }
+  .atom .e.v + .em { stroke: #fff; }
+  /* Each electron turns back against its shell, so its minus sign stays level. */
+  .atom .es { animation: atomSpin linear infinite reverse; transform-box: fill-box; transform-origin: center; }
+  .atom .halo { fill: var(--flow); opacity: 0.25; animation: atomPulse 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .atom .spin { animation: atomSpin linear infinite; transform-box: view-box; transform-origin: 120px 125px; }
+  @keyframes atomSpin { to { transform: rotate(360deg); } }
+  @keyframes atomPulse { 50% { transform: scale(1.5); opacity: 0.08; } }
+  @media (prefers-reduced-motion: reduce) { .atom .spin, .atom .es, .atom .halo { animation: none; } }
+</style>
 </head>
 <body data-lesson="atoms">
 <nav class="topbar" id="topbar"></nav>
@@ -28,7 +47,43 @@
       <li>Opposite charges attract (+ pulls −).</li>
       <li>Like charges repel (− pushes −).</li>
     </ul>
+    <p>Copper, the metal in almost every cable, has 29 protons and 29 electrons. The electrons sit in layers called <strong>shells</strong>, and copper's outermost shell holds just <strong>one</strong>. That lonely outer electron is the key to why copper conducts so well.</p>
   </section>
+
+  <figure class="widget" aria-labelledby="wa">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="wa">A copper atom</h3>
+    </div>
+    <div class="stage">
+      <svg class="atom" viewBox="0 0 360 250" role="img" aria-labelledby="wad" style="max-width:600px;margin:0 auto">
+        <title id="wad">A copper atom: a nucleus of protons and neutrons in the middle, surrounded by 29 electrons in four shells. The single electron in the outer shell is highlighted, because in copper it's only loosely held and breaks free.</title>
+        <!-- leader lines and orbits first, so the particles sit on top -->
+        <path class="lead" d="M134,113 L236,52"/>
+        <path class="lead" d="M195.8,143.9 L236,134"/>
+        <path class="lead" d="M205.4,189.8 L236,204"/>
+        <circle class="orbit" cx="120" cy="125" r="30"/><circle class="orbit" cx="120" cy="125" r="50"/><circle class="orbit" cx="120" cy="125" r="74"/><circle class="orbit" cx="120" cy="125" r="102"/>
+        <g class="spin" style="animation-duration:11s"><g class="es" style="animation-duration:11s"><circle class="e" cx="150.0" cy="125.0" r="4.4"/><path class="em" d="M147.8,125.0 h4.4"/></g><g class="es" style="animation-duration:11s"><circle class="e" cx="90.0" cy="125.0" r="4.4"/><path class="em" d="M87.8,125.0 h4.4"/></g></g><g class="spin" style="animation-duration:19s"><g class="es" style="animation-duration:19s"><circle class="e" cx="166.4" cy="143.7" r="4.4"/><path class="em" d="M164.2,143.7 h4.4"/></g><g class="es" style="animation-duration:19s"><circle class="e" cx="139.5" cy="171.0" r="4.4"/><path class="em" d="M137.3,171.0 h4.4"/></g><g class="es" style="animation-duration:19s"><circle class="e" cx="101.3" cy="171.4" r="4.4"/><path class="em" d="M99.1,171.4 h4.4"/></g><g class="es" style="animation-duration:19s"><circle class="e" cx="74.0" cy="144.5" r="4.4"/><path class="em" d="M71.8,144.5 h4.4"/></g><g class="es" style="animation-duration:19s"><circle class="e" cx="73.6" cy="106.3" r="4.4"/><path class="em" d="M71.4,106.3 h4.4"/></g><g class="es" style="animation-duration:19s"><circle class="e" cx="100.5" cy="79.0" r="4.4"/><path class="em" d="M98.3,79.0 h4.4"/></g><g class="es" style="animation-duration:19s"><circle class="e" cx="138.7" cy="78.6" r="4.4"/><path class="em" d="M136.5,78.6 h4.4"/></g><g class="es" style="animation-duration:19s"><circle class="e" cx="166.0" cy="105.5" r="4.4"/><path class="em" d="M163.8,105.5 h4.4"/></g></g><g class="spin" style="animation-duration:30s"><g class="es" style="animation-duration:30s"><circle class="e" cx="193.7" cy="131.4" r="4.4"/><path class="em" d="M191.5,131.4 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="187.1" cy="156.3" r="4.4"/><path class="em" d="M184.9,156.3 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="172.3" cy="177.3" r="4.4"/><path class="em" d="M170.1,177.3 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="151.3" cy="192.1" r="4.4"/><path class="em" d="M149.1,192.1 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="126.4" cy="198.7" r="4.4"/><path class="em" d="M124.2,198.7 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="100.8" cy="196.5" r="4.4"/><path class="em" d="M98.6,196.5 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="77.6" cy="185.6" r="4.4"/><path class="em" d="M75.4,185.6 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="59.4" cy="167.4" r="4.4"/><path class="em" d="M57.2,167.4 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="48.5" cy="144.2" r="4.4"/><path class="em" d="M46.3,144.2 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="46.3" cy="118.6" r="4.4"/><path class="em" d="M44.1,118.6 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="52.9" cy="93.7" r="4.4"/><path class="em" d="M50.7,93.7 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="67.7" cy="72.7" r="4.4"/><path class="em" d="M65.5,72.7 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="88.7" cy="57.9" r="4.4"/><path class="em" d="M86.5,57.9 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="113.6" cy="51.3" r="4.4"/><path class="em" d="M111.4,51.3 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="139.2" cy="53.5" r="4.4"/><path class="em" d="M137.0,53.5 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="162.4" cy="64.4" r="4.4"/><path class="em" d="M160.2,64.4 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="180.6" cy="82.6" r="4.4"/><path class="em" d="M178.4,82.6 h4.4"/></g><g class="es" style="animation-duration:30s"><circle class="e" cx="191.5" cy="105.8" r="4.4"/><path class="em" d="M189.3,105.8 h4.4"/></g></g>
+        <circle class="halo" cx="200.4" cy="187.8" r="9"/>
+        <g><circle class="e v" cx="200.4" cy="187.8" r="4.4"/><path class="em" d="M198.2,187.8 h4.4"/></g>
+        <circle class="p" cx="120.0" cy="125.0" r="4.6"/><path class="pm" d="M118.0,125.0 h4 M120.0,123.0 v4"/><circle class="n" cx="128.4" cy="125.0" r="4.6"/><circle class="p" cx="124.2" cy="132.3" r="4.6"/><path class="pm" d="M122.2,132.3 h4 M124.2,130.3 v4"/><circle class="n" cx="115.8" cy="132.3" r="4.6"/><circle class="p" cx="111.6" cy="125.0" r="4.6"/><path class="pm" d="M109.6,125.0 h4 M111.6,123.0 v4"/><circle class="n" cx="115.8" cy="117.7" r="4.6"/><circle class="p" cx="124.2" cy="117.7" r="4.6"/><path class="pm" d="M122.2,117.7 h4 M124.2,115.7 v4"/><circle class="n" cx="135.8" cy="129.2" r="4.6"/><circle class="p" cx="131.6" cy="136.6" r="4.6"/><path class="pm" d="M129.6,136.6 h4 M131.6,134.6 v4"/><circle class="n" cx="124.2" cy="140.8" r="4.6"/><circle class="p" cx="115.8" cy="140.8" r="4.6"/><path class="pm" d="M113.8,140.8 h4 M115.8,138.8 v4"/><circle class="n" cx="108.4" cy="136.6" r="4.6"/><circle class="p" cx="104.2" cy="129.2" r="4.6"/><path class="pm" d="M102.2,129.2 h4 M104.2,127.2 v4"/><circle class="n" cx="104.2" cy="120.8" r="4.6"/><circle class="p" cx="108.4" cy="113.4" r="4.6"/><path class="pm" d="M106.4,113.4 h4 M108.4,111.4 v4"/><circle class="n" cx="115.8" cy="109.2" r="4.6"/><circle class="p" cx="124.2" cy="109.2" r="4.6"/><path class="pm" d="M122.2,109.2 h4 M124.2,107.2 v4"/><circle class="n" cx="131.6" cy="113.4" r="4.6"/><circle class="p" cx="135.8" cy="120.8" r="4.6"/><path class="pm" d="M133.8,120.8 h4 M135.8,118.8 v4"/>
+        <text x="242" y="40" class="tag" style="font-size:12px">Nucleus</text>
+        <circle class="p" cx="247" cy="53" r="4.6"/><path class="pm" d="M245,53 h4 M247,51 v4"/>
+        <text x="257" y="57" class="small">29 protons (+)</text>
+        <circle class="n" cx="247" cy="69" r="4.6"/>
+        <text x="257" y="73" class="small">35 neutrons</text>
+        <text x="257" y="87" class="small">(no charge)</text>
+        <text x="242" y="124" class="tag" style="font-size:12px">Electrons</text>
+        <g><circle class="e" cx="247.0" cy="137.0" r="4.4"/><path class="em" d="M244.8,137.0 h4.4"/></g>
+        <text x="257" y="141" class="small">29 electrons (−)</text>
+        <text x="242" y="196" class="tag" style="font-size:12px">Outer electron</text>
+        <g><circle class="e v" cx="247.0" cy="209.0" r="4.4"/><path class="em" d="M244.8,209.0 h4.4"/></g>
+        <text x="257" y="213" class="small">loosely held: in</text>
+        <text x="242" y="228" class="small">copper it breaks free</text>
+      </svg>
+    </div>
+    <p class="caption">Not to scale, and the nucleus shows fewer particles than it really has. If the nucleus were a marble, the whole atom would be the size of a football stadium, and almost all of it is empty space.</p>
+  </figure>
 
   <section class="prose">
     <h2>Why metals conduct</h2>

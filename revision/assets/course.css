@@ -142,6 +142,15 @@ html { scroll-padding-top: calc(var(--topbar-h, 0px) + 8px); }
 .callout.takeaway { background: var(--take-bg); border: 1px solid var(--take); border-color: color-mix(in srgb, var(--take) 45%, transparent); }
 .callout.takeaway h3 { color: var(--take); }
 .callout.takeaway p { font-size: 1.02rem; }
+
+/* Foldable boxes (home page boxes and lesson key takeaways): the heading becomes a button; folded boxes show just the heading. */
+[data-fold] > h3 { display: flex; }
+.fold-btn { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; display: flex; flex: 1; align-items: baseline; flex-wrap: wrap; column-gap: 12px; row-gap: 2px; text-align: left; }
+.fold-btn::after { content: ""; align-self: center; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-135deg); margin: 4px 4px 0 auto; transition: transform 0.15s; }
+[data-fold].folded .fold-btn::after { transform: rotate(45deg); margin: 0 4px 4px auto; }
+[data-fold].folded > :not(h3) { display: none; }
+.fold-hint { display: none; font-family: var(--font-body, inherit); font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+[data-fold].folded .fold-hint { display: inline; }
 .callout.key { background: var(--surface); border: 1px solid var(--rule); }
 
 /* Stacked fraction: numerator over denominator */

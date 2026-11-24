@@ -33,13 +33,16 @@
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p>An <strong>exposed-conductive-part</strong> is metal belonging to the electrical installation that could become live in a fault, such as the case of a Class I appliance: it's earthed through the <abbr title="circuit protective conductor">CPC</abbr>. An <strong>extraneous-conductive-part</strong> isn't part of the electrical installation but can bring in a potential, usually earth, from outside, such as a metal gas or water pipe: it's bonded. <strong>Main protective bonding</strong> connects incoming metal services to the <abbr title="main earthing terminal">MET</abbr>, as close as practical to where they enter the building (for gas, within 600 mm of the meter on the consumer's side, before any branch). In a typical house the earthing conductor is 16 mm² and the main bonding is 10 mm². <strong>Supplementary bonding</strong> links parts within one location that someone could touch at the same time. It's usually 4 mm² (2.5 mm² if mechanically protected), and in a bathroom it can be left out when every circuit has 30 mA <abbr title="residual current device">RCD</abbr> protection and main bonding is in place.</p>
+    <p>An <strong>exposed-conductive-part</strong> is metal belonging to the electrical installation that could become live in a fault, such as the case of a Class I appliance: it's earthed through the <abbr title="circuit protective conductor">CPC</abbr>. An <strong>extraneous-conductive-part</strong> isn't part of the electrical installation but can bring in a potential, usually earth, from outside, such as a metal gas or water pipe: it's bonded. <strong>Main protective bonding</strong> connects incoming metal services to the <abbr title="main earthing terminal">MET</abbr>, as close as practical to where they enter the building (for gas, within 600 mm of the meter on the consumer's side, before any branch). In a typical house the earthing conductor is 16 mm² and the main bonding is 10 mm². <strong>Supplementary bonding</strong> links parts within one location that someone could touch at the same time. It's usually 4 mm² (2.5 mm² if mechanically protected), and in a bathroom it can be left out when every circuit has 30 mA <abbr title="residual current device">RCD</abbr> protection and meets its disconnection times, and the pipework is effectively connected to main bonding: no more than 1667 Ω to the <abbr title="main earthing terminal">MET</abbr> (50 V at the <abbr title="residual current device">RCD</abbr>'s 30 mA).</p>
   </aside>
 
   <section class="prose">
     <h2>Why bond?</h2>
     <p>When a fault puts 230 V on a metal case, the fault current flows through the <abbr title="circuit protective conductor">CPC</abbr> and the earthing system. That path has some impedance, so for the short time before the breaker trips, the case sits at a raised voltage above true earth. Now imagine a metal water pipe nearby, connected to the ground outside. Someone touching the case and the pipe at the same time would have the full difference across their body.</p>
     <p>Bonding connects the pipe to the same earthing point as the case. Both then rise together during the fault, so the voltage <strong>between</strong> them stays low. The aim isn't to carry fault current; it's to keep everything you can touch at roughly the same potential. That's why it's called <strong>equipotential bonding</strong>.</p>
+    <p><strong>It's the difference that counts.</strong> Current only flows through you if two parts of your body are at different potentials. Someone standing on a thick rubber mat, insulated from earth, could hold a live conductor and feel nothing: their whole body rises to 230 V together, so there's no potential difference across them and no current. (Never try it. The moment they touch anything earthed, or anyone touches them while standing on the floor, current flows.) It's the same reason a bird can sit on an overhead line.</p>
+    <p>Now take the mat away. With 230 V across a body of roughly 1000 Ω, Ohm's law gives I = <span class="frac"><span>230</span><span>1000</span></span> = 0.23 A, far more than enough to stop a heart. Wet skin lowers the resistance and raises the current. "It's the current that kills, not the voltage" is true, but there's no current without the voltage to push it.</p>
+    <p>A protective device will operate and cut the supply (automatic disconnection, or <abbr title="automatic disconnection of supply">ADS</abbr>), but even a fraction of a second at 230 V can be fatal. You can't insulate people from everything they touch, so bonding does the next best thing. It can't make the difference zero, because the conductors have some resistance, but with large, low-resistance copper conductors it keeps the voltage between touchable parts small: ideally below <strong>50 V <abbr title="alternating current">AC</abbr></strong>, the touch voltage <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> treats as safe to sustain in normal dry conditions.</p>
   </section>
 
   <section class="prose">
@@ -68,15 +71,35 @@
   </section>
 
   <section class="prose">
+    <h2>The four protective conductors</h2>
+    <p>Every installation, from a flat to a factory, has the same basic arrangement. On-Site Guide Figure 4.1 shows it on one drawing, numbering the conductors 1 to 4. It's worth bookmarking.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th><abbr title="On-Site Guide (IET)">OSG</abbr> number</th><th>Conductor</th><th>What it connects</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">1</td><td><strong>Circuit protective conductor</strong> (<abbr title="circuit protective conductor">CPC</abbr>)</td><td>Each exposed-conductive-part back to the <abbr title="main earthing terminal">MET</abbr> (through the consumer unit's earth bar)</td></tr>
+          <tr><td class="mono">2</td><td><strong>Main protective bonding conductor</strong></td><td>Each extraneous-conductive-part, such as incoming water and gas pipes, to the <abbr title="main earthing terminal">MET</abbr></td></tr>
+          <tr><td class="mono">3</td><td><strong>Earthing conductor</strong></td><td>The <abbr title="main earthing terminal">MET</abbr> to the means of earthing: the supplier's earth terminal or, on <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr>, the earth electrode</td></tr>
+          <tr><td class="mono">4</td><td><strong>Supplementary protective bonding conductor</strong></td><td>Exposed- and extraneous-conductive-parts in one location to each other, where it's needed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>All of them meet at the <strong>main earthing terminal</strong> (<abbr title="main earthing terminal">MET</abbr>). It's often a bare terminal block beside the consumer unit, or the earth bar inside it. It isn't covered because it's meant to sit at earth potential, but it must be accessible and its connections labelled.</p>
+    <p>The earthing conductor leads, one way or another, back to the supply transformer's <strong>star point</strong> (or, on <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr>, to the ground through an electrode). That's where fault current is trying to get back to. A metal water pipe is in the ground too, but not the same bit of ground: it may be far from the transformer, and the path between them has a lot of resistance. So the copper path to the star point does two jobs: it lets enough fault current flow for the device to operate, and it holds everything bonded to it at the same potential while that happens.</p>
+  </section>
+
+  <section class="prose">
     <h2>Main protective bonding</h2>
     <p>Main protective bonding conductors run from the <abbr title="main earthing terminal">MET</abbr> to each extraneous-conductive-part that enters the building:</p>
     <ul>
       <li><strong>metal water and gas pipes</strong>, and oil supply pipes</li>
       <li>other metal service pipes and ducting</li>
-      <li>exposed metallic structural parts of the building</li>
+      <li>exposed metallic structural parts of the building (steel that can be touched; steel hidden behind cladding or brickwork isn't bonded)</li>
       <li>a lightning protection system, where the lightning protection designer says so</li>
     </ul>
-    <p>Make the connection as close as practical to where the service enters the building. For <strong>gas</strong>, it goes on the consumer's side of the meter, within 600 mm of the meter's outlet union, and before any branch in the pipework (or at the point of entry, if the meter is outside). Use a proper earth clamp (to BS 951) with its permanent label: "Safety Electrical Connection – Do Not Remove".</p>
+    <p>Make the connection as close as practical to where the service enters the building. For <strong>gas</strong>, it goes on the consumer's side of the meter, within 600 mm of the meter's outlet union, and before any branch in the pipework (or at the point of entry, if the meter is outside). Use a proper earth clamp (to BS 951) with its permanent label: "Safety Electrical Connection – Do Not Remove". The same label goes where the earthing conductor connects to an earth electrode.</p>
+    <p><strong>Plastic services.</strong> If a water or gas service comes in through a plastic pipe, there's nothing to bond, even if the plumber changes to copper just inside. The copper isn't connected to the ground outside, so it can't bring in earth potential, and the water inside the pipe doesn't change that. More and more homes are like this.</p>
+    <p><strong>One conductor, several pipes.</strong> When one bonding conductor runs from pipe to pipe (often called cross-bonding), keep it <strong>continuous</strong>. Strip a short length of insulation and loop the unbroken copper under each clamp, instead of cutting it and putting two ends under one screw. Then, if one clamp is removed or fails, the pipes beyond it are still bonded.</p>
   </section>
 
   <figure class="widget" aria-labelledby="w2">
@@ -143,6 +166,10 @@
       <li>every circuit in the location meets the disconnection times for automatic disconnection</li>
       <li>the extraneous-conductive-parts in the location are connected to the main protective bonding</li>
     </ul>
+    <p>The third condition has a number behind it. Measure the resistance from each extraneous-conductive-part in the location back to the <abbr title="main earthing terminal">MET</abbr> (you'll learn the method in <a href="../testing/dead-tests.html">Dead tests</a>). With 30 mA <abbr title="residual current device">RCD</abbr> protection it must be no more than:</p>
+    <p><span class="formula">R ≤ <span class="frac"><span>50 V</span><span>0.03 A</span></span> = 1667 Ω</span></p>
+    <p>That's Ohm's law: at 1667 Ω, the 30 mA it takes to trip the <abbr title="residual current device">RCD</abbr> can only produce 0.03 × 1667 = 50 V. So the voltage can't climb past the 50 V touch limit before the <abbr title="residual current device">RCD</abbr> operates. 1667 Ω is a huge resistance, so a properly connected pipe passes easily.</p>
+    <p>If any condition isn't met, supplementary bonding goes in, sized from the location's <abbr title="circuit protective conductor">CPC</abbr>s (On-Site Guide Table 4.6). It's fiddly work in a tiled bathroom, which is one reason it's rarely needed in modern installations.</p>
     <p>See <a href="../regulations/bathrooms.html">Bathrooms and special locations</a> for the rest of the bathroom rules.</p>
   </section>
 
@@ -165,7 +192,7 @@
     ["The gas pipe on the outlet side of the meter", "ext", "Bond it within 600 mm of the meter's outlet union, on the consumer's side, before any branch."],
     ["A metal kitchen sink fed only by plastic pipes", "no", "Nothing connects it to earth or to anything else, so it can't introduce a potential. It isn't extraneous and doesn't need bonding."],
     ["A steel back box for a socket-outlet", "exp", "It's part of the installation's wiring system: an exposed-conductive-part, earthed through the CPC to its earth terminal."],
-    ["Exposed structural steel in the building", "ext", "Structural metalwork can be in contact with the ground, so it's bonded to the MET."],
+    ["Exposed structural steel in the building", "ext", "Structural steel goes into the ground through the foundations, so where it can be touched it's bonded to the MET. Steel hidden behind cladding or brickwork isn't."],
     ["A plastic water pipe entering the house", "no", "Plastic doesn't conduct, so there's nothing to bond. If a short metal section follows it inside, that may not need bonding either: measure if unsure."],
     ["An aluminium window frame in an upstairs bedroom", "no", "It isn't part of the electrical installation and isn't connected to anything that brings in earth, so it's neither exposed nor extraneous."]
   ];
@@ -201,7 +228,16 @@
       why: "All three conditions are needed: 30 mA RCDs on every circuit, disconnection times met, and main bonding in place." },
     { q: "A metal sink is fed entirely by plastic pipes. Should it be bonded?",
       options: ["No: it can't introduce a potential, so it isn't extraneous", "Yes: every metal sink must be bonded to the MET", "Yes, but only with 2.5 mm² mechanically protected cable", "Only if the property is supplied by a TT system"], answer: 0,
-      why: "It's isolated, so it isn't an extraneous-conductive-part." }
+      why: "It's isolated, so it isn't an extraneous-conductive-part." },
+    { q: "Someone standing on a thick rubber mat touches only a line conductor. Why don't they get a shock?",
+      options: ["There's no potential difference across their body", "The line conductor drops to 50 V when touched", "Rubber reduces the supply voltage to safe levels", "The RCD trips before any current can flow"], answer: 0,
+      why: "Their whole body rises to 230 V together. With no difference across them, no current flows. Never try it." },
+    { q: "Why is 1667 Ω the limit between bathroom pipework and the MET when supplementary bonding is left out?",
+      options: ["At the 30 mA RCD trip current, it limits the voltage to 50 V", "It's the resistance of a 10 mm² bonding conductor", "It's the maximum Zs for a 32 A Type B breaker", "It's the minimum insulation resistance allowed"], answer: 0,
+      why: "50 V ÷ 0.03 A = 1667 Ω, so the touch voltage can't pass 50 V before the RCD operates." },
+    { q: "One bonding conductor runs from the MET to the water pipe, then on to the gas pipe. How should it be fixed at the water pipe clamp?",
+      options: ["Unbroken: strip a short length and loop it under the clamp", "Cut it and put both ends under the clamp screw", "Cut it and join the ends with a connector block", "Use a separate clamp for each cut end of the cable"], answer: 0,
+      why: "A continuous conductor means the gas pipe stays bonded even if the water pipe clamp is removed or fails." }
   ]);
 })();
 </script>

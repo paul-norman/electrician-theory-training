@@ -359,6 +359,8 @@
     { id: "bs-27", lesson: "bs7671", q: "An overcurrent caused by a fault of negligible impedance between live conductors, such as line touching neutral, is a ___ current.", a: "Short-circuit current", accept: ["short-circuit", "short circuit", "short-circuit current", "short circuit current"] },
     { id: "bs-28", lesson: "bs7671", q: "BS 7671's term for someone with the education and experience to recognise electrical risks and avoid the dangers:", a: "Skilled person (electrically)", accept: ["skilled person", "skilled", "skilled person electrically", "a skilled person"] },
     { id: "bs-29", lesson: "bs7671", q: "How far upwards from where a person stands does arm's reach extend?", a: "2.5 m (and 1.25 m sideways or downwards)", num: 2.5, tol: 0, unit: "m" },
+    { id: "bs-30", lesson: "bs7671", q: "Which regulation says you must check the existing installation, including earthing and bonding, before an addition or alteration?", a: "Regulation 132.16", accept: ["132.16", "regulation 132.16", "reg 132.16"] },
+    { id: "bs-31", lesson: "bs7671", q: "Which appendix of BS 7671 lists the British Standards that equipment should meet?", a: "Appendix 1", accept: ["1", "appendix 1", "app 1"] },
 
     // ---------------- Part P and notification ----------------
     { id: "pp-01", lesson: "part-p", q: "Which two countries does Part P apply in?", a: "England and Wales", accept: ["england and wales", "wales and england", "england wales", "england & wales"] },
@@ -497,6 +499,7 @@
     { id: "cu-30", lesson: "consumer-units", q: "Can a circuit breaker detect a neutral-to-earth fault?", a: "No: it draws no extra current. Only an RCD sees the imbalance", accept: ["no", "n"] },
     { id: "cu-31", lesson: "consumer-units", q: "On a split-load board, what happens if a circuit's neutral goes to the wrong RCD's neutral bar?", a: "Nuisance tripping: the RCDs see currents that don't balance", accept: ["nuisance tripping", "the rcd trips", "rcds trip", "it trips", "tripping", "the rcds trip"] },
     { id: "cu-32", lesson: "consumer-units", q: "An SPD's indicator window has turned red. What does it mean?", a: "It has absorbed a surge and needs replacing", accept: ["replace it", "needs replacing", "it has failed", "faulty", "it needs replacing", "it has absorbed a surge", "replace"] },
+    { id: "cu-33", lesson: "consumer-units", q: "Swapping a Type B breaker for a Type C of the same rating does what to the circuit's maximum Z<sub>s</sub>?", a: "Halves it (Type C needs 10 × I<sub>n</sub> to trip instantly, not 5 ×)", accept: ["halves", "halves it", "halved", "it halves", "half"] },
     // ---------------- Three-phase: why ----------------
     { id: "tp-01", lesson: "three-phase", q: "Single-phase power pulses up and down 100 times a second. What is the total power like with a balanced three-phase load?", a: "Constant: one phase is always near its peak, so the total stays steady", accept: ["constant", "steady", "smooth", "it's constant", "its constant", "constant power", "steady power", "it stays constant", "even", "level"] },
     { id: "tp-02", lesson: "three-phase", q: "Three single-phase circuits need six conductors. Roughly how many does a three-phase supply need to do the same job?", a: "Three or four: three lines, plus a shared neutral that carries almost nothing when balanced", num: 4, tol: 0.25 },
@@ -532,6 +535,11 @@
     { id: "bond-09", lesson: "bonding", q: "Does a metal sink fed only by plastic pipes need bonding?", a: "No: it can't introduce a potential, so it isn't extraneous", accept: ["no", "n"] },
     { id: "bond-10", lesson: "bonding", q: "What's the main purpose of protective equipotential bonding?", a: "Keeping parts that can be touched together at about the same voltage during a fault", accept: ["equal potential", "same potential", "same voltage", "keep metal at the same voltage", "equipotential", "reduce touch voltage", "limit touch voltage", "keep parts at the same potential"] },
     { id: "bond-11", lesson: "bonding", q: "Which conductor connects the supply's earth terminal to the main earthing terminal?", a: "The earthing conductor", accept: ["earthing conductor", "the earthing conductor", "main earthing conductor"] },
+    { id: "bond-12", lesson: "bonding", q: "When supplementary bonding is left out of a bathroom, what's the maximum resistance from its pipework to the MET (30 mA RCDs)?", a: "1667 Ω (50 V ÷ 0.03 A)", num: 1667, tol: 0.01, unit: "Ω" },
+    { id: "bond-13", lesson: "bonding", q: "Below what AC touch voltage does BS 7671 treat contact as safe to sustain in normal dry conditions?", a: "50 V", num: 50, tol: 0, unit: "V" },
+    { id: "bond-14", lesson: "bonding", q: "One bonding conductor serves two pipes. Should it be cut at the first clamp?", a: "No: keep it continuous and loop it under the clamp, so the second pipe stays bonded if the first clamp fails", accept: ["no", "n", "keep it continuous", "continuous"] },
+    { id: "bond-15", lesson: "bonding", q: "Water comes in through a plastic pipe, then changes to copper inside. Does the copper need main bonding?", a: "No: it isn't connected to the ground outside, so it isn't extraneous", accept: ["no", "n"] },
+    { id: "bond-16", lesson: "bonding", q: "In On-Site Guide Figure 4.1, conductors 1, 2, 3 and 4 are the CPC, main bonding, earthing conductor and what?", a: "Supplementary protective bonding conductors", accept: ["supplementary bonding", "supplementary protective bonding", "supplementary", "supplementary bonding conductor", "supplementary bonding conductors"] },
 
     // ---------------- Automatic disconnection ----------------
     { id: "ads-01", lesson: "ads", q: "Complete the formula: Z<sub>s</sub> = Z<sub>e</sub> + ___", a: "(R<sub>1</sub> + R<sub>2</sub>)", accept: ["r1+r2", "r1 + r2", "(r1+r2)", "(r1 + r2)", "r1r2"] },
@@ -545,6 +553,7 @@
     { id: "ads-09", lesson: "ads", q: "Which BS 7671 tables give maximum Z<sub>s</sub> for fuses and circuit breakers?", a: "Tables 41.2 to 41.4", accept: ["41.2 to 41.4", "tables 41.2 to 41.4", "41.2-41.4", "41.2 41.3 41.4", "41.2, 41.3 and 41.4", "table 41.3", "41.3"] },
     { id: "ads-10", lesson: "ads", q: "On a TT system with an RCD, R<sub>A</sub> × I<sub>Δn</sub> must not exceed what voltage?", a: "50 V", num: 50, tol: 0, unit: "V" },
     { id: "ads-11", lesson: "ads", q: "What does C<sub>min</sub> = 0.95 allow for in the maximum Z<sub>s</sub> calculation?", a: "The supply voltage being lower than 230 V", accept: ["low voltage", "lower supply voltage", "voltage variation", "supply voltage tolerance", "the voltage being low", "minimum voltage", "voltage drop"] },
+    { id: "ads-12", lesson: "ads", q: "BS 7671 doesn't say a breaker trips or a fuse blows. What word does it use?", a: "Operates", accept: ["operate", "operates", "operated"] },
 
     // ---------------- The earth fault loop explorer ----------------
     { id: "efl-01", lesson: "efl", q: "Name the parts of the earth fault loop inside the installation.", a: "The circuit's line conductor (R<sub>1</sub>) and circuit protective conductor (R<sub>2</sub>)", accept: ["r1 and r2", "r1 r2", "r1+r2", "line and cpc", "line conductor and cpc", "line and protective conductor", "the line and the cpc"] },
@@ -567,6 +576,13 @@
     { id: "ic-10", lesson: "installing-cables", q: "In old three-phase wiring, what were the line colours?", a: "Red, yellow and blue (neutral black)", accept: ["red yellow blue", "red, yellow, blue", "red yellow and blue", "red, yellow and blue"] },
     { id: "ic-11", lesson: "installing-cables", q: "Which mark of conformity is specific to cables?", a: "BASEC", accept: ["basec"] },
     { id: "ic-12", lesson: "installing-cables", q: "A cable in a partition with metal studs is buried at any depth. Is RCD or earthed-metal protection needed?", a: "Yes, regardless of depth", accept: ["yes", "y"] },
+    { id: "ic-13", lesson: "installing-cables", q: "Which regulation requires wiring to be supported so it can't collapse prematurely in a fire?", a: "Regulation 521.10.202", accept: ["521.10.202", "regulation 521.10.202", "reg 521.10.202"] },
+    { id: "ic-14", lesson: "installing-cables", q: "A cable less than 50 mm deep in a brick wall runs in a safe zone. Without earthed metal or nail-proof protection, what else does it need?", a: "30 mA RCD protection (additional protection)", accept: ["rcd", "30 ma rcd", "30ma rcd", "an rcd", "a 30 ma rcd", "rcd protection", "30 ma rcd protection", "additional protection", "rcbo"] },
+    { id: "ic-15", lesson: "installing-cables", q: "Which regulation lists the alternatives to an RCD for buried cables: earthed metal covering, earthed conduit or trunking, nail-proof protection, or SELV/PELV?", a: "Regulation 522.6.204", accept: ["522.6.204", "regulation 522.6.204", "reg 522.6.204"] },
+    { id: "ic-16", lesson: "installing-cables", q: "Which regulation covers cables under floors and above ceilings passing through joists?", a: "Regulation 522.6.201", accept: ["522.6.201", "regulation 522.6.201", "reg 522.6.201"] },
+    { id: "ic-17", lesson: "installing-cables", q: "When you see the words \"additional protection\", what device and rating should you think of?", a: "A 30 mA RCD", accept: ["30 ma rcd", "30ma rcd", "rcd", "a 30 ma rcd", "30 ma", "30ma"] },
+    { id: "ic-18", lesson: "installing-cables", q: "Since 2022, is a warning notice about mixed old and new wiring colours required?", a: "No: Amendment 2 removed the requirement (you can still fit one)", accept: ["no", "n"] },
+    { id: "ic-19", lesson: "installing-cables", q: "Green goo oozing from old PVC wiring at accessories suggests what?", a: "The cable is breaking down (plasticiser reacting with the copper) and the wiring probably needs replacing", accept: ["rewire", "needs replacing", "replace", "replace the wiring", "cable breaking down", "degraded cable", "rewiring"] },
 
     // ---------------- Lighting circuits ----------------
     { id: "lc-01", lesson: "lighting", q: "Which terminal of a loop-in ceiling rose is always live?", a: "The loop (permanent line) terminal", accept: ["loop", "the loop", "loop terminal", "permanent line", "line loop", "the loop terminal", "live loop"] },
@@ -584,9 +600,13 @@
     { id: "sk-03", lesson: "sockets", q: "Maximum floor area for a 2.5 mm² radial on a 20 A device?", a: "50 m²", num: 50, tol: 0, unit: "m²" },
     { id: "sk-04", lesson: "sockets", q: "How many sockets may one non-fused spur from a ring feed?", a: "One single or one double socket", num: 1, tol: 0 },
     { id: "sk-05", lesson: "sockets", q: "Maximum fuse rating in a fused connection unit?", a: "13 A", num: 13, tol: 0, unit: "A" },
-    { id: "sk-06", lesson: "sockets", q: "A ring cable's current-carrying capacity must be at least what fraction of the device rating?", a: "0.67", num: 0.67, tol: 0.01 },
+    { id: "sk-06", lesson: "sockets", q: "Regulation 433.1.204: a ring final's cable must have a current-carrying capacity (I<sub>z</sub>) of at least how many amps?", a: "20 A", num: 20, tol: 0, unit: "A" },
     { id: "sk-07", lesson: "sockets", q: "Can a spur be taken from another spur?", a: "No", accept: ["no", "n"] },
     { id: "sk-08", lesson: "sockets", q: "Guidance: minimum horizontal distance from a kitchen sink to a socket?", a: "300 mm", num: 300, tol: 0, unit: "mm" },
+    { id: "sk-09", lesson: "sockets", q: "In a ring final voltage drop calculation, what do you divide mV/A/m × I<sub>b</sub> × L by?", a: "4,000 (the load is shared by two paths, each half the length)", num: 4000, tol: 0 },
+    { id: "sk-10", lesson: "sockets", q: "What assumed design current does the On-Site Guide give for a 32 A ring final circuit?", a: "26 A", num: 26, tol: 0, unit: "A" },
+    { id: "sk-11", lesson: "sockets", q: "Should a 3 kW oven go on the ring final?", a: "No: cookers, ovens and hobs over 2 kW get their own radial circuit", accept: ["no", "n"] },
+    { id: "sk-12", lesson: "sockets", q: "What's it called when the protective device nearest a fault operates first, leaving the rest of the installation on?", a: "Selectivity", accept: ["selectivity", "discrimination"] },
 
     // ---------------- Design current and diversity ----------------
     { id: "dsg-01", lesson: "design-current", q: "Put these in order of size, smallest first: I<sub>z</sub>, I<sub>b</sub>, I<sub>n</sub>", a: "I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub>", accept: ["ib in iz", "ib, in, iz", "ib<in<iz", "ib <= in <= iz", "ib ≤ in ≤ iz", "ib in and iz"] },
@@ -599,6 +619,10 @@
     { id: "dsg-08", lesson: "design-current", q: "A 9.6 kW cooker with a socket on its control unit. What's I<sub>b</sub> after diversity?", a: "24.5 A", num: 24.5, unit: "A" },
     { id: "dsg-09", lesson: "design-current", q: "Is diversity applied to a single electric shower circuit?", a: "No: instantaneous water heaters are taken at 100%", accept: ["no", "n"] },
     { id: "dsg-10", lesson: "design-current", q: "Which protective device needs the cable oversized using a factor of 0.725?", a: "A rewirable fuse (BS 3036)", accept: ["rewirable fuse", "rewireable fuse", "bs 3036", "bs3036", "semi-enclosed fuse", "a rewirable fuse", "fuse wire"] },
+    { id: "dsg-11", lesson: "design-current", q: "Does a lighting circuit in a home need 30 mA RCD protection?", a: "Yes: final circuits supplying luminaires in homes need it", accept: ["yes", "y"] },
+    { id: "dsg-12", lesson: "design-current", q: "An immersion heater circuit runs in surface trunking, not in a bathroom. Does it need RCD protection?", a: "No: none of the cases apply, so a circuit breaker is enough (an RCBO is still allowed)", accept: ["no", "n"] },
+    { id: "dsg-13", lesson: "design-current", q: "Which BS EN number covers RCBOs?", a: "BS EN 61009", accept: ["61009", "bs en 61009", "en 61009", "bs en61009"] },
+    { id: "dsg-14", lesson: "design-current", q: "Which BS EN number covers circuit breakers (MCBs)?", a: "BS EN 60898", accept: ["60898", "bs en 60898", "en 60898", "bs en60898"] },
 
     // ---------------- Cable sizing and voltage drop ----------------
     { id: "csz-01", lesson: "cable-sizing", q: "Which correction factor allows for ambient temperature?", a: "C<sub>a</sub>", accept: ["ca", "c a"] },
@@ -613,6 +637,13 @@
     { id: "csz-10", lesson: "cable-sizing", q: "Which current is used in the voltage drop calculation: I<sub>b</sub>, I<sub>n</sub> or I<sub>t</sub>?", a: "I<sub>b</sub>, the design current", accept: ["ib", "i b", "design current", "the design current"] },
     { id: "csz-11", lesson: "cable-sizing", q: "Which installation reference method is clipped direct?", a: "Method C", accept: ["c", "method c", "reference method c"] },
     { id: "csz-12", lesson: "cable-sizing", q: "Which BS 7671 regulation gives the adiabatic equation for checking CPC size?", a: "543.1.3", accept: ["543.1.3", "regulation 543.1.3", "543"] },
+    { id: "csz-13", lesson: "cable-sizing", q: "Which reference method covers cables in conduit or trunking on a wall, or in conduit buried in masonry?", a: "Method B", accept: ["b", "method b", "reference method b"] },
+    { id: "csz-14", lesson: "cable-sizing", q: "C<sub>g</sub> for two circuits bunched or enclosed together?", a: "0.80", num: 0.8, tol: 0 },
+    { id: "csz-15", lesson: "cable-sizing", q: "C<sub>a</sub> for 70 °C thermoplastic cable at an ambient temperature of 35 °C?", a: "0.94", num: 0.94, tol: 0 },
+    { id: "csz-16", lesson: "cable-sizing", q: "C<sub>i</sub> for a cable passing through 50 mm of thermal insulation (Table 52.2)?", a: "0.88", num: 0.88, tol: 0 },
+    { id: "csz-17", lesson: "cable-sizing", q: "A route is partly method 100 and partly method 101. Which do you size the cable for?", a: "The worse one (method 101): check every method on the route", accept: ["101", "method 101", "the worst", "worst", "the worse one", "worse"] },
+    { id: "csz-18", lesson: "cable-sizing", q: "What's the largest size of flat twin and earth cable?", a: "16 mm²", num: 16, tol: 0, unit: "mm²" },
+    { id: "csz-19", lesson: "cable-sizing", q: "40 A device, C<sub>a</sub> 0.94, C<sub>g</sub> 0.80, C<sub>i</sub> 0.88. What I<sub>t</sub> does the cable need?", a: "60.4 A (more than 16 mm² twin and earth can carry in method 100)", num: 60.44, unit: "A" },
 
     // ---------------- Safe isolation ----------------
     { id: "iso-01", lesson: "safe-isolation", q: "After testing a circuit dead, what must you do with the voltage indicator?", a: "Prove it again on a known live source", accept: ["prove it", "re-prove it", "reprove it", "prove it again", "re-prove", "reprove", "test it on a known source", "prove it on a proving unit", "prove it works"] },

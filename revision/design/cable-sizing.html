@@ -33,6 +33,7 @@
   <section class="prose">
     <h2>Heat is the limit</h2>
     <p>Current through a cable's resistance makes heat (P = I² × R; see <a href="../principles/power.html">Power</a>). The cable settles at the temperature where it loses heat as fast as it makes it. Its <strong>current-carrying capacity</strong> is the current that keeps it at or below its maximum working temperature: 70 °C for ordinary <abbr title="polyvinyl chloride">PVC</abbr> (thermoplastic) twin and earth (see <a href="../cables/conductors-and-cables.html">Conductors and cables</a>). Anything that stops heat escaping lowers that current.</p>
+    <p>More copper can carry more current, and more heat, before it gets too hot: a teaspoon left in hot tea burns your fingers sooner than a dessert spoon would. Twin and earth comes in 1, 1.5, 2.5, 4, 6, 10 and 16 mm². Clipped to a wall, 1 mm² is rated 16 A and 16 mm² is rated 85 A. Wrap the same 16 mm² in insulation (method 103) and its rating halves, to 42.5 A. An undersized cable doesn't trip anything: it just runs hot until the insulation fails, and that can start a fire.</p>
   </section>
 
   <section class="prose">
@@ -43,6 +44,7 @@
         <thead><tr><th>Method</th><th>Installation</th><th>Heat loss</th></tr></thead>
         <tbody>
           <tr><td class="mono">C</td><td>Clipped direct to a surface, or buried in plaster or masonry with no thermal insulation</td><td>Good</td></tr>
+          <tr><td class="mono">B</td><td>In conduit or trunking on a wall, or in conduit buried in plaster or masonry (no thermal insulation)</td><td>Fair</td></tr>
           <tr><td class="mono">A</td><td>In conduit in a thermally insulated wall</td><td>Poor</td></tr>
           <tr><td class="mono">100</td><td>Above a plasterboard ceiling, covered by thermal insulation up to 100 mm thick</td><td>Fair</td></tr>
           <tr><td class="mono">101</td><td>As 100, but the insulation is more than 100 mm thick</td><td>Poor</td></tr>
@@ -51,15 +53,16 @@
         </tbody>
       </table>
     </div>
+    <p>The Electrician's Guide to the Building Regulations and the On-Site Guide both have a simpler version of this table for twin and earth, with pictures of each method. Real routes often use more than one method. Check every method along the route and size the whole circuit for the worst one: current doesn't know which part of the route it's in, and joining two sizes partway along isn't worth the effort. A 9 kW shower (39.1 A) needs 10 mm² under 80 mm of loft insulation (method 100, 45 A), but if the loft has 200 mm (method 101, 36 A), the whole circuit goes up to 16 mm².</p>
   </section>
 
   <section class="prose">
     <h2>Correction factors</h2>
     <p>The tables assume standard conditions. When the real conditions are worse, multiply by a factor less than 1:</p>
     <ul>
-      <li><strong>C<sub>a</sub>, ambient temperature</strong> (Table 4B1). The tables assume 30 °C air. In a hot plant room at 35 °C, C<sub>a</sub> is 0.94 for <abbr title="polyvinyl chloride">PVC</abbr> cable; at 25 °C it's 1.03, a small bonus.</li>
-      <li><strong>C<sub>g</sub>, grouping</strong> (Table 4C1). Cables bunched together warm each other. Three circuits bunched or enclosed together: 0.70. Six: 0.57.</li>
-      <li><strong>C<sub>i</sub>, thermal insulation</strong>. A cable totally surrounded by insulation for more than 0.5 m: 0.5, which halves its rating. Shorter lengths have smaller reductions (Table 52.2). Don't apply C<sub>i</sub> on top of methods 100 to 103, which already allow for the insulation.</li>
+      <li><strong>C<sub>a</sub>, ambient temperature</strong> (Table 4B1). The tables assume 30 °C air. At 35 °C, C<sub>a</sub> is 0.94 for 70 °C thermoplastic (<abbr title="polyvinyl chloride">PVC</abbr>) cable and 0.96 for 90 °C thermosetting cable; at 25 °C it's 1.03, a small bonus. Design for the hottest the space gets in a summer heatwave, not the temperature on the day you visit (unless it's climate-controlled).</li>
+      <li><strong>C<sub>g</sub>, grouping</strong> (Table 4C1). Cables bunched together warm each other. Two circuits bunched or enclosed together: 0.80. Three: 0.70. Six: 0.57. A circuit counts as grouped even if it runs alongside another for only part of the route. Spacing the cables apart reduces or removes the factor (see the notes to the table).</li>
+      <li><strong>C<sub>i</sub>, thermal insulation</strong>. A cable totally surrounded by insulation for more than 0.5 m: 0.5, which halves its rating. Shorter lengths have smaller reductions (Table 52.2): 50 mm of insulation gives 0.88, 100 mm 0.78, 200 mm 0.63 and 400 mm 0.51. If the length falls between two rows, use the longer one. Don't apply C<sub>i</sub> for the insulation that methods 100 to 103 already allow for, but do apply it if the route also passes through insulation somewhere else, such as through a filled cavity wall.</li>
       <li><strong>C<sub>c</sub></strong>: 0.725 where the protective device is a rewirable fuse (see <a href="design-current.html">Design current and diversity</a>), and 0.9 for cables buried in the ground.</li>
     </ul>
     <p>Divide the device rating by all the factors that apply to get the rating to look up in the table:</p>
@@ -67,10 +70,25 @@
   </section>
 
   <section class="prose">
+    <h2>The design, step by step</h2>
+    <p>Every circuit design follows the same steps. The On-Site Guide's Appendix F has the tables and the formulas you need.</p>
+    <ol>
+      <li><strong>Design current, I<sub>b</sub></strong> = <span class="frac"><span>P</span><span>V</span></span>: the current the circuit will actually carry (see <a href="design-current.html">Design current and diversity</a>). Work to two decimal places.</li>
+      <li><strong>Device rating, I<sub>n</sub> ≥ I<sub>b</sub></strong>: the next standard size up. Smaller and it trips every time the load runs.</li>
+      <li><strong>Correction factors</strong>: C<sub>a</sub>, C<sub>g</sub>, C<sub>i</sub> (and C<sub>c</sub>). They all come down to heat: hot air, neighbouring cables and insulation all stop the cable cooling.</li>
+      <li><strong>Rating to look up</strong> = <span class="frac"><span>I<sub>n</sub></span><span>C<sub>a</sub> × C<sub>g</sub> × C<sub>i</sub></span></span>. Some courses call this figure I<sub>z</sub>. Strictly, <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> uses I<sub>z</sub> for the cable's capacity <em>after</em> correction (I<sub>t</sub> × the factors), but the check comes out the same either way.</li>
+      <li><strong>Cable size</strong>: the smallest size whose tabulated rating I<sub>t</sub>, for your reference method, is at least that figure. The cable still only carries I<sub>b</sub>; the bigger figure is how much heat-carrying ability it needs in those conditions.</li>
+      <li><strong>Voltage drop</strong>: check it against 3% or 5%, as below.</li>
+      <li><strong>Fault protection</strong>: check Z<sub>s</sub> and the <abbr title="circuit protective conductor">CPC</abbr> size (see the box at the end of this lesson).</li>
+    </ol>
+    <p>If a step fails, change something and go round again: a bigger cable, a different route or reference method, separating the cable from the circuits it's grouped with, or avoiding the insulation. Twin and earth stops at 16 mm², so sometimes the route is the only thing you can change.</p>
+  </section>
+
+  <section class="prose">
     <h2>Voltage drop</h2>
-    <p>Long, thin cables lose voltage along their length, and equipment at the far end gets less than it needs. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 4 gives a voltage drop for each cable size in <strong>millivolts per amp per metre (mV/A/m)</strong>. It already counts both the line and neutral, so use the cable's route length:</p>
+    <p>Long, thin cables lose voltage along their length, and equipment at the far end gets less than it needs, just as a long hosepipe delivers less pressure than a short one. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 4 gives a voltage drop for each cable size in <strong>millivolts per amp per metre (mV/A/m)</strong>. It already counts both the line and neutral, so use the cable's route length:</p>
     <p><span class="formula">V<sub>drop</sub> = <span class="frac"><span>mV/A/m × I<sub>b</sub> × L</span><span>1,000</span></span></span></p>
-    <p>Use the design current I<sub>b</sub> here, not the device rating. For an installation fed from the public supply, the limits from the origin to the load are <strong>3% for lighting</strong> (6.9 V at 230 V) and <strong>5% for other uses</strong> (11.5 V). For a final circuit fed from a sub-board, add the sub-main's drop to the final circuit's.</p>
+    <p>Use the design current I<sub>b</sub> here, not the device rating. For an installation fed from the public supply, the limits from the origin to the load are <strong>3% for lighting</strong> (6.9 V at 230 V) and <strong>5% for other uses</strong> (11.5 V). If the drop is too high, use a bigger cable or a shorter route. For a final circuit fed from a sub-board, add the sub-main's drop to the final circuit's.</p>
   </section>
 
   <section class="widget" aria-labelledby="w1">
@@ -94,7 +112,7 @@
       <div class="ctl"><label for="cM">Installation method</label><select id="cM" class="wide"></select></div>
       <div class="ctl"><label for="cT">Ambient temperature</label><select id="cT"></select></div>
       <div class="ctl"><label for="cG">Circuits grouped together</label><select id="cG"></select></div>
-      <label class="check" for="cI"><input type="checkbox" id="cI"> Surrounded by insulation for over 0.5 m</label>
+      <div class="ctl"><label for="cI">Passes through thermal insulation</label><select id="cI"></select></div>
     </div>
     <div class="readouts">
       <div class="ro"><span class="k">Factors</span><span class="v" id="oF" style="font-size:1rem">—</span><span class="s" id="oFs"></span></div>
@@ -120,7 +138,23 @@
       <span class="w">I<sub>t</sub> ≥ <span class="frac"><span>32</span><span>0.94 × 0.70</span></span> = 48.6 A<br>10 mm² is rated 64 A (method C)<br>V<sub>drop</sub> = <span class="frac"><span>4.4 × 24.5 × 27</span><span>1,000</span></span> = 2.9 V</span>
       <span class="a">10 mm²: 2.9 V is under 11.5 V</span>
     </div>
+    <div class="example">
+      <span class="q">A 3 kW immersion heater, 20 m of twin and earth in surface trunking (method B), ambient 35 °C. No <abbr title="residual current device">RCD</abbr> needed (see <a href="design-current.html">Design current and diversity</a>), so a 16 A Type B circuit breaker.</span>
+      <span class="w">I<sub>b</sub> = <span class="frac"><span>3,000</span><span>230</span></span> = 13.04 A, so I<sub>n</sub> = 16 A<br><span class="frac"><span>16</span><span>0.94</span></span> = 17.02 A<br>1.5 mm² is only 16.5 A (method B); 2.5 mm² is 23 A<br>V<sub>drop</sub> = <span class="frac"><span>18 × 13.04 × 20</span><span>1,000</span></span> = 4.69 V</span>
+      <span class="a">2.5 mm²: 4.69 V is under 11.5 V. Without the hot airing cupboard, 1.5 mm² would have done.</span>
+    </div>
+    <div class="example">
+      <span class="q">An 8.5 kW shower on a 40 A Type B <abbr title="residual current breaker with overcurrent protection">RCBO</abbr>, 27 m, method 100 (loft insulation under 100 mm). It's grouped with one other circuit, passes through 50 mm of cavity wall insulation, and the ambient is 35 °C.</span>
+      <span class="w">I<sub>b</sub> = <span class="frac"><span>8,500</span><span>230</span></span> = 36.96 A, so I<sub>n</sub> = 40 A<br>C<sub>a</sub> 0.94, C<sub>g</sub> 0.80, C<sub>i</sub> 0.88<br><span class="frac"><span>40</span><span>0.94 × 0.80 × 0.88</span></span> = 60.4 A, but 16 mm² is only 57 A (method 100): <strong>fails</strong><br>Separate it from the other circuit (no C<sub>g</sub>): <span class="frac"><span>40</span><span>0.94 × 0.88</span></span> = 48.4 A<br>16 mm² is rated 57 A<br>V<sub>drop</sub> = <span class="frac"><span>2.8 × 36.96 × 27</span><span>1,000</span></span> = 2.79 V</span>
+      <span class="a">16 mm² once separated: 2.79 V is under 11.5 V</span>
+    </div>
   </div>
+
+  <section class="callout info">
+    <h3>Ready-made tables</h3>
+    <p>For everyday circuits you don't always need to work it all out. The On-Site Guide and the Electrician's Guide to the Building Regulations have tables of standard final circuits: for a given load, device and reference method, they give the cable size and the maximum circuit length. For example, a 7.2 kW shower on a 32 A Type B device can use 6 mm² for methods A, B, C, 100 and 102 up to a set maximum length, or 10 mm² for method 101. They only hold within their assumptions (device type, conditions, no grouping and so on), so if the job doesn't match, do the full calculation.</p>
+    <p>In the exams you won't be asked to design a whole circuit, but you will be asked to do single steps: look up a factor, find a rating in a table, or work out a voltage drop. Practise with your own made-up jobs by changing one thing at a time: the load, the length, the temperature, the grouping or the reference method.</p>
+  </section>
 
   <section class="callout info">
     <h3>Two more checks to finish a design</h3>
@@ -143,6 +177,7 @@
   var MVAM = [44, 29, 18, 11, 7.3, 4.4, 2.8];
   var METHODS = [
     ["C", "C: clipped direct, or in plaster or masonry", [16, 20, 27, 37, 47, 64, 85]],
+    ["B", "B: in conduit or trunking on or in a wall", [13, 16.5, 23, 30, 38, 52, 69]],
     ["A", "A: in conduit in a thermally insulated wall", [11.5, 14.5, 20, 26, 32, 44, 57]],
     ["100", "100: above a ceiling, insulation up to 100 mm", [13, 16, 21, 27, 34, 45, 57]],
     ["101", "101: above a ceiling, insulation over 100 mm", [10.5, 13, 17, 22, 27, 36, 46]],
@@ -157,15 +192,18 @@
   TEMPS.forEach(function (t, k) { var o = document.createElement("option"); o.value = k; o.textContent = t[0] + " °C (factor " + t[1].toFixed(2) + ")"; if (t[0] === 30) o.selected = true; $("cT").appendChild(o); });
   GROUP.forEach(function (g, k) { var o = document.createElement("option"); o.value = k; o.textContent = g[0] + (g[0] === 1 ? " (on its own)" : "") ; $("cG").appendChild(o); });
 
+  var INS = [["None", 1], ["50 mm of it", 0.88], ["100 mm of it", 0.78], ["200 mm of it", 0.63], ["400 mm of it", 0.51], ["0.5 m or more", 0.5]];
+  INS.forEach(function (t, k) { var o = document.createElement("option"); o.value = k; o.textContent = t[0] + (k ? " (factor " + t[1].toFixed(2) + ")" : ""); $("cI").appendChild(o); });
   function sz(s) { return (s === 1.5 ? "1.5" : s === 2.5 ? "2.5" : String(s)) + " mm²"; }
   function calc() {
     document.querySelectorAll("#cUse button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-u") === use)); });
-    var m = METHODS[+$("cM").value], insOK = m[0] === "C" || m[0] === "A";
-    $("cI").disabled = !insOK; if (!insOK) $("cI").checked = false;
-    var ca = TEMPS[+$("cT").value][1], cg = GROUP[+$("cG").value][1], ci = $("cI").checked ? 0.5 : 1;
+    // Methods 100 to 103 already allow for the insulation they're in, so only a separate, short patch can be added.
+    var m = METHODS[+$("cM").value], inIns = /^10/.test(m[0]), longOpt = $("cI").options[INS.length - 1];
+    longOpt.disabled = inIns; if (inIns && +$("cI").value === INS.length - 1) $("cI").value = "0";
+    var ca = TEMPS[+$("cT").value][1], cg = GROUP[+$("cG").value][1], ci = INS[+$("cI").value][1];
     var In = +$("cIn").value, ib = parseFloat($("cIb").value), L = parseFloat($("cL").value);
     var prod = ca * cg * ci, it = In / prod, lim = use === "l" ? 6.9 : 11.5, v = $("cV");
-    $("oF").innerHTML = "C<sub>a</sub> " + ca.toFixed(2) + " · C<sub>g</sub> " + cg.toFixed(2) + (ci < 1 ? " · C<sub>i</sub> 0.5" : "");
+    $("oF").innerHTML = "C<sub>a</sub> " + ca.toFixed(2) + " · C<sub>g</sub> " + cg.toFixed(2) + (ci < 1 ? " · C<sub>i</sub> " + ci.toFixed(2) : "");
     $("oFs").textContent = "multiplied: " + prod.toFixed(3);
     $("oIt").textContent = Course.sig(it, 3) + " A"; $("oIts").innerHTML = "I<sub>n</sub> divided by the factors";
     if (isNaN(ib) || isNaN(L) || ib <= 0 || L <= 0) { v.className = "verdict bad"; v.querySelector("strong").innerHTML = "Enter I<sub>b</sub> and the length"; v.querySelector("span").textContent = ""; return; }
@@ -206,7 +244,13 @@
       why: Course.frac("18 × 20 × 25", "1,000") + " = 9 V. Under 11.5 V for power, but too much for lighting." },
     { q: "Which installation method has the lowest rating for the same twin and earth cable?",
       options: ["103: in an insulated stud wall, not touching the board", "C: clipped direct to the surface of a wall", "100: above a ceiling under 100 mm of insulation", "102: in an insulated stud wall, touching the board"], answer: 0,
-      why: "With insulation on all sides and no contact with the plasterboard, the cable loses heat worst of all." }
+      why: "With insulation on all sides and no contact with the plasterboard, the cable loses heat worst of all." },
+    { q: "A shower circuit runs partly above a ceiling under 80 mm of insulation (method 100) and partly under 200 mm (method 101). How do you size it?",
+      options: ["Check both methods and use the larger cable for the whole run", "Use method 100, as it covers most of the route", "Use a smaller cable for the 100 part and join them", "Average the two ratings and pick a size to suit"], answer: 0,
+      why: "The whole circuit is one size, chosen for the worst part of the route." },
+    { q: "With correction factors applied, a design needs a rating of 60.4 A, but 16 mm² twin and earth is rated only 57 A in that method. What can you do?",
+      options: ["Change the route or conditions, such as separating it from other circuits", "Fit a smaller protective device than the design current", "Use the 16 mm² anyway, as it's the largest size", "Run two 10 mm² cables in parallel to the shower"], answer: 0,
+      why: "Twin and earth stops at 16 mm², so remove or reduce a factor: separate the cables, avoid the insulation or change the reference method." }
   ]);
 })();
 </script>

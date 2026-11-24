@@ -414,6 +414,7 @@
     "NET": "National Electrotechnical Training",
     "NICEIC": "National Inspection Council for Electrical Installation Contracting",
     "NVQ": "National Vocational Qualification",
+    "OSG": "On-Site Guide (IET)",
     "PAT": "portable appliance testing",
     "PE": "protective earth",
     "PEFC": "prospective earth fault current",
@@ -540,9 +541,42 @@
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") hide(); });
   })();
 
+  // Foldable boxes, remembered per box in this browser. Home page boxes carry data-fold and start open.
+  // Every lesson's key takeaways box folds too, starting folded: it's most useful on a second read.
+  function folds() {
+    document.querySelectorAll("aside.callout.takeaway:not([data-fold])").forEach(function (box) {
+      box.setAttribute("data-fold", "takeaway:" + (document.body.getAttribute("data-lesson") || location.pathname.replace(/^.*?\/revision\//, "")));
+      box.setAttribute("data-fold-default", "folded");
+      box.setAttribute("data-fold-hint", "best after a first read");
+    });
+    document.querySelectorAll("[data-fold]").forEach(function (box) {
+      var h = box.querySelector("h3"); if (!h || h.querySelector(".fold-btn")) return;
+      var key = "rev:fold:" + box.getAttribute("data-fold"), byDefault = box.getAttribute("data-fold-default") === "folded";
+      var b = document.createElement("button"), t = document.createElement("span");
+      b.type = "button"; b.className = "fold-btn"; t.className = "fold-title";
+      while (h.firstChild) t.appendChild(h.firstChild);
+      b.appendChild(t);
+      var hint = box.getAttribute("data-fold-hint");
+      if (hint) { var hs = document.createElement("span"); hs.className = "fold-hint"; hs.textContent = hint; b.appendChild(hs); }
+      h.appendChild(b);
+      var name = t.textContent.trim();
+      // Stored "1" = folded, "0" = open; nothing stored = the box's default.
+      function set(folded, save) {
+        box.classList.toggle("folded", folded);
+        b.setAttribute("aria-expanded", String(!folded));
+        b.setAttribute("aria-label", (folded ? "Show " : "Hide ") + name);
+        if (save) { try { if (folded === byDefault) localStorage.removeItem(key); else localStorage.setItem(key, folded ? "1" : "0"); } catch (e) { /* ignore */ } }
+      }
+      var saved = null; try { saved = localStorage.getItem(key); } catch (e) { /* ignore */ }
+      set(saved === null ? byDefault : saved === "1", false);
+      b.addEventListener("click", function () { set(!box.classList.contains("folded"), true); });
+    });
+  }
+
   window.Course = {
     MODULES: MODULES, ACRONYMS: ACRONYMS, score: score, frac: frac, quiz: quiz, practice: practice, triangle: triangle,
     sig: sig, si: si, layout: layout, cssVar: cssVar, setFlow: setFlow, rand: rand, pick: pick
   };
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", nav); else nav();
+  function init() { nav(); folds(); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();

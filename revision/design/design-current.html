@@ -13,6 +13,14 @@
   .chain .c .n { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; color: var(--flow); }
   .chain .le { align-self: center; font-family: var(--font-mono); font-size: 1.3rem; color: var(--muted); }
   .chain .c .d { font-size: 0.88rem; }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.yes { background: var(--info-bg); }
+  .verdict.yes strong { color: var(--info); }
+  .verdict.ok { background: var(--ok-bg); }
+  .verdict.ok strong { color: var(--ok); }
+  #rcChecks .check { align-items: flex-start; }
+  #rcChecks .check input { margin-top: 3px; flex: none; }
 </style>
 </head>
 <body data-lesson="design-current">
@@ -61,6 +69,31 @@
     </div>
     <p>The device must be big enough not to trip in normal use, and the cable must be big enough that the device protects it. Breakers come in standard ratings, so pick the next one up from I<sub>b</sub>: 6, 10, 16, 20, 25, 32, 40, 50 or 63 A. For the 37 A shower, that's a 40 A device.</p>
     <p>There's a second condition hidden in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>: the current that makes the device operate reliably, I<sub>2</sub>, must be no more than 1.45 × I<sub>z</sub>. Circuit breakers and BS 88 fuses meet that automatically when I<sub>n</sub> ≤ I<sub>z</sub>. An old rewirable fuse (BS 3036) doesn't, so the cable has to be oversized for it by using a factor of 0.725.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Circuit breaker or <abbr title="residual current breaker with overcurrent protection">RCBO</abbr>?</h2>
+    <p>Choosing the device also means deciding whether the circuit needs <strong>additional protection</strong>: a 30 mA <abbr title="residual current device">RCD</abbr>. It can come from an <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> (a breaker to BS EN 61009 with the <abbr title="residual current device">RCD</abbr> built in), or from a plain circuit breaker (BS EN 60898) on a side of the board already covered by a 30 mA <abbr title="residual current circuit breaker: an RCD without overcurrent protection">RCCB</abbr>. A 30 mA <abbr title="residual current device">RCD</abbr> is needed for:</p>
+    <ul>
+      <li>socket-outlets rated up to 32 A (regulation 411.3.3)</li>
+      <li>mobile equipment up to 32 A used outdoors</li>
+      <li>cables concealed in a wall less than 50 mm deep, unless protected another way (see <a href="../cables/installing-cables.html">Installing cables</a>)</li>
+      <li>cables in walls or partitions with metal parts, at any depth</li>
+      <li>final circuits supplying luminaires in homes</li>
+      <li>every circuit in a room containing a bath or shower (see <a href="../regulations/bathrooms.html">Bathrooms and special locations</a>)</li>
+    </ul>
+    <p>The inspection checklist in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 6 (item 8.18 on the schedule of inspections) has a version of this list, and it's a handy quick reference. Most new domestic circuits end up with an <abbr title="residual current device">RCD</abbr> anyway, and there's nothing wrong with that. But you should know when it's required and when it's a choice.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="wr">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="wr">Does this circuit need a 30 mA <abbr title="residual current device">RCD</abbr>?</h3>
+    </div>
+    <label for="rcPre" class="label" style="font-size:0.85rem;font-weight:600">Start from an example</label>
+    <select id="rcPre" class="wide"></select>
+    <div id="rcChecks" style="display:flex;flex-direction:column;gap:8px;margin-top:12px"></div>
+    <div class="verdict" id="rcV" aria-live="polite"><strong></strong><span></span></div>
   </section>
 
   <section class="prose">
@@ -186,6 +219,50 @@
       options: ["A rewirable fuse to BS 3036", "A Type B circuit breaker", "A BS 88 cartridge fuse", "An RCBO to BS EN 61009"], answer: 0,
       why: "A rewirable fuse needs much more than its rating to operate reliably, so the cable must be sized to suit." }
   ]);
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  // [label, why it needs an RCD]
+  var Q = [
+    ["It supplies socket-outlets rated up to 32 A", "socket-outlets up to 32 A (regulation 411.3.3)"],
+    ["It supplies mobile equipment used outdoors (up to 32 A)", "mobile equipment used outdoors"],
+    ["Its cable is buried in a wall less than 50 mm deep, with no earthed metal or nail-proof protection", "cable concealed less than 50 mm deep"],
+    ["Its cable runs in a wall or partition with metal parts", "cable in a wall with metal parts"],
+    ["It supplies lighting in a home", "lighting in a home"],
+    ["It's in a room containing a bath or shower", "a circuit in a bathroom or shower room"]
+  ];
+  // [example, which boxes are ticked]
+  var PRE = [
+    ["Immersion heater, cable in surface trunking to the airing cupboard", []],
+    ["The same immersion heater, cable buried in the plaster", [2]],
+    ["Downstairs ring final circuit", [0, 2]],
+    ["Electric shower", [5]],
+    ["Cooker, cable clipped in the void under the floor", []],
+    ["Garden lights fed by SWA cable", [4]],
+    ["Supply to a garden office with an outdoor socket", [0, 1]]
+  ];
+  Q.forEach(function (q, k) {
+    var l = document.createElement("label"); l.className = "check"; l.htmlFor = "rc" + k;
+    l.innerHTML = '<input type="checkbox" id="rc' + k + '"> ' + q[0];
+    $("rcChecks").appendChild(l);
+    l.querySelector("input").addEventListener("change", calc);
+  });
+  PRE.forEach(function (p, k) { var o = document.createElement("option"); o.value = k; o.textContent = p[0]; $("rcPre").appendChild(o); });
+  function pre() { var on = PRE[+$("rcPre").value][1]; Q.forEach(function (q, k) { $("rc" + k).checked = on.indexOf(k) >= 0; }); calc(); }
+  function calc() {
+    var why = Q.filter(function (q, k) { return $("rc" + k).checked; }).map(function (q) { return q[1]; }), v = $("rcV");
+    if (why.length) {
+      v.className = "verdict yes"; v.querySelector("strong").textContent = "Yes: a 30 mA RCD is required";
+      v.querySelector("span").textContent = "Because of: " + why.join("; ") + ". Use an RCBO, or a circuit breaker on the RCD-protected side of the board.";
+    } else {
+      v.className = "verdict ok"; v.querySelector("strong").textContent = "Not required: a circuit breaker is enough";
+      v.querySelector("span").textContent = "None of the cases apply, so a plain circuit breaker (BS EN 60898) meets the regulations. You can still choose an RCBO.";
+    }
+  }
+  $("rcPre").addEventListener("change", pre); pre();
 })();
 </script>
 </body>

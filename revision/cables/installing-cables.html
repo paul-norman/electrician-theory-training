@@ -43,6 +43,7 @@
         <thead><tr><th>Cable</th><th>Where you'll use it</th></tr></thead>
         <tbody>
           <tr><td><strong>Flat twin and earth, 6242Y</strong></td><td>Most fixed wiring in homes: <abbr title="polyvinyl chloride">PVC</abbr> insulation and a grey <abbr title="polyvinyl chloride">PVC</abbr> sheath, rated for 70 °C.</td></tr>
+          <tr><td><strong>90 °C thermosetting twin and earth</strong></td><td>Often white and often low smoke. Stiffer, dearer and harder to strip, especially in the cold. It's usually chosen for how it behaves in a fire (Chapter 42), often because the job specification asks for it, such as in care homes or student blocks. Its higher temperature rating usually can't be used to carry more current, because the accessories it connects to are designed for 70 °C conductors.</td></tr>
           <tr><td><strong>Low smoke, zero halogen (<abbr title="low smoke, zero halogen">LSZH</abbr>), 6242B</strong></td><td>The same job where smoke and toxic fumes in a fire matter, such as escape routes and public buildings. Often white.</td></tr>
           <tr><td><strong>Three-core and earth, 6243Y</strong></td><td>Two-way switching (see <a href="../circuits/lighting-circuits.html">Lighting circuits</a>).</td></tr>
           <tr><td><strong>Steel wire armoured (<abbr title="steel wire armoured">SWA</abbr>)</strong></td><td>Underground and outdoors, and where the cable needs mechanical protection. The armour can act as the <abbr title="circuit protective conductor">CPC</abbr>.</td></tr>
@@ -68,18 +69,38 @@
         </tbody>
       </table>
     </div>
-    <p>The trap is <strong>black</strong>: in old wiring it's the neutral; in new three-phase wiring it's a line (L2). And old blue was a line, but new blue is the neutral. So where new wiring is connected to old, both sides are marked at the interface (L and N, or L1, L2, L3 and N), and a <strong>caution notice</strong> at the distribution board warns that the installation has wiring colours to two versions of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>.</p>
+    <p>The trap is <strong>black</strong>: in old wiring it's the neutral; in new three-phase wiring it's a line (L2). And old blue was a line, but new blue is the neutral. So where new wiring is connected to old, both sides are marked at the interface (L and N, or L1, L2, L3 and N). Older installations also had a caution notice at the board warning of "wiring colours to two versions of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>". That notice stopped being required in 2022 (Amendment 2), but you can still fit one, and you'll see plenty of them.</p>
+    <p>Old colours on their own aren't a reason to rewire: millions of homes still have red and black wiring that tests fine. Look at its condition instead. A sticky <strong>green goo</strong> oozing from accessories is a sign of old <abbr title="polyvinyl chloride">PVC</abbr> cable breaking down (its plasticiser reacting with the copper), and suggests the wiring needs replacing. Don't handle it with bare hands.</p>
     <p>Conductors used for something other than their colour suggests must be re-identified. A blue conductor used as a switched line (the switch wire to a light) gets a brown sleeve or tape at each end. The bare <abbr title="circuit protective conductor">CPC</abbr> in twin and earth is sleeved green and yellow wherever it's exposed.</p>
   </section>
 
   <section class="prose">
     <h2>Cables in walls: the safe zones</h2>
-    <p>A cable buried in a wall or partition at less than 50 mm from the surface could be hit by a nail, screw or drill. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> (regulation 522.6.202) says it must either run in a <strong>safe zone</strong>, where people expect cables to be, or be protected:</p>
+    <p>Nobody can see a cable once it's buried in a wall, so <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> controls where it goes and how it's protected against nails and screws (regulation 522.6, "impact"). The <strong>safe zones</strong> (the regulations call them prescribed zones) are where people should expect cables to be:</p>
     <ul>
-      <li><strong>Safe zones:</strong> within 150 mm of the top of the wall (the ceiling) or of a corner where two walls meet, and horizontally or vertically in line with an accessory, such as a socket or switch.</li>
-      <li><strong>Or protection:</strong> earthed metal conduit, trunking or covering, mechanical protection strong enough to stop a nail, or additional protection by a 30 mA <abbr title="residual current device">RCD</abbr>. In homes, the <abbr title="residual current device">RCD</abbr> is the usual answer, and it's needed anyway for most circuits.</li>
+      <li>horizontally or vertically in line with an accessory, such as a socket or switch, so you can run straight up, down or sideways to it</li>
+      <li>within 150 mm of the top of the wall (the ceiling), and within 150 mm of a corner where two walls meet. Use these bands to get to an accessory you can't reach in a straight line, then turn off to it.</li>
     </ul>
-    <p>Cables in a partition with <strong>metal studs or framing</strong> need <abbr title="residual current device">RCD</abbr> or earthed-metal protection at any depth, because a nail through the cable could make the frame live.</p>
+    <p>Most people know not to drill above or beside a socket, but very few know about the bands along the ceiling and down the corners.</p>
+    <p>Amendment 4 put the rules for masonry walls and for partitions into <strong>one table in regulation 522.6.202</strong> (they used to be two regulations, 522.6.202 and 522.6.203). Ask two questions: is the cable less than 50 mm from the surface, and does the wall have metal parts, such as metal studs? Check the exact wording in your copy, but in outline:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Wall</th><th>Cable less than 50 mm deep</th><th>Cable 50 mm or more deep</th></tr></thead>
+        <tbody>
+          <tr><td><strong>No metal parts</strong> (brick, block, timber studs)</td><td>In a safe zone <strong>and</strong> 30 mA <abbr title="residual current device">RCD</abbr> protection, or protected to 522.6.204</td><td>No extra requirement</td></tr>
+          <tr><td><strong>Metal parts</strong> (such as metal studs)</td><td>30 mA <abbr title="residual current device">RCD</abbr> protection, or in a safe zone and protected to 522.6.204</td><td>30 mA <abbr title="residual current device">RCD</abbr> protection, or protected to 522.6.204</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Metal studs matter because their sharp edges can cut a cable, and a nail through the cable could make the whole frame live. <strong>Regulation 522.6.204</strong> lists the alternatives to an <abbr title="residual current device">RCD</abbr>:</p>
+    <ul>
+      <li>an earthed metal covering on the cable, such as the armour of <abbr title="steel wire armoured">SWA</abbr></li>
+      <li>earthed metal conduit or trunking</li>
+      <li>mechanical protection strong enough to stop nails and screws, such as steel plates</li>
+      <li>a <abbr title="separated extra-low voltage">SELV</abbr> or <abbr title="protective extra-low voltage">PELV</abbr> circuit</li>
+    </ul>
+    <p>In homes, the 30 mA <abbr title="residual current device">RCD</abbr> is the usual answer, because almost every circuit needs one anyway. It's an example of <strong>additional protection</strong>: if someone does put a nail through a cable, the <abbr title="residual current device">RCD</abbr> disconnects quickly enough to limit the shock. Whenever you see "additional protection", think 30 mA <abbr title="residual current device">RCD</abbr> (an <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> counts, as it has one built in).</p>
+    <p>These rules are for you when you're installing the cable and can see the wall construction. Keep your books in the van and check them on site. That's what they're for.</p>
   </section>
 
   <section class="widget" aria-labelledby="w1">
@@ -118,10 +139,11 @@
     <h2>Chases, joists and notches</h2>
     <p>Cutting into the building can weaken it, so Approved Document A sets limits (they're summarised in the Electrician's Guide to the Building Regulations):</p>
     <ul>
-      <li><strong>Chases in walls:</strong> vertical chases no deeper than a third of the thickness of the wall (or leaf); horizontal chases no deeper than a sixth.</li>
-      <li><strong>Holes in joists:</strong> on the centre line (the neutral axis, where the joist is under least stress), no larger than 0.25 × the joist's depth in diameter, and between 0.25 and 0.4 × the span from the support. Cables through joists must also be at least 50 mm from the top and bottom edges, out of reach of floorboard nails, or be protected.</li>
+      <li><strong>Chases in walls:</strong> vertical chases no deeper than a third of the thickness of the wall (or leaf); horizontal chases no deeper than a sixth. A brick leaf is about 100 mm thick, so that's about 33 mm vertically and 16 mm horizontally, measured into the masonry, not including the plaster.</li>
+      <li><strong>Holes in joists:</strong> on the centre line (the neutral axis, where the joist is under least stress), no larger than 0.25 × the joist's depth in diameter, and between 0.25 and 0.4 × the span from the support. Cables through joists must also be at least 50 mm from the top and bottom edges, out of reach of floorboard nails and ceiling fixings (regulation 522.6.201). If that isn't possible, run the cable in earthed steel conduit or fit steel plates over it.</li>
       <li><strong>Notches:</strong> in the top edge only, no deeper than 0.125 × the joist's depth, and between 0.07 and 0.25 × the span from the support.</li>
     </ul>
+    <p>Drilling is far quicker: with a sharp flat wood bit, each hole takes seconds, while a notch takes several minutes. Plumbers notch more often, because rigid pipes are hard to feed through holes.</p>
   </section>
 
   <figure class="widget" aria-labelledby="w2">
@@ -161,13 +183,14 @@
       <li>lay <strong>marker tape</strong> or cable tiles along the route, about <strong>150 mm</strong> below the surface, so anyone digging finds the warning before the cable</li>
       <li>record the route on the installation's drawings</li>
     </ul>
+    <p>The armour is earthed, which is the point. A spade that hits the cable touches the earthed armour first. The spade then can't reach a dangerous voltage, and if it does reach a live conductor, the fault goes straight to earth through the armour, so the protective device operates.</p>
     <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> itself asks for a depth that avoids damage from reasonably foreseeable disturbance, with the cable identified by covers or marking tape (regulation 522.8.10).</p>
   </section>
 
   <section class="prose">
     <h2>Supports, heat and fire</h2>
     <ul>
-      <li><strong>Premature collapse:</strong> wiring must be supported so it can't fall in a fire and trap firefighters. Plastic clips and trunking alone aren't enough where they'd be the only support; use metal clips, ties or supports.</li>
+      <li><strong>Premature collapse:</strong> wiring must be supported so it can't fall in a fire and trap firefighters. Plastic clips and trunking alone aren't enough where they'd be the only support; use metal clips, ties or supports. The rule (Regulation 521.10.202) followed firefighter deaths, including two at Shirley Towers in Southampton in 2010, where cables fell when their plastic fixings melted and the firefighters became tangled in them. There's no set spacing for metal fixings: use enough that the run can't drop.</li>
       <li><strong>Heat:</strong> keep cables away from hot pipes and flues, and remember that thermal insulation reduces a cable's rating (see <a href="../design/cable-sizing.html">Cable sizing and voltage drop</a>).</li>
       <li><strong>Fire barriers:</strong> where a cable passes through a wall or floor that resists fire, seal the hole to restore it.</li>
     </ul>
@@ -190,7 +213,7 @@
     ["Along the top of the wall, under the ceiling", "M20,25 H340", true, "Within 150 mm of the top of the wall: a safe zone."],
     ["Down the corner of the wall", "M25,20 V220", true, "Within 150 mm of a corner: a safe zone."],
     ["Horizontally across from the switch", "M254,122 H40", true, "Horizontally in line with the switch: a safe zone."],
-    ["Diagonally from the socket to the switch", "M105,199 L254,122", false, "A diagonal route isn't in any safe zone. Someone hanging a picture could drill straight into it. It would need RCD or mechanical protection."],
+    ["Diagonally from the socket to the switch", "M105,199 L254,122", false, "A diagonal route isn't in any safe zone. Someone hanging a picture could drill straight into it. It would need earthed metal or nail-proof protection (regulation 522.6.204), or burying at least 50 mm deep."],
     ["Across the middle of the wall, in line with nothing", "M40,70 H320", false, "There's no accessory at this height, so nobody would expect a cable there. It needs RCD or mechanical protection."],
     ["Up from the socket, then across to the switch at an angle", "M105,199 V150 L254,122", false, "The vertical part is in the socket's zone, but the angled part leaves every safe zone."]
   ];
@@ -225,7 +248,10 @@
       why: "6242Y is standard PVC twin and earth; 6242B is the LSZH version; 6243Y is three-core and earth." },
     { q: "A blue conductor is used as a switch wire to a light. What should be done?",
       options: ["Sleeve it brown at each end", "Sleeve it green and yellow", "Leave it, as blue is fine", "Replace it with red cable"], answer: 0,
-      why: "It's carrying the switched line, so it's re-identified as a line conductor." }
+      why: "It's carrying the switched line, so it's re-identified as a line conductor." },
+    { q: "A cable is buried 25 mm deep in a brick wall, in a safe zone, with no earthed metal or steel plate protection. What else does it need?",
+      options: ["30 mA RCD protection", "Nothing: the safe zone is enough", "A larger cable size", "A 100 mA time-delayed RCD"], answer: 0,
+      why: "Less than 50 mm deep without 522.6.204 protection: safe zone and 30 mA RCD, which is additional protection." }
   ]);
 })();
 </script>

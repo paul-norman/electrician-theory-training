@@ -147,7 +147,7 @@
       why: "A neutral shared by two separately protected circuits is potentially dangerous: it can be live when one circuit is isolated.", ref: BPG4 + ": C2 examples" },
     { id: "pe-060", topic: "codes", q: "The installation has old cable colours, but is otherwise sound. What code?",
       options: ["No code", "C3", "C2", "FI"], fixed: true, answer: 0,
-      why: "Wiring to an earlier edition isn't a defect in itself. The absence of a mixed-colours warning notice might merit C3.", ref: BPG4 },
+      why: "Wiring to an earlier edition isn't a defect in itself. A mixed-colours warning notice hasn't been required since Amendment 2 (2022).", ref: BPG4 },
     { id: "pe-061", topic: "codes", q: "Insulation resistance at the consumer unit, all circuits connected, is below 1 MΩ. What code?",
       options: ["C1", "C2", "C3", "FI"], fixed: true, answer: 1,
       why: "Below 1 MΩ between live conductors and earth with all circuits connected is potentially dangerous.", ref: BPG4 + ": C2 examples" },
