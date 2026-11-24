@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dead Tests</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 8ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .seq { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 6px; }
+</style>
+</head>
+<body data-lesson="dead-tests">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Inspection and testing</span>
+    <h1>Dead tests</h1>
+    <p class="lead">The first tests are done with the installation safely isolated. They prove the protective conductors are continuous, the insulation is sound and everything is connected the right way round, before any voltage goes on.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Dead tests come first, in order: <strong>continuity of protective conductors</strong> (including bonding), <strong>continuity of ring final circuits</strong>, <strong>insulation resistance</strong>, then <strong>polarity</strong>. Continuity is measured with a low-resistance ohmmeter, with its leads nulled. Method 1 links line to <abbr title="circuit protective conductor">CPC</abbr> at the board and measures R<sub>1</sub> + R<sub>2</sub> at each point. The ring final test has three steps: end-to-end readings (r<sub>1</sub>, r<sub>n</sub>, r<sub>2</sub>), then line cross-connected to neutral, then line cross-connected to <abbr title="circuit protective conductor">CPC</abbr>. Every socket should read about <span class="frac"><span>r<sub>1</sub> + r<sub>2</sub></span><span>4</span></span> on step 3, and the highest reading is recorded as R<sub>1</sub> + R<sub>2</sub>. Insulation resistance on 230 V circuits is tested at 500 V <abbr title="direct current">DC</abbr> and must be at least 1 MΩ (250 V <abbr title="direct current">DC</abbr> and 0.5 MΩ for <abbr title="separated extra-low voltage">SELV</abbr> and <abbr title="protective extra-low voltage">PELV</abbr>). Circuits in parallel lower the overall reading. Polarity checks that every single-pole switch and device is in the line conductor.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>The order of tests</h2>
+    <p>Guidance Note 3 and <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Part 6 give the sequence. The order matters: each test relies on the ones before it. You can't trust an insulation test, or a live test, until you know the protective conductors are connected.</p>
+    <ol class="seq">
+      <li>Continuity of protective conductors, including main and supplementary bonding</li>
+      <li>Continuity of ring final circuit conductors</li>
+      <li>Insulation resistance</li>
+      <li>Protection by <abbr title="separated extra-low voltage">SELV</abbr>, <abbr title="protective extra-low voltage">PELV</abbr> or electrical separation, and by barriers and enclosures, where used</li>
+      <li>Polarity</li>
+      <li>Then the live tests: earth electrode resistance, earth fault loop impedance, prospective fault current, <abbr title="residual current device">RCDs</abbr>, functional tests (see <a href="live-tests.html">Live tests</a>)</li>
+    </ol>
+    <p>If any test fails, put it right and repeat that test and any earlier ones the fault could have affected.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Continuity of protective conductors</h2>
+    <p>Use a <strong>low-resistance ohmmeter</strong>, and <strong>null the leads</strong> first (touch them together and zero the meter), so their own resistance isn't added to every reading. There are two methods:</p>
+    <ul>
+      <li><strong>Method 1 (R<sub>1</sub> + R<sub>2</sub>).</strong> At the board, link the circuit's line conductor to its <abbr title="circuit protective conductor">CPC</abbr> with a short lead. Then measure between line and earth at every point on the circuit. Each reading is the resistance of the line conductor and <abbr title="circuit protective conductor">CPC</abbr> to that point, R<sub>1</sub> + R<sub>2</sub>. The highest, usually at the far end, is recorded. It also checks polarity as you go, and it's the value you need for Z<sub>s</sub>.</li>
+      <li><strong>Method 2 (R<sub>2</sub> only).</strong> Use a long "wander lead" from the main earthing terminal, and measure from it to the earth terminal at each point. That gives R<sub>2</sub> on its own. It's also how you test main and supplementary bonding conductors: one lead at each end of the conductor.</li>
+    </ul>
+    <p>Check for parallel paths: metal conduit, bonded pipework or a second earth connection can give a low reading even when the <abbr title="circuit protective conductor">CPC</abbr> itself is broken.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Continuity of ring final circuits</h2>
+    <p>A ring final circuit starts and ends at the board, so it has two "legs" of each conductor. If the ring is broken somewhere, every socket still works, fed from one side only, but the cable can be overloaded. The three-step test finds that, and gives you R<sub>1</sub> + R<sub>2</sub>.</p>
+    <ol class="seq">
+      <li><strong>End to end.</strong> At the board, separate the two legs and measure each conductor's loop: line to line (r<sub>1</sub>), neutral to neutral (r<sub>n</sub>) and <abbr title="circuit protective conductor">CPC</abbr> to <abbr title="circuit protective conductor">CPC</abbr> (r<sub>2</sub>). r<sub>1</sub> and r<sub>n</sub> should be within 0.05 Ω of each other. In 2.5/1.5 mm² twin and earth, the <abbr title="circuit protective conductor">CPC</abbr> is thinner, so r<sub>2</sub> is about 1.67 times r<sub>1</sub>.</li>
+      <li><strong>Line to neutral, cross-connected.</strong> Join the line of one leg to the neutral of the other, and vice versa. Measure line to neutral at every socket. Each reading should be about <span class="frac"><span>r<sub>1</sub> + r<sub>n</sub></span><span>4</span></span>, all within 0.05 Ω of each other. Spurs read higher.</li>
+      <li><strong>Line to <abbr title="circuit protective conductor">CPC</abbr>, cross-connected.</strong> Do the same with line and <abbr title="circuit protective conductor">CPC</abbr>, and measure line to earth at every socket. Each should be about <span class="frac"><span>r<sub>1</sub> + r<sub>2</sub></span><span>4</span></span>. The highest reading is the circuit's R<sub>1</sub> + R<sub>2</sub>.</li>
+    </ol>
+    <p>Why a quarter? Cross-connecting turns the ring into a loop twice as long, and wherever you measure on it, you're looking at two equal halves of that loop in parallel. Twice the length, then halved twice, gives a quarter.</p>
+    <p><strong>Reading the faults.</strong> A broken ring shows up in step 1 as an open circuit, and must be fixed before steps 2 and 3. If the readings in step 2 or 3 start low, rise towards the middle of the ring and fall again, the legs have been joined the wrong way (same end to same end): swap them. Reversed polarity at a socket doesn't show in step 2, but shows in step 3 as a very high or open reading at that socket.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Expected ring final readings</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="r1">r<sub>1</sub>, line end to end (Ω)</label><input class="num-in" id="r1" type="number" step="0.01" min="0" value="0.40" inputmode="decimal"></div>
+      <div class="ctl"><label for="rn">r<sub>n</sub>, neutral end to end (Ω)</label><input class="num-in" id="rn" type="number" step="0.01" min="0" value="0.40" inputmode="decimal"></div>
+      <div class="ctl"><label for="r2">r<sub>2</sub>, <abbr title="circuit protective conductor">CPC</abbr> end to end (Ω)</label><input class="num-in" id="r2" type="number" step="0.01" min="0" value="0.67" inputmode="decimal"></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Step 1 check</span><span class="v" id="oS1" style="font-size:1rem">—</span><span class="s" id="oS1s"></span></div>
+      <div class="ro"><span class="k">Step 2, each socket</span><span class="v" id="oS2">—</span><span class="s">(r<sub>1</sub> + r<sub>n</sub>) over 4</span></div>
+      <div class="ro"><span class="k">Step 3, each socket</span><span class="v" id="oS3">—</span><span class="s">(r<sub>1</sub> + r<sub>2</sub>) over 4: record as R<sub>1</sub> + R<sub>2</sub></span></div>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>Insulation resistance</h2>
+    <p>This proves the insulation between conductors, and between conductors and earth, is sound. An <strong>insulation resistance tester</strong> applies a <abbr title="direct current">DC</abbr> test voltage and measures the tiny current that leaks through. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> gives the test voltage and minimum value:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Circuit nominal voltage</th><th>Test voltage (<abbr title="direct current">DC</abbr>)</th><th>Minimum insulation resistance</th></tr></thead>
+        <tbody>
+          <tr><td><abbr title="separated extra-low voltage">SELV</abbr> and <abbr title="protective extra-low voltage">PELV</abbr></td><td class="mono">250 V</td><td class="mono">0.5 MΩ</td></tr>
+          <tr><td>Up to and including 500 V (including 230 V and 400 V)</td><td class="mono">500 V</td><td class="mono">1.0 MΩ</td></tr>
+          <tr><td>Above 500 V</td><td class="mono">1,000 V</td><td class="mono">1.0 MΩ</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>New circuits usually read off the top of the meter's scale (often over 200 MΩ), so a reading that passes but is much lower than expected is worth investigating.</p>
+    <p><strong>Before you test</strong>, protect anything that could be damaged or give a false reading: unplug or disconnect equipment, and disconnect or isolate electronic devices such as dimmers, timers, smoke alarms and surge protective devices. Close switches and circuit breakers so the whole circuit is tested, and operate two-way switches to test both strappers. Test between line and neutral, and between the live conductors (joined) and earth. Where electronic devices can't be disconnected, join line and neutral and test only to earth, at 250 V if necessary.</p>
+    <p><strong>Circuits in parallel.</strong> Testing at the board measures all the circuits at once, and their insulation resistances combine like resistors in parallel (see <a href="../principles/series-and-parallel.html">Series and parallel circuits</a>). So the whole-installation reading is always <strong>lower</strong> than the lowest single circuit. Eight circuits at 10 MΩ each give <span class="frac"><span>10</span><span>8</span></span> = 1.25 MΩ. Extending a circuit adds more cable in parallel, so its insulation resistance goes down.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w2">Ring and insulation questions</h3>
+    </div>
+    <div id="prac"></div>
+  </section>
+
+  <section class="prose">
+    <h2>Polarity</h2>
+    <p>Polarity testing confirms that:</p>
+    <ul>
+      <li>every fuse and single-pole switch or circuit breaker is in the <strong>line</strong> conductor only</li>
+      <li>the centre contact of Edison screw lampholders is connected to the line conductor (unless the lampholder is a type that doesn't need it)</li>
+      <li>socket-outlets and other accessories are wired the right way round</li>
+    </ul>
+    <p>It's done dead, usually alongside the R<sub>1</sub> + R<sub>2</sub> test: with line linked to <abbr title="circuit protective conductor">CPC</abbr> at the board, operating a light switch makes the reading appear and disappear, proving the switch is in the line. It's confirmed live later: at the origin, line to earth and line to neutral should read the supply voltage, and neutral to earth almost nothing.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  function ring() {
+    var a = parseFloat($("r1").value), n = parseFloat($("rn").value), c = parseFloat($("r2").value);
+    if ([a, n, c].some(function (x) { return isNaN(x) || x < 0; })) { ["oS1", "oS2", "oS3"].forEach(function (id) { $(id).textContent = "—"; }); $("oS1s").textContent = ""; return; }
+    var d = Math.abs(a - n);
+    $("oS1").innerHTML = d <= 0.05 ? "r<sub>1</sub> ≈ r<sub>n</sub>: OK" : "r<sub>1</sub> and r<sub>n</sub> differ by " + d.toFixed(2) + " Ω";
+    $("oS1s").innerHTML = "r<sub>2</sub> is " + (a > 0 ? (c / a).toFixed(2) : "—") + " × r<sub>1</sub> (1.67 for 2.5/1.5 mm²)";
+    $("oS2").textContent = ((a + n) / 4).toFixed(2) + " Ω";
+    $("oS3").textContent = ((a + c) / 4).toFixed(2) + " Ω";
+  }
+  ["r1", "rn", "r2"].forEach(function (id) { $(id).addEventListener("input", ring); }); ring();
+
+  Course.practice("#prac", function () {
+    if (Math.random() < 0.5) {
+      var a = Course.pick([0.3, 0.36, 0.4, 0.48, 0.52, 0.6]), c = Math.round(a * 1.67 * 100) / 100;
+      return { q: "A ring final in 2.5/1.5 mm² cable reads r<sub>1</sub> = " + a + " Ω and r<sub>2</sub> = " + c + " Ω end to end. What should each socket read in step 3?", answer: (a + c) / 4, unit: "Ω",
+        working: "R<sub>1</sub> + R<sub>2</sub> = " + Course.frac("r<sub>1</sub> + r<sub>2</sub>", "4") + " = " + Course.frac(a + " + " + c, "4") + " = " + ((a + c) / 4).toFixed(3) + " Ω" };
+    }
+    var n = Course.pick([2, 3, 4, 5, 8, 10]), r = Course.pick([10, 20, 50, 100, 200]);
+    return { q: n + " circuits each have an insulation resistance of " + r + " MΩ. What will the whole installation read at the board?", answer: r / n, unit: "MΩ",
+      working: "Equal resistances in parallel: " + Course.frac(r, n) + " = " + Course.sig(r / n, 3) + " MΩ" };
+  });
+
+  Course.quiz("#quiz", [
+    { q: "Which test comes first in the sequence?",
+      options: ["Continuity of protective conductors", "Insulation resistance", "Earth fault loop impedance", "RCD operation"], answer: 0,
+      why: "Every later test depends on the protective conductors being continuous." },
+    { q: "Why do you null the leads of a low-resistance ohmmeter?",
+      options: ["So their resistance isn't added to each reading", "To discharge the circuit before testing it", "To check the instrument's battery is charged", "To set the test voltage to 500 V DC"], answer: 0,
+      why: "Readings are often fractions of an ohm, so the leads' own resistance matters." },
+    { q: "In a ring final, r<sub>1</sub> = 0.4 Ω and r<sub>2</sub> = 0.67 Ω. What's R<sub>1</sub> + R<sub>2</sub> at each socket?",
+      options: ["0.27 Ω", "0.53 Ω", "1.07 Ω", "4.28 Ω"], answer: 0,
+      why: Course.frac("0.4 + 0.67", "4") + " ≈ 0.27 Ω." },
+    { q: "Step 3 readings rise towards the middle of the ring and fall again. What's wrong?",
+      options: ["The legs are cross-connected the wrong way", "The CPC is broken somewhere on the ring", "A socket has line and neutral reversed", "There is a spur fed from the far socket"], answer: 0,
+      why: "Joining same ends together gives readings that peak mid-ring. Swap the legs over." },
+    { q: "What's the test voltage and minimum insulation resistance for a 230 V circuit?",
+      options: ["500 V DC, 1.0 MΩ", "250 V DC, 0.5 MΩ", "1,000 V DC, 1.0 MΩ", "500 V DC, 2.0 MΩ"], answer: 0,
+      why: "Circuits up to 500 V: test at 500 V DC, minimum 1.0 MΩ." },
+    { q: "Four circuits each read 20 MΩ. What does the whole installation read?",
+      options: ["5 MΩ", "20 MΩ", "40 MΩ", "80 MΩ"], answer: 0,
+      why: "Insulation resistances in parallel: " + Course.frac("20", "4") + " = 5 MΩ, lower than any single circuit." },
+    { q: "What does a polarity test confirm about single-pole switches?",
+      options: ["They're connected in the line conductor only", "They break both line and neutral together", "They're connected in the neutral conductor", "They're rated for the circuit's fault current"], answer: 0,
+      why: "A switch in the neutral would leave the load live when 'off'." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automatic Disconnection</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 9ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); }
+  .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); }
+  .verdict.bad strong { color: var(--bad); }
+  .verdict.warn { background: var(--note-bg); }
+  .verdict.warn strong { color: var(--note); }
+</style>
+</head>
+<body data-lesson="ads">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Earthing and bonding</span>
+    <h1>Automatic disconnection</h1>
+    <p class="lead">The usual way <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> protects you from a fault on metalwork: make the fault current big enough that the protective device switches the circuit off before anyone can be hurt.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Automatic disconnection of supply (<abbr title="automatic disconnection of supply">ADS</abbr>) is the main method of fault protection. It needs three things working together: protective earthing (<abbr title="circuit protective conductor">CPCs</abbr> to every exposed-conductive-part), protective bonding, and a device that disconnects in time. The fault current is set by the earth fault loop impedance: <strong>Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>)</strong>, and roughly I = <span class="frac"><span>U<sub>0</sub></span><span>Z<sub>s</sub></span></span>. On a TN system, final circuits up to 63 A with sockets (or 32 A for fixed equipment only) must disconnect within <strong>0.4 s</strong>, and distribution circuits within <strong>5 s</strong>. On <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> the times are 0.2 s and 1 s. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Tables 41.2 to 41.4 give the maximum Z<sub>s</sub> for each device. A measured value should be no more than about 80% of the table value, because conductors are cold when you test but warm in use.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>How a fault gets cleared</h2>
+    <p>Suppose the line conductor touches the metal case of an appliance. Current now flows round a loop: out from the transformer along the line conductor (R<sub>1</sub> inside the installation), into the case, back along the <abbr title="circuit protective conductor">CPC</abbr> (R<sub>2</sub>), through the earthing system to the transformer's star point, and through the transformer winding. That loop is the <strong>earth fault loop</strong>, and its total impedance is <strong>Z<sub>s</sub></strong>.</p>
+    <p>The part outside the installation is <strong>Z<sub>e</sub></strong>, which depends on the earthing system (see <a href="earthing-systems.html">Earthing systems</a>). The part inside is the resistance of the circuit's own line conductor and <abbr title="circuit protective conductor">CPC</abbr>, measured together as <strong>R<sub>1</sub> + R<sub>2</sub></strong>:</p>
+    <p><span class="formula">Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>)</span></p>
+    <p>Ohm's law then gives the fault current: I<sub>f</sub> = <span class="frac"><span>U<sub>0</sub></span><span>Z<sub>s</sub></span></span>, where U<sub>0</sub> is 230 V, the voltage to earth. The lower Z<sub>s</sub>, the bigger the fault current, and the faster the device trips. To follow the loop step by step on each earthing system, open the <a href="../earth-fault-loop.html">earth fault loop explorer</a>.</p>
+  </section>
+
+  <section class="prose">
+    <h2>How fast is fast enough?</h2>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Table 41.1 sets maximum disconnection times. For a 230 V supply:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Circuit</th><th>TN (<abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr>, <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr>)</th><th><abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr></th></tr></thead>
+        <tbody>
+          <tr><td>Final circuits up to 63 A with one or more sockets, or up to 32 A for fixed equipment only</td><td class="mono">0.4 s</td><td class="mono">0.2 s</td></tr>
+          <tr><td>Distribution circuits, and bigger final circuits</td><td class="mono">5 s</td><td class="mono">1 s</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Sockets get the shortest time because whoever is holding a faulty appliance is gripping the metal. On <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> the times are shorter still, because the voltage on exposed metalwork during a fault is higher.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Maximum Z<sub>s</sub></h2>
+    <p>For a circuit breaker to disconnect in 0.4 s, the fault current has to be big enough to operate its <strong>magnetic</strong> trip (see <a href="../supply/consumer-units.html">Consumer units and protective devices</a>). That's 5 × I<sub>n</sub> for Type B, 10 × I<sub>n</sub> for Type C and 20 × I<sub>n</sub> for Type D. Working backwards gives the highest Z<sub>s</sub> that still trips in time. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> also allows for the supply voltage being on the low side, using a factor C<sub>min</sub> of 0.95:</p>
+    <p><span class="formula">Z<sub>s</sub> max = <span class="frac"><span>U<sub>0</sub> × C<sub>min</sub></span><span>I<sub>a</sub></span></span></span></p>
+    <p>where I<sub>a</sub> is the current that operates the device in time. For a 32 A Type B: I<sub>a</sub> = 5 × 32 = 160 A, so Z<sub>s</sub> max = <span class="frac"><span>230 × 0.95</span><span>160</span></span> = <strong>1.37 Ω</strong>. You don't need to work these out in practice: <strong>Tables 41.2 to 41.4</strong> list them for fuses and circuit breakers.</p>
+    <p><strong>The 80% rule.</strong> The tables apply to conductors at their working temperature, but you test them cold, when their resistance is lower. So a measured Z<sub>s</sub> is compared with about 80% of the table value (the On-Site Guide and Guidance Note 3 give corrected tables). For the 32 A Type B: 0.8 × 1.37 ≈ 1.10 Ω.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Will it disconnect in 0.4 s?</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <span class="label" id="typL">Circuit breaker type</span>
+        <div class="seg" role="group" aria-labelledby="typL" id="typ">
+          <button type="button" data-t="5" aria-pressed="true">Type B</button>
+          <button type="button" data-t="10" aria-pressed="false">Type C</button>
+          <button type="button" data-t="20" aria-pressed="false">Type D</button>
+        </div>
+      </div>
+      <div class="ctl"><label for="rat">Rating, I<sub>n</sub></label><select id="rat"></select></div>
+      <div class="ctl"><label for="ze">Z<sub>e</sub> (Ω)</label><input class="num-in" id="ze" type="number" step="0.01" min="0" value="0.35" inputmode="decimal"></div>
+      <div class="ctl"><label for="r12">R<sub>1</sub> + R<sub>2</sub> (Ω)</label><input class="num-in" id="r12" type="number" step="0.01" min="0" value="0.5" inputmode="decimal"></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Measured Z<sub>s</sub></span><span class="v" id="oZs">—</span><span class="s">Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>)</span></div>
+      <div class="ro"><span class="k">Table maximum</span><span class="v" id="oMax">—</span><span class="s" id="oMaxS"></span></div>
+      <div class="ro"><span class="k">80% of maximum</span><span class="v" id="o80">—</span><span class="s">compare cold readings with this</span></div>
+      <div class="ro"><span class="k">Fault current</span><span class="v" id="oIf">—</span><span class="s" id="oIfS"></span></div>
+    </div>
+    <div class="verdict" id="adsV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">Maximum values worked out from the 0.4 s magnetic trip currents with C<sub>min</sub> = 0.95, matching <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Table 41.3. Always use the table in your copy for real work.</p>
+  </section>
+
+  <section class="prose">
+    <h2>When Z<sub>s</sub> is too high</h2>
+    <p>If Z<sub>s</sub> is too high for the device, you have options: a lower rating or a different type of device, a bigger cable (lower R<sub>1</sub> + R<sub>2</sub>), or an <abbr title="residual current device">RCD</abbr>. An <abbr title="residual current device">RCD</abbr> trips on a few milliamps of imbalance, so it can provide the disconnection even when the fault current is small.</p>
+    <p>That's exactly the situation on a <strong><abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr></strong> system, where Z<sub>s</sub> includes the earth electrode and the ground, and is often tens or hundreds of ohms. There, the rule is that the electrode resistance R<sub>A</sub> times the <abbr title="residual current device">RCD</abbr>'s rated residual current I<sub>Δn</sub> must not be more than 50 V: R<sub>A</sub> × I<sub>Δn</sub> ≤ 50 V. For a 30 mA <abbr title="residual current device">RCD</abbr> that allows up to about 1,667 Ω, but in practice you'd want far lower, because above about 200 Ω an electrode may not be stable.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w2">Earth fault loop questions</h3>
+    </div>
+    <div id="prac"></div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var f2 = function (x) { return x.toFixed(2); };
+  var mult = 5;
+  var RATINGS = [6, 10, 16, 20, 32, 40, 50, 63];
+  RATINGS.forEach(function (r) { var o = document.createElement("option"); o.value = r; o.textContent = r + " A"; if (r === 32) o.selected = true; $("rat").appendChild(o); });
+
+  function zsMax(m, In) { return 230 * 0.95 / (m * In); }
+  function upd() {
+    document.querySelectorAll("#typ button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.getAttribute("data-t") === mult)); });
+    var In = +$("rat").value, ze = parseFloat($("ze").value), r = parseFloat($("r12").value), v = $("adsV");
+    var max = zsMax(mult, In), m80 = max * 0.8, typ = { 5: "B", 10: "C", 20: "D" }[mult];
+    $("oMax").textContent = f2(max) + " Ω"; $("oMaxS").textContent = In + " A Type " + typ + ", 0.4 s";
+    $("o80").textContent = f2(m80) + " Ω";
+    if (isNaN(ze) || isNaN(r) || ze < 0 || r < 0) { $("oZs").textContent = "—"; $("oIf").textContent = "—"; v.className = "verdict warn"; v.querySelector("strong").innerHTML = "Enter Z<sub>e</sub> and R<sub>1</sub> + R<sub>2</sub>"; v.querySelector("span").textContent = ""; return; }
+    var zs = ze + r, If = 230 / zs, need = mult * In;
+    $("oZs").textContent = f2(zs) + " Ω";
+    $("oIf").textContent = If >= 1000 ? Course.sig(If / 1000, 3) + " kA" : Math.round(If) + " A";
+    $("oIfS").textContent = "needs " + need + " A (" + mult + " × " + In + " A) to trip instantly";
+    if (zs <= m80) { v.className = "verdict ok"; v.querySelector("strong").textContent = "Pass"; v.querySelector("span").innerHTML = "The measured Z<sub>s</sub> is within 80% of the maximum, so the breaker will disconnect within 0.4 s even with the conductors warm."; }
+    else if (zs <= max) { v.className = "verdict warn"; v.querySelector("strong").textContent = "Too close for comfort"; v.querySelector("span").innerHTML = "It's under the table maximum, but over 80% of it. Once the cables warm up in use, Z<sub>s</sub> could go over the limit. Investigate, or add RCD protection."; }
+    else { v.className = "verdict bad"; v.querySelector("strong").textContent = "Fail"; v.querySelector("span").innerHTML = "Z<sub>s</sub> is over the maximum. The fault current won't operate the magnetic trip, so the breaker won't disconnect in time. Reduce Z<sub>s</sub>, change the device, or use an RCD."; }
+  }
+  $("typ").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; mult = +b.getAttribute("data-t"); upd(); });
+  ["rat", "ze", "r12"].forEach(function (id) { $(id).addEventListener("input", upd); $(id).addEventListener("change", upd); });
+  upd();
+
+  Course.practice("#prac", function () {
+    var ze = Course.pick([0.2, 0.25, 0.3, 0.35, 0.45, 0.6, 0.8]), r = Course.pick([0.15, 0.24, 0.32, 0.45, 0.6, 0.85, 1.1]);
+    var zs = Math.round((ze + r) * 100) / 100;
+    if (Math.random() < 0.5) return { q: "Z<sub>e</sub> is " + ze + " Ω and R<sub>1</sub> + R<sub>2</sub> is " + r + " Ω. What is Z<sub>s</sub>?", answer: zs, unit: "Ω", working: "Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>) = " + ze + " + " + r + " = " + zs + " Ω" };
+    return { q: "Z<sub>e</sub> is " + ze + " Ω and R<sub>1</sub> + R<sub>2</sub> is " + r + " Ω. What fault current flows at 230 V?", answer: 230 / zs, unit: "A", working: "Z<sub>s</sub> = " + ze + " + " + r + " = " + zs + " Ω, then I = " + Course.frac("230", zs) + " = " + Course.sig(230 / zs, 3) + " A" };
+  });
+
+  Course.quiz("#quiz", [
+    { q: "What is Z<sub>s</sub> made up of?",
+      options: ["Z<sub>e</sub> plus the circuit's R<sub>1</sub> + R<sub>2</sub>", "R<sub>1</sub> plus the neutral, R<sub>n</sub>", "Z<sub>e</sub> minus the circuit's R<sub>2</sub>", "The insulation resistance plus Z<sub>e</sub>"], answer: 0,
+      why: "The external loop (Z<sub>e</sub>) plus the line conductor and CPC of the circuit (R<sub>1</sub> + R<sub>2</sub>)." },
+    { q: "On a TN system, what's the maximum disconnection time for a 32 A ring final circuit?",
+      options: ["0.2 s", "0.4 s", "1 s", "5 s"], answer: 1,
+      why: "Final circuits up to 63 A with sockets on TN must disconnect within 0.4 s." },
+    { q: "On a TN system, what's the maximum disconnection time for a distribution circuit?",
+      options: ["0.2 s", "0.4 s", "1 s", "5 s"], answer: 3,
+      why: "Distribution circuits on TN are allowed 5 s (1 s on TT)." },
+    { q: "Why is a measured Z<sub>s</sub> compared with about 80% of the table value?",
+      options: ["Conductors are cold when tested, but warmer in use", "Test instruments always read 20% too high", "The supply voltage is 80% of 230 V at night", "The CPC is always 80% of the line conductor size"], answer: 0,
+      why: "Resistance rises with temperature, so the cold reading must leave room for the rise." },
+    { q: "Z<sub>e</sub> is 0.35 Ω and R<sub>1</sub> + R<sub>2</sub> is 0.65 Ω. Roughly what fault current flows at 230 V?",
+      options: ["23 A", "230 A", "354 A", "657 A"], answer: 1,
+      why: "Z<sub>s</sub> = 0.35 + 0.65 = 1.0 Ω, and " + Course.frac("230", "1.0") + " = 230 A." },
+    { q: "A 32 A Type B breaker needs what current to trip on its magnetic trip?",
+      options: ["32 A", "96 A", "160 A", "320 A"], answer: 2,
+      why: "Type B trips instantly at up to 5 × I<sub>n</sub>: 5 × 32 = 160 A." },
+    { q: "On a TT system, what does R<sub>A</sub> × I<sub>Δn</sub> have to be no more than?",
+      options: ["25 V", "50 V", "120 V", "230 V"], answer: 1,
+      why: "The touch voltage on exposed metalwork during a fault must not exceed 50 V." }
+  ]);
+})();
+</script>
+</body>
+</html>

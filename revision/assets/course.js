@@ -46,6 +46,40 @@
         { id: "part-p", file: "part-p-and-notification.html", title: "Part P and notification", desc: "Where Part P applies, notifiable work, and certificates." },
         { id: "bathrooms", file: "bathrooms.html", title: "Bathrooms and special locations", desc: "Zones, IP ratings and socket distances." }
       ]
+    },
+    {
+      id: "earthing", dir: "earthing", title: "Earthing and bonding",
+      desc: "How an installation is connected to earth, what bonding does, and how a fault is cleared in time.",
+      lessons: [
+        { id: "earthing-systems", file: "earthing-systems.html", title: "Earthing systems", desc: "TN-S, TN-C-S (PME), TT and PNB, and how to tell them apart." },
+        { id: "bonding", file: "protective-bonding.html", title: "Protective bonding", desc: "Exposed and extraneous parts, main and supplementary bonding, and conductor sizes." },
+        { id: "ads", file: "automatic-disconnection.html", title: "Automatic disconnection", desc: "Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>), disconnection times and maximum Z<sub>s</sub>." }
+      ]
+    },
+    {
+      id: "design", dir: "design", title: "Circuit design",
+      desc: "Working out the current, choosing the protective device, and sizing the cable.",
+      lessons: [
+        { id: "design-current", file: "design-current.html", title: "Design current and diversity", desc: "I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub>, and allowing for loads not all running at once." },
+        { id: "cable-sizing", file: "cable-sizing.html", title: "Cable sizing and voltage drop", desc: "Installation methods, correction factors and the 3% and 5% limits." }
+      ]
+    },
+    {
+      id: "testing", dir: "testing", title: "Inspection and testing",
+      desc: "Working safely, then proving an installation is fit to use and recording it.",
+      lessons: [
+        { id: "safe-isolation", file: "safe-isolation.html", title: "Safe isolation", desc: "The procedure, GS38 test equipment, and proving dead." },
+        { id: "inspection", file: "inspection-and-certification.html", title: "Inspection and certification", desc: "Initial verification, periodic inspection, certificates and codes." },
+        { id: "dead-tests", file: "dead-tests.html", title: "Dead tests", desc: "Continuity, ring finals, insulation resistance and polarity." },
+        { id: "live-tests", file: "live-tests.html", title: "Live tests", desc: "Earth electrodes, Z<sub>e</sub>, Z<sub>s</sub>, fault current and RCDs." }
+      ]
+    },
+    {
+      id: "pat", dir: "pat", title: "In-service inspection and testing",
+      desc: "Checking electrical equipment in use (PAT), to the IET Code of Practice.",
+      lessons: [
+        { id: "pat", file: "in-service-testing.html", title: "In-service inspection and testing", desc: "Equipment classes, inspections, tests and records." }
+      ]
     }
   ];
   // Flat list in reading order, so Previous/Next runs straight through all modules.
@@ -302,10 +336,14 @@
   // The one list of meanings. Pages tag acronyms in their markup with <abbr title> using these
   // same words; this also wraps acronyms in text that scripts add later (quizzes, readouts, captions).
   var ACRONYMS = {
-    "AFDD": "arc fault detection device",
     "AC": "alternating current",
     "ADS": "automatic disconnection of supply",
+    "AFDD": "arc fault detection device",
     "BS 7671": "British Standard 7671: the IET Wiring Regulations",
+    "CE": "Conformité Européenne: the European conformity mark",
+    "CHP": "combined heat and power",
+    "CIT": "combined inspection and test",
+    "CNE": "combined neutral and earth",
     "CPC": "circuit protective conductor",
     "CPS": "Competent Person Scheme",
     "CSA": "cross-sectional area",
@@ -314,10 +352,13 @@
     "EAWR": "Electricity at Work Regulations 1989",
     "EIC": "Electrical Installation Certificate",
     "EICR": "Electrical Installation Condition Report",
+    "ELV": "extra-low voltage: not more than 50 V AC or 120 V ripple-free DC",
     "ESQCR": "Electricity Safety, Quality and Continuity Regulations 2002",
     "EV": "electric vehicle",
     "FCU": "fused connection unit",
+    "FVI": "formal visual inspection",
     "HASAWA": "Health and Safety at Work etc. Act 1974",
+    "HSE": "Health and Safety Executive",
     "IET": "Institution of Engineering and Technology",
     "IP": "ingress protection",
     "LED": "light-emitting diode",
@@ -328,8 +369,14 @@
     "NICEIC": "National Inspection Council for Electrical Installation Contracting",
     "PAT": "portable appliance testing",
     "PE": "protective earth",
+    "PEFC": "prospective earth fault current",
+    "PELV": "protective extra-low voltage",
     "PEN": "protective earth and neutral: one conductor doing both jobs",
+    "PFC": "prospective fault current",
     "PME": "protective multiple earthing",
+    "PNB": "protective neutral bonding",
+    "PSCC": "prospective short-circuit current",
+    "PUWER": "Provision and Use of Work Equipment Regulations 1998",
     "PV": "photovoltaic",
     "PVC": "polyvinyl chloride",
     "RCBO": "residual current breaker with overcurrent protection",
@@ -338,6 +385,7 @@
     "RMS": "root mean square: the effective value of an AC voltage or current",
     "SELV": "separated extra-low voltage",
     "SPD": "surge protective device",
+    "SWA": "steel wire armoured",
     "TN-C-S": "TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation",
     "TN-S": "TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer",
     "TT": "TT earthing: the installation has its own earth electrode, with no earth from the supply"

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safe Isolation</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .order { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .order li { display: flex; gap: 10px; align-items: center; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 12px; font-size: 0.95rem; }
+  .order li .n { font-family: var(--font-mono); font-weight: 600; color: var(--ok); min-width: 1.6em; }
+  .pool { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pool button { text-align: left; }
+  .fb { border-radius: 8px; padding: 10px 12px; font-size: 0.92rem; }
+  .fb.ok { background: var(--ok-bg); }
+  .fb.bad { background: var(--bad-bg); }
+  .procedure { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 8px; }
+</style>
+</head>
+<body data-lesson="safe-isolation">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Inspection and testing</span>
+    <h1>Safe isolation</h1>
+    <p class="lead">Before you touch a conductor, you have to know it's dead and that it will stay dead. Safe isolation is the procedure that makes sure of both, and it's the first thing assessed in every practical.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>The Electricity at Work Regulations require work to be done dead unless live work is genuinely unavoidable. The procedure: <strong>identify</strong> the circuit and get permission; <strong>isolate</strong> it; <strong>secure</strong> the isolation with your own lock, keeping the key, and a warning label; <strong>prove</strong> your voltage indicator works on a known live source or proving unit; <strong>test</strong> that the circuit is dead between every pair of conductors (L–N, L–E and N–E on single phase); then <strong>prove the indicator again</strong>. Use a two-pole voltage indicator to <abbr title="Health and Safety Executive">HSE</abbr> guidance GS38: finger guards, no more than 4 mm of exposed probe tip (2 mm or less preferred) and fused or current-limited leads. A non-contact "volt stick" or a multimeter isn't a suitable way to prove dead.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Why it matters</h2>
+    <p>Most electricians who are killed at work die because they thought a circuit was dead when it wasn't: the wrong circuit was switched off, someone switched it back on, a borrowed circuit fed it from elsewhere, or the tester had failed. The <abbr title="Electricity at Work Regulations 1989">EAWR</abbr> require a way to cut off and isolate the supply (regulation 12), precautions to stop it being re-energised while you work (regulation 13), and live work only where it's unreasonable to make it dead, reasonable to work live, and suitable precautions are taken (regulation 14).</p>
+    <p>Fault-finding and some tests have to be done live, and those need their own risk assessment and precautions. Everything else is done dead.</p>
+  </section>
+
+  <section class="prose">
+    <h2>The procedure</h2>
+    <ol class="procedure">
+      <li><strong>Identify</strong> the circuit or equipment to be worked on, and the point of isolation. Get permission from whoever is responsible for the installation: switching off may affect other people, alarms or equipment.</li>
+      <li><strong>Isolate</strong> it with a suitable device: a double-pole isolator, the main switch, or the circuit's own circuit breaker or fuse. A functional switch, such as a light switch, isn't isolation.</li>
+      <li><strong>Secure</strong> the isolation: fit a lock-off device and your own padlock, and keep the key on you. Fit a warning notice. If you remove a fuse, keep it with you.</li>
+      <li><strong>Select</strong> an approved voltage indicator and check it, and its leads and probes, for damage.</li>
+      <li><strong>Prove</strong> the indicator works, on a known live source or a proving unit.</li>
+      <li><strong>Test</strong> the circuit at the point of work: line to neutral, line to earth and neutral to earth. On three-phase with neutral that's 10 tests: each line to each other line, each line to neutral, each line to earth, and neutral to earth.</li>
+      <li><strong>Re-prove</strong> the indicator on the same source. If it fails now, your "dead" reading means nothing.</li>
+      <li>Only then <strong>start work</strong>.</li>
+    </ol>
+    <p>Check for other sources too. Solar panels, batteries, generators and borrowed neutrals can all keep a circuit live after you've switched off the obvious supply. Amendment 4 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> brings more of these into homes, such as battery storage, which now counts as a generating set.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Put the steps in order</h3>
+    </div>
+    <p class="muted" style="font-size:0.9rem">Tap the steps in the order you'd do them.</p>
+    <ol class="order" id="done"></ol>
+    <div class="pool" id="pool"></div>
+    <div class="fb" id="fb" aria-live="polite" hidden></div>
+    <div><button type="button" class="btn" id="again">Start again</button></div>
+  </section>
+
+  <section class="prose">
+    <h2>Test equipment and GS38</h2>
+    <p>The <abbr title="Health and Safety Executive">HSE</abbr> guidance note <strong>GS38</strong> sets out what test leads, probes and voltage indicators should be like:</p>
+    <ul>
+      <li><strong>Finger barriers</strong> on the probes, or a shape that stops your fingers sliding onto the metal.</li>
+      <li><strong>No more than 4 mm of exposed metal</strong> at the probe tip. 2 mm or less, or spring-loaded retractable shrouds, are strongly recommended.</li>
+      <li><strong>Fused leads</strong> (a high breaking capacity fuse, usually 500 mA or less) <strong>or current limiting</strong>, to limit the energy if the probes short across a live supply.</li>
+      <li>Well-insulated, flexible leads, long enough for the job but not so long they're clumsy, with no exposed conductors.</li>
+      <li>The right <strong>measurement category (CAT)</strong> rating for where it'll be used: higher categories for work nearer the origin of the supply.</li>
+    </ul>
+    <p>For proving dead, use a dedicated <strong>two-pole voltage indicator</strong> (to BS EN 61243-3) and its proving unit. A multimeter can be set to the wrong range, and a non-contact voltage detector only senses an electric field, so it can't prove a conductor is dead.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var STEPS = [
+    "Identify the circuit and get permission",
+    "Isolate it",
+    "Lock off, keep the key and fit a warning notice",
+    "Prove the voltage indicator on a known live source",
+    "Test between all conductors at the point of work",
+    "Re-prove the voltage indicator",
+    "Start work"
+  ];
+  var next;
+  function reset() {
+    next = 0; $("done").innerHTML = ""; $("fb").hidden = true; $("pool").innerHTML = "";
+    var order = STEPS.map(function (s, i) { return i; }).sort(function () { return Math.random() - 0.5; });
+    order.forEach(function (i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.textContent = STEPS[i]; b.setAttribute("data-i", i);
+      $("pool").appendChild(b);
+    });
+  }
+  $("pool").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var i = +b.getAttribute("data-i"), fb = $("fb");
+    if (i === next) {
+      var li = document.createElement("li"); li.innerHTML = '<span class="n">' + (i + 1) + "</span><span></span>"; li.lastChild.textContent = STEPS[i];
+      $("done").appendChild(li); b.remove(); next++;
+      fb.hidden = next < STEPS.length; fb.className = "fb ok"; fb.textContent = "That's the full procedure, in order.";
+    } else {
+      fb.hidden = false; fb.className = "fb bad";
+      fb.textContent = "Not yet: \"" + STEPS[i] + "\" comes later. What has to happen before it?";
+    }
+  });
+  $("again").addEventListener("click", reset);
+  reset();
+
+  Course.quiz("#quiz", [
+    { q: "Why is the voltage indicator proved again after testing the circuit dead?",
+      options: ["To show it didn't fail during the test", "To discharge any voltage left in the leads", "To reset the indicator for its next use", "Because GS38 needs two readings per job"], answer: 0,
+      why: "If the tester failed between proving and testing, a 'dead' reading would be false. Re-proving catches that." },
+    { q: "What's the maximum exposed metal at a probe tip, according to GS38?",
+      options: ["2 mm", "4 mm", "6 mm", "10 mm"], answer: 1,
+      why: "No more than 4 mm, and 2 mm or less (or spring-loaded shrouds) is strongly recommended." },
+    { q: "How many tests does proving dead on a three-phase and neutral supply take?",
+      options: ["3", "4", "6", "10"], answer: 3,
+      why: "3 line-to-line, 3 line-to-neutral, 3 line-to-earth, and neutral-to-earth: 10." },
+    { q: "Which of these is suitable for proving a circuit dead?",
+      options: ["A two-pole voltage indicator to GS38", "A non-contact voltage detector pen", "A multimeter set to its ohms range", "A plug-in socket tester with lamps"], answer: 0,
+      why: "A two-pole voltage indicator, proved on a known source before and after." },
+    { q: "After isolating and locking off, what should you do with the key?",
+      options: ["Keep it on you until the work is finished", "Leave it in the lock so others can find it", "Hand it to the customer for safe keeping", "Hang it next to the warning notice"], answer: 0,
+      why: "Only you should be able to remove your lock, so the key stays with you." },
+    { q: "Under the EAWR, when may live work be done?",
+      options: ["Only when dead working is unreasonable and suitable precautions are taken", "Whenever the electrician holds a recognised qualification", "Whenever the circuit is protected by a 30 mA RCD", "Only on circuits operating at less than 230 V"], answer: 0,
+      why: "Regulation 14: unreasonable to make dead, reasonable to work live, and suitable precautions taken." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -17,6 +17,17 @@
   .sw:focus-visible .hit { stroke: var(--flow); stroke-width: 2; stroke-dasharray: 3 3; }
   .sw .hit { fill: transparent; }
   .node { fill: var(--fg); }
+  .meter-c { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .meter-t { font-family: var(--font-display); font-weight: 800; font-size: 16px; }
+  .stage svg text.meter-r { font-family: var(--font-mono); font-weight: 600; font-size: 16px; fill: var(--flow); paint-order: stroke; stroke: var(--surface-2); stroke-width: 5px; stroke-linejoin: round; }
+  .tp circle { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .tp text { font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+  .tp.red circle { fill: var(--bad); stroke: var(--bad); }
+  .tp.blk circle { fill: var(--fg); }
+  .tp.red text, .tp.blk text { fill: var(--surface); }
+  .lead-red { stroke: var(--bad); stroke-width: 2.5; fill: none; }
+  .lead-blk { stroke: var(--fg); stroke-width: 2.5; fill: none; }
+  .seg.pts button { min-width: 2.6em; font-family: var(--font-mono); }
 </style>
 </head>
 <body data-lesson="series-parallel">
@@ -76,7 +87,7 @@
       </svg>
     </div>
     <div class="controls">
-      <div class="ctl" style="flex:0 1 auto">
+      <div class="ctl">
         <span class="label" id="modeL">Connect the lamps in</span>
         <div class="seg" role="group" aria-labelledby="modeL" id="mode">
           <button type="button" data-m="series" aria-pressed="true">Series</button>
@@ -105,6 +116,56 @@
     <p>Two rules, both from the 1840s, hold in every circuit, however complicated. They're what make the series and parallel rules above work.</p>
     <p><strong>Kirchhoff's current law</strong> (the first law): at any junction, the current flowing in equals the current flowing out. Put another way, the currents at a junction add up to zero if you count "in" as positive and "out" as negative. Charge can't pile up at a point or vanish, so whatever arrives has to leave. That's why the branch currents in a parallel circuit add up to the supply current, and why the current is the same all the way round a series loop.</p>
     <p><strong>Kirchhoff's voltage law</strong> (the second law): go round any closed loop and the voltage drops across the loads and cables add up to the supply voltage. Counting the supply as a rise and each drop as a fall, the total round the loop is zero. That's why series loads share the supply voltage, and why, by the time the current reaches the neutral on its way back, almost all of the 230 V has been used. (The neutral isn't exactly 0 V: a few volts are dropped along it too. See <a href="../supply/your-supply.html">Your supply</a>.)</p>
+  </section>
+
+  <section class="prose">
+    <h2>What will the meter read?</h2>
+    <p>Kirchhoff's voltage law lets you predict any voltmeter reading, which is exactly what you'll do when testing and fault-finding. Three rules cover it:</p>
+    <ul>
+      <li><strong>Two points on the same piece of conductor read 0 V.</strong> A good conductor drops almost no voltage, so everything joined by plain wire (or a closed switch) is at the same potential.</li>
+      <li><strong>A load only drops voltage while current flows through it.</strong> With current, the lamp drops the supply voltage. With no current, both its ends sit at the same potential, so it reads 0 V.</li>
+      <li><strong>An open switch has the full supply voltage across its gap.</strong> The voltage has to be dropped somewhere round the loop, and with no current the gap is the only place left. That's why the terminal of a switched-off circuit can still be live.</li>
+    </ul>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w3">Place the voltmeter leads</h3>
+    </div>
+    <p class="muted" style="font-size:0.9rem">Tap the switch in the diagram to open or close it, then choose where each lead goes.</p>
+    <div class="stage">
+      <svg id="mtrSvg" viewBox="0 0 360 236" role="img" aria-labelledby="w3d" style="max-width:560px;margin:0 auto">
+        <title id="w3d">A 12 V battery, a switch and a 12 V 6 W lamp in one loop. Test points 1 and 2 are on the wire from the battery positive to the switch, 3 and 4 between the switch and the lamp, 5 and 6 between the lamp and the battery negative. A voltmeter's red and black leads connect to the chosen points.</title>
+        <g id="mtrG"></g>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <span class="label" id="mSwL">Switch</span>
+        <div class="seg" role="group" aria-labelledby="mSwL" id="mSw">
+          <button type="button" data-v="1" aria-pressed="true">Closed (on)</button>
+          <button type="button" data-v="0" aria-pressed="false">Open (off)</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <span class="label" id="mRL">Red lead on point</span>
+        <div class="seg pts" role="group" aria-labelledby="mRL" id="mRed"></div>
+      </div>
+      <div class="ctl">
+        <span class="label" id="mBL">Black lead on point</span>
+        <div class="seg pts" role="group" aria-labelledby="mBL" id="mBlk"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <label class="check" for="mHide"><input type="checkbox" id="mHide"> Hide the readings so I can predict first</label>
+      <button type="button" class="btn" id="mShow" hidden>Show the readings</button>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Voltmeter</span><span class="v" id="mV">—</span><span class="s">red lead minus black lead</span></div>
+      <div class="ro"><span class="k">Current in the loop</span><span class="v" id="mI">—</span><span class="s">what an ammeter in series would read</span></div>
+    </div>
+    <p class="caption" id="mCap" aria-live="polite"></p>
   </section>
 
   <section class="prose">
@@ -184,7 +245,7 @@
       '<line x1="' + (S - 12) + '" y1="168" x2="' + (S + 12) + '" y2="168" stroke="var(--fg)" stroke-width="7"/>' +
       (N ? "" : supply(16, 200));
     // series
-    var loop = "M" + S + ",150 V60 H" + R + " V" + B + " H" + S + " V168";
+    var loop = "M" + S + ",149.5 V60 H" + R + " V" + B + " H" + S + " V168";
     g += '<g id="ser"><path class="wire w-plain" d="' + loop + '"/><path id="fSer" class="flow" d="' + loop + '"/>' +
       '<text id="sI" class="tag" x="' + (N ? 180 : 360) + '" y="' + (N ? 330 : 296) + '" text-anchor="middle" fill="var(--flow)">I = 0 A</text>' + (N ? supply(S + 8, 214) : "");
     [0, 1, 2].forEach(function (k) {
@@ -201,7 +262,7 @@
     });
     g += "</g>";
     // parallel
-    g += '<g id="par" hidden><path class="wire w-plain" d="M' + S + ',150 V60 H' + bx[2] + ' M' + S + ',168 V' + PB + ' H' + bx[2] +
+    g += '<g id="par" hidden><path class="wire w-plain" d="M' + S + ',149.5 V60 H' + bx[2] + ' M' + S + ',168 V' + PB + ' H' + bx[2] +
       ' M' + bx[0] + ',60 V' + PB + ' M' + bx[1] + ',60 V' + PB + ' M' + bx[2] + ',60 V' + PB + '"/>' +
       '<path id="fP0" class="flow" d="M' + S + ',150 V60 H' + bx[0] + '"/><path id="fP1" class="flow" d="M' + bx[0] + ',60 H' + bx[1] + '"/><path id="fP2" class="flow" d="M' + bx[1] + ',60 H' + bx[2] + '"/>' +
       bx.map(function (x, k) { return '<path id="fB' + k + '" class="flow" d="M' + x + ',60 V' + PB + '"/>'; }).join("") +
@@ -305,7 +366,80 @@
     return { q: a + " Ω and " + b + " Ω are in series on a " + v + " V supply. What current flows?", answer: i, unit: "A", working: "R<sub>T</sub> = " + a + " + " + b + " = " + rt + " Ω, so I = " + Course.frac(v, rt) + " = " + f(i) + " A" };
   });
 
+  // ---- What will the meter read? ----
+  (function () {
+    // Test points: [x, y, node]. Node P = battery +, M = between switch and lamp, N = battery −.
+    var PTS = [[78, 40, "P"], [118, 40, "P"], [212, 40, "M"], [320, 66, "M"], [320, 158, "N"], [180, 196, "N"]];
+    var ms = { closed: true, red: 3, blk: 4, hidden: false, shown: false };
+    function pot(n) { return n === "P" ? 12 : n === "N" ? 0 : (ms.closed ? 12 : 0); }
+    function draw(label) {
+      var g = $("mtrG"), h = "";
+      h += '<path class="wire w-plain" d="M40,95.5 V40 H136 M164,40 H320 V88 M320,132 V196 H40 V124"/>';
+      h += '<line x1="20" y1="96" x2="60" y2="96" stroke="var(--fg)" stroke-width="3"/><line x1="30" y1="124" x2="50" y2="124" stroke="var(--fg)" stroke-width="7"/>';
+      h += '<text x="64" y="92" class="small">+</text><text x="58" y="138" class="small">−</text><text x="10" y="116" class="small" text-anchor="start">12 V</text>';
+      // the switch is clickable: a focusable group with a transparent hit area. Lever first, from the
+      // left contact's centre, so the contacts hide its ends.
+      h += '<g class="sw" id="mtrSw" tabindex="0" role="switch" aria-label="Switch" aria-checked="' + ms.closed + '"><rect class="hit" x="128" y="12" width="46" height="36" rx="4"/>';
+      h += ms.closed ? '<line x1="136" y1="40" x2="164" y2="40" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>' : '<line x1="136" y1="40" x2="160" y2="26" stroke="var(--fg)" stroke-width="3" stroke-linecap="round"/>';
+      h += '<circle cx="136" cy="40" r="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/><circle cx="164" cy="40" r="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/></g>';
+      h += '<text x="150" y="62" text-anchor="middle" class="small">switch</text>';
+      if (ms.closed) h += '<circle cx="320" cy="110" r="20" class="glow" opacity="0.35"/>';
+      h += '<circle class="comp" cx="320" cy="110" r="20"/><path d="M306,96 L334,124 M334,96 L306,124" stroke="var(--fg)" stroke-width="2"/>';
+      h += '<text x="292" y="122" text-anchor="end" class="small">12 V 6 W</text>';
+      var R = PTS[ms.red - 1], B = PTS[ms.blk - 1], mx = 180, my = 128;
+      h += '<path class="lead-red" d="M' + R[0] + "," + R[1] + " L" + (mx - 7) + "," + my + '"/>';
+      h += '<path class="lead-blk" d="M' + B[0] + "," + B[1] + " L" + (mx + 7) + "," + (my + 2) + '"/>';
+      h += '<circle class="meter-c" cx="' + mx + '" cy="' + my + '" r="20"/><text class="meter-t" x="' + mx + '" y="' + (my + 6) + '" text-anchor="middle">V</text>';
+      h += '<text class="meter-r" x="' + mx + '" y="' + (my + 42) + '" text-anchor="middle">' + label + "</text>";
+      PTS.forEach(function (p, i) {
+        var c = i + 1 === ms.red ? " red" : i + 1 === ms.blk ? " blk" : "";
+        h += '<g class="tp' + c + '"><circle cx="' + p[0] + '" cy="' + p[1] + '" r="9"/><text x="' + p[0] + '" y="' + (p[1] + 4) + '" text-anchor="middle">' + (i + 1) + "</text></g>";
+      });
+      g.innerHTML = h;
+    }
+    function explain(a, b) {
+      var k = [a, b].sort().join("");
+      if (a === b) return "Both leads are on the same piece of conductor, so there's no potential difference between them.";
+      if (k === "NP") return "Across the supply: the battery's full 12 V, whether the switch is open or closed.";
+      if (k === "MP") return ms.closed ? "Across a closed switch. It's just a short piece of conductor, so it drops (almost) nothing." : "Across an open switch. No current flows, so the lamp drops nothing and the whole 12 V appears across the gap.";
+      return ms.closed ? "Across the lamp. Current flows, so the lamp drops the full supply voltage." : "Across the lamp with the switch open. No current flows, so the lamp drops nothing: both its ends are at 0 V.";
+    }
+    function update() {
+      document.querySelectorAll("#mSw button").forEach(function (b) { b.setAttribute("aria-pressed", String((b.getAttribute("data-v") === "1") === ms.closed)); });
+      document.querySelectorAll("#mRed button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.textContent === ms.red)); });
+      document.querySelectorAll("#mBlk button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.textContent === ms.blk)); });
+      var a = PTS[ms.red - 1][2], b = PTS[ms.blk - 1][2], v = pot(a) - pot(b), hide = ms.hidden && !ms.shown;
+      draw(hide ? "? V" : (v < 0 ? "−" + (-v) : v) + " V");
+      $("mShow").hidden = !hide;
+      $("mV").textContent = hide ? "?" : (v < 0 ? "−" + (-v) : v) + " V";
+      $("mI").textContent = hide ? "?" : (ms.closed ? "0.5 A" : "0 A");
+      $("mCap").textContent = hide ? "Points " + ms.red + " and " + ms.blk + ", switch " + (ms.closed ? "closed" : "open") + ". What will it read?" :
+        explain(a, b) + (v < 0 ? " The red lead is on the lower potential, so a digital meter shows a minus sign." : "");
+    }
+    for (var i = 1; i <= 6; i++) ["mRed", "mBlk"].forEach(function (id) { var b = document.createElement("button"); b.type = "button"; b.textContent = i; $(id).appendChild(b); });
+    // The diagram is redrawn on every change, so after a key press put focus back on the new switch.
+    function flipM(e, byKey) {
+      if (!e.target.closest("#mtrSw")) return;
+      ms.closed = !ms.closed; ms.shown = false; update();
+      if (byKey) $("mtrSw").focus({ preventScroll: true });
+    }
+    $("mtrSvg").addEventListener("click", flipM);
+    $("mtrSvg").addEventListener("keydown", function (e) { if ((e.key === "Enter" || e.key === " ") && e.target.closest("#mtrSw")) { e.preventDefault(); flipM(e, true); } });
+    $("mSw").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; ms.closed = b.getAttribute("data-v") === "1"; ms.shown = false; update(); });
+    $("mRed").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; ms.red = +b.textContent; ms.shown = false; update(); });
+    $("mBlk").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; ms.blk = +b.textContent; ms.shown = false; update(); });
+    $("mHide").addEventListener("change", function () { ms.hidden = this.checked; ms.shown = false; update(); });
+    $("mShow").addEventListener("click", function () { ms.shown = true; update(); });
+    update();
+  })();
+
   Course.quiz("#quiz", [
+    { q: "A 12 V battery, switch and lamp are in series. The switch is <strong>open</strong>. What does a voltmeter across the switch read?",
+      options: ["0 V", "6 V", "12 V", "24 V"], answer: 2,
+      why: "With no current, nothing else in the loop drops any voltage, so the full 12 V appears across the gap." },
+    { q: "In the same circuit with the switch <strong>closed</strong> and the lamp lit, what does a voltmeter read between two points on the same wire?",
+      options: ["0 V", "0.5 V", "6 V", "12 V"], answer: 0,
+      why: "Both points are on one piece of conductor, so they're at the same potential." },
     { q: "Three resistors of 4 Ω, 6 Ω and 10 Ω are in series. What's the total resistance?",
       options: ["20 Ω", "1.94 Ω", "6.7 Ω", "240 Ω"], answer: 0,
       why: "In series, resistances add: 4 + 6 + 10 = 20 Ω." },

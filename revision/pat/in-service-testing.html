@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>In-service Inspection and Testing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .classes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .cls { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--rule); background: var(--surface); }
+  .cls svg { width: 56px; height: 56px; }
+  .cls .n { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; }
+  .seq { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 6px; }
+</style>
+</head>
+<body data-lesson="pat">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">In-service inspection and testing</span>
+    <h1>In-service inspection and testing</h1>
+    <p class="lead">Often called <abbr title="portable appliance testing">PAT</abbr>, this is the checking of electrical equipment while it's in use: kettles, drills and extension leads, but also fixed and IT equipment. The reference is the <abbr title="Institution of Engineering and Technology">IET</abbr> Code of Practice, 5th edition.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>No law says "test every year". The Electricity at Work Regulations and <abbr title="Provision and Use of Work Equipment Regulations 1998">PUWER</abbr> require equipment to be maintained so it isn't dangerous, and the duty holder decides how often by <strong>risk assessment</strong>. The Code of Practice covers all electrical equipment, not just portable appliances. There are three levels: a <strong>user check</strong> before each use, a <strong>formal visual inspection (<abbr title="formal visual inspection">FVI</abbr>)</strong> by a competent person, and a <strong>combined inspection and test (<abbr title="combined inspection and test">CIT</abbr>)</strong>. Most faults are found by looking. <strong>Class I</strong> equipment relies on earthed metalwork; <strong>Class II</strong> relies on double or reinforced insulation (the double-square symbol) and has no earth. The tests, in order: <strong>protective conductor continuity</strong> (Class I, limit 0.1 Ω plus the cord's own resistance), <strong>insulation resistance</strong> at 500 V <abbr title="direct current">DC</abbr> (at least 1.0 MΩ for Class I, 2.0 MΩ for Class II), <strong>protective conductor or touch current</strong> if needed, then a <strong>functional check</strong>.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>The law and the Code of Practice</h2>
+    <p>The duties come from general health and safety law, not a "<abbr title="portable appliance testing">PAT</abbr> law":</p>
+    <ul>
+      <li>The <strong>Electricity at Work Regulations 1989</strong> require electrical systems, including equipment, to be maintained to prevent danger, so far as is reasonably practicable.</li>
+      <li><strong><abbr title="Provision and Use of Work Equipment Regulations 1998">PUWER</abbr></strong> requires work equipment to be kept in efficient working order and good repair.</li>
+      <li>The <strong>Management of Health and Safety at Work Regulations 1999</strong> require a risk assessment, which sets how often equipment is checked.</li>
+      <li>Landlords must keep equipment they supply with a tenancy safe, checking it periodically and at each new tenancy.</li>
+    </ul>
+    <p>Records aren't specifically required by law, but the <abbr title="Health and Safety Executive">HSE</abbr> recommends keeping them, and they're the evidence that maintenance was done. The <strong><abbr title="Institution of Engineering and Technology">IET</abbr> Code of Practice for In-service Inspection and Testing of Electrical Equipment (5th edition)</strong> explains how to do it, and it's the book allowed in the exam. Because it covers every type of equipment, it avoids the term "portable appliance".</p>
+  </section>
+
+  <section class="prose">
+    <h2>Equipment classes</h2>
+    <p>The class tells you how the equipment protects against electric shock, and so which tests apply:</p>
+  </section>
+  <div class="classes">
+    <div class="cls">
+      <svg viewBox="0 0 56 56" role="img" aria-label="Protective earth symbol"><circle cx="28" cy="28" r="24" fill="none" stroke="var(--fg)" stroke-width="2.5"/><line x1="28" y1="12" x2="28" y2="30" stroke="var(--fg)" stroke-width="2.5"/><line x1="16" y1="30" x2="40" y2="30" stroke="var(--fg)" stroke-width="2.5"/><line x1="20" y1="36" x2="36" y2="36" stroke="var(--fg)" stroke-width="2.5"/><line x1="24" y1="42" x2="32" y2="42" stroke="var(--fg)" stroke-width="2.5"/></svg>
+      <span class="n">Class I</span>
+      <span>Basic insulation, plus accessible metal parts connected to earth through the plug's earth pin. Always a 3-core flex. If the insulation fails, the fault goes to earth and the fuse or breaker disconnects it.</span>
+    </div>
+    <div class="cls">
+      <svg viewBox="0 0 56 56" role="img" aria-label="Class II symbol: a square inside a square"><rect x="6" y="6" width="44" height="44" fill="none" stroke="var(--fg)" stroke-width="2.5"/><rect x="16" y="16" width="24" height="24" fill="none" stroke="var(--fg)" stroke-width="2.5"/></svg>
+      <span class="n">Class II</span>
+      <span>Double or reinforced insulation, with no earth connection, so it relies on the insulation alone. Marked with the double square. Often a 2-core flex. <strong>Class II FE</strong> has a functional earth that isn't for safety.</span>
+    </div>
+    <div class="cls">
+      <svg viewBox="0 0 56 56" role="img" aria-label="Class III symbol: III in a diamond"><path d="M28,4 L52,28 L28,52 L4,28 Z" fill="none" stroke="var(--fg)" stroke-width="2.5"/><text x="28" y="34" text-anchor="middle" style="font-family:var(--font-display);font-weight:800;font-size:15px;fill:var(--fg)">III</text></svg>
+      <span class="n">Class III</span>
+      <span>Supplied at a safe extra-low voltage from a source such as a safety isolating transformer. The 5th edition describes these supplies with energy source classes (ES1 to ES3) rather than <abbr title="separated extra-low voltage">SELV</abbr>.</span>
+    </div>
+  </div>
+
+  <section class="prose">
+    <h2>Three levels of check</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Level</th><th>Who</th><th>What</th><th>Recorded?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>User check</strong></td><td>The person using it</td><td>A quick look before use: damaged plug, cable or case, burn marks. If there's a fault: stop, unplug, label it and report it.</td><td>Only if a fault is found</td></tr>
+          <tr><td><strong>Formal visual inspection (<abbr title="formal visual inspection">FVI</abbr>)</strong></td><td>A competent person</td><td>A thorough inspection without tests, including opening the plug where possible.</td><td>Yes</td></tr>
+          <tr><td><strong>Combined inspection and test (<abbr title="combined inspection and test">CIT</abbr>)</strong></td><td>A competent person</td><td>A formal visual inspection, then electrical tests and a functional check.</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>There's no fixed timescale. Frequency depends on the environment, the user, how the equipment is built and used, and its history: a drill on a building site needs checking far more often than a printer in an office. The Code of Practice gives example starting points.</p>
+  </section>
+
+  <section class="prose">
+    <h2>The formal visual inspection</h2>
+    <p>Before inspecting, check you're allowed to switch the equipment off and unplug it (a server or freezer may not be), then disconnect it. Look at:</p>
+    <ul>
+      <li><strong>The environment and suitability:</strong> is it right for where and how it's used? Is there room for ventilation? Are cables a trip hazard?</li>
+      <li><strong>The plug:</strong> no cracks or burn marks; sleeved pins (required on plugs since 1984); the right fuse. As a guide, equipment up to about 700 W takes a 3 A fuse; above that, 13 A. Inside: the cord grip holding the sheath, correct connections, tight terminals.</li>
+      <li><strong>The flex:</strong> no cuts, damage, joints or taped repairs, and suitable for the job.</li>
+      <li><strong>The equipment:</strong> no damage to the case, no overheating, all covers and screws in place.</li>
+    </ul>
+    <p><strong>Extension leads</strong> aren't a permanent extension of the fixed wiring, so inspect them more often. Maximum lengths: 12 m for 1.25 mm² flex, 15 m for 1.5 mm². Longer leads need a 30 mA <abbr title="residual current device">RCD</abbr>.</p>
+  </section>
+
+  <section class="prose">
+    <h2>The tests</h2>
+    <ol class="seq">
+      <li><strong>Protective conductor continuity (Class I only).</strong> Proves accessible metal is connected to the plug's earth pin. Flex the cord along its length during the test, to find broken strands. The limit is <strong>(0.1 + R) Ω</strong>, where R is the resistance of the cord's protective conductor; 0.1 Ω where there's no cord. A low test current (20 to 200 mA) suits most equipment; a high current (up to 25 A) needs a solid connection to bare metal.</li>
+      <li><strong>Insulation resistance.</strong> 500 V <abbr title="direct current">DC</abbr> between the live conductors (joined together) and earth, with the equipment switched on. Minimum <strong>1.0 MΩ for Class I</strong> and <strong>2.0 MΩ for Class II</strong>. For equipment with electronics that a 500 V test could damage or upset, test at 250 V, or use the protective conductor or touch current test instead.</li>
+      <li><strong>Protective conductor current or touch current</strong>, where needed. The equipment runs normally while the tester measures the current flowing in its earth (Class I), or that would flow through a person touching it.</li>
+      <li><strong>Functional check.</strong> Switch it on and make sure it works properly. Fill a kettle first, take care with moving parts, and don't touch metal parts while it's running.</li>
+    </ol>
+    <p>Extension leads and cord sets are tested as items on their own: earth continuity, insulation resistance and polarity for a 3-core lead; insulation and polarity for a 2-core one.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w1">Earth continuity limits</h3>
+    </div>
+    <p class="muted" style="font-size:0.9rem">Protective conductor resistance per metre: 0.75 mm² 26 mΩ, 1.0 mm² 19.5 mΩ, 1.25 mm² 15.6 mΩ, 1.5 mm² 13.3 mΩ.</p>
+    <div id="prac"></div>
+  </section>
+
+  <section class="prose">
+    <h2>Records and labels</h2>
+    <p>The Code of Practice gives model forms: an <strong>equipment register</strong> (make, model, serial or asset number, inspection and test frequency, repairs), an <strong>inspection and test record</strong> for each visit, a faulty equipment register and a repair register. Labels show that an item has been checked. Test instruments must be to BS EN 61010 with GS38 leads, and their accuracy should be checked regularly, since a calibration certificate only proves the instrument was accurate on the day.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var MOHM = { "0.75": 26, "1.0": 19.5, "1.25": 15.6, "1.5": 13.3 };
+  Course.practice("#prac", function () {
+    var csa = Course.pick(Object.keys(MOHM)), len = Course.pick([1.5, 2, 3, 5, 10, 12]);
+    var r = MOHM[csa] * len / 1000, lim = 0.1 + r;
+    return { q: "A Class I appliance has a " + len + " m cord in " + csa + " mm² flex. What's the maximum acceptable protective conductor resistance?", answer: lim, unit: "Ω",
+      working: "R = " + MOHM[csa] + " mΩ/m × " + len + " m = " + r.toFixed(3) + " Ω; limit = 0.1 + " + r.toFixed(3) + " = " + lim.toFixed(3) + " Ω" };
+  });
+
+  Course.quiz("#quiz", [
+    { q: "How often does the law say equipment must be PAT tested?",
+      options: ["It doesn't: the duty holder sets it by risk assessment", "Every year, for all equipment in a workplace", "Every three months on construction sites", "Every five years, the same as rented homes"], answer: 0,
+      why: "The law requires equipment to be maintained; the frequency comes from a risk assessment." },
+    { q: "What does the double-square symbol mean?",
+      options: ["Class II: double or reinforced insulation", "Class I: the metal case is earthed", "Class III: supplied at extra-low voltage", "The equipment has been tested and passed"], answer: 0,
+      why: "A square inside a square marks Class II equipment, which has no earth." },
+    { q: "Which level of check is done by the user, before use?",
+      options: ["User check", "Formal visual inspection", "Combined inspection and test", "Functional test"], answer: 0,
+      why: "A quick look for obvious damage, with nothing recorded unless a fault is found." },
+    { q: "What's the minimum insulation resistance for Class II equipment?",
+      options: ["0.5 MΩ", "1.0 MΩ", "2.0 MΩ", "200 MΩ"], answer: 2,
+      why: "Class I: 1.0 MΩ. Class II: 2.0 MΩ, because insulation is its only protection." },
+    { q: "Which test applies to Class I equipment but not Class II?",
+      options: ["Protective conductor continuity", "Insulation resistance", "Functional check", "Formal visual inspection"], answer: 0,
+      why: "Class II has no earth connection, so there's no protective conductor to test." },
+    { q: "What's the maximum length for an extension lead in 1.25 mm² flex without a 30 mA RCD?",
+      options: ["10 m", "12 m", "15 m", "20 m"], answer: 1,
+      why: "12 m for 1.25 mm², 15 m for 1.5 mm². Longer leads need a 30 mA RCD." },
+    { q: "Why flex the cord during the earth continuity test?",
+      options: ["To reveal broken strands that only part-connect", "To warm the cable up to working temperature", "To check the cord grip is holding the sheath", "To discharge the appliance's capacitors"], answer: 0,
+      why: "Broken strands can connect intermittently; flexing makes the reading jump." }
+  ]);
+})();
+</script>
+</body>
+</html>

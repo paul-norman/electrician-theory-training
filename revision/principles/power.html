@@ -81,6 +81,29 @@
   </section>
 
   <section class="prose">
+    <h2>Quick estimates on site</h2>
+    <p>At 230 V, <strong>1 kW draws about 4.35 A</strong> (<span class="frac"><span>1,000</span><span>230</span></span> ≈ 4.35). Many electricians round it to "about 4 A per kilowatt" for a rough first check, but that underestimates, so use the proper sum for anything that matters. The same formula works backwards: a circuit breaker's rating tells you how much load it can carry, P = V × I.</p>
+    <div class="examples">
+      <div class="example">
+        <span class="q">What current does a 10 kW cooker draw on 230 V (before any diversity)?</span>
+        <span class="w">I = <span class="frac"><span>P</span><span>V</span></span> = <span class="frac"><span>10,000</span><span>230</span></span></span>
+        <span class="a">≈ 43.5 A</span>
+      </div>
+      <div class="example">
+        <span class="q">How many 100 W lamps can a 6 A lighting circuit carry at 230 V?</span>
+        <span class="w">P = V × I = 230 × 6 = 1,380 W<br><span class="frac"><span>1,380</span><span>100</span></span> = 13.8</span>
+        <span class="a">13 lamps (always round down)</span>
+      </div>
+      <div class="example">
+        <span class="q">Roughly what does a 3 kW immersion heater draw, using 4.35 A per kW?</span>
+        <span class="w">3 × 4.35</span>
+        <span class="a">≈ 13 A</span>
+      </div>
+    </div>
+    <p>Round the number of lamps <strong>down</strong>: 14 lamps would need 1,400 W, which is more than the circuit can supply. Diversity, which allows for not everything running at once, is covered in <a href="../design/design-current.html">Design current and diversity</a>.</p>
+  </section>
+
+  <section class="prose">
     <h2>Power and energy aren't the same</h2>
     <p>Power is <em>how fast</em> energy is used. Energy is <em>how much</em> is used in total: power × time. Electricity bills charge for energy in <strong>kilowatt-hours (kWh)</strong>. 1 kWh is a 1 kW load running for one hour.</p>
     <div class="examples">
@@ -256,6 +279,9 @@
   });
 
   Course.quiz("#quiz", [
+    { q: "A lighting circuit is protected by a 6 A circuit breaker on 230 V. What's the most 100 W lamps it can carry?",
+      options: ["6", "13", "14", "23"], answer: 1,
+      why: "230 × 6 = 1,380 W, and 1,380 W of 100 W lamps is 13.8. Round down: 13." },
     { q: "A 3 kW kettle runs on 230 V. Roughly what current does it draw?",
       options: ["0.08 A", "13 A", "690 A", "3 A"], answer: 1,
       why: "I = <span class=\"frac\"><span>P</span><span>V</span></span> = <span class=\"frac\"><span>3,000</span><span>230</span></span> ≈ 13 A. Remember to convert 3 kW to 3,000 W first." },

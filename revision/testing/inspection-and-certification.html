@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inspection and Certification</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.c1 { background: var(--bad-bg); } .verdict.c1 strong { color: var(--bad); }
+  .verdict.c2 { background: var(--note-bg); } .verdict.c2 strong { color: var(--note); }
+  .verdict.c3 { background: var(--info-bg); } .verdict.c3 strong { color: var(--info); }
+  .verdict.nc { background: var(--ok-bg); } .verdict.nc strong { color: var(--ok); }
+  select.wide { width: 100%; max-width: 620px; }
+  .codes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+  .code { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; border: 1px solid var(--rule); background: var(--surface); }
+  .code .n { font-family: var(--font-mono); font-weight: 600; font-size: 1.2rem; }
+</style>
+</head>
+<body data-lesson="inspection">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Inspection and testing</span>
+    <h1>Inspection and certification</h1>
+    <p class="lead">New work is checked and certified before it's put into service. Existing installations are inspected from time to time and reported on. Different jobs, different paperwork.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p><strong>Initial verification</strong> (<abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Chapter 64) checks new work, by inspection and then testing, before it's energised and used. It's recorded on an <strong><abbr title="Electrical Installation Certificate">EIC</abbr></strong> (new installations, new circuits, consumer unit changes) or a <strong><abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr></strong> (an addition or alteration without a new circuit), given to the person who ordered the work. An <abbr title="Electrical Installation Certificate">EIC</abbr> can have one signature, or three: designer, installer and inspector. <strong>Periodic inspection</strong> (Chapter 65) reports on an existing installation's condition on an <strong><abbr title="Electrical Installation Condition Report">EICR</abbr></strong>, within an agreed extent and limitations. Each observation is coded: <strong>C1</strong> danger present, <strong>C2</strong> potentially dangerous, <strong>C3</strong> improvement recommended, <strong>FI</strong> further investigation required. Any C1 or C2 makes the report unsatisfactory; under Amendment 4, an FI no longer does so automatically. Guidance Note 3 is the reference book for all three inspection and testing exams.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Initial verification and periodic inspection</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Initial verification</th><th>Periodic inspection and testing</th></tr></thead>
+        <tbody>
+          <tr><td><strong>When</strong></td><td>On new work, before it's put into service, and during construction where parts will be hidden</td><td>At intervals through an installation's life, and on change of occupancy or use</td></tr>
+          <tr><td><strong>Purpose</strong></td><td>Confirm the work meets <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> and was designed, installed and tested properly</td><td>Report whether the installation is in a safe condition for continued use</td></tr>
+          <tr><td><strong>Extent</strong></td><td>Everything in the new work, fully tested</td><td>Agreed with the client beforehand, including any limitations; testing may be by sampling</td></tr>
+          <tr><td><strong>Document</strong></td><td><abbr title="Electrical Installation Certificate">EIC</abbr> or <abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr></td><td><abbr title="Electrical Installation Condition Report">EICR</abbr></td></tr>
+          <tr><td><strong>Faults</strong></td><td>Put right before certifying</td><td>Reported and coded, not fixed (fault-finding isn't part of the job)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>Inspection comes first</h2>
+    <p>Inspection is done before testing, usually with the installation isolated. You're checking that the equipment is the right type, correctly selected and installed, and not damaged. The schedule of inspections on the certificate lists the headings, and the inspector is responsible for everything each heading covers. Some typical items:</p>
+    <ul>
+      <li>the method of protection against electric shock, and its parts: barriers, enclosures, earthing, bonding and <abbr title="residual current device">RCDs</abbr></li>
+      <li>cables of the right size and type, properly supported, routed in safe zones or protected, and with fire barriers restored where they pass through walls and floors</li>
+      <li>connections tight, conductors identified, and sheaths taken inside accessories</li>
+      <li>devices for isolation and switching in the right places, and labelled</li>
+      <li><abbr title="ingress protection">IP</abbr> ratings suited to the location, and special locations meeting Part 7</li>
+      <li>required notices and labels: <abbr title="residual current device">RCD</abbr> test notices, periodic inspection notices, and warnings where there are other sources such as solar panels</li>
+    </ul>
+    <p>Use every sense: look for damage and scorching, feel for heat, listen for buzzing, and notice any smell of burning.</p>
+  </section>
+
+  <section class="prose">
+    <h2>The certificates</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Document</th><th>Used for</th><th>Comes with</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Electrical Installation Certificate (<abbr title="Electrical Installation Certificate">EIC</abbr>)</strong></td><td>A new installation, a new circuit, or a replacement consumer unit</td><td>Schedule of inspections, schedule of circuit details, schedule of test results</td></tr>
+          <tr><td><strong>Minor Electrical Installation Works Certificate (<abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr>)</strong></td><td>An addition or alteration to an existing circuit that doesn't add a new circuit, such as an extra socket</td><td>Its own test results; one certificate per job</td></tr>
+          <tr><td><strong>Electrical Installation Condition Report (<abbr title="Electrical Installation Condition Report">EICR</abbr>)</strong></td><td>The condition of an existing installation</td><td>Observations with codes, schedules of inspection and test results</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>An <abbr title="Electrical Installation Certificate">EIC</abbr> has room for <strong>three signatures</strong>, for the designer, the installer (construction) and the inspector, because they may be different people with different responsibilities. A one-person job can use the <strong>single-signature</strong> version. Certificates go to the person who ordered the work. Notifying building control is a separate matter (see <a href="../regulations/part-p-and-notification.html">Part P and notification</a>).</p>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="Electrical Installation Condition Report">EICR</abbr> codes</h2>
+  </section>
+  <div class="codes">
+    <div class="code"><span class="n" style="color:var(--bad)">C1</span><strong>Danger present</strong><span>Risk of injury now. Immediate remedial action: make it safe on the spot, and tell the person responsible.</span></div>
+    <div class="code"><span class="n" style="color:var(--note)">C2</span><strong>Potentially dangerous</strong><span>Not dangerous this minute, but would become so if a fault or another event happened. Urgent remedial action.</span></div>
+    <div class="code"><span class="n" style="color:var(--info)">C3</span><strong>Improvement recommended</strong><span>Not a source of danger, but improving it would make the installation safer. Often an older installation that met the rules of its day.</span></div>
+    <div class="code"><span class="n">FI</span><strong>Further investigation</strong><span>Something needs investigating without delay, but the inspection couldn't establish what. Rarely needed in a house.</span></div>
+  </div>
+  <section class="prose">
+    <p>The overall result is <strong>unsatisfactory</strong> if there's any C1 or C2. With only C3s, it can be satisfactory. Amendment 4 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> (2026) changed two things in Chapter 65: an FI code no longer makes the report unsatisfactory on its own, and the inspector must take account of the notes in Appendix 6 and include guidance for the person receiving the report. Photos and thermal images can be attached as evidence.</p>
+    <p>Electrical Safety First's <strong>Best Practice Guide 4</strong> gives typical codes for common findings, and is allowed into the periodic inspection practical. The coding is still the inspector's judgement.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Code the observation</h3>
+    </div>
+    <label for="obs" class="label" style="font-size:0.85rem;font-weight:600">What you found</label>
+    <select id="obs" class="wide"></select>
+    <div class="verdict" id="obsV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">Typical codes, following Electrical Safety First Best Practice Guide 4. The inspector decides in each case.</p>
+  </section>
+
+  <section class="prose">
+    <h2>How often?</h2>
+    <p>Guidance Note 3 recommends maximum intervals between inspections. The inspector sets the actual date on the report, depending on the installation's condition and use. Some examples:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Installation</th><th>Recommended maximum interval</th></tr></thead>
+        <tbody>
+          <tr><td>Home (owner-occupied)</td><td>10 years, and on change of occupancy</td></tr>
+          <tr><td>Rented home</td><td>5 years, and on change of occupancy. In England's private rented sector, a 5-yearly inspection is a legal requirement.</td></tr>
+          <tr><td>Commercial premises, such as shops and offices</td><td>5 years</td></tr>
+          <tr><td>Industrial premises</td><td>3 years</td></tr>
+          <tr><td>Swimming pools</td><td>1 year</td></tr>
+          <tr><td>Construction site installations</td><td>3 months</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  // [finding, code, why]
+  var OBS = [
+    ["A broken socket-outlet with live parts you can touch", "C1", "Danger present: someone could touch a live part right now. Make it safe immediately."],
+    ["No main protective bonding to the incoming gas and water pipes", "C2", "Not dangerous until there's a fault, but then touchable metal could sit at a dangerous voltage."],
+    ["Line and neutral reversed at a socket-outlet", "C2", "Incorrect polarity is potentially dangerous: things switched 'off' can stay live."],
+    ["Charring around a consumer unit connection", "C2", "Evidence of excessive heat means a potential fire risk."],
+    ["Sockets with no RCD that could supply equipment outdoors", "C2", "Missing additional protection where portable equipment is likely to be used outdoors is potentially dangerous."],
+    ["A Type AC RCD where a Type A is now required", "C3", "Not a source of danger in itself, but improvement is recommended."],
+    ["Unsheathed flex used for a pendant light", "C3", "Improvement recommended."],
+    ["Old red and black cable colours in an otherwise sound installation", "none", "Older colours met the rules when installed. On their own they don't need a code."],
+    ["No supplementary bonding in a bathroom where every circuit has a 30 mA RCD and main bonding is present", "none", "Supplementary bonding can be omitted when those conditions are met, so there's nothing to code."]
+  ];
+  var LABEL = { C1: "C1: danger present", C2: "C2: potentially dangerous", C3: "C3: improvement recommended", none: "No code needed" };
+  var CLS = { C1: "c1", C2: "c2", C3: "c3", none: "nc" };
+  OBS.forEach(function (o, k) { var e = document.createElement("option"); e.value = k; e.textContent = o[0]; $("obs").appendChild(e); });
+  function obs() {
+    var o = OBS[+$("obs").value], v = $("obsV");
+    v.className = "verdict " + CLS[o[1]];
+    v.querySelector("strong").textContent = LABEL[o[1]];
+    v.querySelector("span").textContent = o[2];
+  }
+  $("obs").addEventListener("change", obs); obs();
+
+  Course.quiz("#quiz", [
+    { q: "Which certificate is issued after adding a socket to an existing circuit?",
+      options: ["Minor Electrical Installation Works Certificate", "Electrical Installation Certificate", "Electrical Installation Condition Report", "Building Regulations compliance certificate"], answer: 0,
+      why: "An addition with no new circuit gets a MEIWC." },
+    { q: "Why does an EIC have room for three signatures?",
+      options: ["Design, construction and inspection may be done by different people", "The client, the electrician and building control must all sign it", "One signature is needed for each schedule attached to it", "It has to be signed again at each periodic inspection"], answer: 0,
+      why: "Designer, installer and inspector each take responsibility for their part." },
+    { q: "What does code C2 mean on an EICR?",
+      options: ["Potentially dangerous: urgent remedial action", "Danger present: immediate remedial action", "Improvement recommended, but not dangerous", "Further investigation required without delay"], answer: 0,
+      why: "C1 danger present, C2 potentially dangerous, C3 improvement recommended, FI further investigation." },
+    { q: "An EICR has three C3 observations and nothing else. What's the overall outcome?",
+      options: ["It can be satisfactory", "It must be unsatisfactory", "It must be marked FI", "It can't be completed"], answer: 0,
+      why: "Only C1 or C2 observations force an unsatisfactory result." },
+    { q: "Under Amendment 4, what changed about FI codes?",
+      options: ["An FI no longer makes the report unsatisfactory on its own", "FI codes can no longer be used in domestic installations", "Every FI must now be upgraded to a C2 straight away", "FI was renamed C4 to match the European codes"], answer: 0,
+      why: "Amendment 4 removed the automatic link between an FI and an unsatisfactory report." },
+    { q: "During periodic inspection you find a fault. What's your job?",
+      options: ["Record and code it in the report", "Find and fix it before finishing", "Ignore it if the client didn't ask", "Issue an EIC for the repair"], answer: 0,
+      why: "Periodic inspection reports on condition. Fault-finding and repairs are separate work (but a C1 must be made safe)." },
+    { q: "What's the recommended maximum interval between inspections for a rented home?",
+      options: ["1 year", "3 years", "5 years", "10 years"], answer: 2,
+      why: "5 years, and on change of occupancy. In England's private rented sector it's a legal requirement." }
+  ]);
+})();
+</script>
+</body>
+</html>

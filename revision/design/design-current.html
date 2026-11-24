@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Current and Diversity</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .steps { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 6px; }
+  .chain { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+  .chain .c { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 12px; display: flex; flex-direction: column; gap: 2px; flex: 1 1 150px; }
+  .chain .c .n { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; color: var(--flow); }
+  .chain .le { align-self: center; font-family: var(--font-mono); font-size: 1.3rem; color: var(--muted); }
+  .chain .c .d { font-size: 0.88rem; }
+</style>
+</head>
+<body data-lesson="design-current">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Circuit design</span>
+    <h1>Design current and diversity</h1>
+    <p class="lead">Every circuit design starts with one question: how much current will this circuit actually carry? The answer picks the protective device, and the device picks the cable.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>The <strong>design current, I<sub>b</sub></strong>, is the current the circuit is expected to carry in normal use: for a single-phase load, I<sub>b</sub> = <span class="frac"><span>P</span><span>V</span></span>. Choose a protective device whose <strong>rating, I<sub>n</sub></strong>, is at least I<sub>b</sub>, then a cable whose <strong>current-carrying capacity, I<sub>z</sub></strong>, is at least I<sub>n</sub> once corrected for how it's installed: <strong>I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub></strong>. <strong>Diversity</strong> allows for the fact that loads rarely all run flat out together. For a household cooker, the On-Site Guide allows 10 A, plus 30% of the rest, plus 5 A if the cooker control unit has a socket: a 9.6 kW cooker drawing 41.7 A at full power can be designed for 24.5 A. Showers get no diversity.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>The design process</h2>
+    <p>Circuit design follows the same steps every time. This lesson covers the first two; <a href="cable-sizing.html">Cable sizing and voltage drop</a> covers the rest.</p>
+    <ol class="steps">
+      <li>Work out the design current, I<sub>b</sub>, applying diversity where it's allowed.</li>
+      <li>Choose a protective device with I<sub>n</sub> ≥ I<sub>b</sub>.</li>
+      <li>Find the correction factors for the conditions: ambient temperature, grouping with other cables, thermal insulation.</li>
+      <li>Work out the tabulated current the cable needs, I<sub>t</sub>, and pick a cable size from the <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> tables for its installation method.</li>
+      <li>Check the voltage drop.</li>
+      <li>Check that Z<sub>s</sub> is low enough for the device to disconnect in time (see <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>).</li>
+      <li>Check the <abbr title="circuit protective conductor">CPC</abbr> is big enough to survive the fault current until the device trips.</li>
+    </ol>
+  </section>
+
+  <section class="prose">
+    <h2>Design current, I<sub>b</sub></h2>
+    <p>For a single-phase load, it's the power formula you already know (see <a href="../principles/power.html">Power</a>):</p>
+    <p><span class="formula">I<sub>b</sub> = <span class="frac"><span>P</span><span>V</span></span></span></p>
+    <p>Use the rated power in watts and the nominal voltage, 230 V. An 8.5 kW shower: I<sub>b</sub> = <span class="frac"><span>8,500</span><span>230</span></span> ≈ 37 A.</p>
+    <p>For a balanced three-phase load, the current in each line is I<sub>b</sub> = <span class="frac"><span>P</span><span>√3 × V<sub>L</sub></span></span>, with V<sub>L</sub> = 400 V. If the power factor or efficiency is known (motors, for example), divide by those too, which makes the current larger.</p>
+  </section>
+
+  <section class="prose">
+    <h2>I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub></h2>
+    <div class="chain" aria-label="The design current must not exceed the device rating, which must not exceed the cable's capacity">
+      <div class="c"><span class="n">I<sub>b</sub></span><span class="d">Design current: what the load draws</span></div>
+      <span class="le">≤</span>
+      <div class="c"><span class="n">I<sub>n</sub></span><span class="d">Nominal rating of the protective device</span></div>
+      <span class="le">≤</span>
+      <div class="c"><span class="n">I<sub>z</sub></span><span class="d">What the cable can carry where it's installed</span></div>
+    </div>
+    <p>The device must be big enough not to trip in normal use, and the cable must be big enough that the device protects it. Breakers come in standard ratings, so pick the next one up from I<sub>b</sub>: 6, 10, 16, 20, 25, 32, 40, 50 or 63 A. For the 37 A shower, that's a 40 A device.</p>
+    <p>There's a second condition hidden in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>: the current that makes the device operate reliably, I<sub>2</sub>, must be no more than 1.45 × I<sub>z</sub>. Circuit breakers and BS 88 fuses meet that automatically when I<sub>n</sub> ≤ I<sub>z</sub>. An old rewirable fuse (BS 3036) doesn't, so the cable has to be oversized for it by using a factor of 0.725.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Diversity</h2>
+    <p>A cooker has four rings, a grill and an oven, but they're hardly ever all on full at once, and thermostats switch them on and off. Designing for the full rated current would mean a bigger cable and device than the circuit ever needs. <strong>Diversity</strong> is the allowance for that. The On-Site Guide (Appendix A) gives typical allowances for households:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Load</th><th>Typical allowance in a house</th></tr></thead>
+        <tbody>
+          <tr><td>Cooking appliances</td><td>10 A, plus 30% of the rest of the full-load current, plus 5 A if there's a socket-outlet on the cooker control unit</td></tr>
+          <tr><td>Instantaneous water heaters (electric showers)</td><td>100% of the largest, 100% of the second largest, 25% of any others</td></tr>
+          <tr><td>Thermostatically controlled water heaters (immersion heaters)</td><td>100%: no diversity</td></tr>
+          <tr><td>Lighting</td><td>66% of the total demand</td></tr>
+          <tr><td>Socket-outlet circuits</td><td>100% of the largest circuit, plus 40% of every other</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>These are guidance, not rules. Diversity is a judgement about how the installation will really be used, and the designer is responsible for it.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Cooker circuit design current</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <label for="ckW">Cooker rating</label>
+        <div class="slider"><input type="range" id="ckW" min="3" max="16" step="0.1" value="9.6"><output id="ckWo" for="ckW">9.6 kW</output></div>
+      </div>
+      <label class="check" for="ckS"><input type="checkbox" id="ckS" checked> Socket-outlet on the cooker control unit</label>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Full load</span><span class="v" id="oFull">—</span><span class="s" id="oFullS"></span></div>
+      <div class="ro"><span class="k">I<sub>b</sub> after diversity</span><span class="v" id="oIb">—</span><span class="s" id="oIbS"></span></div>
+      <div class="ro"><span class="k">Device, I<sub>n</sub></span><span class="v" id="oIn">—</span><span class="s">next standard rating up</span></div>
+    </div>
+    <p class="caption" id="ckCap"></p>
+  </section>
+
+  <section class="prose">
+    <h2>Worked example: the 9.6 kW cooker</h2>
+    <div class="examples">
+      <div class="example">
+        <span class="q">Full-load current</span>
+        <span class="w">I = <span class="frac"><span>9,600</span><span>230</span></span></span>
+        <span class="a">41.7 A</span>
+      </div>
+      <div class="example">
+        <span class="q">Apply diversity (with a socket on the control unit)</span>
+        <span class="w">10 + 0.3 × (41.7 − 10) + 5<br>= 10 + 9.5 + 5</span>
+        <span class="a">I<sub>b</sub> = 24.5 A</span>
+      </div>
+      <div class="example">
+        <span class="q">Choose the device</span>
+        <span class="w">I<sub>n</sub> ≥ 24.5 A</span>
+        <span class="a">32 A</span>
+      </div>
+    </div>
+    <p>The cable is then chosen to carry at least 32 A after correction factors: see <a href="cable-sizing.html">Cable sizing and voltage drop</a>.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w2">Design current questions</h3>
+    </div>
+    <div id="prac"></div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var STD = [6, 10, 16, 20, 25, 32, 40, 50, 63];
+  function nextStd(i) { for (var k = 0; k < STD.length; k++) if (STD[k] >= i - 1e-9) return STD[k]; return null; }
+  var r1 = function (x) { return (Math.round(x * 10) / 10).toFixed(1); };
+
+  function cook() {
+    var kw = +$("ckW").value, sock = $("ckS").checked, full = kw * 1000 / 230;
+    $("ckWo").textContent = kw.toFixed(1) + " kW";
+    var ib = full <= 10 ? full : 10 + 0.3 * (full - 10);
+    ib += sock ? 5 : 0;
+    var dev = nextStd(ib);
+    $("oFull").textContent = r1(full) + " A"; $("oFullS").textContent = "everything on full";
+    $("oIb").textContent = r1(ib) + " A";
+    $("oIbS").textContent = full <= 10 ? "under 10 A: no reduction" + (sock ? ", + 5 A socket" : "") : "10 + 30% × " + r1(full - 10) + (sock ? " + 5" : "");
+    $("oIn").textContent = dev ? dev + " A" : "over 63 A";
+    $("ckCap").textContent = "Diversity takes the circuit from " + r1(full) + " A at full load down to " + r1(ib) + " A, so a " + dev + " A device will do. Without diversity it would need " + (nextStd(full) || "more than 63") + " A.";
+  }
+  $("ckW").addEventListener("input", cook); $("ckS").addEventListener("change", cook); cook();
+
+  Course.practice("#prac", function () {
+    var kw = Course.pick([2, 3, 4.6, 7.2, 8.5, 9.5, 10.5, 7, 6]);
+    var I = kw * 1000 / 230;
+    return { q: "What is the design current, I<sub>b</sub>, of a " + kw + " kW single-phase load at 230 V? (No diversity.)", answer: I, unit: "A", working: "I<sub>b</sub> = " + Course.frac("P", "V") + " = " + Course.frac((kw * 1000).toLocaleString("en-GB"), "230") + " = " + Course.sig(I, 3) + " A, so the next standard device is " + nextStd(I) + " A" };
+  });
+
+  Course.quiz("#quiz", [
+    { q: "Which relationship must a circuit design satisfy?",
+      options: ["I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub>", "I<sub>n</sub> ≤ I<sub>b</sub> ≤ I<sub>z</sub>", "I<sub>z</sub> ≤ I<sub>n</sub> ≤ I<sub>b</sub>", "I<sub>b</sub> ≤ I<sub>z</sub> ≤ I<sub>n</sub>"], answer: 0,
+      why: "The load current mustn't exceed the device rating, and the device rating mustn't exceed what the cable can carry." },
+    { q: "What does I<sub>b</sub> stand for?",
+      options: ["The design current of the circuit", "The breaking capacity of the device", "The current the cable can carry", "The current that trips the breaker"], answer: 0,
+      why: "I<sub>b</sub> is the design current: what the circuit is expected to carry in normal use." },
+    { q: "An 8.5 kW shower is on 230 V. What's the smallest standard circuit breaker for it?",
+      options: ["32 A", "40 A", "45 A", "50 A"], answer: 1,
+      why: Course.frac("8,500", "230") + " ≈ 37 A, so the next standard rating up is 40 A. Showers get no diversity." },
+    { q: "A 9.6 kW cooker has a socket on its control unit. What's I<sub>b</sub> after diversity?",
+      options: ["19.5 A", "24.5 A", "31.7 A", "41.7 A"], answer: 1,
+      why: "41.7 A full load: 10 + 0.3 × 31.7 + 5 = 24.5 A." },
+    { q: "Why is diversity allowed?",
+      options: ["Loads rarely all run at full power at the same time", "Cables can carry more current than their rating says", "Circuit breakers always trip below their rating", "The supply voltage is often higher than 230 V"], answer: 0,
+      why: "Thermostats and real use mean the actual demand is less than the sum of the ratings." },
+    { q: "Which type of protective device needs the cable to be oversized, using a factor of 0.725?",
+      options: ["A rewirable fuse to BS 3036", "A Type B circuit breaker", "A BS 88 cartridge fuse", "An RCBO to BS EN 61009"], answer: 0,
+      why: "A rewirable fuse needs much more than its rating to operate reliably, so the cable must be sized to suit." }
+  ]);
+})();
+</script>
+</body>
+</html>

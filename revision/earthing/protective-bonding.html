@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protective Bonding</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.yes { background: var(--info-bg); }
+  .verdict.yes strong { color: var(--info); }
+  .verdict.no { background: var(--ok-bg); }
+  .verdict.no strong { color: var(--ok); }
+  .verdict.exp { background: var(--note-bg); }
+  .verdict.exp strong { color: var(--note); }
+  select.wide { width: 100%; max-width: 560px; }
+  .comp { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .pipe { stroke: var(--muted); stroke-width: 7; fill: none; stroke-linecap: round; }
+  /* Pipe colours avoid brown and blue, which mean line and neutral everywhere else in the course. */
+  .pipe.gas { stroke: #e0a526; }   /* golden yellow, after the yellow ochre used to identify gas pipework */
+  .pipe.water { stroke: #22a6a6; } /* teal */
+</style>
+</head>
+<body data-lesson="bonding">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Earthing and bonding</span>
+    <h1>Protective bonding</h1>
+    <p class="lead">Earthing gives fault current a path home. Bonding makes sure that, while a fault is being cleared, nothing you can touch at the same time is at a dangerously different voltage.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>An <strong>exposed-conductive-part</strong> is metal belonging to the electrical installation that could become live in a fault, such as the case of a Class I appliance: it's earthed through the <abbr title="circuit protective conductor">CPC</abbr>. An <strong>extraneous-conductive-part</strong> isn't part of the electrical installation but can bring in a potential, usually earth, from outside, such as a metal gas or water pipe: it's bonded. <strong>Main protective bonding</strong> connects incoming metal services to the <abbr title="main earthing terminal">MET</abbr>, as close as practical to where they enter the building (for gas, within 600 mm of the meter on the consumer's side, before any branch). In a typical house the earthing conductor is 16 mm² and the main bonding is 10 mm². <strong>Supplementary bonding</strong> links parts within one location that someone could touch at the same time. It's usually 4 mm² (2.5 mm² if mechanically protected), and in a bathroom it can be left out when every circuit has 30 mA <abbr title="residual current device">RCD</abbr> protection and main bonding is in place.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Why bond?</h2>
+    <p>When a fault puts 230 V on a metal case, the fault current flows through the <abbr title="circuit protective conductor">CPC</abbr> and the earthing system. That path has some impedance, so for the short time before the breaker trips, the case sits at a raised voltage above true earth. Now imagine a metal water pipe nearby, connected to the ground outside. Someone touching the case and the pipe at the same time would have the full difference across their body.</p>
+    <p>Bonding connects the pipe to the same earthing point as the case. Both then rise together during the fault, so the voltage <strong>between</strong> them stays low. The aim isn't to carry fault current; it's to keep everything you can touch at roughly the same potential. That's why it's called <strong>equipotential bonding</strong>.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Exposed and extraneous parts</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Exposed-conductive-part</th><th>Extraneous-conductive-part</th></tr></thead>
+        <tbody>
+          <tr><td><strong>What it is</strong></td><td>Metal that's part of the electrical equipment, not normally live, but could become live if the basic insulation fails.</td><td>Metal that isn't part of the electrical installation, but could introduce a potential (usually earth) into the building.</td></tr>
+          <tr><td><strong>Examples</strong></td><td>The metal case of a Class I appliance, metal back boxes, steel conduit and trunking, a metal consumer unit.</td><td>Metal water, gas and oil pipes entering the building, exposed structural steel, metal ducting and some central heating pipework.</td></tr>
+          <tr><td><strong>Connected by</strong></td><td>The circuit protective conductor (<abbr title="circuit protective conductor">CPC</abbr>)</td><td>Main protective bonding conductors (and sometimes supplementary bonding)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The test for "extraneous" is whether the metal is <strong>liable to introduce a potential</strong>. A metal sink fed entirely by plastic pipes is isolated, so it isn't extraneous and doesn't need bonding. Bonding things that don't need it can actually make matters worse, by bringing an earth potential to a place where there wasn't one. If you're not sure, measure the resistance from the metal to the <abbr title="main earthing terminal">MET</abbr>: Guidance Note 3 explains how to judge the result.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Earth it, bond it, or leave it?</h3>
+    </div>
+    <label for="item" class="label" style="font-size:0.85rem;font-weight:600">The metalwork</label>
+    <select id="item" class="wide"></select>
+    <div class="verdict" id="itemV" aria-live="polite"><strong></strong><span></span></div>
+  </section>
+
+  <section class="prose">
+    <h2>Main protective bonding</h2>
+    <p>Main protective bonding conductors run from the <abbr title="main earthing terminal">MET</abbr> to each extraneous-conductive-part that enters the building:</p>
+    <ul>
+      <li><strong>metal water and gas pipes</strong>, and oil supply pipes</li>
+      <li>other metal service pipes and ducting</li>
+      <li>exposed metallic structural parts of the building</li>
+      <li>a lightning protection system, where the lightning protection designer says so</li>
+    </ul>
+    <p>Make the connection as close as practical to where the service enters the building. For <strong>gas</strong>, it goes on the consumer's side of the meter, within 600 mm of the meter's outlet union, and before any branch in the pipework (or at the point of entry, if the meter is outside). Use a proper earth clamp (to BS 951) with its permanent label: "Safety Electrical Connection – Do Not Remove".</p>
+  </section>
+
+  <figure class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="w2">The main earthing terminal and its connections</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 360 220" role="img" aria-labelledby="w2d" style="max-width:560px;margin:0 auto">
+        <title id="w2d">The earthing conductor runs from the supply's earth terminal to the main earthing terminal. Main bonding conductors run from the MET to the gas pipe after the meter, and to the water pipe where it enters. The consumer unit's earth bar also connects to the MET.</title>
+        <!-- pipes and conductors first, so the boxes sit on top of their ends -->
+        <path class="pipe gas" d="M20,176 H262"/>
+        <path class="pipe gas" d="M244,176 V210"/>
+        <path class="pipe water" d="M340,150 H300 V164"/>
+        <path class="wire w-cpc-g" d="M48,40 V109 H180"/><path class="wire w-cpc-y" d="M48,40 V109 H180"/>
+        <path class="wire w-cpc-g" d="M180,104 H230 V42 H296"/><path class="wire w-cpc-y" d="M180,104 H230 V42 H296"/>
+        <path class="wire w-cpc-g" d="M180,109 V176"/><path class="wire w-cpc-y" d="M180,109 V176"/>
+        <path class="wire w-cpc-g" d="M180,116 H300 V150"/><path class="wire w-cpc-y" d="M180,116 H300 V150"/>
+        <rect class="comp" x="20" y="20" width="56" height="40" rx="4"/>
+        <text x="48" y="44" text-anchor="middle" class="small">supply</text>
+        <rect class="comp" x="252" y="20" width="88" height="44" rx="4"/>
+        <text x="296" y="46" text-anchor="middle" class="small">consumer unit</text>
+        <rect class="comp" x="150" y="96" width="60" height="26" rx="3"/>
+        <text x="180" y="113" text-anchor="middle" class="tag" style="font-size:12px">MET</text>
+        <rect class="comp" x="120" y="160" width="36" height="32" rx="3"/>
+        <text x="138" y="180" text-anchor="middle" class="small">gas</text>
+        <circle cx="180" cy="176" r="5" fill="var(--fg)"/>
+        <circle cx="300" cy="150" r="5" fill="var(--fg)"/>
+        <text x="56" y="88" class="small">earthing conductor</text>
+        <text x="56" y="102" class="small">(16 mm² typical)</text>
+        <text x="22" y="168" class="small">gas pipe in</text>
+        <text x="252" y="206" class="small">branch</text>
+        <text x="184" y="206" class="small" text-anchor="middle">within 600 mm,</text>
+        <text x="184" y="218" class="small" text-anchor="middle">before any branch</text>
+        <text x="344" y="190" class="small" text-anchor="end">water pipe in</text>
+        <text x="216" y="132" class="small">main bonding</text><text x="216" y="146" class="small">(10 mm²)</text>
+      </svg>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2>Conductor sizes in a typical house</h2>
+    <p>The sizes come from <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Chapter 54. For a house with 25 mm² meter tails, the answers are almost always the same:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Conductor</th><th>Typical size</th><th>How it's worked out</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Earthing conductor</strong> (supply earth to <abbr title="main earthing terminal">MET</abbr>)</td><td class="mono">16 mm²</td><td>Related to the size of the line conductors: for tails over 16 mm² and up to 35 mm², a 16 mm² copper conductor is enough.</td></tr>
+          <tr><td><strong>Main protective bonding</strong>, <abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr> or <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr></td><td class="mono">10 mm²</td><td>At least half the size of the earthing conductor, and never less than 6 mm².</td></tr>
+          <tr><td><strong>Main protective bonding</strong>, <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> (<abbr title="protective multiple earthing">PME</abbr>)</td><td class="mono">10 mm²</td><td>Set by the supply neutral instead: with a supply neutral up to 35 mm², 10 mm² copper. Bigger supplies need more.</td></tr>
+          <tr><td><strong>Supplementary bonding</strong></td><td class="mono">4 mm²</td><td>4 mm² if not mechanically protected, 2.5 mm² if it is (for example, run inside conduit). Never smaller than the <abbr title="circuit protective conductor">CPCs</abbr> it connects, where it joins exposed-conductive-parts.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Bonding and earthing conductors are always <strong>green and yellow</strong>. Amendment 4 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> also covers <strong>functional</strong> earthing and bonding for data and network equipment (Section 545). Those conductors serve the equipment, not safety, so they mustn't use green and yellow.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Supplementary bonding</h2>
+    <p>Supplementary bonding is extra, local bonding. It connects exposed- and extraneous-conductive-parts that someone could touch at the same time in one location, so that they stay at the same potential even if a fault isn't cleared as quickly as hoped. You'll see it where the risk is higher or where disconnection times can't be met.</p>
+    <p>Bathrooms used to need it as standard. Under the current rules it <strong>can be left out of a room containing a bath or shower</strong> when all three of these are true:</p>
+    <ul>
+      <li>every circuit in the location has 30 mA <abbr title="residual current device">RCD</abbr> protection</li>
+      <li>every circuit in the location meets the disconnection times for automatic disconnection</li>
+      <li>the extraneous-conductive-parts in the location are connected to the main protective bonding</li>
+    </ul>
+    <p>See <a href="../regulations/bathrooms.html">Bathrooms and special locations</a> for the rest of the bathroom rules.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  // [item, verdict: "exp" | "ext" | "no", reason]
+  var ITEMS = [
+    ["The metal case of a washing machine (Class I)", "exp", "It's part of the electrical equipment and could become live in a fault: an exposed-conductive-part. Its CPC (through the plug's earth pin) earths it."],
+    ["A copper water pipe where it enters the house", "ext", "It's connected to the ground outside and could bring earth potential into the building. Main protective bonding, close to where it enters."],
+    ["The gas pipe on the outlet side of the meter", "ext", "Bond it within 600 mm of the meter's outlet union, on the consumer's side, before any branch."],
+    ["A metal kitchen sink fed only by plastic pipes", "no", "Nothing connects it to earth or to anything else, so it can't introduce a potential. It isn't extraneous and doesn't need bonding."],
+    ["A steel back box for a socket-outlet", "exp", "It's part of the installation's wiring system: an exposed-conductive-part, earthed through the CPC to its earth terminal."],
+    ["Exposed structural steel in the building", "ext", "Structural metalwork can be in contact with the ground, so it's bonded to the MET."],
+    ["A plastic water pipe entering the house", "no", "Plastic doesn't conduct, so there's nothing to bond. If a short metal section follows it inside, that may not need bonding either: measure if unsure."],
+    ["An aluminium window frame in an upstairs bedroom", "no", "It isn't part of the electrical installation and isn't connected to anything that brings in earth, so it's neither exposed nor extraneous."]
+  ];
+  var LABEL = { exp: "Exposed-conductive-part: earth it with the CPC", ext: "Extraneous-conductive-part: bond it", no: "Neither: leave it alone" };
+  var CLS = { exp: "exp", ext: "yes", no: "no" };
+  ITEMS.forEach(function (w, k) { var o = document.createElement("option"); o.value = k; o.textContent = w[0]; $("item").appendChild(o); });
+  function item() {
+    var w = ITEMS[+$("item").value], v = $("itemV");
+    v.className = "verdict " + CLS[w[1]];
+    v.querySelector("strong").textContent = LABEL[w[1]];
+    v.querySelector("span").textContent = w[2];
+  }
+  $("item").addEventListener("change", item); item();
+
+  Course.quiz("#quiz", [
+    { q: "Which of these is an extraneous-conductive-part?",
+      options: ["A metal water pipe entering the building", "The metal case of a Class I electric heater", "A steel back box behind a light switch", "The metal enclosure of a consumer unit"], answer: 0,
+      why: "It isn't part of the electrical installation, but it can bring earth potential in from outside." },
+    { q: "What's the main purpose of protective equipotential bonding?",
+      options: ["Keeping touchable metal parts at about the same voltage", "Carrying the normal load current back to the supply", "Providing the installation's only connection to earth", "Stopping RCDs tripping when appliances leak current"], answer: 0,
+      why: "Bonding limits the voltage between parts someone could touch at once while a fault is being cleared." },
+    { q: "Where should main bonding be connected to a gas installation pipe?",
+      options: ["Within 600 mm of the meter outlet, before any branch", "At the boiler, where the gas pipe finishes its run", "On the supply side of the gas meter, before the valve", "Anywhere along the pipe, as long as it's accessible"], answer: 0,
+      why: "On the consumer's side of the meter, within 600 mm of the outlet union, before any branch." },
+    { q: "In a typical house with 25 mm² tails on a PME supply, what size is the main bonding?",
+      options: ["4 mm²", "6 mm²", "10 mm²", "16 mm²"], answer: 2,
+      why: "On PME it's set by the supply neutral: up to 35 mm² neutral needs 10 mm² copper bonding." },
+    { q: "What size is the earthing conductor in a typical house with 25 mm² tails?",
+      options: ["6 mm²", "10 mm²", "16 mm²", "25 mm²"], answer: 2,
+      why: "For line conductors over 16 mm² up to 35 mm², the earthing conductor can be 16 mm² copper." },
+    { q: "When can supplementary bonding be left out of a bathroom?",
+      options: ["When circuits have 30 mA RCDs, meet disconnection times and pipes are main bonded", "When the bathroom has no electric shower and the lights are all low-voltage", "When the pipework is copper and the bath itself is made of acrylic plastic", "Never: every bathroom must have its own supplementary bonding"], answer: 0,
+      why: "All three conditions are needed: 30 mA RCDs on every circuit, disconnection times met, and main bonding in place." },
+    { q: "A metal sink is fed entirely by plastic pipes. Should it be bonded?",
+      options: ["No: it can't introduce a potential, so it isn't extraneous", "Yes: every metal sink must be bonded to the MET", "Yes, but only with 2.5 mm² mechanically protected cable", "Only if the property is supplied by a TT system"], answer: 0,
+      why: "It's isolated, so it isn't an extraneous-conductive-part." }
+  ]);
+})();
+</script>
+</body>
+</html>

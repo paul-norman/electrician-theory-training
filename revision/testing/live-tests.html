@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Tests</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 8ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .comp { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .gnd { stroke: var(--fg); stroke-width: 2.5; stroke-linecap: round; }
+  .soil { fill: var(--ground); opacity: 0.45; }
+  .lead { stroke: var(--muted); stroke-width: 2; fill: none; }
+</style>
+</head>
+<body data-lesson="live-tests">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Inspection and testing</span>
+    <h1>Live tests</h1>
+    <p class="lead">Once the dead tests have passed, the supply goes on and the remaining tests check the things only a live installation can show: the earth path, the fault current, and whether the <abbr title="residual current device">RCDs</abbr> trip in time.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Live tests follow the dead tests. On a <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> system, <strong>earth electrode resistance</strong> is measured first. <strong>Z<sub>e</sub></strong> is measured at the origin with the main switch off and the earthing conductor disconnected from the <abbr title="main earthing terminal">MET</abbr>, to remove parallel paths. Reconnect it straight after. <strong>Z<sub>s</sub></strong> is measured at the far end of each circuit (or worked out as Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>)) and compared with about 80% of the <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> maximum. <strong>Prospective fault current</strong> is measured between line and neutral (<abbr title="prospective short-circuit current">PSCC</abbr>) and line and earth (<abbr title="prospective earth fault current">PEFC</abbr>) at the origin. The larger is recorded, and every device must be able to break it. <strong><abbr title="residual current device">RCDs</abbr></strong> are tested at their rated residual current, I<sub>Δn</sub>, on both half-cycles: a general-type <abbr title="residual current device">RCD</abbr> must trip within 300 ms. Finally, <strong>functional tests</strong> check that switches, controls and interlocks work.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Before you start</h2>
+    <p>Live testing means working near live parts, so it needs the right instrument (to GS38, see <a href="safe-isolation.html">Safe isolation</a>), a risk assessment and care. Loop and <abbr title="residual current device">RCD</abbr> testers deliberately make a current flow to earth for a moment. Warn people on site, and keep others away from exposed metalwork while you test.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Earth electrode resistance (<abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> systems)</h2>
+    <p>On a <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> system the installation's earth electrode is part of the fault path, so its resistance (R<sub>A</sub>) has to be measured. Guidance Note 3 describes three ways:</p>
+    <ul>
+      <li><strong>Method E1, earth electrode tester with test spikes.</strong> Drive a current spike well away from the electrode (at least 10 times the electrode's length), and a potential spike halfway between. Take readings with the potential spike at the halfway point and 10% of the distance either side. If all three agree closely, use the average. It needs a lot of open ground.</li>
+      <li><strong>Method E2, stakeless (clamp) tester.</strong> Quick, but only works where there are several electrodes in parallel, and can be less accurate.</li>
+      <li><strong>Method E3, earth fault loop impedance tester.</strong> Measure between the line conductor at the origin and the electrode. Common in houses, and good enough for an installation protected by <abbr title="residual current device">RCDs</abbr>.</li>
+    </ul>
+    <p>For E1 and E3, isolate the supply and disconnect the earthing conductor first, so you measure the electrode alone. Remember the stability limit from <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>: above about 200 Ω, an electrode may not be reliable.</p>
+  </section>
+
+  <figure class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="w1">Method E1 spike positions</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 360 170" role="img" aria-labelledby="w1d" style="max-width:600px;margin:0 auto">
+        <title id="w1d">The electrode under test on the left. The current spike C2 is at distance D, at least ten times the electrode's length. The potential spike P2 goes at half D, then 10% of D either side.</title>
+        <rect class="soil" x="0" y="96" width="360" height="74"/>
+        <rect class="comp" x="10" y="20" width="70" height="34" rx="4"/>
+        <text x="45" y="41" text-anchor="middle" class="small">tester</text>
+        <line class="gnd" x1="30" y1="96" x2="30" y2="150"/>
+        <text x="30" y="166" text-anchor="middle" class="small">electrode</text>
+        <path class="lead" d="M30,54 V96"/>
+        <line class="gnd" x1="330" y1="92" x2="330" y2="118"/>
+        <text x="322" y="114" text-anchor="end" class="tag" style="font-size:12px">C2</text>
+        <path class="lead" d="M70,54 V66 H330 V92"/>
+        <line class="gnd" x1="180" y1="92" x2="180" y2="118"/>
+        <text x="188" y="114" class="tag" style="font-size:12px">P2</text>
+        <path class="lead" d="M60,54 V72 H180 V92" stroke-dasharray="4 3"/>
+        <line x1="150" y1="104" x2="150" y2="116" stroke="var(--flow)" stroke-width="2"/>
+        <line x1="210" y1="104" x2="210" y2="116" stroke="var(--flow)" stroke-width="2"/>
+        <text x="150" y="132" text-anchor="middle" class="small">−10%</text>
+        <text x="210" y="132" text-anchor="middle" class="small">+10%</text>
+        <path d="M30,156 H330" stroke="var(--muted)" stroke-width="1"/>
+        <text x="190" y="150" text-anchor="middle" class="small">D ≥ 10 × electrode length</text>
+      </svg>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2>External earth fault loop impedance, Z<sub>e</sub></h2>
+    <p>Z<sub>e</sub> is the part of the loop outside the installation (see <a href="../earthing/earthing-systems.html">Earthing systems</a>). Measure it at the origin with an earth fault loop impedance tester, between the incoming line and the earthing conductor:</p>
+    <ul>
+      <li>Isolate the installation at the main switch.</li>
+      <li>Disconnect the earthing conductor from the <abbr title="main earthing terminal">MET</abbr>, so that current can't take a parallel path through the main bonding and pipework, which would give a falsely low reading.</li>
+      <li>Take the reading, and <strong>reconnect the earthing conductor immediately</strong>. While it's off, the installation has no earth.</li>
+    </ul>
+    <p>Compare the reading with what the <abbr title="distribution network operator">DNO</abbr> quotes for the system: typically 0.8 Ω for <abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr> and 0.35 Ω for <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr>. A higher value needs investigating.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Earth fault loop impedance, Z<sub>s</sub></h2>
+    <p>Z<sub>s</sub> is measured at the furthest point of each circuit, with the installation energised and the main bonding connected. It should be close to Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>), and Guidance Note 3 accepts that calculated value as a check. Compare the measured value with about 80% of the maximum in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Tables 41.2 to 41.4, because the conductors are cold (see <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>).</p>
+    <p><strong><abbr title="residual current device">RCDs</abbr> and loop testing.</strong> A standard loop test passes a large current to earth for a few tens of milliseconds, which will trip a 30 mA <abbr title="residual current device">RCD</abbr>. Use the tester's <strong>no-trip</strong> (low-current) setting on RCD-protected circuits. Never bypass an <abbr title="residual current device">RCD</abbr> to take a reading.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Prospective fault current</h2>
+    <p>The <strong>prospective fault current (<abbr title="prospective fault current">PFC</abbr>)</strong> is the biggest current that could flow in a fault at a given point. Every protective device must be able to break it safely, otherwise it could explode instead of clearing the fault. Measure at the origin (and at each distribution board):</p>
+    <ul>
+      <li><strong><abbr title="prospective short-circuit current">PSCC</abbr></strong>, prospective short-circuit current: between line and neutral</li>
+      <li><strong><abbr title="prospective earth fault current">PEFC</abbr></strong>, prospective earth fault current: between line and earth</li>
+    </ul>
+    <p>Record the <strong>larger</strong> of the two as the <abbr title="prospective fault current">PFC</abbr> (I<sub>pf</sub>), in kA. It can also be found by calculation or by asking the <abbr title="distribution network operator">DNO</abbr>: roughly I = <span class="frac"><span>U<sub>0</sub></span><span>Z</span></span>, so a low impedance means a high fault current. With Z<sub>e</sub> of 0.03 Ω near a substation: <span class="frac"><span>230</span><span>0.03</span></span> ≈ 7,700 A, more than the 6 kA a typical domestic circuit breaker can break on its own. (Consumer units are tested as an assembly with the supply fuse, which is why they're commonly rated to 16 kA.)</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w2">Fault current questions</h3>
+    </div>
+    <div id="prac"></div>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="residual current device">RCD</abbr> testing</h2>
+    <p>An <abbr title="residual current device">RCD</abbr> tester creates a measured leakage from line to earth, downstream of the <abbr title="residual current device">RCD</abbr>, and times how long the <abbr title="residual current device">RCD</abbr> takes to trip. Test with all load disconnected, at the rated residual current I<sub>Δn</sub>, on both the positive (0°) and negative (180°) half-cycles, and record the <strong>longer</strong> time:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th><abbr title="residual current device">RCD</abbr></th><th>Test current</th><th>Must trip within</th></tr></thead>
+        <tbody>
+          <tr><td>General type (including 30 mA for additional protection)</td><td class="mono">1 × I<sub>Δn</sub></td><td class="mono">300 ms</td></tr>
+          <tr><td>Time-delayed, type S</td><td class="mono">1 × I<sub>Δn</sub></td><td class="mono">130 to 500 ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> only requires the test at I<sub>Δn</sub>. Many testers also run tests at half and five times the rating, which can help with fault-finding. Afterwards, press the <abbr title="residual current device">RCD</abbr>'s own <strong>test button</strong> as a functional check. That proves the mechanism works, but not the trip time.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Functional tests</h2>
+    <p>The last step: check everything works as intended. Switches, isolators and circuit breakers operate; controls, interlocks and time switches do their job; <abbr title="residual current device">RCD</abbr> and <abbr title="arc fault detection device">AFDD</abbr> test buttons work. On three-phase installations, check the <strong>phase sequence</strong> (L1, L2, L3 in the right order), so that motors turn the right way.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  Course.practice("#prac", function () {
+    var z = Course.pick([0.03, 0.05, 0.08, 0.1, 0.15, 0.2, 0.25, 0.35, 0.5, 0.8]);
+    var I = 230 / z;
+    return { q: "The line–earth loop impedance at the origin is " + z + " Ω. Roughly what's the prospective earth fault current, in kA?", answer: I / 1000, unit: "kA",
+      working: "I = " + Course.frac("U<sub>0</sub>", "Z") + " = " + Course.frac("230", z) + " = " + Math.round(I).toLocaleString("en-GB") + " A = " + Course.sig(I / 1000, 3) + " kA" };
+  });
+
+  Course.quiz("#quiz", [
+    { q: "Why is the earthing conductor disconnected when measuring Z<sub>e</sub>?",
+      options: ["To remove parallel paths through bonded pipework", "To stop the RCDs tripping during the test", "So the meter can measure the R<sub>1</sub> + R<sub>2</sub>", "Because the MET carries the full load current"], answer: 0,
+      why: "Parallel earth paths through bonding would give a falsely low reading. Reconnect it straight away." },
+    { q: "Which pair of PFC readings is taken at the origin?",
+      options: ["Line–neutral (PSCC) and line–earth (PEFC)", "Line–neutral and neutral–earth", "Line–line and line–neutral", "Neutral–earth and line–earth"], answer: 0,
+      why: "PSCC between line and neutral, PEFC between line and earth. Record the larger." },
+    { q: "Z<sub>e</sub> is 0.05 Ω. Roughly what's the prospective fault current?",
+      options: ["460 A", "1.15 kA", "4.6 kA", "46 kA"], answer: 2,
+      why: Course.frac("230", "0.05") + " = 4,600 A = 4.6 kA." },
+    { q: "Within what time must a general-type 30 mA RCD trip when tested at 30 mA?",
+      options: ["40 ms", "200 ms", "300 ms", "500 ms"], answer: 2,
+      why: "At 1 × I<sub>Δn</sub> a general-type RCD must trip within 300 ms." },
+    { q: "How do you measure Z<sub>s</sub> on a circuit protected by a 30 mA RCD?",
+      options: ["Use the loop tester's no-trip setting", "Bypass the RCD with a temporary link", "Test at five times the RCD's rating", "Disconnect the CPC while you test"], answer: 0,
+      why: "A no-trip loop test uses a small current that won't trip the RCD. Never bypass it." },
+    { q: "In method E1, how far away should the current spike be from the electrode?",
+      options: ["At least 10 times the electrode's length", "Exactly the same as the electrode's length", "About half the electrode's length", "Within 600 mm of the electrode"], answer: 0,
+      why: "Far enough that the two spikes' resistance areas don't overlap: at least 10 times the electrode length." },
+    { q: "When testing an RCD, why test on both 0° and 180°?",
+      options: ["It may trip at a different speed on each half-cycle", "To check the line and neutral aren't reversed", "Because the test must be repeated for accuracy", "To discharge the RCD's capacitor between tests"], answer: 0,
+      why: "Record the longer of the two times." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -59,7 +59,7 @@
       </svg>
     </div>
     <div class="controls">
-      <span class="muted" style="font-size:0.9rem">Tap the main switch or an RCBO to switch it.</span>
+      <span class="muted" style="font-size:0.9rem">Tap the main switch or an <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> to switch it.</span>
       <label class="check" for="fShow"><input type="checkbox" id="fShow" checked> Show current flow</label>
     </div>
     <p class="caption" id="flowCap"></p>
@@ -117,13 +117,13 @@
       </svg>
     </div>
     <div class="controls">
-      <div class="ctl" style="flex:0 1 auto">
+      <div class="ctl">
         <span class="label" id="tyL">Type</span>
         <div class="seg" role="group" aria-labelledby="tyL" id="ty">
           <button type="button" data-t="B" aria-pressed="true">B</button><button type="button" data-t="C" aria-pressed="false">C</button><button type="button" data-t="D" aria-pressed="false">D</button>
         </div>
       </div>
-      <div class="ctl" style="flex:0 1 auto"><label for="inr">Rating (I<sub>n</sub>)</label><select id="inr"></select></div>
+      <div class="ctl"><label for="inr">Rating (I<sub>n</sub>)</label><select id="inr"></select></div>
       <div class="ctl"><label for="cur">Current flowing</label><div class="slider"><input type="range" id="cur" min="0" max="1000" step="1" value="380"><output id="curOut" for="cur"></output></div></div>
     </div>
     <div class="verdict" id="mcbV" aria-live="polite"><strong></strong><span></span></div>
@@ -177,14 +177,14 @@
       <h3 id="w3">Fault a circuit</h3>
     </div>
     <div class="controls">
-      <div class="ctl" style="flex:0 1 auto">
+      <div class="ctl">
         <span class="label" id="bdL">Board</span>
         <div class="seg" role="group" aria-labelledby="bdL" id="bd">
           <button type="button" data-b="split" aria-pressed="true">Split-load (two <abbr title="residual current device">RCDs</abbr> + <abbr title="miniature circuit breaker">MCBs</abbr>)</button>
           <button type="button" data-b="rcbo" aria-pressed="false"><abbr title="residual current breaker with overcurrent protection">RCBO</abbr> board</button>
         </div>
       </div>
-      <div class="ctl" style="flex:0 1 auto">
+      <div class="ctl">
         <label for="flt">Fault</label>
         <select id="flt">
           <option value="none">No fault</option>
@@ -201,7 +201,7 @@
     </div>
     <div class="circ" id="circ" aria-live="polite"></div>
     <div class="info" id="devInfo" aria-live="polite"></div>
-    <p class="caption">Tap the main switch, an RCD or a circuit's device to switch it off or on. Then add a fault and compare the two boards: on the split-load board one RCD takes three circuits off with it. Try resetting a tripped device while the fault is still there: it flicks straight back off. Choose "No fault" to clear it, then reset.</p>
+    <p class="caption">Tap the main switch, an <abbr title="residual current device">RCD</abbr> or a circuit's device to switch it off or on. Then add a fault and compare the two boards: on the split-load board one <abbr title="residual current device">RCD</abbr> takes three circuits off with it. Try resetting a tripped device while the fault is still there: it flicks straight back off. Choose "No fault" to clear it, then reset.</p>
   </section>
 
   <section class="prose">

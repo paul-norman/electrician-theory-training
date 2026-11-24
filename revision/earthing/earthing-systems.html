@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earthing Systems</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .comp { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .gnd { stroke: var(--fg); stroke-width: 2.5; stroke-linecap: round; }
+  .soil { fill: var(--ground); opacity: 0.45; }
+  .path-hint { stroke: var(--flow); stroke-width: 2; stroke-dasharray: 5 5; fill: none; }
+</style>
+</head>
+<body data-lesson="earthing-systems">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Earthing and bonding</span>
+    <h1>Earthing systems</h1>
+    <p class="lead">Every installation needs a connection to earth, so that a fault on metalwork can be cleared quickly. Where that connection comes from is the earthing system, and it changes how you design, test and protect.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>The letters describe the earth connections. The first letter is the supply: T means the transformer's star point is connected directly to earth. The second is the installation: N means its earth comes from the supply's neutral or earth conductor, T means it has its own earth electrode. In <strong><abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr></strong> the supply provides a separate earth conductor, usually the cable's metal sheath (typical maximum Z<sub>e</sub> 0.8 Ω). In <strong><abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr></strong>, also called <strong><abbr title="protective multiple earthing">PME</abbr></strong>, the supply cable combines neutral and earth in one <abbr title="protective earth and neutral: one conductor doing both jobs">PEN</abbr> conductor, earthed at several points along the network, and they're separated at the cut-out (typical maximum Z<sub>e</sub> 0.35 Ω). It's the most common system in UK homes. In <strong><abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr></strong> the supply gives no earth at all: the installation has its own earth rod, the earth fault loop impedance is high, and <abbr title="residual current device">RCDs</abbr> do the fault protection. Amendment 4 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> adds <strong><abbr title="protective neutral bonding">PNB</abbr></strong>, a form of <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> where neutral and earth are joined at a single point near the installation.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Why the earth connection matters</h2>
+    <p>If a line conductor touches a metal case, that case becomes live. With a good earth connection, the fault current flows through the circuit protective conductor (<abbr title="circuit protective conductor">CPC</abbr>), back through the earthing system to the transformer, and is big enough to trip the circuit's protective device in a fraction of a second. The path it takes is the <strong>earth fault loop</strong>, and its impedance decides how big the fault current is (see <a href="automatic-disconnection.html">Automatic disconnection</a>).</p>
+    <p>The part of that loop outside the installation is the <strong>external earth fault loop impedance, Z<sub>e</sub></strong>. It depends almost entirely on the earthing system, which is why the system has to be identified and recorded on every certificate.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Reading the letters</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Letter</th><th>Position</th><th>Means</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">T</td><td>First</td><td>The supply's star point is connected directly to earth (<em>terre</em>, French for earth).</td></tr>
+          <tr><td class="mono">I</td><td>First</td><td>The supply is isolated from earth, or connected through a high impedance. Used in places such as hospital operating theatres, not in public supplies.</td></tr>
+          <tr><td class="mono">T</td><td>Second</td><td>The installation's exposed metalwork is connected to its own earth electrode, separate from the supply's.</td></tr>
+          <tr><td class="mono">N</td><td>Second</td><td>The installation's exposed metalwork is connected to the supply's earthed point (the neutral) through a conductor.</td></tr>
+          <tr><td class="mono">S</td><td>After the dash</td><td>Neutral and protective functions are carried by <strong>separate</strong> conductors.</td></tr>
+          <tr><td class="mono">C</td><td>After the dash</td><td>Neutral and protective functions are <strong>combined</strong> in one conductor (the <abbr title="protective earth and neutral: one conductor doing both jobs">PEN</abbr> conductor).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Explore</span>
+      <h3 id="w1">Where the earth comes from</h3>
+    </div>
+    <div class="seg" role="group" aria-label="Earthing system" id="sys">
+      <button type="button" data-s="tns" aria-pressed="true"><abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr></button>
+      <button type="button" data-s="tncs" aria-pressed="false"><abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> (<abbr title="protective multiple earthing">PME</abbr>)</button>
+      <button type="button" data-s="tt" aria-pressed="false"><abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr></button>
+      <button type="button" data-s="pnb" aria-pressed="false"><abbr title="protective neutral bonding">PNB</abbr></button>
+    </div>
+    <div class="stage">
+      <svg id="esSvg" viewBox="0 0 360 230" role="img" aria-labelledby="w1d" style="max-width:600px;margin:0 auto">
+        <title id="w1d">The supply transformer on the left, the supply cable across the middle, and the installation's main earthing terminal on the right, drawn for the chosen earthing system.</title>
+        <g id="esG"></g>
+      </svg>
+    </div>
+    <p class="caption" id="esCap" aria-live="polite"></p>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr>: a separate earth from the supply</h2>
+    <p>The supply cable carries a separate protective conductor all the way from the transformer. In older underground supplies it's the cable's lead sheath or steel armour, and you'll see the earthing conductor clamped to the sheath where the cable enters the cut-out. The <abbr title="distribution network operator">DNO</abbr> typically quotes a maximum Z<sub>e</sub> of <strong>0.8 Ω</strong>.</p>
+    <p><abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr> was the standard for decades, so it's common in older urban houses. As old sheaths corrode, the earth path can deteriorate, which is one reason Z<sub>e</sub> is measured rather than assumed.</p>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> (<abbr title="protective multiple earthing">PME</abbr>): neutral and earth combined in the supply</h2>
+    <p>The supply cable has a single <strong><abbr title="protective earth and neutral: one conductor doing both jobs">PEN</abbr> conductor</strong> (protective earth and neutral) instead of separate neutral and earth. The <abbr title="distribution network operator">DNO</abbr> connects it to earth at the transformer and at several more points along the network: that's the "multiple earthing" in <strong>protective multiple earthing (<abbr title="protective multiple earthing">PME</abbr>)</strong>. At the cut-out the <abbr title="protective earth and neutral: one conductor doing both jobs">PEN</abbr> is split: the neutral goes on to the meter, and an earth terminal, connected to the neutral inside the cut-out, provides the installation's earth. From there on, neutral and earth are <strong>separate</strong> (the "S" in <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr>). The usual quoted maximum Z<sub>e</sub> is <strong>0.35 Ω</strong>.</p>
+    <p><abbr title="protective multiple earthing">PME</abbr> is now the most common arrangement for UK homes. Its weakness is the <abbr title="protective earth and neutral: one conductor doing both jobs">PEN</abbr> conductor. If it breaks upstream, the installation's earth is connected to the neutral of a circuit with no return path, so all the earthed metalwork, and anything bonded to it, can rise towards 230 V. That's why:</p>
+    <ul>
+      <li>main protective bonding on a <abbr title="protective multiple earthing">PME</abbr> supply is sized from the supply neutral, and is usually 10 mm² in a house (see <a href="protective-bonding.html">Protective bonding</a>)</li>
+      <li>the <abbr title="Electricity Safety, Quality and Continuity Regulations 2002">ESQCR</abbr> doesn't allow a <abbr title="protective multiple earthing">PME</abbr> earth to be provided to caravans or boats</li>
+      <li><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> has extra rules, or doesn't allow a <abbr title="protective multiple earthing">PME</abbr> earth, for some outdoor and special locations, such as many <abbr title="electric vehicle">EV</abbr> charge points outdoors, construction sites and some agricultural buildings. In those cases a <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> earth is often used for that part of the installation.</li>
+    </ul>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr>: the installation provides its own earth</h2>
+    <p>The supply provides no earth at all, typically on rural overhead lines. The installation's <abbr title="main earthing terminal">MET</abbr> is connected to its own <strong>earth electrode</strong>, usually a copper-clad steel rod driven into the ground. A fault current has to travel through the ground back to the transformer's own earth, and soil is a poor conductor, so the earth fault loop impedance is many ohms.</p>
+    <p>That makes the fault current far too small to trip a circuit breaker quickly. So on a <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> system the fault protection normally comes from <strong><abbr title="residual current device">RCDs</abbr></strong>, which only need a few milliamps of imbalance. Guidance Note 3 advises that an electrode resistance above about <strong>200 Ω</strong> may not be stable, because it changes as the ground dries out or freezes.</p>
+  </section>
+
+  <section class="prose">
+    <h2><abbr title="protective neutral bonding">PNB</abbr>: protective neutral bonding</h2>
+    <p>Amendment 4 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> (2026) adds requirements and drawings for <strong>protective neutral bonding (<abbr title="protective neutral bonding">PNB</abbr>)</strong>. It's a form of <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> where the neutral and earth are connected together, and to earth, at <strong>one point only</strong>, at or near the consumer's installation, rather than at many points along the network. You'll typically meet it where a single customer, such as a farm or a large house, is fed from its own transformer.</p>
+    <p>You need to recognise a <abbr title="protective neutral bonding">PNB</abbr> supply and know it isn't the same as <abbr title="protective multiple earthing">PME</abbr>, because it can change the earthing arrangement, the risk assessment and which equipment is suitable. The details are in Part 3 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> (regulation 312.2.1.1 and its figures).</p>
+  </section>
+
+  <section class="prose">
+    <h2>Identifying the system at the intake</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>System</th><th>What you'll usually see</th><th>Typical maximum Z<sub>e</sub></th></tr></thead>
+        <tbody>
+          <tr><td><strong><abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr></strong></td><td>Earthing conductor clamped to the lead sheath or armour of the supply cable, separate from the cut-out's neutral.</td><td class="mono">0.8 Ω</td></tr>
+          <tr><td><strong><abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> (<abbr title="protective multiple earthing">PME</abbr>)</strong></td><td>Earth terminal on, or next to, the cut-out, often with a "<abbr title="protective multiple earthing">PME</abbr>" label. Concentric supply cable (an outer ring of conductors around the line).</td><td class="mono">0.35 Ω</td></tr>
+          <tr><td><strong><abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr></strong></td><td>No earth from the supply. Earthing conductor runs to an earth rod, often in an inspection pit outside. Overhead supply.</td><td>Set by the electrode, often tens of ohms or more</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Appearances can mislead: sheaths get replaced, and labels go missing. If in doubt, ask the <abbr title="distribution network operator">DNO</abbr>, and always measure Z<sub>e</sub> (see <a href="../testing/live-tests.html">Live tests</a>). Never connect an installation's earth to a gas or water pipe: pipes aren't an earth electrode, and plastic sections can break the path without anyone knowing.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var cur = "tns";
+
+  function wire(cls, d) { return '<path class="wire ' + cls + '" d="' + d + '"/>'; }
+  function cpc(d) { return wire("w-cpc-g", d) + wire("w-cpc-y", d); }
+  function rod(x, y) {
+    return '<line class="gnd" x1="' + x + '" y1="' + y + '" x2="' + x + '" y2="' + (y + 22) + '"/>' +
+      '<line class="gnd" x1="' + (x - 10) + '" y1="' + (y + 22) + '" x2="' + (x + 10) + '" y2="' + (y + 22) + '"/>' +
+      '<line class="gnd" x1="' + (x - 6) + '" y1="' + (y + 28) + '" x2="' + (x + 6) + '" y2="' + (y + 28) + '"/>' +
+      '<line class="gnd" x1="' + (x - 2) + '" y1="' + (y + 34) + '" x2="' + (x + 2) + '" y2="' + (y + 34) + '"/>';
+  }
+  var CAP = {
+    tns: "TN-S: line and neutral, plus a separate protective conductor (often the cable sheath) from the transformer's earthed star point all the way to the installation's main earthing terminal.",
+    tncs: "TN-C-S (PME): one PEN conductor does both jobs in the supply cable, and is earthed at several points along the way. At the cut-out it splits into a neutral and an earth, which stay separate in the installation.",
+    tt: "TT: the supply gives no earth. The installation's main earthing terminal goes to its own earth rod, and fault current returns through the ground to the transformer's earth (dashed orange).",
+    pnb: "PNB: like TN-C-S, but the neutral and earth are joined, and connected to earth, at one point only, at or near the installation. Common where one customer has its own transformer."
+  };
+
+  function draw() {
+    var h = "";
+    h += '<rect class="soil" x="0" y="196" width="360" height="34"/>';
+    h += '<rect class="comp" x="220" y="26" width="40" height="128" rx="4"/>';
+    h += '<text x="240" y="168" text-anchor="middle" class="small">cut-out</text>';
+    // transformer secondary winding: line at the top, star point at the bottom
+    h += '<path d="M40,52 c10,6 10,14 0,20 c10,6 10,14 0,20 c10,6 10,14 0,20" fill="none" stroke="var(--fg)" stroke-width="2.5"/>';
+    h += '<text x="10" y="30" class="small">Transformer</text>';
+    h += wire("w-line", "M40,52 V40 H340");
+    h += '<text x="326" y="34" class="small">L</text>';
+    var met = '<rect class="comp" x="296" y="150" width="48" height="22" rx="3"/><text x="320" y="165" text-anchor="middle" class="tag" style="font-size:11px">MET</text>';
+    if (cur === "tns") {
+      h += wire("w-neutral", "M40,112 H340");
+      h += cpc("M40,112 V136 H320 V150");
+      h += cpc("M40,136 V176") + rod(40, 176);
+      h += '<text x="326" y="106" class="small">N</text><text x="56" y="154" class="small">separate earth (sheath)</text>';
+    } else if (cur === "tncs" || cur === "pnb") {
+      h += wire("w-neutral", "M40,112 H340");
+      h += '<path class="wire w-cpc-y" d="M40,112 H240" stroke-width="1.5"/>';
+      h += '<text x="64" y="106" class="small">PEN (neutral + earth)</text>';
+      h += cpc("M240,112 V136 H320 V150");
+      h += '<circle cx="240" cy="112" r="4" fill="var(--fg)"/>';
+      h += '<text x="326" y="106" class="small">N</text>';
+      if (cur === "tncs") {
+        [40, 110, 170].forEach(function (x) { h += cpc("M" + x + ",112 V176") + rod(x, 176); });
+        h += '<text x="100" y="222" class="small">earthed at many points</text>';
+      } else {
+        h += cpc("M280,136 V176") + rod(280, 176) + '<circle cx="280" cy="136" r="3.5" fill="var(--fg)"/>';
+        h += '<text x="54" y="150" class="small">no earth at the transformer</text>';
+        h += '<text x="280" y="224" text-anchor="middle" class="small">one earth point</text>';
+      }
+    } else {
+      h += wire("w-neutral", "M40,112 H340");
+      h += cpc("M40,112 V176") + rod(40, 176);
+      h += cpc("M320,172 V176") + rod(320, 176);
+      h += '<path class="path-hint" d="M320,214 H40"/>';
+      h += '<text x="326" y="106" class="small">N</text>';
+      h += '<text x="180" y="226" text-anchor="middle" class="small">fault current returns through the ground</text>';
+      h += '<text x="308" y="192" class="small" text-anchor="end">own earth rod</text>';
+    }
+    h += met;
+    // winding terminals: line at the top, star point at the bottom. Drawn last so they sit on top of the wires.
+    h += '<circle cx="40" cy="52" r="4" fill="var(--fg)"/><circle cx="40" cy="112" r="4" fill="var(--fg)"/>';
+    $("esG").innerHTML = h;
+    $("esCap").textContent = CAP[cur];
+    document.querySelectorAll("#sys button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-s") === cur)); });
+  }
+  $("sys").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; cur = b.getAttribute("data-s"); draw(); });
+  draw();
+
+  Course.quiz("#quiz", [
+    { q: "In the earthing system code, what does the first letter T mean?",
+      options: ["The supply's star point is connected directly to earth", "The installation has its own separate earth rod", "Neutral and earth share one conductor in the supply", "The supply is isolated from earth through an impedance"], answer: 0,
+      why: "The first letter is about the supply. T (terre) means its star point is directly earthed." },
+    { q: "Which earthing system combines neutral and earth in one conductor in the supply cable?",
+      options: ["TN-S", "TN-C-S", "TT", "IT"], answer: 1,
+      why: "TN-C-S: combined (C) in the supply, separate (S) in the installation. It's also called PME." },
+    { q: "What's the typical maximum Z<sub>e</sub> quoted for a TN-C-S (PME) supply?",
+      options: ["0.35 Ω", "0.8 Ω", "21 Ω", "200 Ω"], answer: 0,
+      why: "DNOs typically quote 0.35 Ω for TN-C-S and 0.8 Ω for TN-S." },
+    { q: "On a TT system, what normally provides fault protection?",
+      options: ["An RCD, because the fault current is too small", "A Type B MCB, because Z<sub>e</sub> is very low", "The main switch, which trips on earth faults", "The DNO's cut-out fuse at the intake"], answer: 0,
+      why: "The ground path makes the loop impedance high, so the fault current won't trip a breaker quickly. An RCD only needs a few milliamps." },
+    { q: "What's the main danger of a broken PEN conductor on a PME supply?",
+      options: ["Earthed metalwork can rise towards 230 V", "The RCDs will trip on every circuit", "The meter stops recording the energy used", "The line voltage doubles to about 460 V"], answer: 0,
+      why: "The installation's earth is tied to the neutral, so with the PEN broken, earthed and bonded metalwork can sit at a dangerous voltage." },
+    { q: "What is protective neutral bonding (PNB), added in Amendment 4?",
+      options: ["TN-C-S with neutral and earth joined at one point only", "A TT system with two earth rods bonded together", "Bonding the neutral bar to the gas and water pipes", "A TN-S supply that uses the armour as neutral"], answer: 0,
+      why: "PNB joins neutral and earth, and connects them to earth, at a single point near the installation." },
+    { q: "Why must a water pipe never be used as the installation's earth electrode?",
+      options: ["Plastic sections can break the path unnoticed", "Water pipes carry too much current already", "The water company owns all the metal pipes", "Copper corrodes quickly when it is earthed"], answer: 0,
+      why: "A repair in plastic pipe can silently disconnect the earth. Pipes are bonded, never used as the earth." }
+  ]);
+})();
+</script>
+</body>
+</html>

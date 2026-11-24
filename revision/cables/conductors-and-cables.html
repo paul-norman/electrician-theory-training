@@ -101,7 +101,7 @@
       <h3 id="w2">Conductor resistance calculator</h3>
     </div>
     <div class="controls">
-      <div class="ctl" style="flex:0 1 auto">
+      <div class="ctl">
         <span class="label" id="mtL">Metal</span>
         <div class="seg" role="group" aria-labelledby="mtL" id="mt">
           <button type="button" data-m="silver" aria-pressed="false">Silver</button>
@@ -110,7 +110,7 @@
           <button type="button" data-m="aluminium" aria-pressed="false">Aluminium</button>
         </div>
       </div>
-      <div class="ctl" style="flex:0 1 auto">
+      <div class="ctl">
         <span class="label" id="caL">Cross-sectional area</span>
         <div class="seg" role="group" aria-labelledby="caL" id="ca"></div>
       </div>
@@ -118,6 +118,12 @@
         <label for="len">Length of conductor</label>
         <div class="slider"><input type="range" id="len" min="1" max="100" step="1" value="20"><output id="lenOut" for="len"></output></div>
       </div>
+    </div>
+    <div class="stage">
+      <svg id="wireSvg" viewBox="0 0 360 96" role="img" aria-labelledby="wsT" style="max-width:520px;margin:0 auto">
+        <title id="wsT">A single insulated conductor with its end stripped, drawn to scale: it gets thicker as the cross-sectional area goes up, and the bare end changes colour with the metal.</title>
+        <g id="wireG"></g>
+      </svg>
     </div>
     <div class="readouts">
       <div class="ro"><span class="k">Resistance</span><span class="v" id="rR">—</span><span class="s" id="rRs"></span></div>
@@ -136,7 +142,7 @@
   <section class="prose">
     <h2>Why bigger loads need bigger cables</h2>
     <p>A bigger load draws more current (I = <span class="frac"><span>P</span><span>V</span></span>, and V is fixed at 230 V). More current means more heat in the cable, and because heat grows with I², it grows fast. The answer is a bigger <abbr title="cross-sectional area">CSA</abbr>: lower resistance means less heat for the same current, and a larger cable also has more surface to lose heat from.</p>
-    <p>How much current a cable can carry safely isn't fixed by its size alone. It also depends on how easily the heat gets away: a cable clipped to a wall in open air can carry more than the same cable buried in loft insulation or bundled with others. Thicker insulation doesn't help; insulation traps heat. Long runs also matter, because more resistance means more voltage lost along the way. Working all this out is cable sizing, which comes later in the course.</p>
+    <p>How much current a cable can carry safely isn't fixed by its size alone. It also depends on how easily the heat gets away: a cable clipped to a wall in open air can carry more than the same cable buried in loft insulation or bundled with others. Thicker insulation doesn't help; insulation traps heat. Long runs also matter, because more resistance means more voltage lost along the way. Working all this out is cable sizing: see <a href="../design/cable-sizing.html">Cable sizing and voltage drop</a>.</p>
   </section>
 
   <section aria-labelledby="qz">
@@ -186,11 +192,13 @@
       '<circle class="cu" cx="' + cx + '" cy="' + cy + '" r="' + (dcp / 2) + '"/>';
     // leaders and labels on the right
     var lx = 420;
+    // insulation leaders end halfway through the insulation ring, up and to the right (towards the labels)
+    var ri = dc / 2 + ins / 2, ax = ri * Math.cos(Math.PI / 3), ay = ri * Math.sin(Math.PI / 3);
     var labels = [
-      [xL, cy - core * 0.6, 40, "Line: brown insulation"],
-      [cx, cy + dcp / 2, 104, "CPC: bare copper (sleeve it green/yellow)"],
-      [xN, cy - core * 0.6, 72, "Neutral: blue insulation"],
-      [x0 + w - sh * 0.5, cy + h / 2 - 4, 168, "Sheath: grey PVC"],
+      [xL + ax, cy - ay, 40, "Line: brown insulation"],
+      [cx, cy, 104, "CPC: bare copper (sleeve it green/yellow)"],
+      [xN + ax, cy - ay, 72, "Neutral: blue insulation"],
+      [(cx + xN) / 2, cy + h / 2 - sh / 2, 168, "Sheath: grey PVC"], // middle of the sheath wall, on its flat underside
       [xL, cy, 200, "Copper conductor, " + cur + " mm²"]
     ];
     if (N) {
@@ -202,13 +210,16 @@
           '<text x="46" y="' + y + '">' + l[3] + "</text>";
       });
     } else {
-      labels.forEach(function (l) {
-        g += '<path class="leader" d="M' + l[0].toFixed(1) + "," + l[1].toFixed(1) + " L" + (lx - 14) + "," + l[2] + " H" + (lx - 4) + '"/>' +
+      // The copper conductor's leader drops below the cable and runs along underneath it, so it doesn't cross the sheath's.
+      var by = cy + h / 2 + 16;
+      labels.forEach(function (l, k) {
+        var route = k === 4 ? " V" + by.toFixed(1) + " H" + (lx - 34) + " L" + (lx - 14) + "," + l[2] : " L" + (lx - 14) + "," + l[2];
+        g += '<path class="leader" d="M' + l[0].toFixed(1) + "," + l[1].toFixed(1) + route + " H" + (lx - 4) + '"/>' +
           '<circle cx="' + l[0].toFixed(1) + '" cy="' + l[1].toFixed(1) + '" r="2.5" fill="var(--fg)"/>' +
           '<text x="' + lx + '" y="' + (l[2] + 4) + '">' + l[3] + "</text>";
       });
     }
-    g += '<text x="' + cx + '" y="' + (cy + h / 2 + 30) + '" text-anchor="middle" class="small">About ' + f(w / K, 2) + " × " + f(h / K, 2) + " mm overall</text>";
+    g += '<text x="' + cx + '" y="' + (cy + h / 2 + (N ? 30 : 38)) + '" text-anchor="middle" class="small">About ' + f(w / K, 2) + " × " + f(h / K, 2) + " mm overall</text>";
     $("cable").innerHTML = g;
     document.querySelectorAll("#sz button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-s") === cur)); });
     $("tLN").textContent = cur + " mm²";
@@ -229,7 +240,18 @@
   });
   $("mt").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; rc.m = b.getAttribute("data-m"); calc(); });
   $("len").addEventListener("input", function (e) { rc.l = +e.target.value; calc(); });
+  // Metal colours for the stripped end: [fill, edge]. Flat style, matching the cable cross-section above.
+  var METAL = { silver: ["#cfd3d8", "#8c939b"], copper: ["#c8794a", "#8a4d2b"], gold: ["#d9ac35", "#97721a"], aluminium: ["#b4bac0", "#7c838a"] };
+  function drawWire() {
+    // Fixed length; the thickness follows the real diameter (12 px per mm), so 16 mm² is twice as wide as 4 mm².
+    var d = 2 * Math.sqrt(rc.a / Math.PI) * 12, t = 7, cy = 42, mc = METAL[rc.m], h = "";
+    h += '<rect x="236" y="' + (cy - d / 2) + '" width="84" height="' + d + '" rx="1.5" fill="' + mc[0] + '" stroke="' + mc[1] + '" stroke-width="1.2"/>';
+    h += '<rect x="24" y="' + (cy - d / 2 - t) + '" width="226" height="' + (d + 2 * t) + '" rx="5" fill="var(--line)"/>';
+    h += '<text x="180" y="90" text-anchor="middle" class="small">' + rc.a + " mm² " + rc.m + ": about " + f(d / 12, 2) + " mm across</text>";
+    $("wireG").innerHTML = h;
+  }
   function calc() {
+    drawWire();
     var R = RHO[rc.m] * rc.l / (rc.a * 1e-6);
     document.querySelectorAll("#mt button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === rc.m)); });
     document.querySelectorAll("#ca button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.getAttribute("data-a") === rc.a)); });

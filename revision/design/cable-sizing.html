@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cable Sizing and Voltage Drop</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 8ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  select.wide { width: 100%; max-width: 520px; }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); }
+  .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); }
+  .verdict.bad strong { color: var(--bad); }
+</style>
+</head>
+<body data-lesson="cable-sizing">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <span class="eyebrow">Circuit design</span>
+    <h1>Cable sizing and voltage drop</h1>
+    <p class="lead">A cable's current rating depends on how easily it can get rid of heat. Bury it in insulation or bunch it with others and it can carry less. Then it also has to deliver enough voltage at the far end.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Find the <strong>installation reference method</strong> (<abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Table 4A2), such as C for clipped direct or 100 to 103 for twin and earth in or near thermal insulation. Then apply <strong>correction factors</strong>: C<sub>a</sub> for ambient temperature (Table 4B1, 1.0 at 30 °C), C<sub>g</sub> for grouping (Table 4C1) and C<sub>i</sub> for thermal insulation (0.5 if surrounded for more than 0.5 m). The tabulated current the cable needs is <strong>I<sub>t</sub> ≥ <span class="frac"><span>I<sub>n</sub></span><span>C<sub>a</sub> × C<sub>g</sub> × C<sub>i</sub></span></span></strong>. Pick the smallest size in the current-rating table for that method that meets it. Then check <strong>voltage drop = <span class="frac"><span>mV/A/m × I<sub>b</sub> × L</span><span>1,000</span></span></strong> against the limits for a public supply: 3% (6.9 V) for lighting, 5% (11.5 V) for everything else. If it's too high, go up a size.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Heat is the limit</h2>
+    <p>Current through a cable's resistance makes heat (P = I² × R; see <a href="../principles/power.html">Power</a>). The cable settles at the temperature where it loses heat as fast as it makes it. Its <strong>current-carrying capacity</strong> is the current that keeps it at or below its maximum working temperature: 70 °C for ordinary <abbr title="polyvinyl chloride">PVC</abbr> (thermoplastic) twin and earth (see <a href="../cables/conductors-and-cables.html">Conductors and cables</a>). Anything that stops heat escaping lowers that current.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Installation reference methods</h2>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 4 groups the ways cables are installed into <strong>reference methods</strong>, each with its own column of current ratings. A few you'll use for twin and earth in houses:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Installation</th><th>Heat loss</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">C</td><td>Clipped direct to a surface, or buried in plaster or masonry with no thermal insulation</td><td>Good</td></tr>
+          <tr><td class="mono">A</td><td>In conduit in a thermally insulated wall</td><td>Poor</td></tr>
+          <tr><td class="mono">100</td><td>Above a plasterboard ceiling, covered by thermal insulation up to 100 mm thick</td><td>Fair</td></tr>
+          <tr><td class="mono">101</td><td>As 100, but the insulation is more than 100 mm thick</td><td>Poor</td></tr>
+          <tr><td class="mono">102</td><td>In a stud wall with thermal insulation, cable touching the inner surface of the plasterboard</td><td>Fair</td></tr>
+          <tr><td class="mono">103</td><td>In a stud wall with thermal insulation, cable not touching the plasterboard</td><td>Very poor</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>Correction factors</h2>
+    <p>The tables assume standard conditions. When the real conditions are worse, multiply by a factor less than 1:</p>
+    <ul>
+      <li><strong>C<sub>a</sub>, ambient temperature</strong> (Table 4B1). The tables assume 30 °C air. In a hot plant room at 35 °C, C<sub>a</sub> is 0.94 for <abbr title="polyvinyl chloride">PVC</abbr> cable; at 25 °C it's 1.03, a small bonus.</li>
+      <li><strong>C<sub>g</sub>, grouping</strong> (Table 4C1). Cables bunched together warm each other. Three circuits bunched or enclosed together: 0.70. Six: 0.57.</li>
+      <li><strong>C<sub>i</sub>, thermal insulation</strong>. A cable totally surrounded by insulation for more than 0.5 m: 0.5, which halves its rating. Shorter lengths have smaller reductions (Table 52.2). Don't apply C<sub>i</sub> on top of methods 100 to 103, which already allow for the insulation.</li>
+      <li><strong>C<sub>c</sub></strong>: 0.725 where the protective device is a rewirable fuse (see <a href="design-current.html">Design current and diversity</a>), and 0.9 for cables buried in the ground.</li>
+    </ul>
+    <p>Divide the device rating by all the factors that apply to get the rating to look up in the table:</p>
+    <p><span class="formula">I<sub>t</sub> ≥ <span class="frac"><span>I<sub>n</sub></span><span>C<sub>a</sub> × C<sub>g</sub> × C<sub>i</sub> × C<sub>c</sub></span></span></span></p>
+  </section>
+
+  <section class="prose">
+    <h2>Voltage drop</h2>
+    <p>Long, thin cables lose voltage along their length, and equipment at the far end gets less than it needs. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 4 gives a voltage drop for each cable size in <strong>millivolts per amp per metre (mV/A/m)</strong>. It already counts both the line and neutral, so use the cable's route length:</p>
+    <p><span class="formula">V<sub>drop</sub> = <span class="frac"><span>mV/A/m × I<sub>b</sub> × L</span><span>1,000</span></span></span></p>
+    <p>Use the design current I<sub>b</sub> here, not the device rating. For an installation fed from the public supply, the limits from the origin to the load are <strong>3% for lighting</strong> (6.9 V at 230 V) and <strong>5% for other uses</strong> (11.5 V). For a final circuit fed from a sub-board, add the sub-main's drop to the final circuit's.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Size a twin and earth cable</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="cIn">Device rating, I<sub>n</sub></label><select id="cIn"></select></div>
+      <div class="ctl"><label for="cIb">Design current, I<sub>b</sub> (A)</label><input class="num-in" id="cIb" type="number" min="0" step="0.1" value="37" inputmode="decimal"></div>
+      <div class="ctl"><label for="cL">Length (m)</label><input class="num-in" id="cL" type="number" min="0" step="1" value="20" inputmode="decimal"></div>
+      <div class="ctl">
+        <span class="label" id="cUseL">Circuit</span>
+        <div class="seg" role="group" aria-labelledby="cUseL" id="cUse">
+          <button type="button" data-u="p" aria-pressed="true">Power (5%)</button>
+          <button type="button" data-u="l" aria-pressed="false">Lighting (3%)</button>
+        </div>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="cM">Installation method</label><select id="cM" class="wide"></select></div>
+      <div class="ctl"><label for="cT">Ambient temperature</label><select id="cT"></select></div>
+      <div class="ctl"><label for="cG">Circuits grouped together</label><select id="cG"></select></div>
+      <label class="check" for="cI"><input type="checkbox" id="cI"> Surrounded by insulation for over 0.5 m</label>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Factors</span><span class="v" id="oF" style="font-size:1rem">—</span><span class="s" id="oFs"></span></div>
+      <div class="ro"><span class="k">I<sub>t</sub> needed</span><span class="v" id="oIt">—</span><span class="s" id="oIts"></span></div>
+      <div class="ro"><span class="k">Cable</span><span class="v" id="oSz">—</span><span class="s" id="oSzs"></span></div>
+      <div class="ro"><span class="k">Voltage drop</span><span class="v" id="oVd">—</span><span class="s" id="oVds"></span></div>
+    </div>
+    <div class="verdict" id="cV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">Ratings and mV/A/m for 70 °C thermoplastic (<abbr title="polyvinyl chloride">PVC</abbr>) flat twin and earth with copper conductors, from <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Table 4D5; grouping factors for cables bunched or enclosed. A revision aid: use the tables in your copy of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> for real designs.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Worked examples</h2>
+  </section>
+  <div class="examples">
+    <div class="example">
+      <span class="q">An 8.5 kW shower, 40 A device, 20 m of twin and earth clipped direct (method C). No correction factors.</span>
+      <span class="w">I<sub>b</sub> = <span class="frac"><span>8,500</span><span>230</span></span> = 37 A; I<sub>t</sub> ≥ 40 A<br>6 mm² is rated 47 A (method C)<br>V<sub>drop</sub> = <span class="frac"><span>7.3 × 37 × 20</span><span>1,000</span></span> = 5.4 V</span>
+      <span class="a">6 mm²: 5.4 V is under 11.5 V</span>
+    </div>
+    <div class="example">
+      <span class="q">A cooker circuit: I<sub>b</sub> 24.5 A, 32 A device, 27 m, clipped direct but bunched with two other circuits, in a 35 °C kitchen ceiling void.</span>
+      <span class="w">I<sub>t</sub> ≥ <span class="frac"><span>32</span><span>0.94 × 0.70</span></span> = 48.6 A<br>10 mm² is rated 64 A (method C)<br>V<sub>drop</sub> = <span class="frac"><span>4.4 × 24.5 × 27</span><span>1,000</span></span> = 2.9 V</span>
+      <span class="a">10 mm²: 2.9 V is under 11.5 V</span>
+    </div>
+  </div>
+
+  <section class="callout info">
+    <h3>Two more checks to finish a design</h3>
+    <p>A cable that passes on current and voltage drop still has to pass on <strong>fault protection</strong>: Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>) must be low enough for the device to disconnect in time (see <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>). And the <abbr title="circuit protective conductor">CPC</abbr> must be big enough to carry the fault current until then without overheating, which <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> checks with the <strong>adiabatic equation</strong>, S = <span class="frac"><span>√(I² × t)</span><span>k</span></span>, in regulation 543.1.3. Twin and earth with the standard <abbr title="circuit protective conductor">CPC</abbr> usually passes in ordinary domestic circuits, but it has to be checked.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  // BS 7671 Table 4D5 (70 °C thermoplastic flat twin and earth, copper)
+  var SIZES = [1, 1.5, 2.5, 4, 6, 10, 16];
+  var MVAM = [44, 29, 18, 11, 7.3, 4.4, 2.8];
+  var METHODS = [
+    ["C", "C: clipped direct, or in plaster or masonry", [16, 20, 27, 37, 47, 64, 85]],
+    ["A", "A: in conduit in a thermally insulated wall", [11.5, 14.5, 20, 26, 32, 44, 57]],
+    ["100", "100: above a ceiling, insulation up to 100 mm", [13, 16, 21, 27, 34, 45, 57]],
+    ["101", "101: above a ceiling, insulation over 100 mm", [10.5, 13, 17, 22, 27, 36, 46]],
+    ["102", "102: stud wall with insulation, touching the board", [13, 16, 21, 27, 35, 47, 63]],
+    ["103", "103: stud wall with insulation, not touching", [8, 10, 13.5, 17.5, 23.5, 32, 42.5]]
+  ];
+  var TEMPS = [[25, 1.03], [30, 1.0], [35, 0.94], [40, 0.87], [45, 0.79], [50, 0.71]];
+  var GROUP = [[1, 1.0], [2, 0.8], [3, 0.7], [4, 0.65], [5, 0.6], [6, 0.57]];
+  var use = "p";
+  [6, 10, 16, 20, 25, 32, 40, 50, 63].forEach(function (r) { var o = document.createElement("option"); o.value = r; o.textContent = r + " A"; if (r === 40) o.selected = true; $("cIn").appendChild(o); });
+  METHODS.forEach(function (m, k) { var o = document.createElement("option"); o.value = k; o.textContent = m[1]; $("cM").appendChild(o); });
+  TEMPS.forEach(function (t, k) { var o = document.createElement("option"); o.value = k; o.textContent = t[0] + " °C (factor " + t[1].toFixed(2) + ")"; if (t[0] === 30) o.selected = true; $("cT").appendChild(o); });
+  GROUP.forEach(function (g, k) { var o = document.createElement("option"); o.value = k; o.textContent = g[0] + (g[0] === 1 ? " (on its own)" : "") ; $("cG").appendChild(o); });
+
+  function sz(s) { return (s === 1.5 ? "1.5" : s === 2.5 ? "2.5" : String(s)) + " mm²"; }
+  function calc() {
+    document.querySelectorAll("#cUse button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-u") === use)); });
+    var m = METHODS[+$("cM").value], insOK = m[0] === "C" || m[0] === "A";
+    $("cI").disabled = !insOK; if (!insOK) $("cI").checked = false;
+    var ca = TEMPS[+$("cT").value][1], cg = GROUP[+$("cG").value][1], ci = $("cI").checked ? 0.5 : 1;
+    var In = +$("cIn").value, ib = parseFloat($("cIb").value), L = parseFloat($("cL").value);
+    var prod = ca * cg * ci, it = In / prod, lim = use === "l" ? 6.9 : 11.5, v = $("cV");
+    $("oF").innerHTML = "C<sub>a</sub> " + ca.toFixed(2) + " · C<sub>g</sub> " + cg.toFixed(2) + (ci < 1 ? " · C<sub>i</sub> 0.5" : "");
+    $("oFs").textContent = "multiplied: " + prod.toFixed(3);
+    $("oIt").textContent = Course.sig(it, 3) + " A"; $("oIts").innerHTML = "I<sub>n</sub> divided by the factors";
+    if (isNaN(ib) || isNaN(L) || ib <= 0 || L <= 0) { v.className = "verdict bad"; v.querySelector("strong").innerHTML = "Enter I<sub>b</sub> and the length"; v.querySelector("span").textContent = ""; return; }
+    var kCur = -1;
+    for (var k = 0; k < SIZES.length; k++) if (m[2][k] >= it) { kCur = k; break; }
+    if (kCur < 0) { $("oSz").textContent = "over 16 mm²"; $("oSzs").textContent = "beyond this table"; $("oVd").textContent = "—"; $("oVds").textContent = ""; v.className = "verdict bad"; v.querySelector("strong").textContent = "No twin and earth size here is big enough"; v.querySelector("span").textContent = "Reduce the derating (route the cable differently, separate it from other circuits) or use a different cable type."; return; }
+    var kv = kCur, vd;
+    while (kv < SIZES.length) { vd = MVAM[kv] * ib * L / 1000; if (vd <= lim) break; kv++; }
+    if (kv >= SIZES.length) { kv = SIZES.length - 1; vd = MVAM[kv] * ib * L / 1000; }
+    $("oSz").textContent = sz(SIZES[kv]); $("oSzs").textContent = "rated " + m[2][kv] + " A (method " + m[0] + ")";
+    $("oVd").textContent = vd.toFixed(2) + " V"; $("oVds").textContent = (vd / 230 * 100).toFixed(1) + "% of 230 V, limit " + lim + " V";
+    if (vd > lim) { v.className = "verdict bad"; v.querySelector("strong").textContent = "Voltage drop too high even at 16 mm²"; v.querySelector("span").textContent = "Shorten the run, or rethink the design (a sub-board nearer the load, for example)."; }
+    else if (kv > kCur) { v.className = "verdict ok"; v.querySelector("strong").textContent = sz(SIZES[kv]) + ", sized up for voltage drop"; v.querySelector("span").textContent = sz(SIZES[kCur]) + " would carry the current, but it would drop " + (MVAM[kCur] * ib * L / 1000).toFixed(1) + " V over " + L + " m, which is over the " + lim + " V limit."; }
+    else { v.className = "verdict ok"; v.querySelector("strong").textContent = sz(SIZES[kv]); v.querySelector("span").textContent = "The smallest size rated at least " + Course.sig(it, 3) + " A for this method, and its voltage drop is within the limit."; }
+  }
+  $("cUse").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; use = b.getAttribute("data-u"); calc(); });
+  ["cIn", "cIb", "cL", "cM", "cT", "cG", "cI"].forEach(function (id) { $(id).addEventListener("input", calc); $(id).addEventListener("change", calc); });
+  calc();
+
+  Course.quiz("#quiz", [
+    { q: "What does the correction factor C<sub>g</sub> allow for?",
+      options: ["Cables grouped together warming each other", "The ground temperature around buried cables", "The cable's protective conductor being smaller", "Cables running through a hot plant room"], answer: 0,
+      why: "C<sub>g</sub> is the grouping factor, from Table 4C1." },
+    { q: "A cable is totally surrounded by thermal insulation for 1 m. What's C<sub>i</sub>?",
+      options: ["0.5", "0.7", "0.87", "0.94"], answer: 0,
+      why: "More than 0.5 m surrounded by insulation halves the rating: C<sub>i</sub> = 0.5." },
+    { q: "A 32 A device, C<sub>a</sub> 0.94 and C<sub>g</sub> 0.70. What tabulated current does the cable need?",
+      options: ["21.1 A", "32 A", "45.7 A", "48.6 A"], answer: 3,
+      why: "I<sub>t</sub> = " + Course.frac("32", "0.94 × 0.70") + " = 48.6 A." },
+    { q: "What's the voltage drop limit for a lighting circuit on a 230 V public supply?",
+      options: ["3% (6.9 V)", "4% (9.2 V)", "5% (11.5 V)", "10% (23 V)"], answer: 0,
+      why: "3% for lighting, 5% for other uses." },
+    { q: "Which current goes into the voltage drop calculation?",
+      options: ["The design current, I<sub>b</sub>", "The device rating, I<sub>n</sub>", "The tabulated current, I<sub>t</sub>", "The fault current, I<sub>f</sub>"], answer: 0,
+      why: "Voltage drop is about normal use, so it uses the current the circuit really carries: I<sub>b</sub>." },
+    { q: "18 mV/A/m, 20 A design current, 25 m run. What's the voltage drop?",
+      options: ["0.9 V", "4.5 V", "9 V", "45 V"], answer: 2,
+      why: Course.frac("18 × 20 × 25", "1,000") + " = 9 V. Under 11.5 V for power, but too much for lighting." },
+    { q: "Which installation method has the lowest rating for the same twin and earth cable?",
+      options: ["103: in an insulated stud wall, not touching the board", "C: clipped direct to the surface of a wall", "100: above a ceiling under 100 mm of insulation", "102: in an insulated stud wall, touching the board"], answer: 0,
+      why: "With insulation on all sides and no contact with the plasterboard, the cable loses heat worst of all." }
+  ]);
+})();
+</script>
+</body>
+</html>

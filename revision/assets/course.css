@@ -134,25 +134,35 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .caption { font-size: 0.9rem; color: var(--muted); }
 
 .controls { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: flex-end; }
-.ctl { display: flex; flex-direction: column; gap: 4px; min-width: 180px; flex: 1 1 200px; }
+/* Each control is as wide as its contents, so small fields share a line. Sliders and .wide selects stretch. */
+.ctl { display: flex; flex-direction: column; gap: 4px; flex: 0 1 auto; min-width: 0; }
+.ctl:has(.slider), .ctl:has(.wide) { flex: 1 1 220px; min-width: 180px; }
 .ctl label, .ctl .label { font-size: 0.85rem; font-weight: 600; }
 .slider { display: flex; align-items: center; gap: 10px; }
 .slider input[type="range"] { flex: 1; min-width: 0; accent-color: var(--flow); }
 .slider output { font-family: var(--font-mono); font-weight: 600; min-width: 7ch; text-align: left; font-variant-numeric: tabular-nums; }
 .seg { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+/* Every form control is the same height: buttons, selects and text or number boxes line up in a row.
+   Buttons use min-height so a long label can still wrap onto a second line. */
+:root { --ctl-h: 2.4rem; }
 .btn, .seg button {
-  font: inherit; font-size: 0.88rem; font-weight: 500; cursor: pointer;
+  font: inherit; font-size: 0.88rem; font-weight: 500; cursor: pointer; line-height: 1.3;
   border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg);
-  padding: 7px 12px; border-radius: 6px;
+  padding: 4px 12px; border-radius: 6px; min-height: var(--ctl-h);
 }
+/* A link styled as a button doesn't centre its text vertically on its own, as a real button does */
+a.btn { display: inline-flex; align-items: center; text-decoration: none; }
 .btn:hover, .seg button:hover { border-color: var(--muted); }
 .seg button[aria-pressed="true"], .btn.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 .btn.ghost { background: transparent; }
 .check { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
 .check input { accent-color: var(--flow); width: 16px; height: 16px; }
-input[type="number"], select {
+input[type="number"], input[type="text"], input[type="search"], input[type="date"], select {
   font: inherit; font-size: 0.95rem; color: var(--fg); background: var(--surface-2);
   border: 1px solid var(--rule); border-radius: 6px; padding: 7px 9px;
+}
+input[type="number"], input[type="text"], input[type="search"], input[type="date"], select, .num-in {
+  height: var(--ctl-h); padding-top: 0; padding-bottom: 0; line-height: normal;
 }
 input[type="number"] { width: 9ch; font-family: var(--font-mono); }
 
@@ -235,9 +245,9 @@ td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text
 
 /* Quiz */
 .quiz { display: flex; flex-direction: column; gap: 14px; }
-.q { border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); padding: 14px 16px; margin: 0; display: flex; flex-direction: column; gap: 10px; }
-.q legend { font-weight: 600; padding: 0; float: left; width: 100%; display: flex; gap: 10px; }
-.q legend .qn { font-family: var(--font-mono); color: var(--muted); }
+fieldset.q { border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); padding: 14px 16px; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+fieldset.q legend { font-weight: 600; padding: 0; float: left; width: 100%; display: flex; gap: 10px; }
+fieldset.q legend .qn { font-family: var(--font-mono); color: var(--muted); }
 .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; clear: both; }
 .opt { font: inherit; font-size: 0.93rem; text-align: left; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
 .opt:hover:not(:disabled) { border-color: var(--muted); }
