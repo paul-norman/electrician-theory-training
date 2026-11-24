@@ -31,7 +31,7 @@
     {
       id: "fundamental", file: "fundamental-inspection-and-testing.html", title: "Fundamental Inspection and Testing", day: "Tuesday",
       qual: "EAL Level 2 Award in Fundamental Inspection, Testing and Initial Verification", code: "IT2/01",
-      questions: 30, minutes: 60, book: "IET Guidance Note 3: Inspection & Testing", bank: null,
+      questions: 30, minutes: 60, book: "IET Guidance Note 3: Inspection & Testing", bank: "BANK_FUNDAMENTAL",
       covers: ["Safe isolation and test equipment (GS38)", "Initial verification and its certificates", "What to inspect before testing",
         "Dead tests: continuity, ring finals, insulation resistance, polarity", "Live tests: Z<sub>e</sub>, Z<sub>s</sub>, fault current and RCDs", "Completing an Electrical Installation Certificate"],
       lessons: [["../testing/safe-isolation.html", "Safe isolation"], ["../testing/dead-tests.html", "Dead tests"], ["../testing/live-tests.html", "Live tests"]],
