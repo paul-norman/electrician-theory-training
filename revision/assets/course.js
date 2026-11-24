@@ -53,7 +53,8 @@
       lessons: [
         { id: "earthing-systems", file: "earthing-systems.html", title: "Earthing systems", desc: "TN-S, TN-C-S (PME), TT and PNB, and how to tell them apart." },
         { id: "bonding", file: "protective-bonding.html", title: "Protective bonding", desc: "Exposed and extraneous parts, main and supplementary bonding, and conductor sizes." },
-        { id: "ads", file: "automatic-disconnection.html", title: "Automatic disconnection", desc: "Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>), disconnection times and maximum Z<sub>s</sub>." }
+        { id: "ads", file: "automatic-disconnection.html", title: "Automatic disconnection", desc: "Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>), disconnection times and maximum Z<sub>s</sub>." },
+        { id: "efl", file: "earth-fault-loop.html", title: "The earth fault loop explorer", desc: "Follow the fault current on each earthing system, and see whether the breaker trips in time." }
       ]
     },
     {

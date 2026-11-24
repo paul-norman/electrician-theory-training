@@ -238,5 +238,7 @@
   var MAP = { safety: "safety", isolation: "safety", live: "testing" };
   var F = window.BANK_FUNDAMENTAL;
   if (F) F.questions.forEach(function (q) { if (MAP[q.topic]) Q.push(Object.assign({}, q, { topic: MAP[q.topic] })); });
-  window.BANK_PERIODIC = { topics: TOPICS, questions: Q };
+  // Lessons to revise for each topic (paths from the course root)
+  var LINKS = {"purpose": [["testing/inspection-and-certification.html", "Inspection and certification"]], "extent": [["testing/inspection-and-certification.html", "Inspection and certification"]], "codes": [["testing/inspection-and-certification.html", "Inspection and certification"]], "report": [["testing/inspection-and-certification.html", "Inspection and certification"]], "testing": [["testing/live-tests.html", "Live tests"], ["testing/dead-tests.html", "Dead tests"]], "safety": [["testing/safe-isolation.html", "Safe isolation"]]};
+  window.BANK_PERIODIC = { topics: TOPICS, questions: Q, links: LINKS };
 })();

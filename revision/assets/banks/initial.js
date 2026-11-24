@@ -166,5 +166,7 @@
   // Add every Fundamental question: initial verification covers the same ground at greater depth.
   var Fu = window.BANK_FUNDAMENTAL;
   if (Fu) Fu.questions.forEach(function (q) { Q.push(q); });
-  window.BANK_INITIAL = { topics: TOPICS, questions: Q };
+  // Lessons to revise for each topic (paths from the course root). The Fundamental topics bring their own.
+  var LINKS = Object.assign({}, Fu ? Fu.links : {}, {"calc": [["testing/dead-tests.html", "Dead tests"], ["earthing/automatic-disconnection.html", "Automatic disconnection"]], "three": [["earthing/earthing-systems.html", "Earthing systems"], ["testing/live-tests.html", "Live tests"]]});
+  window.BANK_INITIAL = { topics: TOPICS, questions: Q, links: LINKS };
 })();

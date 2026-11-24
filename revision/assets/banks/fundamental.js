@@ -340,5 +340,7 @@
       options: ["A full schedule of inspections", "The method of fault protection", "The earthing arrangement", "Test results for the work"], answer: 0,
       why: "The Minor Works Certificate is a single form with its own short list of inspections and tests, not separate schedules.", ref: GN3 + ", certification: minor works" }
   ];
-  window.BANK_FUNDAMENTAL = { topics: TOPICS, questions: Q };
+  // Lessons to revise for each topic (paths from the course root)
+  var LINKS = {"safety": [["testing/safe-isolation.html", "Safe isolation"]], "isolation": [["testing/safe-isolation.html", "Safe isolation"]], "verification": [["testing/inspection-and-certification.html", "Inspection and certification"]], "inspection": [["testing/inspection-and-certification.html", "Inspection and certification"], ["earthing/protective-bonding.html", "Protective bonding"]], "dead": [["testing/dead-tests.html", "Dead tests"]], "live": [["testing/live-tests.html", "Live tests"]], "certs": [["testing/inspection-and-certification.html", "Inspection and certification"]]};
+  window.BANK_FUNDAMENTAL = { topics: TOPICS, questions: Q, links: LINKS };
 })();

@@ -345,5 +345,7 @@
       options: ["The faulty equipment register", "The equipment register", "The repair register", "The test instrument log"], answer: 0,
       why: "The model forms include an equipment register, inspection and test record, faulty equipment register and repair register.", ref: COP + ", Appendix 4: model forms" }
   ];
-  window.BANK_PAT = { topics: TOPICS, questions: Q };
+  // Lessons to revise for each topic (paths from the course root)
+  var LINKS = {"scope": [["pat/in-service-testing.html", "In-service inspection and testing"]], "law": [["pat/in-service-testing.html", "In-service inspection and testing"]], "classes": [["pat/in-service-testing.html", "In-service inspection and testing"]], "inspection": [["pat/in-service-testing.html", "In-service inspection and testing"]], "tests": [["pat/in-service-testing.html", "In-service inspection and testing"]], "instruments": [["pat/in-service-testing.html", "In-service inspection and testing"]], "records": [["pat/in-service-testing.html", "In-service inspection and testing"]]};
+  window.BANK_PAT = { topics: TOPICS, questions: Q, links: LINKS };
 })();

@@ -14,6 +14,21 @@
   function mmss(s) { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }
   var LETTERS = ["A", "B", "C", "D", "E", "F"];
 
+  // Per-topic totals across every saved attempt at one exam (attempts saved before topics were recorded are skipped).
+  // Returns [{ key, name, right, total, pct, links }], weakest first.
+  function topicStats(examId, bank) {
+    var sum = {};
+    (load(HIST(examId)) || []).forEach(function (r) {
+      if (!r.t) return;
+      Object.keys(r.t).forEach(function (k) { sum[k] = sum[k] || [0, 0]; sum[k][0] += r.t[k][0]; sum[k][1] += r.t[k][1]; });
+    });
+    return Object.keys(sum).filter(function (k) { return bank.topics[k]; }).map(function (k) {
+      return { key: k, name: bank.topics[k], right: sum[k][0], total: sum[k][1], pct: Math.round(100 * sum[k][0] / sum[k][1]), links: (bank.links && bank.links[k]) || [] };
+    }).sort(function (a, b) { return a.pct - b.pct || b.total - a.total; });
+  }
+  // Lesson links, as HTML. root is the path from the current page to the course root.
+  function linkList(links, root) { return links.map(function (l) { return '<a href="' + root + l[0] + '">' + l[1] + "</a>"; }).join(", "); }
+
   // Pick n questions spread across the topics in proportion to the bank (largest remainder), in random order.
   function draw(bank, n) {
     var byTopic = {}, Q = bank.questions;
@@ -60,6 +75,13 @@
         '<button type="button" data-m="practice" aria-pressed="' + (mode === "practice") + '">Practice</button></div></div></div>' +
         '<p class="muted" id="modeNote"></p>' +
         '<div class="mock-row"><button type="button" class="btn primary" data-act="start">Start a new mock</button></div>';
+      var ts = topicStats(exam.id, bank);
+      if (ts.length) {
+        html += '<h3 style="margin-top:6px">Your topics so far</h3><p class="muted">All your mocks for this exam added together, weakest first.</p>' +
+          '<div class="table-wrap"><table><thead><tr><th>Topic</th><th>Right</th><th>Revise</th></tr></thead><tbody>' +
+          ts.map(function (x) { return "<tr><td>" + x.name + '</td><td class="mono">' + x.pct + "% (" + x.right + "/" + x.total + ")</td><td>" + (x.pct < 70 ? linkList(x.links, "../") : '<span class="muted">—</span>') + "</td></tr>"; }).join("") +
+          "</tbody></table></div>";
+      }
       if (h.length) {
         html += '<h3 style="margin-top:6px">Your results</h3>' + (best ? '<p>Best timed score: <strong>' + best.score + " out of " + best.total + "</strong> (" + Math.round(100 * best.score / best.total) + "%).</p>" : "") +
           '<div class="table-wrap"><table><thead><tr><th>Date</th><th>Mode</th><th>Score</th><th>Time</th></tr></thead><tbody>' +
@@ -168,7 +190,9 @@
       stopTimer();
       var score = 0, secs = Math.min((Date.now() - st.started) / 1000, st.deadline ? exam.minutes * 60 : Infinity);
       st.ids.forEach(function (id, i) { if (st.ans[i] === byId[id].answer) score++; });
-      var h = hist(); h.unshift({ date: Date.now(), mode: st.mode, score: score, total: st.ids.length, secs: Math.round(secs) }); save(HIST(exam.id), h.slice(0, 30));
+      var t = {};
+      st.ids.forEach(function (id, i) { var k = byId[id].topic; t[k] = t[k] || [0, 0]; t[k][1]++; if (st.ans[i] === byId[id].answer) t[k][0]++; });
+      var h = hist(); h.unshift({ date: Date.now(), mode: st.mode, score: score, total: st.ids.length, secs: Math.round(secs), t: t }); save(HIST(exam.id), h.slice(0, 30));
       save(LIVE(exam.id), null);
       resultsView(st, score, secs, timeUp);
       st = null;
@@ -178,8 +202,11 @@
       s.ids.forEach(function (id, i) { var t = byId[id].topic; topics[t] = topics[t] || [0, 0]; topics[t][1]++; if (s.ans[i] === byId[id].answer) topics[t][0]++; });
       var html = '<div class="mock-result">' + (timeUp ? '<p class="mock-timeup">Time\'s up. Your answers so far have been marked.</p>' : "") +
         '<p class="mock-score"><span class="big mono">' + score + "/" + s.ids.length + '</span><span>' + pct + "% · " + mmss(secs) + " taken" + (s.mode === "timed" ? " of " + exam.minutes + ":00" : "") + "</span></p>" +
-        '<div class="table-wrap"><table><thead><tr><th>Topic</th><th>Score</th></tr></thead><tbody>' +
-        Object.keys(bank.topics).filter(function (k) { return topics[k]; }).map(function (k) { return "<tr><td>" + bank.topics[k] + '</td><td class="mono">' + topics[k][0] + "/" + topics[k][1] + "</td></tr>"; }).join("") +
+        '<div class="table-wrap"><table><thead><tr><th>Topic</th><th>Score</th><th>Revise</th></tr></thead><tbody>' +
+        Object.keys(bank.topics).filter(function (k) { return topics[k]; }).map(function (k) {
+          var weak = topics[k][0] / topics[k][1] < 0.7;
+          return "<tr><td>" + bank.topics[k] + '</td><td class="mono">' + topics[k][0] + "/" + topics[k][1] + "</td><td>" + (weak && bank.links && bank.links[k] ? linkList(bank.links[k], "../") : '<span class="muted">—</span>') + "</td></tr>";
+        }).join("") +
         '</tbody></table></div><div class="mock-row"><button type="button" class="btn primary" data-act="again">Start another mock</button><button type="button" class="btn" data-act="home">Back to the start</button></div>' +
         '<h3>Check your answers</h3><label class="check" for="wrongOnly"><input type="checkbox" id="wrongOnly"' + (reviewWrongOnly ? " checked" : "") + "> Only show the ones I got wrong</label>" +
         '<ol class="mock-review" id="mockReview"></ol></div>';
@@ -229,5 +256,5 @@
     });
     startView();
   }
-  window.Mock = { mount: mount, draw: draw };
+  window.Mock = { mount: mount, draw: draw, topicStats: topicStats, linkList: linkList };
 })();

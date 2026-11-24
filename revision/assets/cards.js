@@ -526,6 +526,14 @@
     { id: "ads-10", lesson: "ads", q: "On a TT system with an RCD, R<sub>A</sub> × I<sub>Δn</sub> must not exceed what voltage?", a: "50 V", num: 50, tol: 0, unit: "V" },
     { id: "ads-11", lesson: "ads", q: "What does C<sub>min</sub> = 0.95 allow for in the maximum Z<sub>s</sub> calculation?", a: "The supply voltage being lower than 230 V", accept: ["low voltage", "lower supply voltage", "voltage variation", "supply voltage tolerance", "the voltage being low", "minimum voltage", "voltage drop"] },
 
+    // ---------------- The earth fault loop explorer ----------------
+    { id: "efl-01", lesson: "efl", q: "Name the parts of the earth fault loop inside the installation.", a: "The circuit's line conductor (R<sub>1</sub>) and circuit protective conductor (R<sub>2</sub>)", accept: ["r1 and r2", "r1 r2", "r1+r2", "line and cpc", "line conductor and cpc", "line and protective conductor", "the line and the cpc"] },
+    { id: "efl-02", lesson: "efl", q: "Is the neutral conductor part of the earth fault loop in a TN-S installation?", a: "No: the fault current returns through the CPC and the earthing system", accept: ["no", "n"] },
+    { id: "efl-03", lesson: "efl", q: "A circuit's Z<sub>s</sub> doubles. What happens to the earth fault current?", a: "It halves: I = " + F("U<sub>0</sub>", "Z<sub>s</sub>"), accept: ["halves", "it halves", "half", "halved", "goes down by half", "it is halved"] },
+    { id: "efl-04", lesson: "efl", q: "What multiplier is used on R<sub>1</sub> + R<sub>2</sub> to allow for 70 °C thermoplastic cable at working temperature?", a: "1.20", num: 1.2, tol: 0 },
+    { id: "efl-05", lesson: "efl", q: "A B32 needs what earth fault current to be sure of tripping instantly?", a: "160 A (5 × 32 A)", num: 160, tol: 0, unit: "A" },
+    { id: "efl-06", lesson: "efl", q: "On a TT system, which device clears an earth fault in time?", a: "An RCD", accept: ["rcd", "an rcd", "residual current device", "rcbo", "an rcbo"] },
+
     // ---------------- Design current and diversity ----------------
     { id: "dsg-01", lesson: "design-current", q: "Put these in order of size, smallest first: I<sub>z</sub>, I<sub>b</sub>, I<sub>n</sub>", a: "I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub>", accept: ["ib in iz", "ib, in, iz", "ib<in<iz", "ib <= in <= iz", "ib ≤ in ≤ iz", "ib in and iz"] },
     { id: "dsg-02", lesson: "design-current", q: "What does I<sub>b</sub> stand for?", a: "The design current", accept: ["design current", "the design current"] },

@@ -35,6 +35,12 @@
   <section class="exam-cards" id="cards" aria-label="The exams"></section>
   <p class="caption">Exam dates are saved in this browser only. Set one on each exam's page.</p>
 
+  <section class="prose" id="weak" hidden>
+    <h2>Your weakest topics</h2>
+    <p>From every mock you've taken, the topics where you've scored lowest. Revise the linked lessons, then try another mock.</p>
+    <div class="table-wrap"><table><thead><tr><th>Exam</th><th>Topic</th><th>Right</th><th>Revise</th></tr></thead><tbody id="weakRows"></tbody></table></div>
+  </section>
+
   <section class="prose">
     <h2>Exam technique</h2>
     <ul>
@@ -50,6 +56,13 @@
 </main>
 <script src="../assets/course.js"></script>
 <script src="../assets/exams.js"></script>
+<script src="../assets/banks/fundamental.js"></script>
+<script src="../assets/banks/building-regs.js"></script>
+<script src="../assets/banks/bs7671.js"></script>
+<script src="../assets/banks/pat.js"></script>
+<script src="../assets/banks/periodic.js"></script>
+<script src="../assets/banks/initial.js"></script>
+<script src="../assets/mock.js"></script>
 <script>
 (function () {
   "use strict";
@@ -65,6 +78,20 @@
       '<div class="foot"><span class="when">' + (d ? new Date(d + "T00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + ", " + EXAMS.countdown(d) : '<span class="muted" style="font-weight:400">No date set</span>') + "</span>" +
       '<span class="mock">' + (ex.bank ? (best ? '<span class="muted">Best: ' + Math.round(100 * best.score / best.total) + "%</span> " : "") + '<a class="btn" href="' + ex.file + '#mock">Mock exam</a>' : '<span class="muted">Mock coming</span>') + "</span></div></article>";
   }).join("");
+
+  // Weakest topics across all exams: at least 3 questions answered, below 70%, lowest first.
+  var weak = [];
+  EXAMS.list.forEach(function (ex) {
+    var bank = window[ex.bank]; if (!bank) return;
+    Mock.topicStats(ex.id, bank).forEach(function (t) { if (t.total >= 3 && t.pct < 70) weak.push({ ex: ex, t: t }); });
+  });
+  weak.sort(function (a, b) { return a.t.pct - b.t.pct || b.t.total - a.t.total; });
+  if (weak.length) {
+    document.getElementById("weak").hidden = false;
+    document.getElementById("weakRows").innerHTML = weak.slice(0, 8).map(function (w) {
+      return '<tr><td><a href="' + w.ex.file + '">' + w.ex.title + "</a></td><td>" + w.t.name + '</td><td class="mono">' + w.t.pct + "%</td><td>" + Mock.linkList(w.t.links, "../") + "</td></tr>";
+    }).join("");
+  }
 })();
 </script>
 </body>

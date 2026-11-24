@@ -288,5 +288,7 @@
       options: ["Whether a fire alarm system works as intended", "The fire safety of the electrical installation", "Protection against electric shock", "Protection against thermal damage"], answer: 0,
       why: "Part P covers the safety of the electrical installation, not the functionality of systems such as fire alarms, fans and pumps.", ref: "Approved Document P, paragraph 1.3" }
   ];
-  window.BANK_BUILDING_REGS = { topics: TOPICS, questions: Q };
+  // Lessons to revise for each topic (paths from the course root)
+  var LINKS = {"law": [["regulations/laws-and-guidance.html", "Laws and guidance"]], "scope": [["regulations/part-p-and-notification.html", "Part P and notification"]], "england": [["regulations/part-p-and-notification.html", "Part P and notification"], ["regulations/bathrooms.html", "Bathrooms and special locations"]], "wales": [["regulations/part-p-and-notification.html", "Part P and notification"]], "cert": [["regulations/part-p-and-notification.html", "Part P and notification"]], "parts": [["regulations/laws-and-guidance.html", "Laws and guidance"]]};
+  window.BANK_BUILDING_REGS = { topics: TOPICS, questions: Q, links: LINKS };
 })();
