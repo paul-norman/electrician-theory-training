@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installing Cables</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .wall { fill: var(--surface); stroke: var(--rule); stroke-width: 1.5; }
+  .zone { fill: var(--ok); opacity: 0.16; }
+  .acc { fill: var(--surface-2); stroke: var(--fg); stroke-width: 1.5; }
+  .route { fill: none; stroke: var(--line); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .route.bad { stroke: var(--bad); stroke-dasharray: 8 6; }
+  .joist { fill: var(--ground); stroke: var(--muted); stroke-width: 1.5; }
+  .ok-band { fill: var(--ok); opacity: 0.22; }
+  .no-band { fill: var(--bad); opacity: 0.14; }
+  .dim { stroke: var(--muted); stroke-width: 1; fill: none; }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); } .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); } .verdict.bad strong { color: var(--bad); }
+  select.wide { width: 100%; max-width: 520px; }
+</style>
+</head>
+<body data-lesson="installing-cables">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <h1>Installing cables</h1>
+    <p class="lead">Which cable to use, how to identify its conductors, and where it can safely go: in walls, through joists and under the garden.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Flat twin and earth (6242Y) is the everyday cable in homes; the low smoke, zero halogen version is 6242B, and three-core and earth is used for two-way switching. Look for marks of conformity such as <abbr title="British Approvals Service for Cables">BASEC</abbr> on cable. The harmonised colours (brown line, blue neutral; brown, black and grey for three-phase) replaced red and black from 2004, and where old meets new both are marked and a caution notice is fitted. Cables buried in walls less than 50 mm deep must run in the <strong>safe zones</strong> (within 150 mm of the ceiling or a corner, or in line with an accessory), or be mechanically protected or RCD-protected. Vertical chases can be up to a third of the wall's thickness, horizontal ones a sixth. Holes in joists go on the centre line, between 0.25 and 0.4 of the span from the support, no bigger than a quarter of the joist's depth. Cables buried in the garden go at least 500 mm deep (600 mm where the ground may be double dug), with marker tape about 150 mm below the surface.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Choosing the cable</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cable</th><th>Where you'll use it</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Flat twin and earth, 6242Y</strong></td><td>Most fixed wiring in homes: <abbr title="polyvinyl chloride">PVC</abbr> insulation and a grey <abbr title="polyvinyl chloride">PVC</abbr> sheath, rated for 70 °C.</td></tr>
+          <tr><td><strong>Low smoke, zero halogen (<abbr title="low smoke, zero halogen">LSZH</abbr>), 6242B</strong></td><td>The same job where smoke and toxic fumes in a fire matter, such as escape routes and public buildings. Often white.</td></tr>
+          <tr><td><strong>Three-core and earth, 6243Y</strong></td><td>Two-way switching (see <a href="../circuits/lighting-circuits.html">Lighting circuits</a>).</td></tr>
+          <tr><td><strong>Steel wire armoured (<abbr title="steel wire armoured">SWA</abbr>)</strong></td><td>Underground and outdoors, and where the cable needs mechanical protection. The armour can act as the <abbr title="circuit protective conductor">CPC</abbr>.</td></tr>
+          <tr><td><strong>Fire-resistant cable</strong> (such as FP200)</td><td>Fire alarms and emergency lighting, which have to keep working in a fire.</td></tr>
+          <tr><td><strong>Heat-resisting flex</strong> (90 °C or more)</td><td>Final connections to hot equipment: immersion heaters, storage heaters, water heaters and some light fittings.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Marks of conformity</strong> show a product has been made and tested to a standard: <strong><abbr title="British Approvals Service for Cables">BASEC</abbr></strong> for cables, the <strong>BSI Kitemark</strong>, <strong>ASTA BEAB</strong> and <strong><abbr title="European Norms Electrical Certification">ENEC</abbr></strong> for electrical equipment, and the <strong><abbr title="Conformité Européenne: the European conformity mark">CE</abbr></strong> (or <abbr title="UK Conformity Assessed">UKCA</abbr>) mark, which is the manufacturer's own declaration. Cheap, unmarked cable can have undersized conductors or poor insulation.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Colours, old and new</h2>
+    <p>UK wiring colours were harmonised with Europe. The new colours could be used from 31 March 2004 and have been required from 1 April 2006:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Conductor</th><th>Old colour</th><th>Current colour</th></tr></thead>
+        <tbody>
+          <tr><td>Single-phase line</td><td>Red</td><td>Brown</td></tr>
+          <tr><td>Neutral</td><td>Black</td><td>Blue</td></tr>
+          <tr><td>Three-phase L1, L2, L3</td><td>Red, yellow, blue</td><td>Brown, black, grey</td></tr>
+          <tr><td>Protective conductor</td><td>Green and yellow (plain green in very old installations)</td><td>Green and yellow</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The trap is <strong>black</strong>: in old wiring it's the neutral; in new three-phase wiring it's a line (L2). And old blue was a line, but new blue is the neutral. So where new wiring is connected to old, both sides are marked at the interface (L and N, or L1, L2, L3 and N), and a <strong>caution notice</strong> at the distribution board warns that the installation has wiring colours to two versions of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>.</p>
+    <p>Conductors used for something other than their colour suggests must be re-identified. A blue conductor used as a switched line (the switch wire to a light) gets a brown sleeve or tape at each end. The bare <abbr title="circuit protective conductor">CPC</abbr> in twin and earth is sleeved green and yellow wherever it's exposed.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Cables in walls: the safe zones</h2>
+    <p>A cable buried in a wall or partition at less than 50 mm from the surface could be hit by a nail, screw or drill. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> (regulation 522.6.202) says it must either run in a <strong>safe zone</strong>, where people expect cables to be, or be protected:</p>
+    <ul>
+      <li><strong>Safe zones:</strong> within 150 mm of the top of the wall (the ceiling) or of a corner where two walls meet, and horizontally or vertically in line with an accessory, such as a socket or switch.</li>
+      <li><strong>Or protection:</strong> earthed metal conduit, trunking or covering, mechanical protection strong enough to stop a nail, or additional protection by a 30 mA <abbr title="residual current device">RCD</abbr>. In homes, the <abbr title="residual current device">RCD</abbr> is the usual answer, and it's needed anyway for most circuits.</li>
+    </ul>
+    <p>Cables in a partition with <strong>metal studs or framing</strong> need <abbr title="residual current device">RCD</abbr> or earthed-metal protection at any depth, because a nail through the cable could make the frame live.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Is this cable route in a safe zone?</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 360 250" role="img" aria-labelledby="w1d" style="max-width:600px;margin:0 auto">
+        <title id="w1d">A wall seen from the front, with the safe zones shaded green: a band along the top under the ceiling, bands down each corner, and bands running vertically and horizontally from a socket and a switch. The chosen cable route is drawn on top.</title>
+        <rect class="wall" x="10" y="10" width="340" height="220"/>
+        <rect class="zone" x="10" y="10" width="340" height="30"/>
+        <rect class="zone" x="10" y="10" width="30" height="220"/>
+        <rect class="zone" x="320" y="10" width="30" height="220"/>
+        <rect class="zone" x="94" y="10" width="22" height="220"/>
+        <rect class="zone" x="10" y="190" width="340" height="18"/>
+        <rect class="zone" x="244" y="10" width="20" height="220"/>
+        <rect class="zone" x="10" y="113" width="340" height="18"/>
+        <rect class="acc" x="94" y="190" width="22" height="18" rx="2"/>
+        <rect class="acc" x="244" y="113" width="20" height="18" rx="2"/>
+        <text class="small" x="105" y="223" text-anchor="middle">socket</text>
+        <text class="small" x="254" y="146" text-anchor="middle">switch</text>
+        <text class="small" x="180" y="30" text-anchor="middle">ceiling: 150 mm band</text>
+        <text class="small" x="44" y="80">corner</text>
+        <path id="route" class="route" d=""/>
+      </svg>
+    </div>
+    <label for="rt" class="label" style="font-size:0.85rem;font-weight:600">Cable route (no <abbr title="residual current device">RCD</abbr> or mechanical protection, buried less than 50 mm)</label>
+    <select id="rt" class="wide"></select>
+    <div class="verdict" id="rtV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">Green shading shows the safe zones. Drawing not to scale.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Chases, joists and notches</h2>
+    <p>Cutting into the building can weaken it, so Approved Document A sets limits (they're summarised in the Electrician's Guide to the Building Regulations):</p>
+    <ul>
+      <li><strong>Chases in walls:</strong> vertical chases no deeper than a third of the thickness of the wall (or leaf); horizontal chases no deeper than a sixth.</li>
+      <li><strong>Holes in joists:</strong> on the centre line (the neutral axis, where the joist is under least stress), no larger than 0.25 × the joist's depth in diameter, and between 0.25 and 0.4 × the span from the support. Cables through joists must also be at least 50 mm from the top and bottom edges, out of reach of floorboard nails, or be protected.</li>
+      <li><strong>Notches:</strong> in the top edge only, no deeper than 0.125 × the joist's depth, and between 0.07 and 0.25 × the span from the support.</li>
+    </ul>
+  </section>
+
+  <figure class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="w2">Where to drill and notch a joist</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 360 170" role="img" aria-labelledby="w2d" style="max-width:600px;margin:0 auto">
+        <title id="w2d">A joist spanning between two supports. Notches are allowed in the top edge between 0.07 and 0.25 of the span from each support. Holes are allowed on the centre line between 0.25 and 0.4 of the span from each support. The middle of the span is avoided.</title>
+        <rect x="6" y="64" width="14" height="70" fill="var(--muted)" opacity="0.5"/>
+        <rect x="340" y="64" width="14" height="70" fill="var(--muted)" opacity="0.5"/>
+        <rect class="joist" x="20" y="64" width="320" height="50"/>
+        <rect class="ok-band" x="42" y="64" width="58" height="10"/>
+        <rect class="ok-band" x="260" y="64" width="58" height="10"/>
+        <rect class="ok-band" x="100" y="80" width="48" height="18"/>
+        <rect class="ok-band" x="212" y="80" width="48" height="18"/>
+        <line class="dim" x1="20" y1="89" x2="340" y2="89" stroke-dasharray="4 4"/>
+        <circle cx="124" cy="89" r="6" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>
+        <circle cx="236" cy="89" r="6" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>
+        <path d="M60,64 v8 h18 v-8" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>
+        <text class="small" x="71" y="54" text-anchor="middle">notch</text>
+        <text class="small" x="124" y="132" text-anchor="middle">holes</text>
+        <text class="small" x="236" y="132" text-anchor="middle">holes</text>
+        <text class="small" x="180" y="152" text-anchor="middle">holes: 0.25 to 0.4 × span from support, on the centre line</text>
+        <text class="small" x="180" y="166" text-anchor="middle">notches: 0.07 to 0.25 × span, top edge only</text>
+        <text class="small" x="180" y="40" text-anchor="middle">joist (span = distance between supports)</text>
+      </svg>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2>Cables in the ground</h2>
+    <p>A cable to a garden building or outdoor light usually runs underground in <strong><abbr title="steel wire armoured">SWA</abbr> cable</strong>, or in a cable with similar earthed protection, or in ducting designed for it. Guidance in the Electrician's Guide and the On-Site Guide:</p>
+    <ul>
+      <li>bury it <strong>at least 500 mm</strong> deep, or <strong>600 mm</strong> where the ground may be double dug, such as a vegetable patch</li>
+      <li>lay <strong>marker tape</strong> or cable tiles along the route, about <strong>150 mm</strong> below the surface, so anyone digging finds the warning before the cable</li>
+      <li>record the route on the installation's drawings</li>
+    </ul>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> itself asks for a depth that avoids damage from reasonably foreseeable disturbance, with the cable identified by covers or marking tape (regulation 522.8.10).</p>
+  </section>
+
+  <section class="prose">
+    <h2>Supports, heat and fire</h2>
+    <ul>
+      <li><strong>Premature collapse:</strong> wiring must be supported so it can't fall in a fire and trap firefighters. Plastic clips and trunking alone aren't enough where they'd be the only support; use metal clips, ties or supports.</li>
+      <li><strong>Heat:</strong> keep cables away from hot pipes and flues, and remember that thermal insulation reduces a cable's rating (see <a href="../design/cable-sizing.html">Cable sizing and voltage drop</a>).</li>
+      <li><strong>Fire barriers:</strong> where a cable passes through a wall or floor that resists fire, seal the hole to restore it.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  // [label, path, in safe zone?, explanation]
+  var ROUTES = [
+    ["Straight up from the socket to the ceiling", "M105,190 V20", true, "Vertically in line with the socket: inside its safe zone all the way."],
+    ["Along the top of the wall, under the ceiling", "M20,25 H340", true, "Within 150 mm of the top of the wall: a safe zone."],
+    ["Down the corner of the wall", "M25,20 V220", true, "Within 150 mm of a corner: a safe zone."],
+    ["Horizontally across from the switch", "M254,122 H40", true, "Horizontally in line with the switch: a safe zone."],
+    ["Diagonally from the socket to the switch", "M110,195 L250,125", false, "A diagonal route isn't in any safe zone. Someone hanging a picture could drill straight into it. It would need RCD or mechanical protection."],
+    ["Across the middle of the wall, in line with nothing", "M40,70 H320", false, "There's no accessory at this height, so nobody would expect a cable there. It needs RCD or mechanical protection."],
+    ["Up from the socket, then across to the switch at an angle", "M105,190 V150 L250,122", false, "The vertical part is in the socket's zone, but the angled part leaves every safe zone."]
+  ];
+  ROUTES.forEach(function (r, k) { var o = document.createElement("option"); o.value = k; o.textContent = r[0]; $("rt").appendChild(o); });
+  function show() {
+    var r = ROUTES[+$("rt").value], v = $("rtV"), p = $("route");
+    p.setAttribute("d", r[1]); p.classList.toggle("bad", !r[2]);
+    v.className = "verdict " + (r[2] ? "ok" : "bad");
+    v.querySelector("strong").textContent = r[2] ? "In a safe zone" : "Outside the safe zones";
+    v.querySelector("span").textContent = r[3];
+  }
+  $("rt").addEventListener("change", show); show();
+
+  Course.quiz("#quiz", [
+    { q: "A cable is buried 30 mm deep in a wall. Which route is a safe zone?",
+      options: ["Vertically in line with a socket-outlet", "Diagonally between two sockets", "Across the middle of an empty wall", "Anywhere, if it's in twin and earth"], answer: 0,
+      why: "In line with an accessory, within 150 mm of the ceiling, or within 150 mm of a corner." },
+    { q: "How deep may a vertical chase be cut in a wall?",
+      options: ["One third of the thickness", "One sixth of the thickness", "Half the thickness", "Any depth, if it's filled in"], answer: 0,
+      why: "Vertical: a third. Horizontal: a sixth." },
+    { q: "Where should a hole for a cable be drilled through a joist?",
+      options: ["On the centre line, 0.25 to 0.4 of the span from the support", "Near the top edge, close to the support", "Exactly in the middle of the span", "Near the bottom edge, anywhere along it"], answer: 0,
+      why: "The centre line carries least stress, and that band of the span is where a hole weakens the joist least." },
+    { q: "How deep should a cable to a garden shed be buried where the ground may be double dug?",
+      options: ["150 mm", "300 mm", "500 mm", "600 mm"], answer: 3,
+      why: "At least 500 mm normally, 600 mm where double digging is likely, with marker tape about 150 mm below the surface." },
+    { q: "In old wiring, what was the neutral colour?",
+      options: ["Black", "Blue", "Red", "Yellow"], answer: 0,
+      why: "Old: red line, black neutral. Black is now L2 in three-phase, which is why mixed installations need marking and a caution notice." },
+    { q: "Which cable type is low smoke, zero halogen twin and earth?",
+      options: ["6242B", "6242Y", "6243Y", "6491X"], answer: 0,
+      why: "6242Y is standard PVC twin and earth; 6242B is the LSZH version; 6243Y is three-core and earth." },
+    { q: "A blue conductor is used as a switch wire to a light. What should be done?",
+      options: ["Sleeve it brown at each end", "Sleeve it green and yellow", "Leave it, as blue is fine", "Replace it with red cable"], answer: 0,
+      why: "It's carrying the switched line, so it's re-identified as a line conductor." }
+  ]);
+})();
+</script>
+</body>
+</html>

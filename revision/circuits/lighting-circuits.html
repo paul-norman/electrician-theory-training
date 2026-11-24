@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lighting Circuits</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .comp { fill: var(--surface); stroke: var(--fg); stroke-width: 2.5; }
+  .contact { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .lever { stroke: var(--fg); stroke-width: 3; stroke-linecap: round; }
+  .sw { cursor: pointer; }
+  .sw .hit { fill: transparent; }
+  .sw:focus { outline: none; }
+  .sw:focus-visible .hit { stroke: var(--flow); stroke-width: 2; stroke-dasharray: 3 3; }
+  .glow { fill: var(--flow); }
+  .strap { stroke-dasharray: none; }
+</style>
+</head>
+<body data-lesson="lighting">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <h1>Lighting circuits</h1>
+    <p class="lead">How a lighting circuit is wired from ceiling rose to ceiling rose, and how one light can be switched from one, two or many places.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>A domestic lighting circuit is a radial, usually in 1.0 or 1.5 mm² twin and earth on a 6 A Type B device, with 30 mA <abbr title="residual current device">RCD</abbr> protection. It's wired either by the <strong>loop-in</strong> method, from ceiling rose to ceiling rose, or with <strong>junction boxes</strong>. The switch always goes in the <strong>line</strong>: the cable down to a switch carries the permanent line down and the switched line back, and the blue conductor doing that job is sleeved brown. <strong>One-way</strong> switching controls a light from one place. <strong>Two-way</strong> switching uses two two-way switches joined by two <strong>strappers</strong> (three-core and earth cable), so either switch changes the light. Add <strong>intermediate</strong> switches between them for three or more places. Extra-low voltage lighting is fed through a safety isolating transformer or driver.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>The circuit</h2>
+    <p>Lighting circuits are <strong>radials</strong>: one cable runs out from the consumer unit and on from light to light. A typical domestic circuit uses 1.0 or 1.5 mm² twin and earth, protected by a 6 A Type B circuit breaker or <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> (see <a href="../supply/consumer-units.html">Consumer units and protective devices</a>). In homes, <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> requires 30 mA <abbr title="residual current device">RCD</abbr> protection for lighting circuits (regulation 411.3.4). Splitting the house over two or more lighting circuits means one fault never leaves the whole house in darkness.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Loop-in and junction box wiring</h2>
+    <ul>
+      <li><strong>Loop-in</strong> is the usual method in homes. The circuit cable goes into each ceiling rose and out again to the next, and the switch cable drops from the rose to the switch. All the connections are at the rose, so they can be reached from below.</li>
+      <li><strong>Junction box</strong> wiring puts the connections in a box in the ceiling void, with separate cables to the light and the switch. It's used where a fitting can't take several cables, such as many modern light fittings and downlights. The junction box must stay accessible, unless it's a maintenance-free type.</li>
+    </ul>
+    <p>A loop-in ceiling rose has four sets of terminals:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Terminal block</th><th>What connects there</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Loop (permanent line)</strong></td><td>Line in, line out to the next rose, and the line going down to the switch. Always live, even with the light off.</td></tr>
+          <tr><td><strong>Neutral</strong></td><td>Neutral in, neutral out, and the neutral to the lamp flex.</td></tr>
+          <tr><td><strong>Switch line</strong></td><td>The switched line coming back from the switch (blue conductor sleeved brown), and the brown of the lamp flex.</td></tr>
+          <tr><td><strong>Earth</strong></td><td>All the <abbr title="circuit protective conductor">CPCs</abbr>, sleeved green and yellow, and the earth of the flex for a Class I fitting.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Because the loop terminal is always live, turning a light off at the switch doesn't make the rose safe to work on. Isolate the circuit (see <a href="../testing/safe-isolation.html">Safe isolation</a>).</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Switch the light</h3>
+    </div>
+    <p class="muted" style="font-size:0.9rem">Tap a switch to operate it. Brown is the line, from the supply on the left; blue is the neutral back.</p>
+    <div class="seg" role="group" aria-label="Switching arrangement" id="mode">
+      <button type="button" data-m="one" aria-pressed="false">One-way</button>
+      <button type="button" data-m="two" aria-pressed="true">Two-way</button>
+      <button type="button" data-m="int" aria-pressed="false">Intermediate</button>
+    </div>
+    <div class="stage">
+      <svg id="lsSvg" viewBox="0 0 360 190" role="img" aria-labelledby="w1d" style="max-width:600px;margin:0 auto">
+        <title id="w1d">A lighting circuit drawn with circuit symbols: the line from the supply passes through the switches to a lamp, and the neutral returns along the bottom.</title>
+        <g id="lsG"></g>
+      </svg>
+    </div>
+    <p class="caption" id="lsCap" aria-live="polite"></p>
+  </section>
+
+  <section class="prose">
+    <h2>One-way, two-way and intermediate</h2>
+    <ul>
+      <li><strong>One-way</strong>: a single switch with two terminals, controlling a light from one place. Twin and earth runs to the switch.</li>
+      <li><strong>Two-way</strong>: for a light switched from two places, such as the top and bottom of the stairs. Each two-way switch has a common terminal (COM) and two others (L1 and L2). The two switches are joined by two <strong>strappers</strong> in three-core and earth cable. The light is on when both switches connect their commons to the same strapper; operating either switch changes that.</li>
+      <li><strong>Intermediate</strong>: for three or more places, such as a long landing. Intermediate switches go in the strappers between the two two-way switches. Each one either passes the strappers straight through or crosses them over, so every switch changes the light.</li>
+    </ul>
+    <p>In three-core and earth, the cores are brown, black and grey. Where they're used as strappers or switched lines, they're identified as line conductors (with brown sleeving where needed), because all of them can be live.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Fittings and extra-low voltage lighting</h2>
+    <ul>
+      <li><strong>Class I</strong> light fittings and metal switch plates must be connected to the <abbr title="circuit protective conductor">CPC</abbr>. Even Class II fittings should have a <abbr title="circuit protective conductor">CPC</abbr> available at the point, in case a Class I fitting is fitted later.</li>
+      <li>For Edison screw lampholders, the centre contact goes to the line, so the screw shell that can be touched is on the neutral.</li>
+      <li><strong>Extra-low voltage lighting</strong>, such as 12 V downlights and <abbr title="light-emitting diode">LED</abbr> strip, is fed through a <strong>safety isolating transformer</strong> or <abbr title="light-emitting diode">LED</abbr> driver: 230 V in, extra-low voltage out. Keep the transformer or driver ventilated and accessible, and remember the cables on the low-voltage side carry a much bigger current for the same power.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var st = { m: "two", a: 0, b: 0, i: 0, one: 1 };
+  var YT = 70, YB = 110, YN = 168;   // upper strapper, lower strapper, neutral
+
+  // A switch: lever first (from the common contact), then the contacts on top so they hide its ends.
+  function lever(x1, y1, x2, y2) { return '<line class="lever" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>'; }
+  function contact(x, y) { return '<circle class="contact" cx="' + x + '" cy="' + y + '" r="4"/>'; }
+  function hit(id, x, y, w, h, label, pressed) {
+    return '<g class="sw" data-sw="' + id + '" tabindex="0" role="button" aria-label="' + label + '" aria-pressed="' + pressed + '"><rect class="hit" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="4"/></g>';
+  }
+  function wire(cls, d) { return '<path class="wire ' + cls + '" d="' + d + '"/>'; }
+
+  function draw() {
+    var h = "", lit;
+    document.querySelectorAll("#mode button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-m") === st.m)); });
+    h += '<text class="small" x="8" y="94">L</text><text class="small" x="8" y="' + (YN + 4) + '">N</text>';
+    // lamp and neutral (common to all)
+    h += wire("w-neutral", "M16," + YN + " H320 V112");
+    if (st.m === "one") {
+      lit = st.one === 1;
+      h += wire("w-line", "M16,90 H120 M160,90 H298");
+      h += st.one ? lever(124, 90, 156, 90) : lever(124, 90, 154, 72);
+      h += contact(124, 90) + contact(156, 90);
+      h += '<text class="small" x="140" y="114" text-anchor="middle">one-way switch</text>';
+      h += hit("one", 110, 60, 60, 44, "One-way switch", st.one === 1);
+    } else {
+      var xA = 70, xB = 270, xI1 = 150, xI2 = 190;
+      var aY = st.a ? YB : YT, bY = st.b ? YB : YT;
+      h += wire("w-line", "M16,90 H" + (xA - 4));
+      h += wire("w-line", "M" + (xB + 4) + ",90 H298");
+      if (st.m === "two") {
+        h += wire("w-line", "M" + (xA + 30) + "," + YT + " H" + (xB - 30) + " M" + (xA + 30) + "," + YB + " H" + (xB - 30));
+        lit = st.a === st.b;
+      } else {
+        h += wire("w-line", "M" + (xA + 30) + "," + YT + " H" + (xI1 - 4) + " M" + (xA + 30) + "," + YB + " H" + (xI1 - 4));
+        h += wire("w-line", "M" + (xI2 + 4) + "," + YT + " H" + (xB - 30) + " M" + (xI2 + 4) + "," + YB + " H" + (xB - 30));
+        h += st.i ? lever(xI1, YT, xI2, YB) + lever(xI1, YB, xI2, YT) : lever(xI1, YT, xI2, YT) + lever(xI1, YB, xI2, YB);
+        h += contact(xI1, YT) + contact(xI1, YB) + contact(xI2, YT) + contact(xI2, YB);
+        h += '<text class="small" x="170" y="148" text-anchor="middle">intermediate</text>';
+        h += hit("i", xI1 - 10, YT - 14, xI2 - xI1 + 20, YB - YT + 28, "Intermediate switch", st.i === 1);
+        lit = (st.a ^ st.i) === st.b;
+      }
+      h += lever(xA, 90, xA + 30, aY) + contact(xA, 90) + contact(xA + 30, YT) + contact(xA + 30, YB);
+      h += lever(xB, 90, xB - 30, bY) + contact(xB, 90) + contact(xB - 30, YT) + contact(xB - 30, YB);
+      h += '<text class="small" x="' + (xA + 15) + '" y="148" text-anchor="middle">two-way</text><text class="small" x="' + (xB - 15) + '" y="148" text-anchor="middle">two-way</text>';
+      h += '<text class="small" x="' + (xA - 2) + '" y="80" text-anchor="end">COM</text>';
+      h += hit("a", xA - 10, YT - 14, 50, YB - YT + 28, "Two-way switch 1", st.a === 1);
+      h += hit("b", xB - 40, YT - 14, 50, YB - YT + 28, "Two-way switch 2", st.b === 1);
+      if (st.m === "two") h += '<text class="small" x="170" y="' + (YT - 6) + '" text-anchor="middle">strappers</text>';
+    }
+    // lamp: circle with an X
+    if (lit) h += '<circle class="glow" cx="320" cy="90" r="32" opacity="0.25"/>';
+    h += '<circle class="comp" cx="320" cy="90" r="22"' + (lit ? ' style="fill:color-mix(in srgb, var(--flow) 45%, var(--surface))"' : "") + '/><path d="M304.5,74.5 L335.5,105.5 M335.5,74.5 L304.5,105.5" stroke="var(--fg)" stroke-width="2"/>';
+    $("lsG").innerHTML = h;
+    $("lsCap").textContent = st.m === "one" ? (lit ? "The switch closes the line, so current flows through the lamp." : "The switch breaks the line, so the lamp is off.") :
+      st.m === "two" ? (lit ? "Both commons are on the same strapper, so there's a complete path: the light is on. Operate either switch to turn it off." : "The commons are on different strappers, so there's no path: the light is off. Operate either switch to turn it on.") :
+      (lit ? "There's a complete path through the strappers: the light is on. Every switch, including the intermediate, will turn it off." : "No complete path: the light is off. Any one of the three switches will turn it on.");
+  }
+  var focusId = null;
+  function flip(id) {
+    if (id === "one") st.one ^= 1; else if (id === "a") st.a ^= 1; else if (id === "b") st.b ^= 1; else if (id === "i") st.i ^= 1;
+    draw();
+  }
+  $("lsSvg").addEventListener("click", function (e) { var g = e.target.closest("[data-sw]"); if (g) flip(g.getAttribute("data-sw")); });
+  $("lsSvg").addEventListener("keydown", function (e) {
+    var g = e.target.closest("[data-sw]"); if (!g || (e.key !== "Enter" && e.key !== " ")) return;
+    e.preventDefault(); focusId = g.getAttribute("data-sw"); flip(focusId);
+    var n = $("lsSvg").querySelector('[data-sw="' + focusId + '"]'); if (n) n.focus({ preventScroll: true });
+  });
+  $("mode").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; st.m = b.getAttribute("data-m"); draw(); });
+  draw();
+
+  Course.quiz("#quiz", [
+    { q: "What rating of device usually protects a domestic lighting circuit?",
+      options: ["6 A", "16 A", "20 A", "32 A"], answer: 0,
+      why: "6 A Type B, usually with 1.0 or 1.5 mm² cable." },
+    { q: "In a loop-in ceiling rose, which terminal is always live, even with the light switched off?",
+      options: ["The loop (permanent line) terminal", "The switch line terminal", "The neutral terminal", "The earth terminal"], answer: 0,
+      why: "The line loops through to the next rose and down to the switch, so it's live whatever the switch does." },
+    { q: "Which cable joins two two-way switches?",
+      options: ["Three-core and earth", "Twin and earth", "Single-core flex", "SWA cable"], answer: 0,
+      why: "Three-core and earth carries the two strappers and the common." },
+    { q: "What are the two conductors between two-way switches called?",
+      options: ["Strappers", "Tails", "Spurs", "Loops"], answer: 0,
+      why: "Strappers link the L1 and L2 terminals of the two switches." },
+    { q: "A light is switched from four places. How many intermediate switches are needed?",
+      options: ["1", "2", "3", "4"], answer: 1,
+      why: "Two two-way switches at the ends, and two intermediates between them." },
+    { q: "Why is the blue conductor of a switch cable sleeved brown?",
+      options: ["It carries the switched line, not the neutral", "It's the protective conductor for the switch", "It shows the cable is three-core", "It marks the cable as extra-low voltage"], answer: 0,
+      why: "Any conductor used as a line must be identified as one." },
+    { q: "What supplies 12 V downlights from the 230 V mains?",
+      options: ["A safety isolating transformer or driver", "A dimmer switch rated for 12 V", "A fused connection unit with a 3 A fuse", "An autotransformer with a 12 V tap"], answer: 0,
+      why: "A safety isolating transformer separates the extra-low voltage side from the mains." }
+  ]);
+})();
+</script>
+</body>
+</html>

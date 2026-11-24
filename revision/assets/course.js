@@ -24,7 +24,8 @@
       id: "cables", dir: "cables", title: "Cables",
       desc: "What cables are made of, how they're sized, and why size matters.",
       lessons: [
-        { id: "conductors", file: "conductors-and-cables.html", title: "Conductors and cables", desc: "Metals, cross-sectional area, insulation and heat." }
+        { id: "conductors", file: "conductors-and-cables.html", title: "Conductors and cables", desc: "Metals, cross-sectional area, insulation and heat." },
+        { id: "installing-cables", file: "installing-cables.html", title: "Installing cables", desc: "Cable types, colours old and new, safe zones, joists and buried cables." }
       ]
     },
     {
@@ -35,6 +36,14 @@
         { id: "grid", file: "the-grid.html", title: "The grid and transformers", desc: "From 400 kV to 230 V, and how transformers do it." },
         { id: "your-supply", file: "your-supply.html", title: "Your supply: conductors and earthing", desc: "Who owns what, and what each conductor does." },
         { id: "consumer-units", file: "consumer-units.html", title: "Consumer units and protective devices", desc: "Main switch, MCBs, RCDs, RCBOs, and split-load vs RCBO boards." }
+      ]
+    },
+    {
+      id: "circuits", dir: "circuits", title: "Final circuits",
+      desc: "How lighting and socket circuits are wired, and the rules for extending them.",
+      lessons: [
+        { id: "lighting", file: "lighting-circuits.html", title: "Lighting circuits", desc: "Loop-in wiring, ceiling roses, and one-way, two-way and intermediate switching." },
+        { id: "sockets", file: "socket-circuits.html", title: "Socket circuits: rings and radials", desc: "Ring finals, radials, standard circuits and spur rules." }
       ]
     },
     {
@@ -129,25 +138,52 @@
     var pager = document.getElementById("pager");
     var f = id ? findLesson(id) : null;
     if (f) {
-      var eb = document.querySelector(".lesson-head .eyebrow");
-      if (eb) eb.textContent = f.module.title + " · Lesson " + (f.index + 1) + " of " + f.module.lessons.length;
     }
     if (top) {
       // Path back to the course root: lesson pages and pages that set data-root live one folder down.
       var root = document.body.getAttribute("data-root") || (f ? "../" : "");
-      var html = '<div class="topbar-inner"><span><a href="' + root + 'index.html">Electrical Theory Revision</a>';
-      if (f) html += ' <span class="crumb">/ ' + f.module.title + "</span>";
-      html += "</span>";
-      if (f) {
-        html += '<span class="dots" aria-label="Lessons in ' + f.module.title + '">';
-        f.module.lessons.forEach(function (l, i) {
-          var cls = (l.id === id ? "current" : score(l.id) ? "done" : "");
-          html += '<a class="' + cls + '" href="' + l.file + '" title="' + l.title + '"' + (l.id === id ? ' aria-current="page"' : "") + ">" + (i + 1) + "</a>";
+      var link = function (href, text, extra) { return '<a href="' + href + '"' + (extra || "") + ">" + text + "</a>"; };
+      // One line: site name (and module on wide screens), quick links on wide screens, and the menu button.
+      var html = '<div class="topbar-inner"><span class="brand">' + link(root + "index.html", "Electrical Theory Revision") +
+        (f ? ' <span class="crumb">/ ' + f.module.title + "</span>" : "") + "</span>" +
+        '<span class="toplinks">' + link(root + "exams/", "Exams", ' class="toplink"') + link(root + "review/", "Flashcards", ' class="toplink"') + "</span>" +
+        '<button type="button" class="menu-btn" aria-expanded="false" aria-controls="navpanel"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>Menu</button></div>';
+      // The menu: every module and its lessons (the current module open), then the other pages.
+      html += '<nav class="navpanel" id="navpanel" aria-label="Course contents" hidden><div class="navpanel-inner"><div class="nav-modules">';
+      MODULES.forEach(function (m, mi) {
+        var open = f && f.module === m;
+        html += "<details" + (open ? " open" : "") + '><summary><span class="mn">' + (mi + 1) + "</span>" + m.title + '</summary><ol class="nav-lessons">';
+        m.lessons.forEach(function (l, li) {
+          var cur = f && l.id === id, done = score(l.id);
+          html += '<li class="' + (cur ? "current" : "") + (done ? " done" : "") + '"><a href="' + root + m.dir + "/" + l.file + '"' + (cur ? ' aria-current="page"' : "") + ">" +
+            '<span class="ln">' + (done ? "✓" : li + 1) + "</span>" + l.title + "</a></li>";
         });
-        html += "</span>";
-      }
-      html += '<span class="toplinks"><a class="toplink" href="' + root + 'exams/">Exams</a><a class="toplink" href="' + root + 'review/">Flashcards</a></span>';
-      top.innerHTML = html + "</div>";
+        html += "</ol></details>";
+      });
+      // The other pages: a collapsible group on phones, an always-open column on wider screens.
+      html += '</div><details class="nav-pages"><summary>Quick links</summary><div class="nav-pages-list">' +
+        link(root + "index.html", "Home") + link(root + "overview/", "Start here: becoming an electrician") +
+        link(root + "exams/", "Exams and mock exams") + link(root + "review/", "Flashcards") + link(root + "further-learning/", "Further learning") +
+        "</div></details></div></nav>";
+      top.innerHTML = html;
+      var btn = top.querySelector(".menu-btn"), panel = top.querySelector(".navpanel");
+      var setOpen = function (open, focusBtn) {
+        panel.hidden = !open; btn.setAttribute("aria-expanded", String(open));
+        document.documentElement.classList.toggle("menu-open", open);
+        if (!open && focusBtn) btn.focus();
+      };
+      btn.addEventListener("click", function () { setOpen(panel.hidden); });
+      var pages = panel.querySelector(".nav-pages"), wide = window.matchMedia("(min-width: 721px)");
+      var syncPages = function () { if (wide.matches) pages.open = true; };
+      syncPages();
+      if (wide.addEventListener) wide.addEventListener("change", syncPages);
+      panel.addEventListener("click", function (e) { if (e.target.closest("a")) setOpen(false); });
+      document.addEventListener("click", function (e) { if (!panel.hidden && !top.contains(e.target)) setOpen(false); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panel.hidden) setOpen(false, true); });
+      // Let sticky elements below (such as the mock exam bar) and in-page jumps clear the header.
+      var measure = function () { document.documentElement.style.setProperty("--topbar-h", top.offsetHeight + "px"); };
+      measure();
+      if (window.ResizeObserver) new ResizeObserver(measure).observe(top); else window.addEventListener("resize", measure);
     }
     if (pager && f) {
       var h = "", prev = ALL[f.pos - 1], next = ALL[f.pos + 1];
@@ -340,6 +376,7 @@
     "AC": "alternating current",
     "ADS": "automatic disconnection of supply",
     "AFDD": "arc fault detection device",
+    "BASEC": "British Approvals Service for Cables",
     "BS 7671": "British Standard 7671: the IET Wiring Regulations",
     "CE": "Conformité Européenne: the European conformity mark",
     "CHP": "combined heat and power",
@@ -350,24 +387,33 @@
     "CSA": "cross-sectional area",
     "DC": "direct current",
     "DNO": "distribution network operator",
+    "EAL": "Excellence, Achievement and Learning: the awarding body for the course's exams",
     "EAWR": "Electricity at Work Regulations 1989",
+    "ECS": "Electrotechnical Certification Scheme",
     "EIC": "Electrical Installation Certificate",
     "EICR": "Electrical Installation Condition Report",
     "ELV": "extra-low voltage: not more than 50 V AC or 120 V ripple-free DC",
+    "ENEC": "European Norms Electrical Certification",
     "ESQCR": "Electricity Safety, Quality and Continuity Regulations 2002",
     "EV": "electric vehicle",
+    "EWA": "Experienced Worker Assessment",
     "FCU": "fused connection unit",
     "FVI": "formal visual inspection",
     "HASAWA": "Health and Safety at Work etc. Act 1974",
+    "HBC": "high breaking capacity",
     "HSE": "Health and Safety Executive",
     "IET": "Institution of Engineering and Technology",
     "IP": "ingress protection",
+    "JIB": "Joint Industry Board",
     "LED": "light-emitting diode",
+    "LSZH": "low smoke, zero halogen",
     "MCB": "miniature circuit breaker",
     "MEIWC": "Minor Electrical Installation Works Certificate",
     "MET": "main earthing terminal",
     "NAPIT": "National Association of Professional Inspectors and Testers",
+    "NET": "National Electrotechnical Training",
     "NICEIC": "National Inspection Council for Electrical Installation Contracting",
+    "NVQ": "National Vocational Qualification",
     "PAT": "portable appliance testing",
     "PE": "protective earth",
     "PEFC": "prospective earth fault current",
@@ -389,7 +435,8 @@
     "SWA": "steel wire armoured",
     "TN-C-S": "TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation",
     "TN-S": "TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer",
-    "TT": "TT earthing: the installation has its own earth electrode, with no earth from the supply"
+    "TT": "TT earthing: the installation has its own earth electrode, with no earth from the supply",
+    "UKCA": "UK Conformity Assessed"
   };
   (function () {
     var keys = Object.keys(ACRONYMS).sort(function (a, b) { return b.length - a.length; });

@@ -299,6 +299,14 @@
     { id: "sup-16", lesson: "your-supply", q: "From roughly how many mA through the body is there a risk of the heart going into fibrillation?", a: "About 50 mA", num: 50, tol: 0, unit: "mA" },
     { id: "sup-17", lesson: "your-supply", q: "Someone touches line and neutral at the same time. Why won't an RCD trip?", a: "There's no imbalance: the current still goes out on line and back on neutral", accept: ["no imbalance", "there's no imbalance", "theres no imbalance", "there is no imbalance", "currents balance", "the currents balance", "balanced", "it's balanced", "still balanced", "no difference", "no residual current", "line and neutral still balance"] },
     { id: "sup-18", lesson: "your-supply", q: "What device, fitted after the meter, lets an electrician switch off the whole installation without touching the DNO's equipment?", a: "An isolator (isolator switch)", accept: ["isolator", "an isolator", "isolator switch", "isolating switch", "main isolator", "double pole isolator", "double-pole isolator"] },
+    { id: "sup-19", lesson: "your-supply", q: "Who owns the electricity meter?", a: "The energy supplier (not the DNO)", accept: ["the supplier", "supplier", "energy supplier", "the energy supplier", "electricity supplier", "meter operator"] },
+    { id: "sup-20", lesson: "your-supply", q: "What is the usual maximum rating of the main fuse in a home's cut-out?", a: "100 A (often 60 or 80 A)", num: 100, tol: 0, unit: "A" },
+    { id: "sup-21", lesson: "your-supply", q: "When the DNO withdraws its cut-out fuse, is the neutral isolated too?", a: "No: the neutral passes through on a solid link, so only the line is isolated", accept: ["no", "n"] },
+    { id: "sup-22", lesson: "your-supply", q: "Which device, fitted in the tails after the meter, lets you safely switch off the whole installation?", a: "A double-pole isolator", accept: ["isolator", "double pole isolator", "double-pole isolator", "an isolator", "a double pole isolator", "isolator switch", "double pole isolator switch"] },
+    { id: "sup-23", lesson: "your-supply", q: "What are used to split the meter tails to feed a second consumer unit?", a: "Henley blocks", accept: ["henley blocks", "henley block", "henleys", "a henley block"] },
+    { id: "sup-24", lesson: "your-supply", q: "Minimum clearance between the gas meter and the consumer unit?", a: "150 mm", num: 150, tol: 0, unit: "mm" },
+    { id: "sup-25", lesson: "your-supply", q: "Minimum clearance between gas pipework (up to 35 mm) and electrical cables, switches or sockets?", a: "25 mm", num: 25, tol: 0, unit: "mm" },
+    { id: "sup-26", lesson: "your-supply", q: "Which regulations require the DNO to put its cut-out and meter position somewhere safe?", a: "The ESQCR", accept: ["esqcr", "the esqcr", "electricity safety quality and continuity regulations", "electricity safety, quality and continuity regulations"] },
     // ---------------- Laws and guidance ----------------
     { id: "law-01", lesson: "laws", q: "Documents that are law, such as Acts of Parliament and Regulations, are called ___.", a: "Statutory", accept: ["statutory", "statutory documents"] },
     { id: "law-02", lesson: "laws", q: "Guidance and standards that aren't law themselves, such as BS 7671 and the Approved Documents, are called ___.", a: "Non-statutory", accept: ["non-statutory", "non statutory", "nonstatutory"] },
@@ -350,6 +358,7 @@
     { id: "bs-26", lesson: "bs7671", q: "Any current greater than the rated value, whether an overload or a fault current, is called an ___.", a: "Overcurrent", accept: ["overcurrent", "over current", "over-current"] },
     { id: "bs-27", lesson: "bs7671", q: "An overcurrent caused by a fault of negligible impedance between live conductors, such as line touching neutral, is a ___ current.", a: "Short-circuit current", accept: ["short-circuit", "short circuit", "short-circuit current", "short circuit current"] },
     { id: "bs-28", lesson: "bs7671", q: "BS 7671's term for someone with the education and experience to recognise electrical risks and avoid the dangers:", a: "Skilled person (electrically)", accept: ["skilled person", "skilled", "skilled person electrically", "a skilled person"] },
+    { id: "bs-29", lesson: "bs7671", q: "How far upwards from where a person stands does arm's reach extend?", a: "2.5 m (and 1.25 m sideways or downwards)", num: 2.5, tol: 0, unit: "m" },
 
     // ---------------- Part P and notification ----------------
     { id: "pp-01", lesson: "part-p", q: "Which two countries does Part P apply in?", a: "England and Wales", accept: ["england and wales", "wales and england", "england wales", "england & wales"] },
@@ -480,6 +489,14 @@
     { id: "cu-22", lesson: "consumer-units", q: "What kind of fault does an AFDD detect?", a: "Dangerous arcing, e.g. from a loose connection or damaged cable", accept: ["arc", "arcs", "arcing", "arc faults", "arc fault", "arcing faults", "dangerous arcing"] },
     { id: "cu-23", lesson: "consumer-units", q: "What device and rating usually protects a domestic lighting circuit?", a: "A 6 A Type B MCB (or RCBO)", accept: ["6a", "6 a", "6a type b", "6 a type b", "b6", "6a mcb", "6 a mcb", "6a type b mcb", "6 a type b mcb", "6a rcbo", "6 amp"] },
     { id: "cu-24", lesson: "consumer-units", q: "What rating of device usually protects a 2.5 mm² ring final socket circuit?", a: "32 A", num: 32, tol: 0, unit: "A" },
+    { id: "cu-25", lesson: "consumer-units", q: "What colour dot marks a 30 A rewirable fuse carrier?", a: "Red", accept: ["red"] },
+    { id: "cu-26", lesson: "consumer-units", q: "What colour dot marks a 5 A rewirable fuse carrier (lighting)?", a: "White", accept: ["white"] },
+    { id: "cu-27", lesson: "consumer-units", q: "Which British Standard covers rewirable (semi-enclosed) fuses?", a: "BS 3036", accept: ["bs 3036", "bs3036", "3036"] },
+    { id: "cu-28", lesson: "consumer-units", q: "What fills an HBC cartridge fuse to quench the arc?", a: "Silica sand", accept: ["sand", "silica sand", "silica", "quartz sand"] },
+    { id: "cu-29", lesson: "consumer-units", q: "A short circuit is a fault between which conductors?", a: "Live conductors, such as line and neutral", accept: ["line and neutral", "live conductors", "between live conductors", "neutral and line", "l and n", "line to neutral"] },
+    { id: "cu-30", lesson: "consumer-units", q: "Can a circuit breaker detect a neutral-to-earth fault?", a: "No: it draws no extra current. Only an RCD sees the imbalance", accept: ["no", "n"] },
+    { id: "cu-31", lesson: "consumer-units", q: "On a split-load board, what happens if a circuit's neutral goes to the wrong RCD's neutral bar?", a: "Nuisance tripping: the RCDs see currents that don't balance", accept: ["nuisance tripping", "the rcd trips", "rcds trip", "it trips", "tripping", "the rcds trip"] },
+    { id: "cu-32", lesson: "consumer-units", q: "An SPD's indicator window has turned red. What does it mean?", a: "It has absorbed a surge and needs replacing", accept: ["replace it", "needs replacing", "it has failed", "faulty", "it needs replacing", "it has absorbed a surge", "replace"] },
     // ---------------- Three-phase: why ----------------
     { id: "tp-01", lesson: "three-phase", q: "Single-phase power pulses up and down 100 times a second. What is the total power like with a balanced three-phase load?", a: "Constant: one phase is always near its peak, so the total stays steady", accept: ["constant", "steady", "smooth", "it's constant", "its constant", "constant power", "steady power", "it stays constant", "even", "level"] },
     { id: "tp-02", lesson: "three-phase", q: "Three single-phase circuits need six conductors. Roughly how many does a three-phase supply need to do the same job?", a: "Three or four: three lines, plus a shared neutral that carries almost nothing when balanced", num: 4, tol: 0.25 },
@@ -499,6 +516,9 @@
     { id: "es-11", lesson: "earthing-systems", q: "What's the danger if the PEN conductor breaks on a PME supply?", a: "Earthed and bonded metalwork can rise towards 230 V", accept: ["metalwork becomes live", "earthed metalwork becomes live", "exposed metalwork can become live", "metal parts become live", "earthed metal rises to 230v", "bonded metalwork becomes live", "shock", "electric shock"] },
     { id: "es-12", lesson: "earthing-systems", q: "Amendment 4 added an arrangement where neutral and earth are joined at one point only, near the installation. What is it called?", a: "Protective neutral bonding (PNB)", accept: ["pnb", "protective neutral bonding"] },
     { id: "es-13", lesson: "earthing-systems", q: "May a PME earth be provided to a caravan or boat?", a: "No: the ESQCR doesn't allow it", accept: ["no", "n"] },
+    { id: "es-14", lesson: "earthing-systems", q: "What kind of supply cable usually feeds a TN-C-S (PME) supply?", a: "Concentric cable: a central line with an outer ring of PEN strands", accept: ["concentric", "concentric cable", "a concentric cable"] },
+    { id: "es-15", lesson: "earthing-systems", q: "On a TN-S supply, what part of the old supply cable provides the earth?", a: "Its lead sheath", accept: ["lead sheath", "the sheath", "sheath", "the lead sheath", "metal sheath", "armour", "the armour"] },
+    { id: "es-16", lesson: "earthing-systems", q: "How many main earthing terminals does an installation have?", a: "One (in the consumer unit or a separate block)", num: 1, tol: 0 },
 
     // ---------------- Protective bonding ----------------
     { id: "bond-01", lesson: "bonding", q: "Metal that's part of the electrical equipment and could become live in a fault is called an ___-conductive-part.", a: "Exposed-conductive-part", accept: ["exposed", "exposed-conductive-part", "exposed conductive part"] },
@@ -533,6 +553,40 @@
     { id: "efl-04", lesson: "efl", q: "What multiplier is used on R<sub>1</sub> + R<sub>2</sub> to allow for 70 °C thermoplastic cable at working temperature?", a: "1.20", num: 1.2, tol: 0 },
     { id: "efl-05", lesson: "efl", q: "A B32 needs what earth fault current to be sure of tripping instantly?", a: "160 A (5 × 32 A)", num: 160, tol: 0, unit: "A" },
     { id: "efl-06", lesson: "efl", q: "On a TT system, which device clears an earth fault in time?", a: "An RCD", accept: ["rcd", "an rcd", "residual current device", "rcbo", "an rcbo"] },
+
+    // ---------------- Installing cables ----------------
+    { id: "ic-01", lesson: "installing-cables", q: "A cable buried less than 50 mm in a wall runs vertically from a socket. Is it in a safe zone?", a: "Yes: in line with an accessory", accept: ["yes", "y"] },
+    { id: "ic-02", lesson: "installing-cables", q: "How far below the ceiling does the top safe zone in a wall extend?", a: "150 mm", num: 150, tol: 0, unit: "mm" },
+    { id: "ic-03", lesson: "installing-cables", q: "Maximum depth of a vertical chase, as a fraction of the wall's thickness?", a: "One third", accept: ["1/3", "a third", "one third", "third", "0.33"] },
+    { id: "ic-04", lesson: "installing-cables", q: "Maximum depth of a horizontal chase, as a fraction of the wall's thickness?", a: "One sixth", accept: ["1/6", "a sixth", "one sixth", "sixth", "0.17"] },
+    { id: "ic-05", lesson: "installing-cables", q: "A cable through a joist must be at least how far from the top and bottom edges?", a: "50 mm", num: 50, tol: 0, unit: "mm" },
+    { id: "ic-06", lesson: "installing-cables", q: "Minimum burial depth for a garden cable (no double digging)?", a: "500 mm", num: 500, tol: 0, unit: "mm" },
+    { id: "ic-07", lesson: "installing-cables", q: "How far below the surface should cable marker tape be laid?", a: "About 150 mm", num: 150, tol: 0.1, unit: "mm" },
+    { id: "ic-08", lesson: "installing-cables", q: "What is the type number of standard PVC flat twin and earth cable?", a: "6242Y", accept: ["6242y", "6242 y"] },
+    { id: "ic-09", lesson: "installing-cables", q: "From what date were the harmonised cable colours required?", a: "1 April 2006 (allowed from 31 March 2004)", accept: ["2006", "april 2006", "1 april 2006", "1st april 2006"] },
+    { id: "ic-10", lesson: "installing-cables", q: "In old three-phase wiring, what were the line colours?", a: "Red, yellow and blue (neutral black)", accept: ["red yellow blue", "red, yellow, blue", "red yellow and blue", "red, yellow and blue"] },
+    { id: "ic-11", lesson: "installing-cables", q: "Which mark of conformity is specific to cables?", a: "BASEC", accept: ["basec"] },
+    { id: "ic-12", lesson: "installing-cables", q: "A cable in a partition with metal studs is buried at any depth. Is RCD or earthed-metal protection needed?", a: "Yes, regardless of depth", accept: ["yes", "y"] },
+
+    // ---------------- Lighting circuits ----------------
+    { id: "lc-01", lesson: "lighting", q: "Which terminal of a loop-in ceiling rose is always live?", a: "The loop (permanent line) terminal", accept: ["loop", "the loop", "loop terminal", "permanent line", "line loop", "the loop terminal", "live loop"] },
+    { id: "lc-02", lesson: "lighting", q: "What are the conductors between two two-way switches called?", a: "Strappers", accept: ["strappers", "strapper", "straps"] },
+    { id: "lc-03", lesson: "lighting", q: "Which cable runs between two two-way switches?", a: "Three-core and earth", accept: ["3 core and earth", "three core and earth", "3 core", "three core", "6243y", "3 core & earth"] },
+    { id: "lc-04", lesson: "lighting", q: "Which switch is added between two two-way switches to control a light from a third place?", a: "An intermediate switch", accept: ["intermediate", "an intermediate", "intermediate switch", "an intermediate switch"] },
+    { id: "lc-05", lesson: "lighting", q: "A light is switched from five places. How many intermediate switches?", a: "3", num: 3, tol: 0 },
+    { id: "lc-06", lesson: "lighting", q: "Which regulation requires 30 mA RCD protection for domestic lighting circuits?", a: "411.3.4", accept: ["411.3.4", "regulation 411.3.4"] },
+    { id: "lc-07", lesson: "lighting", q: "What device feeds 12 V downlights from the mains?", a: "A safety isolating transformer (or LED driver)", accept: ["transformer", "safety isolating transformer", "a transformer", "driver", "led driver", "isolating transformer"] },
+    { id: "lc-08", lesson: "lighting", q: "Does switching a light off make its loop-in ceiling rose safe to work on?", a: "No: the loop terminal stays live. Isolate the circuit", accept: ["no", "n"] },
+
+    // ---------------- Socket circuits ----------------
+    { id: "sk-01", lesson: "sockets", q: "Maximum floor area for a 2.5 mm² ring final on a 32 A device?", a: "100 m²", num: 100, tol: 0, unit: "m²" },
+    { id: "sk-02", lesson: "sockets", q: "Maximum floor area for a 4 mm² radial on a 32 A device?", a: "75 m²", num: 75, tol: 0, unit: "m²" },
+    { id: "sk-03", lesson: "sockets", q: "Maximum floor area for a 2.5 mm² radial on a 20 A device?", a: "50 m²", num: 50, tol: 0, unit: "m²" },
+    { id: "sk-04", lesson: "sockets", q: "How many sockets may one non-fused spur from a ring feed?", a: "One single or one double socket", num: 1, tol: 0 },
+    { id: "sk-05", lesson: "sockets", q: "Maximum fuse rating in a fused connection unit?", a: "13 A", num: 13, tol: 0, unit: "A" },
+    { id: "sk-06", lesson: "sockets", q: "A ring cable's current-carrying capacity must be at least what fraction of the device rating?", a: "0.67", num: 0.67, tol: 0.01 },
+    { id: "sk-07", lesson: "sockets", q: "Can a spur be taken from another spur?", a: "No", accept: ["no", "n"] },
+    { id: "sk-08", lesson: "sockets", q: "Guidance: minimum horizontal distance from a kitchen sink to a socket?", a: "300 mm", num: 300, tol: 0, unit: "mm" },
 
     // ---------------- Design current and diversity ----------------
     { id: "dsg-01", lesson: "design-current", q: "Put these in order of size, smallest first: I<sub>z</sub>, I<sub>b</sub>, I<sub>n</sub>", a: "I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub>", accept: ["ib in iz", "ib, in, iz", "ib<in<iz", "ib <= in <= iz", "ib ≤ in ≤ iz", "ib in and iz"] },

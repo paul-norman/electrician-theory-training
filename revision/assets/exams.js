@@ -10,8 +10,8 @@
       questions: 20, minutes: 40, book: "Electrician's Guide to the Building Regulations (7th edition, 2026)", bank: "BANK_BUILDING_REGS",
       covers: ["What the Building Regulations are, and what counts as building work", "Where Part P applies, and where it doesn't",
         "Notifiable and non-notifiable work, in England and in Wales", "Special locations, including the space around a bath or shower",
-        "The three ways to certify notifiable work, and the deadlines", "The other Parts that affect electricians: A, B, C, E, F, L, M and more"],
-      lessons: [["../regulations/laws-and-guidance.html", "Laws and guidance"], ["../regulations/part-p-and-notification.html", "Part P and notification"], ["../regulations/bathrooms.html", "Bathrooms and special locations"]],
+        "The three ways to certify notifiable work, and the deadlines", "The other Parts that affect electricians: A, B, C, E, F, L, M and more", "The mains position (Chapter 3): who owns what, isolation, earthing arrangements and gas clearances"],
+      lessons: [["../regulations/laws-and-guidance.html", "Laws and guidance"], ["../regulations/part-p-and-notification.html", "Part P and notification"], ["../regulations/bathrooms.html", "Bathrooms and special locations"], ["../supply/your-supply.html", "Your supply: conductors and earthing"]],
       tips: ["It's the shortest exam: 2 minutes a question. Most answers are in the Part P chapter, so tab it before the day.",
         "Read whether a question is about England or Wales. The notifiable work is different.",
         "Watch for \"not\" in the question: which is <em>not</em> notifiable, which is <em>not</em> a special location."]

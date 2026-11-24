@@ -36,7 +36,6 @@
 <nav class="topbar" id="topbar"></nav>
 <main class="page">
   <header class="lesson-head">
-    <span class="eyebrow">Supply and distribution</span>
     <h1>Consumer units and protective devices</h1>
     <p class="lead">Every circuit in a home starts at the consumer unit. Here's what's inside it, how each protective device works, and why the way they're arranged decides how much of the house goes dark when something trips.</p>
   </header>
@@ -76,12 +75,40 @@
       <li><strong>Earth bar:</strong> where every circuit's <abbr title="circuit protective conductor">CPC</abbr> connects, linked to the main earthing terminal.</li>
     </ul>
     <p><strong>Layout.</strong> It varies between manufacturers, but in UK consumer units the main switch is commonly on the right, and the circuits are numbered outwards from it, right to left. The highest-rated circuits, such as the cooker or shower, usually go nearest the main switch and lighting furthest away. The circuit chart on the door lists them in the same numbered order.</p>
-    <p>Fires starting in plastic consumer units led to a rule, since 2016, that consumer units in homes must have an enclosure made of non-combustible material, usually steel (or sit inside a non-combustible cabinet). Many also include a <strong>surge protective device</strong> (<abbr title="surge protective device">SPD</abbr>), which diverts voltage spikes from lightning and switching to earth. Some include <strong>arc fault detection devices</strong> (<abbr title="arc fault detection device">AFDDs</abbr>), which spot the electrical signature of a dangerous arc, such as a loose connection or damaged cable, and disconnect before it starts a fire. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> calls for them in some higher-risk buildings and recommends them in others.</p>
+    <p>Fires starting in plastic consumer units led to a rule, since 2016, that consumer units in homes must have an enclosure made of non-combustible material, usually steel (or sit inside a non-combustible cabinet). Many also include a <strong>surge protective device</strong> (<abbr title="surge protective device">SPD</abbr>), which diverts voltage spikes from lightning and switching to earth. Most have a small window that shows green while it's working and red once it has absorbed a large surge and needs replacing. Some include <strong>arc fault detection devices</strong> (<abbr title="arc fault detection device">AFDDs</abbr>), which spot the electrical signature of a dangerous arc, such as a loose connection or damaged cable, and disconnect before it starts a fire. An <abbr title="arc fault detection device">AFDD</abbr> is often combined with an <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> in one module, with a light that flashes a code to show why it tripped. They cost several times as much as an ordinary <abbr title="residual current breaker with overcurrent protection">RCBO</abbr>. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> calls for them in some higher-risk buildings and recommends them in others.</p>
   </section>
 
   <section class="prose">
     <h2>Fuses</h2>
-    <p>The oldest protective device is a <strong>fuse</strong>: a thin conductor that melts and breaks the circuit when too much current flows. You'll meet old rewirable fuses (a length of fuse wire in a carrier, BS 3036) in older homes, cartridge fuses in older fuse boards and cut-outs, and the 3 A or 13 A cartridge fuse in every UK plug (BS 1362). A blown fuse has to be replaced, which is one reason <abbr title="miniature circuit breaker">MCBs</abbr> took over.</p>
+    <p>The oldest protective device is a <strong>fuse</strong>: a thin conductor that melts ("ruptures") and breaks the circuit when too much current flows. It protects against overload and short circuit. A blown fuse has to be replaced, which is one reason <abbr title="miniature circuit breaker">MCBs</abbr> took over. You'll still meet several kinds:</p>
+    <ul>
+      <li><strong>Rewirable (semi-enclosed) fuses, BS 3036:</strong> a length of fuse wire in a carrier, in older fuse boards. Still recognised by <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, but anyone can rewire one with the wrong wire, and they need a bigger cable for the same rating (see <a href="../design/design-current.html">Design current and diversity</a>).</li>
+      <li><strong>Cartridge fuses, BS 1362:</strong> the 3 A and 13 A fuses in plugs and fused connection units.</li>
+      <li><strong>High breaking capacity (<abbr title="high breaking capacity">HBC</abbr>) fuses, BS 88:</strong> BS 88-2 fuses have bolt-on tags, for industrial switchgear; BS 88-3 fuses are cartridges used in some consumer units and fused switches. They're packed with silica sand, which quenches the arc when the element melts.</li>
+    </ul>
+    <p>The carrier of a rewirable fuse has a coloured dot showing its rating. When a fuse board is replaced, each circuit usually gets the nearest circuit breaker rating:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dot colour</th><th>Fuse rating</th><th>Typical circuit</th><th>Usual breaker replacement</th></tr></thead>
+        <tbody>
+          <tr><td>White</td><td class="mono">5 A</td><td>Lighting</td><td class="mono">6 A</td></tr>
+          <tr><td>Blue</td><td class="mono">15 A</td><td>Immersion heater</td><td class="mono">16 A</td></tr>
+          <tr><td>Yellow</td><td class="mono">20 A</td><td>Radial sockets</td><td class="mono">20 A</td></tr>
+          <tr><td>Red</td><td class="mono">30 A</td><td>Ring final, cooker</td><td class="mono">32 A</td></tr>
+          <tr><td>Green</td><td class="mono">45 A</td><td>Shower, large cooker</td><td class="mono">40 or 45 A</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The swap isn't automatic: the circuit still has to be checked. The new device must suit the cable, and the earth fault loop impedance must be within the new device's limit.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Three kinds of fault</h2>
+    <ul>
+      <li><strong>Overload:</strong> too much load on a healthy circuit, such as several 3 kW heaters on one radial. The current is a little too high for a long time, and the cable overheats. The thermal part of a breaker, or a fuse, disconnects it.</li>
+      <li><strong>Short circuit:</strong> a fault between live conductors, such as line touching neutral where a nail has gone through a cable. With almost no resistance left, the current is huge (see <a href="../principles/ohms-law.html">Ohm's law</a>), and the magnetic trip clears it in milliseconds.</li>
+      <li><strong>Earth fault:</strong> a fault between a live conductor and earth, such as line touching a metal case. A line-to-earth fault makes a large current flow through the <abbr title="circuit protective conductor">CPC</abbr>, so a breaker or fuse clears it if the loop impedance is low enough (see <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>), and an <abbr title="residual current device">RCD</abbr> clears it too. A neutral-to-earth fault draws no extra current, so a breaker can't see it; only an <abbr title="residual current device">RCD</abbr> notices the imbalance.</li>
+    </ul>
   </section>
 
   <section class="prose">
@@ -169,6 +196,8 @@
   <section class="prose">
     <h2>Split-load and <abbr title="residual current breaker with overcurrent protection">RCBO</abbr> boards</h2>
     <p>On a <strong>split-load</strong> (or dual-RCD) board, the circuits are divided into two groups, each fed through one <abbr title="residual current device">RCD</abbr> and protected individually by <abbr title="miniature circuit breaker">MCBs</abbr>. It's cheaper, but one fault, or a few small leakages adding up across several circuits, trips the <abbr title="residual current device">RCD</abbr> and takes the whole group off, perhaps half the lights and sockets in the house. Spreading circuits sensibly between the two (upstairs lights with downstairs sockets, say) means a trip never leaves anyone in complete darkness. An <strong><abbr title="residual current breaker with overcurrent protection">RCBO</abbr> board</strong> avoids the problem: only the faulty circuit goes off.</p>
+    <p>Older boards sometimes have an <abbr title="residual current device">RCD</abbr> as the main switch, which is worse still: any earth fault turns off the whole house. A <strong>high-integrity</strong> board has a main switch, two <abbr title="residual current circuit breaker: an RCD without overcurrent protection">RCCBs</abbr> each with its own neutral bar, and a third neutral bar for circuits fed straight from the main switch, which might use <abbr title="residual current breaker with overcurrent protection">RCBOs</abbr> or have no <abbr title="residual current device">RCD</abbr> at all. Getting the neutrals right is essential: each circuit's neutral must go to the bar for the <abbr title="residual current device">RCD</abbr> that carries its line. Put a neutral on the wrong bar and both <abbr title="residual current device">RCDs</abbr> see currents that don't add up, so they trip for no apparent reason ("nuisance tripping").</p>
+    <p>Only fit devices the consumer unit's manufacturer has approved for that board. A breaker from another brand may not fit the busbar properly, which can be unsafe, and it will usually void the manufacturer's warranty.</p>
   </section>
 
   <section class="widget" aria-labelledby="w3">

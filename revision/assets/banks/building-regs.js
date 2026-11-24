@@ -12,7 +12,8 @@
     england: "Notifiable work in England",
     wales: "Notifiable work in Wales",
     cert: "Certification and notification",
-    parts: "Other Parts of the Regulations"
+    parts: "Other Parts of the Regulations",
+    mains: "The mains position"
   };
   var Q = [
     // ---- The Regulations and Approved Documents ----
@@ -286,9 +287,50 @@
       why: "Approved Document 7 supports regulation 7, materials and workmanship.", ref: "Building Regulations 2010, regulation 7; Approved Document 7" },
     { id: "br-110", topic: "parts", q: "Which of these does Approved Document P say is NOT covered by Part P?",
       options: ["Whether a fire alarm system works as intended", "The fire safety of the electrical installation", "Protection against electric shock", "Protection against thermal damage"], answer: 0,
-      why: "Part P covers the safety of the electrical installation, not the functionality of systems such as fire alarms, fans and pumps.", ref: "Approved Document P, paragraph 1.3" }
+      why: "Part P covers the safety of the electrical installation, not the functionality of systems such as fire alarms, fans and pumps.", ref: "Approved Document P, paragraph 1.3" },
+
+    // ---- The mains position ----
+    { id: "br-120", topic: "mains", q: "Which regulations require the DNO to locate its cut-out and meter safely, protected from damage?",
+      options: ["The ESQCR", "The EAWR", "PUWER", "Part P"], answer: 0,
+      why: "The Electricity Safety, Quality and Continuity Regulations place this duty on the distributor.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" },
+    { id: "br-121", topic: "mains", q: "Who owns the cut-out and its main fuse?",
+      options: ["The DNO", "The energy supplier", "The consumer", "The local authority"], answer: 0,
+      why: "The DNO owns the service cable and cut-out; the energy supplier owns the meter; the consumer owns everything after the meter.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" },
+    { id: "br-122", topic: "mains", q: "Who owns the electricity meter?",
+      options: ["The energy supplier", "The DNO", "The consumer", "The electrician who fitted it"], answer: 0,
+      why: "The meter belongs to the energy supplier (through its meter operator).", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" },
+    { id: "br-123", topic: "mains", q: "Where does the consumer's installation start?",
+      options: ["At the meter's outgoing terminals (the meter tails)", "At the DNO's cut-out fuse", "At the consumer unit's main switch", "At the service cable joint in the street"], answer: 0,
+      why: "The tails from the meter to the consumer unit belong to the consumer.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" },
+    { id: "br-124", topic: "mains", q: "An electrician needs to replace a consumer unit and there's no isolator. What should happen?",
+      options: ["Ask the DNO to isolate, or the supplier to fit an isolator", "Withdraw the cut-out fuse and refit it afterwards", "Break the meter seal and disconnect the tails", "Work on the consumer unit live, with care"], answer: 0,
+      why: "The cut-out and meter aren't the electrician's equipment. Interfering with them is an offence.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" },
+    { id: "br-125", topic: "mains", q: "What does withdrawing the DNO's cut-out fuse isolate?",
+      options: ["The line conductor only", "Line and neutral together", "The neutral conductor only", "Line, neutral and earth"], answer: 0,
+      why: "The neutral passes through the cut-out on a solid link, so it stays connected.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" },
+    { id: "br-126", topic: "mains", q: "Which device, fitted after the meter, isolates both line and neutral of the whole installation?",
+      options: ["A double-pole isolator", "A single-pole switch", "An RCD", "A Henley block"], answer: 0,
+      why: "A linked double-pole isolator breaks both live conductors.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" },
+    { id: "br-127", topic: "mains", q: "What is a Henley block used for at the mains position?",
+      options: ["Splitting the tails to feed a second consumer unit", "Isolating the supply during maintenance", "Measuring the energy used by a circuit", "Connecting the earthing conductor to the sheath"], answer: 0,
+      why: "Henley blocks are heavy-duty connectors for splitting the line and neutral tails.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" },
+    { id: "br-128", topic: "mains", q: "What's the minimum clearance between a gas meter and a consumer unit?",
+      options: ["25 mm", "50 mm", "150 mm", "300 mm"], answer: 2,
+      why: "150 mm.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" + ": clearances" },
+    { id: "br-129", topic: "mains", q: "What's the minimum clearance between gas pipework up to 35 mm and electrical switches, sockets and cables?",
+      options: ["10 mm", "25 mm", "50 mm", "150 mm"], answer: 1,
+      why: "25 mm for pipes up to 35 mm; 50 mm for larger pipes.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" + ": clearances" },
+    { id: "br-130", topic: "mains", q: "In a TN-C-S drawing of the mains position, where does the earthing conductor connect?",
+      options: ["To the neutral side of the cut-out", "To the sheath of the supply cable", "To an earth rod in the garden", "To the gas pipe after the meter"], answer: 0,
+      why: "On PME the earth terminal is connected to the supply's combined neutral and earth at the cut-out.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" + ", 3.2: earthing arrangements" },
+    { id: "br-131", topic: "mains", q: "In a TN-S drawing of the mains position, where does the earthing conductor connect?",
+      options: ["To the metal sheath of the supply cable", "To the neutral side of the cut-out", "To an earth rod in the garden", "To the meter's earth terminal"], answer: 0,
+      why: "TN-S uses a separate earth, usually the lead sheath of the supply cable.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" + ", 3.2: earthing arrangements" },
+    { id: "br-132", topic: "mains", q: "What is the usual maximum Z<sub>e</sub> quoted for a TN-C-S supply?",
+      options: ["0.35 Ω", "0.8 Ω", "21 Ω", "200 Ω"], answer: 0,
+      why: "0.35 Ω for TN-C-S, 0.8 Ω for TN-S.", ref: "Electrician\'s Guide to the Building Regulations, Chapter 3 (mains position)" + ", 3.2: earthing arrangements" }
   ];
   // Lessons to revise for each topic (paths from the course root)
-  var LINKS = {"law": [["regulations/laws-and-guidance.html", "Laws and guidance"]], "scope": [["regulations/part-p-and-notification.html", "Part P and notification"]], "england": [["regulations/part-p-and-notification.html", "Part P and notification"], ["regulations/bathrooms.html", "Bathrooms and special locations"]], "wales": [["regulations/part-p-and-notification.html", "Part P and notification"]], "cert": [["regulations/part-p-and-notification.html", "Part P and notification"]], "parts": [["regulations/laws-and-guidance.html", "Laws and guidance"]]};
+  var LINKS = {"law": [["regulations/laws-and-guidance.html", "Laws and guidance"]], "scope": [["regulations/part-p-and-notification.html", "Part P and notification"]], "england": [["regulations/part-p-and-notification.html", "Part P and notification"], ["regulations/bathrooms.html", "Bathrooms and special locations"]], "wales": [["regulations/part-p-and-notification.html", "Part P and notification"]], "cert": [["regulations/part-p-and-notification.html", "Part P and notification"]], "parts": [["regulations/laws-and-guidance.html", "Laws and guidance"], ["cables/installing-cables.html", "Installing cables"]], "mains": [["supply/your-supply.html", "Your supply: conductors and earthing"], ["earthing/earthing-systems.html", "Earthing systems"]]};
   window.BANK_BUILDING_REGS = { topics: TOPICS, questions: Q, links: LINKS };
 })();

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Socket Circuits: Rings and Radials</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .box { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .sock { fill: var(--surface-2); stroke: var(--fg); stroke-width: 1.8; }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); } .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); } .verdict.bad strong { color: var(--bad); }
+  select.wide { width: 100%; max-width: 560px; }
+</style>
+</head>
+<body data-lesson="sockets">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <h1>Socket circuits: rings and radials</h1>
+    <p class="lead">The UK's ring final circuit, the radial circuits that are replacing it in many new homes, and the rules for adding spurs.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>A <strong>ring final circuit</strong> leaves the consumer unit, loops through every socket and returns to the same device, so each socket is fed from both directions. The standard ring is 2.5/1.5 mm² twin and earth on a 30 or 32 A device, serving a floor area of up to 100 m². <strong>Radials</strong> run out and stop: 2.5 mm² on 20 A for up to 50 m², or 4 mm² on 30 or 32 A for up to 75 m². A <strong>non-fused spur</strong> from a ring may feed only one single or double socket (or one fixed appliance), in cable at least as big as the ring, and the number of non-fused spurs mustn't exceed the number of sockets and fixed appliances on the ring itself. A <strong>fused spur</strong> starts at a fused connection unit (13 A maximum), so its cable only needs to suit the fuse. Sockets up to 32 A need 30 mA <abbr title="residual current device">RCD</abbr> protection.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>The ring final circuit</h2>
+    <p>The ring is a British design from the 1940s. Both ends of the cable connect to the same 30 or 32 A device, so current reaches each socket along two parallel paths and the load is shared between the two legs. That lets 2.5 mm² cable, rated well below 32 A on its own, serve a 32 A circuit: <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 15 requires the cable's current-carrying capacity to be at least 0.67 × the device rating.</p>
+    <p>The catch is that a ring needs to stay a ring. A break in one leg leaves every socket still working, fed from one side only, and nobody notices that the remaining cable could now be overloaded. That's what the ring final continuity test finds (see <a href="../testing/dead-tests.html">Dead tests</a>).</p>
+  </section>
+
+  <figure class="widget" aria-labelledby="w0">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="w0">Ring, radial and spurs</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 360 200" role="img" aria-labelledby="w0d" style="max-width:600px;margin:0 auto">
+        <title id="w0d">A consumer unit with a ring circuit leaving and returning to it through five sockets, a non-fused spur to one extra socket, a fused connection unit feeding a fixed appliance, and a separate radial circuit ending at its last socket.</title>
+        <rect class="box" x="10" y="80" width="56" height="44" rx="4"/>
+        <text class="small" x="38" y="106" text-anchor="middle">board</text>
+        <path class="wire w-line" d="M66,92 H90 V30 H300 V160 H90 V112 H66"/>
+        <rect class="sock" x="132" y="22" width="20" height="16" rx="2"/>
+        <rect class="sock" x="212" y="22" width="20" height="16" rx="2"/>
+        <rect class="sock" x="292" y="70" width="16" height="20" rx="2"/>
+        <rect class="sock" x="212" y="152" width="20" height="16" rx="2"/>
+        <rect class="sock" x="132" y="152" width="20" height="16" rx="2"/>
+        <path class="wire w-line" d="M222,38 V64" style="stroke-width:3"/>
+        <rect class="sock" x="212" y="64" width="20" height="16" rx="2"/>
+        <text class="small" x="206" y="76" text-anchor="end">non-fused spur</text>
+        <path class="wire w-line" d="M300,130 H322" style="stroke-width:3"/>
+        <rect x="322" y="121" width="18" height="18" rx="2" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.8"/>
+        <text class="small" x="331" y="153" text-anchor="middle">FCU</text>
+        <text class="small" x="170" y="104" text-anchor="middle">ring: out and back</text>
+        <text class="small" x="170" y="118" text-anchor="middle">to the same device</text>
+        <path class="wire w-line" d="M38,124 V188 H150" style="stroke-width:3"/>
+        <rect class="sock" x="150" y="180" width="20" height="16" rx="2"/>
+        <text class="small" x="178" y="192">radial: stops at the last socket</text>
+      </svg>
+    </div>
+    <p class="caption">One line drawn per cable, for clarity.</p>
+  </figure>
+
+  <section class="prose">
+    <h2>Standard circuits</h2>
+    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 15 and the On-Site Guide (Appendix H) give standard socket circuits that can be used without further calculation, provided the conditions are met (cable lengths, installation method, Z<sub>s</sub>):</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Circuit</th><th>Cable (copper)</th><th>Device</th><th>Maximum floor area served</th></tr></thead>
+        <tbody>
+          <tr><td>Ring final</td><td class="mono">2.5 mm²</td><td class="mono">30 or 32 A</td><td class="mono">100 m²</td></tr>
+          <tr><td>Radial</td><td class="mono">4 mm²</td><td class="mono">30 or 32 A</td><td class="mono">75 m²</td></tr>
+          <tr><td>Radial</td><td class="mono">2.5 mm²</td><td class="mono">20 A</td><td class="mono">50 m²</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>There's no limit on the number of sockets within that floor area, but kitchens and utility rooms, with their heavy appliances, often get a circuit of their own. Many new homes now use radials throughout: they're simpler to test and fault-find, and a broken conductor shows up straight away.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Spurs</h2>
+    <ul>
+      <li><strong>Non-fused spur:</strong> a branch from a ring, taken from a socket's terminals or a junction box on the ring. It may feed <strong>one single or one double socket</strong>, or one fixed appliance, and its cable must be no smaller than the ring's. The number of non-fused spurs must not exceed the number of sockets and fixed appliances connected directly on the ring.</li>
+      <li><strong>Fused spur:</strong> a branch taken through a <strong>fused connection unit</strong> (<abbr title="fused connection unit">FCU</abbr>), with a fuse of no more than 13 A. Because the fuse protects the spur, its cable only has to suit the fuse, not the 32 A device. A fused spur often feeds a fixed appliance such as a boiler, extractor fan or towel rail.</li>
+      <li>Never take a spur from a spur: the extra load would all come through the first spur's cable. (A radial is different: it can branch freely, because every part of it is already sized for the device.)</li>
+    </ul>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Is this spur allowed?</h3>
+    </div>
+    <label for="sp" class="label" style="font-size:0.85rem;font-weight:600">A 2.5 mm² ring on a 32 A device. The proposed work:</label>
+    <select id="sp" class="wide"></select>
+    <div class="verdict" id="spV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">Based on the standard ring final circuit arrangements in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 15 and the On-Site Guide.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Placing sockets</h2>
+    <ul>
+      <li><strong>Height:</strong> in new homes, between 450 and 1200 mm from the floor (Approved Document M; see <a href="../regulations/laws-and-guidance.html">Laws and guidance</a>).</li>
+      <li><strong>Kitchens:</strong> guidance is to keep sockets at least 300 mm horizontally from the edge of a sink, and never above a gas or electric hob. Appliances hidden behind units are fed from sockets or outlets controlled by accessible switches, such as a switched <abbr title="fused connection unit">FCU</abbr> or a grid switch above the worktop.</li>
+      <li><strong>Bathrooms:</strong> at least 3 m from zone 1 (see <a href="../regulations/bathrooms.html">Bathrooms and special locations</a>).</li>
+      <li><strong>Outdoors:</strong> a weatherproof socket with a suitable <abbr title="ingress protection">IP</abbr> rating, with 30 mA <abbr title="residual current device">RCD</abbr> protection.</li>
+    </ul>
+    <p>Every socket-outlet rated up to 32 A needs additional protection by a 30 mA <abbr title="residual current device">RCD</abbr> (regulation 411.3.3), and in homes there's no exception.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var SP = [
+    ["A non-fused spur in 2.5 mm² to one double socket", true, "One single or double socket per non-fused spur, in cable the same size as the ring."],
+    ["A non-fused spur in 2.5 mm² to two double sockets", false, "A non-fused spur may feed only one single or one double socket. For more, use a fused spur or extend the ring."],
+    ["A non-fused spur in 1.5 mm² to one socket", false, "A non-fused spur's cable must be no smaller than the ring's: 2.5 mm² here."],
+    ["A fused spur through a 13 A FCU, in 1.5 mm², to a towel rail", true, "The FCU's fuse protects the spur, so 1.5 mm² cable (rated above 13 A) is fine."],
+    ["A spur taken from an existing non-fused spur", false, "Never spur from a spur. Take it from a socket on the ring itself."],
+    ["A sixth non-fused spur on a ring with five sockets", false, "The number of non-fused spurs mustn't exceed the number of sockets and fixed appliances on the ring itself."],
+    ["A fused spur through a 13 A FCU to a fixed appliance in the loft", true, "A fused spur can feed a fixed appliance, as long as its cable suits the fuse and the installation conditions."]
+  ];
+  SP.forEach(function (r, k) { var o = document.createElement("option"); o.value = k; o.textContent = r[0]; $("sp").appendChild(o); });
+  function show() {
+    var r = SP[+$("sp").value], v = $("spV");
+    v.className = "verdict " + (r[1] ? "ok" : "bad");
+    v.querySelector("strong").textContent = r[1] ? "Allowed" : "Not allowed";
+    v.querySelector("span").textContent = r[2];
+  }
+  $("sp").addEventListener("change", show); show();
+
+  Course.quiz("#quiz", [
+    { q: "What is the maximum floor area served by a standard 2.5 mm² ring final on a 32 A device?",
+      options: ["50 m²", "75 m²", "100 m²", "150 m²"], answer: 2,
+      why: "100 m². A 4 mm² radial on 32 A serves up to 75 m², and a 2.5 mm² radial on 20 A up to 50 m²." },
+    { q: "How many sockets may one non-fused spur from a ring feed?",
+      options: ["One single or one double socket", "Two double sockets", "Up to four sockets", "As many as the floor area allows"], answer: 0,
+      why: "One single or double socket, or one fixed appliance." },
+    { q: "What is the maximum fuse in a fused connection unit feeding a fused spur?",
+      options: ["3 A", "5 A", "13 A", "20 A"], answer: 2,
+      why: "13 A. The fuse protects the spur cable." },
+    { q: "Why can a 2.5 mm² cable be used on a 32 A ring?",
+      options: ["The load is shared between the two legs of the ring", "2.5 mm² cable is rated well above 32 A", "Rings only ever carry a few amps", "The RCD limits the current to 30 mA"], answer: 0,
+      why: "Each socket is fed from both directions, so each leg carries part of the current. The cable must be rated at least 0.67 × the device rating." },
+    { q: "A break develops in one leg of a ring. What happens?",
+      options: ["Every socket still works, but the cable can be overloaded", "Half the sockets stop working at once", "The circuit breaker trips straight away", "The RCD trips because of the imbalance"], answer: 0,
+      why: "The sockets are fed from one side only, so nobody notices. The ring continuity test finds it." },
+    { q: "What's the guidance for kitchen sockets near a sink?",
+      options: ["At least 300 mm horizontally from the edge", "At least 1 m horizontally from the edge", "Only above the sink, out of reach", "No restriction in a kitchen"], answer: 0,
+      why: "Keep them at least 300 mm from the sink's edge, and never above a hob." }
+  ]);
+})();
+</script>
+</body>
+</html>

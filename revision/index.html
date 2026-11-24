@@ -6,27 +6,46 @@
 <title>Electrical Theory Revision</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="assets/course.css">
+<style>
+  /* Flashcards and Exams side by side on wider screens; the button stays at the bottom of each card. */
+  .card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .card-row .callout > div:last-child { margin-top: auto; }
+  /* Foldable boxes: the heading becomes a button; folded boxes show just the heading. */
+  [data-fold] > h3 { display: flex; }
+  .fold-btn { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 12px; text-align: left; }
+  .fold-btn::after { content: ""; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-135deg); margin: 4px 4px 0 0; transition: transform 0.15s; }
+  [data-fold].folded .fold-btn::after { transform: rotate(45deg); margin: 0 4px 4px 0; }
+  [data-fold].folded > :not(h3) { display: none; }
+  .card-row [data-fold].folded { align-self: start; }
+</style>
 </head>
 <body>
 <nav class="topbar" id="topbar"></nav>
 <main class="page">
   <header class="lesson-head">
-    <span class="eyebrow">Revision notes · Level 3 electrical course</span>
     <h1>Electrical Theory Revision</h1>
     <p class="lead">Short lessons on the theory behind the course, grouped by topic. Each one explains the idea in plain English, gives you a diagram to play with, and ends with a quick quiz. Your quiz scores are saved in this browser.</p>
   </header>
 
-  <section class="callout info" id="srsBox">
+  <section class="callout takeaway" data-fold="start">
+    <h3>Start here</h3>
+    <p>New to the course? Read how the qualifications fit together: what "qualified" means in the UK, the routes to it, and where these lessons and the six exams fit in.</p>
+    <div><a class="btn primary" href="overview/">Becoming an electrician</a></div>
+  </section>
+
+  <div class="card-row">
+  <section class="callout info" id="srsBox" data-fold="flashcards">
     <h3>Flashcards</h3>
     <p id="srsMsg">Daily typed-answer flashcards for the key facts in these lessons.</p>
     <div><a class="btn primary" href="review/">Open flashcards</a></div>
   </section>
 
-  <section class="callout info">
+  <section class="callout info" data-fold="exams">
     <h3>Exams</h3>
     <p>The format of each of the six theory exams, exam technique, your exam dates, and random mock exams to practise on.</p>
     <div><a class="btn primary" href="exams/">Open exams</a></div>
   </section>
+  </div>
 
   <div id="videos" class="prose"></div>
 
@@ -41,6 +60,24 @@
 <script src="assets/cards.js"></script>
 <script src="assets/srs.js"></script>
 <script>
+// Foldable boxes: remember which are folded in this browser.
+(function () {
+  document.querySelectorAll("[data-fold]").forEach(function (box) {
+    var key = "rev:fold:" + box.getAttribute("data-fold"), h = box.querySelector("h3");
+    var b = document.createElement("button"); b.type = "button"; b.className = "fold-btn";
+    while (h.firstChild) b.appendChild(h.firstChild);
+    h.appendChild(b);
+    function set(folded, save) {
+      box.classList.toggle("folded", folded);
+      b.setAttribute("aria-expanded", String(!folded));
+      b.setAttribute("aria-label", (folded ? "Show " : "Hide ") + b.textContent.trim());
+      if (save) { try { if (folded) localStorage.setItem(key, "1"); else localStorage.removeItem(key); } catch (e) { /* ignore */ } }
+    }
+    var saved = false; try { saved = localStorage.getItem(key) === "1"; } catch (e) { /* ignore */ }
+    set(saved, false);
+    b.addEventListener("click", function () { set(!box.classList.contains("folded"), true); });
+  });
+})();
 (function () {
   var host = document.getElementById("videos");
   Course.MODULES.forEach(function (v, mi) {
