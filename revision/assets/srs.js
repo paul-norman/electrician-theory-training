@@ -182,6 +182,54 @@
     return i === toks.length ? out : NaN;
   }
 
+  // ---- Word-level matching for written answers ----
+  // Typed answers rarely match a stored phrase exactly, so also compare the meaningful words:
+  // fillers dropped, common synonyms merged, simple endings trimmed.
+  var FILLER = { the: 1, a: 1, an: 1, of: 1, it: 1, its: 1, them: 1, they: 1, is: 1, are: 1, be: 1, to: 1, any: 1, each: 1,
+    all: 1, that: 1, which: 1, up: 1, in: 1, on: 1, at: 1, for: 1, by: 1, and: 1, you: 1, your: 1, one: 1, from: 1, together: 1 };
+  var SYN = { lowest: "smallest", least: "smallest", minimum: "smallest", min: "smallest", lower: "smaller",
+    highest: "largest", biggest: "largest", greatest: "largest", maximum: "largest", max: "largest", higher: "larger", bigger: "larger",
+    input: "supply", source: "supply", applied: "supply", leaving: "out", outgoing: "out", exiting: "out", entering: "in",
+    addition: "add", adding: "add", added: "add", sum: "add", summed: "add", plus: "add", total: "add" };
+  var NEG = { not: 1, no: 1, never: 1, isnt: 1, doesnt: 1, dont: 1, cannot: 1, cant: 1, wont: 1, without: 1, neither: 1, nor: 1 };
+  function stem(w) {
+    if (SYN[w]) return SYN[w];
+    if (w.length > 5 && /ing$/.test(w)) w = w.slice(0, -3);
+    else if (w.length > 4 && /ed$/.test(w)) w = w.slice(0, -2);
+    else if (w.length > 3 && /[^s]s$/.test(w)) w = w.slice(0, -1);
+    return SYN[w] || w;
+  }
+  function words(t) {
+    var n = String(t).replace(/<[^>]*>/g, "").toLowerCase().replace(/['’]/g, "").replace(/\be\s*\.?\s*m\s*\.?\s*f\b\.?/g, "emf");
+    return n.split(/[^a-z0-9]+/).filter(function (w) { return w && !FILLER[w]; }).map(stem);
+  }
+  // The shown answer counts too: as written, without its bracketed part, and the bit before a colon
+  // ("Add them: R = R1 + R2"). Not the bit before a comma: in "Red, yellow, blue" that would accept "red".
+  function variants(card) {
+    var v = (card.accept || []).slice(), a = String(card.a || "").replace(/<[^>]*>/g, "");
+    v.push(a, a.replace(/\([^)]*\)/g, " "), a.split(":")[0]);
+    return v;
+  }
+  function wordMatch(card, typed) {
+    var T = words(typed); if (!T.length) return false;
+    var tShort = T.filter(function (w) { return w.length <= 2 && !NEG[w]; }).sort().join(" ");
+    var tNum = T.join(" ").replace(/\D/g, "");
+    var tNeg = T.some(function (w) { return NEG[w]; });
+    return variants(card).some(function (src) {
+      var V = words(src); if (!V.length) return false;
+      if (!V.some(function (w) { return /^[a-z]{3,}$/.test(w); })) return false;     // needs a real word, not just "ca" or "b"
+      if (V.filter(function (w) { return w.length <= 2 && !NEG[w]; }).sort().join(" ") !== tShort) return false;  // "type b" ≠ "type c"
+      if (V.join(" ").replace(/\D/g, "") !== tNum) return false;                     // numbers must match exactly
+      if (tNeg && !V.some(function (w) { return NEG[w]; })) return false;             // "not the supply" isn't "the supply"
+      var extra = 0;
+      var all = V.every(function (w) {
+        return T.indexOf(w) !== -1 || (w.length >= 5 && T.some(function (t) { return t.length >= 5 && lev(t, w) <= 1; }));
+      });
+      T.forEach(function (w) { if (V.indexOf(w) === -1) extra++; });
+      return all && extra <= Math.min(2, V.length - 1);   // a few extra words, never more than the words that matched
+    });
+  }
+
   // Returns { ok, typo } for a card. Numeric cards: card.num (+ optional card.tol, a fraction, default 0.02).
   function check(card, typed) {
     if (!String(typed).trim()) return { ok: false };
@@ -195,6 +243,7 @@
     var n = norm(typed);
     var accept = (card.accept || []).map(norm);
     if (accept.indexOf(n) !== -1) return { ok: true };
+    if (wordMatch(card, typed)) return { ok: true };
     // Allow one typo in longer word answers (not in short symbols like "I" or "R"),
     // but never one that changes a number: "sqrt2" must not pass for "sqrt3".
     // Nor one that changes a short word: "type a" must not pass for "type b", or "part p" for "part b".
