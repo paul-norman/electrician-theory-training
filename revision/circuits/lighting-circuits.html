@@ -77,7 +77,7 @@
     </div>
     <div class="stage">
       <svg id="plSvg" viewBox="0 0 360 240" role="img" aria-labelledby="wpd" style="max-width:600px;margin:0 auto">
-        <title id="wpd">Two lights on one circuit, each with its own switch on the wall below. The diagram shows which way the twin and earth cables run for the wiring method chosen.</title>
+        <title id="wpd">Two lights on one circuit, each with its own switch on the wall below. The diagram shows which way the twin and earth cables run for the wiring method chosen. Each cable shows its three cores side by side: brown line, green-and-yellow protective conductor and blue neutral. In the three-plate method, the blue core of each switch cable has brown sleeving at both ends because it carries the switched line.</title>
       </svg>
     </div>
     <div class="table-wrap">
@@ -269,12 +269,43 @@
     "3": "Three-plate (loop-in): the supply loops from rose to rose. The switch cable carries the permanent line down and the switched line back up, on the blue conductor sleeved brown.",
     "2": "Two-plate: the supply loops from switch to switch. The cable up to the light carries the switched line (brown) and the neutral (blue), so the blue really is a neutral here."
   };
+  // Parse an "M x,y H.. V.." path into corner points.
+  function pts(d) {
+    var out = [], x = 0, y = 0, re = /([MHV])\s*([-\d.]+)(?:,([-\d.]+))?/g, m;
+    while ((m = re.exec(d))) {
+      if (m[1] === "M") { x = +m[2]; y = +m[3]; } else if (m[1] === "H") x = +m[2]; else y = +m[2];
+      out.push([x, y]);
+    }
+    return out;
+  }
+  // Offset a right-angled polyline sideways by o (mitred corners), so the cores run side by side.
+  function offset(P, o) {
+    var n = function (a, b) { var dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy) || 1; return [-dy / l, dx / l]; };
+    return P.map(function (p, i) {
+      var n1 = i > 0 ? n(P[i - 1], p) : null, n2 = i < P.length - 1 ? n(p, P[i + 1]) : null;
+      if (n1 && n2 && (n1[0] !== n2[0] || n1[1] !== n2[1])) return [p[0] + (n1[0] + n2[0]) * o, p[1] + (n1[1] + n2[1]) * o];
+      var k = n1 || n2; return [p[0] + k[0] * o, p[1] + k[1] * o];
+    });
+  }
+  var dstr = function (P) { return P.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(""); };
+  var plen = function (P) { var t = 0; for (var i = 1; i < P.length; i++) t += Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]); return t; };
+  // A twin and earth cable: pale sheath, then brown line, green-and-yellow CPC and blue neutral side by side.
+  // sleeved: the blue core is used as a switched line, so it gets brown sleeving at each end.
+  function cable(d, sleeved) {
+    var P = pts(d), h = '<path d="' + d + '" fill="none" stroke="var(--muted)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.28"/>';
+    var L = offset(P, -2.8), E = offset(P, 0), N = offset(P, 2.8);
+    h += '<path class="wire w-line" d="' + dstr(L) + '" stroke-width="2"/>';
+    h += '<path class="wire w-cpc-g" d="' + dstr(E) + '" stroke-width="2"/><path class="wire w-cpc-y" d="' + dstr(E) + '" stroke-width="2" style="stroke-dasharray:4 4"/>';
+    h += '<path class="wire w-neutral" d="' + dstr(N) + '" stroke-width="2"/>';
+    if (sleeved) { var len = plen(N); h += '<path class="wire w-line" d="' + dstr(N) + '" stroke-width="2.6" stroke-linecap="butt" style="stroke-dasharray:12 ' + (len - 24).toFixed(1) + ' 12"/>'; }
+    return h;
+  }
   function draw() {
     document.querySelectorAll("#plate button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-p") === mode)); });
     var h = '<rect x="0" y="0" width="360" height="74" fill="var(--surface-2)"/><line x1="0" y1="74" x2="360" y2="74" stroke="var(--rule)" stroke-width="2"/>';
     h += '<text class="small" x="180" y="18" text-anchor="middle">ceiling void</text><text class="small" x="354" y="232" text-anchor="end">wall</text>';
     // cables first, so the roses, lamps and switches sit on top of their ends
-    C[mode].forEach(function (d) { h += '<path d="' + d + '" fill="none" stroke="var(--muted)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>'; });
+    C[mode].forEach(function (d, i) { h += cable(d, mode === "3" && i >= 3); });
     [120, 280].forEach(function (x) {
       h += '<line x1="' + x + '" y1="80" x2="' + x + '" y2="106" stroke="var(--fg)" stroke-width="2"/>';
       h += '<circle class="comp" cx="' + x + '" cy="118" r="12"/><path d="M' + (x - 8.5) + ',109.5 l17,17 M' + (x + 8.5) + ',109.5 l-17,17" stroke="var(--fg)" stroke-width="1.8"/>';
