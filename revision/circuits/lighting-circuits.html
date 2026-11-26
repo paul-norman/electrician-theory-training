@@ -92,6 +92,19 @@
     <p class="caption" id="plCap" aria-live="polite"></p>
   </section>
 
+  <section class="widget" aria-labelledby="wcu">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="wcu">Close up: the connections</h3>
+    </div>
+    <p class="muted" style="font-size:0.9rem">Follows the Three-plate / Two-plate choice above. Schematic: real roses and switches lay their terminals out differently from brand to brand.</p>
+    <div class="stage">
+      <svg id="cuW" class="only-wide" viewBox="0 0 660 268" role="img" aria-labelledby="cuWd" style="max-width:660px;margin:0 auto"><title id="cuWd">Inside the ceiling rose and the switch for the wiring method chosen, showing which terminal each core goes to.</title><g id="cuWg"></g></svg>
+      <svg id="cuN" class="only-narrow" viewBox="0 0 320 540" role="img" aria-labelledby="cuNd" style="max-width:360px;margin:0 auto"><title id="cuNd">Inside the ceiling rose and the switch for the wiring method chosen, showing which terminal each core goes to.</title><g id="cuNg"></g></svg>
+    </div>
+    <p class="caption" id="cuCap" aria-live="polite"></p>
+  </section>
+
   <section class="prose">
     <p>Neither is wrong. Three-plate suits a rewire where existing conduit drops to each switch, because only one cable has to go down it. Two-plate is common in new builds: a heavy fitting (that crystal chandelier from John Lewis) only needs one cable connecting, and there's a neutral at every switch. That neutral is handy for smart and electronic switches, or for adding an outside light by the front door from the hall switch. Two-plate switch boxes get crowded, so use deep ones: at least 35 mm.</p>
     <p>Never take a neutral from a <strong>different circuit</strong> because it's handy (a <strong>borrowed neutral</strong>). The current wouldn't match in each circuit's line and neutral, so an <abbr title="residual current device">RCD</abbr> trips. Worse, isolating one circuit can leave the borrowed neutral carrying current from the other. Where there's no neutral at a switch, use three-core and earth, or get the neutral from the same circuit at the rose.</p>
@@ -347,8 +360,78 @@
   }
   $("plSvg").addEventListener("click", function (e) { flipPl(e, false); });
   $("plSvg").addEventListener("keydown", function (e) { if ((e.key === "Enter" || e.key === " ") && e.target.closest(".sw")) { e.preventDefault(); flipPl(e, true); } });
-  document.querySelectorAll("#plate button").forEach(function (b) { b.addEventListener("click", function () { mode = b.getAttribute("data-p"); draw(); }); });
-  draw();
+  // ---- Close-up of the rose and switch terminals ----
+  // Each panel is 320 × 250. A block is [label, centre x, width, slot xs, unused?]; a core is
+  // [colour, from x (sheath), "top"|"bottom", block index, slot index, sleeved?].
+  var BLK_Y = 150, BLK_H = 22;
+  var COL = { L: "var(--line)", N: "var(--neutral)", E: "cpc" };
+  function core(c, x0, side, tx, lvl, sleeved) {
+    var y0 = side === "top" ? 44 : 236, ty = side === "top" ? BLK_Y : BLK_Y + BLK_H;
+    var P = [[x0, y0], [x0, lvl], [tx, lvl], [tx, ty]];
+    var d = dstr(P), h;
+    if (c === "E") h = '<path class="wire w-cpc-g" d="' + d + '" stroke-width="2.4"/><path class="wire w-cpc-y" d="' + d + '" stroke-width="2.4" style="stroke-dasharray:2.5 4.5;stroke-linecap:butt"/>';
+    else h = '<path class="wire" d="' + d + '" stroke="' + COL[c] + '" stroke-width="2.4"/>';
+    if (sleeved) { var len = plen(P); h += '<path class="wire w-line" d="' + d + '" stroke-width="3" stroke-linecap="butt" style="stroke-dasharray:12 ' + (len - 24).toFixed(1) + ' 12"/>'; }
+    return h;
+  }
+  function panel(title, body, blocks, cables, flex) {
+    var h = '<text class="small" x="160" y="10" text-anchor="middle" style="font-weight:600;fill:var(--fg)">' + title + '</text>';
+    h += body;
+    var lvl = 58, lvlB = 226;
+    cables.forEach(function (cb) {
+      h += '<path d="M' + cb.x + ',24 V46" stroke="var(--muted)" stroke-width="13" stroke-linecap="round" opacity="0.35" fill="none"/>';
+      cb.cores.forEach(function (k, i) {
+        var b = blocks[k[1]], tx = b[3][k[2]];
+        h += core(k[0], cb.x + (i - 1) * 4, "top", tx, lvl, k[3]); lvl += 9;
+      });
+      if (cb.label) h += '<text class="small" x="' + (cb.x + 10) + '" y="32" style="font-size:9.5px">' + cb.label + '</text>';
+    });
+    if (flex) {
+      h += '<path d="M' + flex.x + ',252 V240" stroke="var(--muted)" stroke-width="13" stroke-linecap="round" opacity="0.35" fill="none"/>';
+      flex.cores.forEach(function (k, i) { var b = blocks[k[1]]; h += core(k[0], flex.x + (i - 1) * 4, "bottom", b[3][k[2]], lvlB, false); lvlB -= 9; });
+      h += '<text class="small" x="' + (flex.x + 10) + '" y="250" style="font-size:9.5px">flex to the lamp</text>';
+    }
+    blocks.forEach(function (b) {
+      if (!b) return;
+      h += '<rect x="' + (b[1] - b[2] / 2) + '" y="' + BLK_Y + '" width="' + b[2] + '" height="' + BLK_H + '" rx="3" fill="' + (b[4] ? "var(--surface-2)" : "var(--surface)") + '" stroke="' + (b[4] ? "var(--muted)" : "var(--fg)") + '" stroke-width="1.5"/>';
+      h += '<text x="' + b[1] + '" y="' + (BLK_Y + 15) + '" text-anchor="middle" style="font-size:9.5px;font-weight:600;fill:' + (b[4] ? "var(--muted)" : "var(--fg)") + '">' + b[0] + '</text>';
+    });
+    return h;
+  }
+  var slots = function (c, n, w) { var o = []; for (var i = 0; i < n; i++) o.push(c - w / 2 + w * (i + 1) / (n + 1)); return o; };
+  function roseSvg() {
+    var body = '<rect x="8" y="38" width="304" height="192" rx="26" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>';
+    var two = mode === "2";
+    var B = [["loop L", 55, 60, slots(55, 3, 60), two], ["neutral", 125, 60, slots(125, 3, 60)], ["switch line", 195, 64, slots(195, 3, 64)], ["earth", 268, 64, slots(268, 4, 64)]];
+    if (two) { B[2][0] = "switched L"; B[0][0] = "not used"; }
+    var cables = two ? [{ x: 160, label: "from the switch", cores: [["L", 2, 0], ["E", 3, 0], ["N", 1, 0]] }]
+      : [{ x: 40, label: "in", cores: [["L", 0, 0], ["E", 3, 0], ["N", 1, 0]] },
+         { x: 160, label: "to switch", cores: [["L", 0, 2], ["E", 3, 2], ["N", 2, 0, true]] },
+         { x: 280, label: "out", cores: [["L", 0, 1], ["E", 3, 1], ["N", 1, 1]] }];
+    var flex = { x: 160, cores: [["L", 2, two ? 1 : 1], ["E", 3, 3], ["N", 1, 2]] };
+    return panel("Ceiling rose, cover off", body, B, cables, flex);
+  }
+  function switchSvg() {
+    var body = '<rect x="20" y="38" width="280" height="192" rx="8" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>';
+    var two = mode === "2";
+    var B = [["COM", 60, 50, slots(60, 2, 50)], ["L1", 120, 40, slots(120, 1, 40)], ["L2", 172, 40, slots(172, 1, 40), true], ["neutrals", 230, 56, slots(230, 3, 56), !two], ["earth", 280, 32, slots(280, 3, 32)]];
+    if (!two) B[3] = null;
+    var cables = two ? [{ x: 50, label: "in", cores: [["L", 0, 0], ["E", 4, 0], ["N", 3, 0]] },
+                         { x: 150, label: "out", cores: [["L", 0, 1], ["E", 4, 1], ["N", 3, 1]] },
+                         { x: 250, label: "to light", cores: [["L", 1, 0], ["E", 4, 2], ["N", 3, 2]] }]
+      : [{ x: 100, label: "from the rose", cores: [["L", 0, 0], ["E", 4, 1], ["N", 1, 0, true]] }];
+    return panel("Switch, from behind (in its back box)", body, B, cables, null);
+  }
+  function drawCU() {
+    var r = roseSvg(), w = switchSvg();
+    $("cuWg").innerHTML = '<g transform="translate(0,12)">' + r + '</g><g transform="translate(340,12)">' + w + "</g>";
+    $("cuNg").innerHTML = '<g transform="translate(0,10)">' + r + '</g><g transform="translate(0,286)">' + w + "</g>";
+    $("cuCap").textContent = mode === "3"
+      ? "Three-plate: the rose's loop terminal joins the incoming, outgoing and switch-cable line cores. The switch cable's blue (sleeved brown) brings the switched line back to the switch-line terminal, which feeds the lamp's brown. At the switch, the permanent line goes to COM and the switched line to L1. Every CPC goes to an earth terminal."
+      : "Two-plate: the rose only needs two terminals, switched line and neutral (plus earth). At the switch, the incoming and outgoing line cores share COM, the cable to the light takes the switched line from L1, and the three neutrals are joined in a connector in the back box.";
+  }
+  document.querySelectorAll("#plate button").forEach(function (b) { b.addEventListener("click", function () { mode = b.getAttribute("data-p"); draw(); drawCU(); }); });
+  draw(); drawCU();
 })();
 </script>
 </body>
