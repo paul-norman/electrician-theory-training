@@ -14,7 +14,7 @@
   .verdict.ok { background: var(--ok-bg); } .verdict.ok strong { color: var(--ok); }
   .verdict.bad { background: var(--bad-bg); } .verdict.bad strong { color: var(--bad); }
   select.wide { width: 100%; max-width: 560px; }
-  #rrSvg.wide-text text { font-size: 8px; }
+  #rrSvg.wide-text text, #spSvg.wide-text text { font-size: 8px; }
 </style>
 </head>
 <body data-lesson="sockets">
@@ -27,8 +27,42 @@
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p>A <strong>ring final circuit</strong> leaves the consumer unit, loops through every socket and returns to the same device, so each socket is fed from both directions. The standard ring is 2.5/1.5 mm² twin and earth on a 30 or 32 A device, serving a floor area of up to 100 m². <strong>Radials</strong> run out and stop: 2.5 mm² on 20 A for up to 50 m², or 4 mm² on 30 or 32 A for up to 75 m². A <strong>non-fused spur</strong> from a ring may feed only one single or double socket (or one fixed appliance), in cable at least as big as the ring, and the number of non-fused spurs mustn't exceed the number of sockets and fixed appliances on the ring itself. A <strong>fused spur</strong> starts at a fused connection unit (13 A maximum), so its cable only needs to suit the fuse. Sockets up to 32 A need 30 mA <abbr title="residual current device">RCD</abbr> protection.</p>
+    <p>A <strong>ring final circuit</strong> leaves the consumer unit, loops through every socket and returns to the same device, so each socket is fed from both directions. It isn't a short circuit: both ends of the line go into the same breaker terminal, both neutrals into the neutral bar and both <abbr title="circuit protective conductor">CPCs</abbr> into the earth bar, so line only ever meets line. The standard ring is 2.5/1.5 mm² twin and earth on a 30 or 32 A device, serving a floor area of up to 100 m². <strong>Radials</strong> run out and stop: 2.5 mm² on 20 A for up to 50 m², or 4 mm² on 30 or 32 A for up to 75 m². A <strong>non-fused spur</strong> from a ring may feed only one single or double socket (or one fixed appliance), in cable at least as big as the ring, and the number of non-fused spurs mustn't exceed the number of sockets and fixed appliances on the ring itself. A <strong>fused spur</strong> starts at a fused connection unit (13 A maximum), so its cable only needs to suit the fuse. Sockets up to 32 A need 30 mA <abbr title="residual current device">RCD</abbr> protection.</p>
   </aside>
+
+  <section class="prose">
+    <h2>How can both ends go back to the board?</h2>
+    <p>It looks wrong at first: a cable that leaves the board and comes straight back sounds like a short circuit. The trick is to stop thinking about the <em>cable</em> and think about each <strong>conductor</strong> on its own.</p>
+    <ul>
+      <li>Both ends of the <strong>brown</strong> (line) go into the <strong>same</strong> terminal of the circuit breaker. So the brown is one closed loop, and every point on it is at 230 V.</li>
+      <li>Both ends of the <strong>blue</strong> (neutral) go into the neutral bar: another closed loop, at 0 V.</li>
+      <li>Both ends of the <strong><abbr title="circuit protective conductor">CPC</abbr></strong> go into the earth bar.</li>
+    </ul>
+    <p>Line only ever meets line, and neutral meets neutral, so nothing is shorted. A short circuit is line touching <em>neutral</em>. Each socket simply bridges the brown loop to the blue loop. When something is plugged in, current can reach it from the breaker by going either way round the brown loop, and it returns either way round the blue. It's like a ring main of water pipe fed from one tap: the water can reach any outlet from both directions.</p>
+    <p>Because there are two routes, the current shares itself between them: more goes the short way, less the long way (the shorter path has less resistance; see <a href="../principles/series-and-parallel.html">Series and parallel circuits</a>). With the load in the middle, each leg carries half. That sharing is the whole point of a ring, and it's why the cable can be thinner than the breaker rating suggests.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="wsplit">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="wsplit">How the current shares between the two legs</h3>
+    </div>
+    <div class="stage">
+      <svg id="spSvg" viewBox="0 0 360 214" role="img" aria-labelledby="wsplitd" style="max-width:600px;margin:0 auto">
+        <title id="wsplitd">The line conductor of a ring drawn as a loop starting and ending at the same breaker terminal. One socket with a load sits somewhere on the loop. Moving dashes show the current reaching it along both legs: faster and thicker on the shorter leg, which carries more of the current.</title>
+        <g id="spG"></g>
+      </svg>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="spPos">Where the socket is on the ring</label><div class="slider"><input type="range" id="spPos" min="5" max="95" step="1" value="30"><output id="spPosO" for="spPos"></output></div></div>
+      <div class="ctl"><label for="spI">Current drawn by what's plugged in</label><div class="slider"><input type="range" id="spI" min="1" max="20" step="0.5" value="13"><output id="spIO" for="spI"></output></div></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Leg A, from the top end</span><span class="v" id="spA">—</span><span class="s" id="spAs"></span></div>
+      <div class="ro"><span class="k">Leg B, from the bottom end</span><span class="v" id="spB">—</span><span class="s" id="spBs"></span></div>
+    </div>
+    <p class="caption">Only the line conductor is drawn. The neutral is a second loop alongside it, and the current comes back to the board along both of its legs in the same proportions.</p>
+  </section>
 
   <section class="prose">
     <h2>The ring final circuit</h2>
@@ -217,6 +251,49 @@
   var g = document.getElementById("rrCables");
   g.innerHTML = g.getAttribute("data-c").split("|").map(cable).join("");
   var svg = document.getElementById("rrSvg");
+  Course.layout(svg.parentNode, 600, function (m) { svg.classList.toggle("wide-text", m === "wide"); });
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  // The ring's line conductor as one loop: out from the breaker terminal, round, and back to the same terminal.
+  var LOOP = [[66, 96], [100, 96], [100, 34], [320, 34], [320, 180], [100, 180], [100, 118], [66, 118]];
+  var seg = [], total = 0;
+  for (var i = 1; i < LOOP.length; i++) { var l = Math.hypot(LOOP[i][0] - LOOP[i - 1][0], LOOP[i][1] - LOOP[i - 1][1]); seg.push(l); total += l; }
+  // inner length (excluding the short tails in the board) is what the slider runs along
+  var tail = seg[0], inner = total - seg[0] - seg[seg.length - 1];
+  function at(d) { for (var i = 0; i < seg.length; i++) { if (d <= seg[i]) { var f = d / seg[i]; return [LOOP[i][0] + (LOOP[i + 1][0] - LOOP[i][0]) * f, LOOP[i][1] + (LOOP[i + 1][1] - LOOP[i][1]) * f, i]; } d -= seg[i]; } return LOOP[LOOP.length - 1].concat([seg.length - 1]); }
+  function upTo(d) { var p = at(d), out = LOOP.slice(0, p[2] + 1); out.push([p[0], p[1]]); return out; }
+  function from(d) { var p = at(d); return [[p[0], p[1]]].concat(LOOP.slice(p[2] + 1)); }
+  var ds = function (P) { return P.map(function (q, i) { return (i ? "L" : "M") + q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(""); };
+  function draw() {
+    var f = +$("spPos").value / 100, I = +$("spI").value, d = tail + f * inner, p = at(d);
+    var ia = I * (1 - f), ib = I * f; // current divides in inverse proportion to each leg's length
+    var h = "";
+    h += '<path class="wire w-line" d="' + ds(LOOP) + '"/>';
+    h += '<path class="flow" id="spFa" d="' + ds(upTo(d)) + '"/>';
+    h += '<path class="flow" id="spFb" d="' + ds(from(d).slice().reverse()) + '"/>';
+    // breaker with its one line terminal, and the socket
+    h += '<rect x="12" y="78" width="54" height="58" rx="4" fill="var(--surface)" stroke="var(--fg)" stroke-width="2"/>';
+    h += '<text x="39" y="102" text-anchor="middle" class="small">breaker</text><text x="39" y="116" text-anchor="middle" class="small">32 A</text>';
+    h += '<circle cx="66" cy="107" r="4" fill="var(--fg)"/><path d="M66,96 V118" stroke="var(--fg)" stroke-width="2"/>';
+    h += '<rect x="' + (p[0] - 12) + '" y="' + (p[1] - 10) + '" width="24" height="20" rx="3" fill="var(--surface-2)" stroke="var(--fg)" stroke-width="1.8"/>';
+    h += '<text x="200" y="106" text-anchor="middle" class="small">both ends of the brown</text><text x="200" y="120" text-anchor="middle" class="small">go into the same terminal</text>';
+    h += '<text x="110" y="26" class="small" style="fill:var(--flow)">leg A</text><text x="110" y="200" class="small" style="fill:var(--flow)">leg B</text>';
+    $("spG").innerHTML = h;
+    Course.setFlow($("spFa"), ia, 13); Course.setFlow($("spFb"), ib, 13);
+    // dash thickness follows each leg's share of the current, so the busier leg stands out
+    $("spFa").style.strokeWidth = (2 + 6 * (1 - f)).toFixed(1); $("spFb").style.strokeWidth = (2 + 6 * f).toFixed(1);
+    $("spPosO").textContent = Math.round(f * 100) + "% of the way round";
+    $("spIO").textContent = I + " A";
+    $("spA").textContent = Course.sig(ia, 3) + " A"; $("spAs").textContent = Math.round((1 - f) * 100) + "% of the current";
+    $("spB").textContent = Course.sig(ib, 3) + " A"; $("spBs").textContent = Math.round(f * 100) + "% of the current";
+  }
+  ["spPos", "spI"].forEach(function (id) { $(id).addEventListener("input", draw); });
+  draw();
+  var svg = $("spSvg");
   Course.layout(svg.parentNode, 600, function (m) { svg.classList.toggle("wide-text", m === "wide"); });
 })();
 </script>
