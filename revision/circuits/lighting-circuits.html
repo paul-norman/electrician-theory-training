@@ -309,7 +309,7 @@
   }
   function draw() {
     document.querySelectorAll("#plate button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-p") === mode)); });
-    var h = '<rect x="0" y="0" width="360" height="74" fill="var(--surface-2)"/><line x1="0" y1="74" x2="360" y2="74" stroke="var(--rule)" stroke-width="2"/>';
+    var h = '<rect x="0" y="74" width="360" height="166" fill="var(--surface)"/><rect x="0" y="0" width="360" height="74" fill="var(--muted)" opacity="0.14"/><line x1="0" y1="74" x2="360" y2="74" stroke="var(--rule)" stroke-width="2"/>';
     h += '<text class="small" x="180" y="18" text-anchor="middle">ceiling void</text><text class="small" x="354" y="232" text-anchor="end">wall</text>';
     // cables first, so the roses, lamps and switches sit on top of their ends
     C[mode].forEach(function (d, i) { h += cable(d, mode === "3" && i >= 3); });
@@ -335,9 +335,6 @@
       h += '<rect x="' + (x - 5) + '" y="' + (on[k] ? 184 : 193) + '" width="10" height="9" rx="2" fill="' + (on[k] ? "var(--fg)" : "var(--muted)") + '"/></g>';
       h += '<text class="small" x="' + (x - 24) + '" y="197" text-anchor="end" style="font-weight:600;fill:' + (on[k] ? "var(--ok)" : "var(--muted)") + '">' + (on[k] ? "ON" : "OFF") + '</text>';
     });
-    var many = mode === "3" ? [140, 64, "3 cables"] : [80, 222, "3 cables"], one = mode === "3" ? [80, 222, "1 cable"] : [140, 64, "1 cable"];
-    h += '<text class="tag" x="' + many[0] + '" y="' + many[1] + '" style="font-size:11px;fill:var(--flow)">' + many[2] + '</text>';
-    h += '<text class="small" x="' + one[0] + '" y="' + one[1] + '">' + one[2] + '</text>';
     h += '<text class="small" x="4" y="26">from consumer unit</text><text class="small" x="356" y="30" text-anchor="end">' + (mode === "3" ? "to next light" : "to next switch") + '</text>';
     $("plSvg").innerHTML = $("plSvg").querySelector("title").outerHTML + h;
     $("plTab").innerHTML = T[mode].map(function (r) { return "<tr><td><strong>" + r[0] + "</strong></td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("");
