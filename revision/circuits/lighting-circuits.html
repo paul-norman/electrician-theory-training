@@ -295,7 +295,7 @@
     var P = pts(d), h = '<path d="' + d + '" fill="none" stroke="var(--muted)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.28"/>';
     var L = offset(P, -2.8), E = offset(P, 0), N = offset(P, 2.8);
     h += '<path class="wire w-line" d="' + dstr(L) + '" stroke-width="2"/>';
-    h += '<path class="wire w-cpc-g" d="' + dstr(E) + '" stroke-width="2"/><path class="wire w-cpc-y" d="' + dstr(E) + '" stroke-width="2" style="stroke-dasharray:4 4"/>';
+    h += '<path class="wire w-cpc-g" d="' + dstr(E) + '" stroke-width="2"/><path class="wire w-cpc-y" d="' + dstr(E) + '" stroke-width="2" style="stroke-dasharray:2.5 4.5;stroke-linecap:butt"/>';
     h += '<path class="wire w-neutral" d="' + dstr(N) + '" stroke-width="2"/>';
     if (sleeved) { var len = plen(N); h += '<path class="wire w-line" d="' + dstr(N) + '" stroke-width="2.6" stroke-linecap="butt" style="stroke-dasharray:12 ' + (len - 24).toFixed(1) + ' 12"/>'; }
     return h;
