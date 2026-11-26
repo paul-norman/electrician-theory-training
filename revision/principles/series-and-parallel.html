@@ -135,7 +135,7 @@
     <p class="muted" style="font-size:0.9rem">Tap the switch in the diagram to open or close it, then choose where each lead goes.</p>
     <div class="stage">
       <svg id="mtrSvg" viewBox="0 0 360 236" role="img" aria-labelledby="w3d" style="max-width:560px;margin:0 auto">
-        <title id="w3d">A 12 V battery, a switch and a 12 V 6 W lamp in one loop. Test points 1 and 2 are on the wire from the battery positive to the switch, 3 and 4 between the switch and the lamp, 5 and 6 between the lamp and the battery negative. A voltmeter's red and black leads connect to the chosen points.</title>
+        <title id="w3d">A 12 V battery, a switch and a 12 V 6 W lamp in one loop. Test points 1 and 2 are on the wire from the battery positive to the switch, 3 and 4 between the switch and the lamp, 5 and 6 between the lamp and the battery negative. A voltmeter's red and black leads connect to the chosen points. When the switch is closed, moving dashes show current flowing round the loop.</title>
         <g id="mtrG"></g>
       </svg>
     </div>
@@ -371,11 +371,16 @@
     var PTS = [[78, 40, "P"], [118, 40, "P"], [212, 40, "M"], [320, 66, "M"], [320, 158, "N"], [180, 196, "N"]];
     var ms = { closed: true, red: 3, blk: 4, hidden: false, shown: false };
     function pot(n) { return n === "P" ? 12 : n === "N" ? 0 : (ms.closed ? 12 : 0); }
-    function draw(label) {
+    function draw(label, hide) {
       var g = $("mtrG"), h = "";
       h += '<path class="wire w-plain" d="M40,95.5 V40 H136 M164,40 H320 V88 M320,132 V196 H40 V124"/>';
+      // current flow (conventional, from + round to −), drawn under the components; hidden while predicting
+      if (!hide) {
+        if (ms.closed) h += '<path class="flow" style="--dur:1.4s" d="M40,92 V40 H320 V196 H40 V128"/>';
+        h += '<text x="266" y="28" text-anchor="middle" class="small" style="fill:var(--flow)">' + (ms.closed ? "current 0.5 A" : "no current") + "</text>";
+      }
       h += '<line x1="20" y1="96" x2="60" y2="96" stroke="var(--fg)" stroke-width="3"/><line x1="30" y1="124" x2="50" y2="124" stroke="var(--fg)" stroke-width="7"/>';
-      h += '<text x="64" y="92" class="small">+</text><text x="58" y="138" class="small">−</text><text x="10" y="116" class="small" text-anchor="start">12 V</text>';
+      h += '<text x="64" y="92" class="small">+</text><text x="58" y="138" class="small">−</text><text x="40" y="114" class="small" text-anchor="middle">12 V</text>';
       // the switch is clickable: a focusable group with a transparent hit area. Lever first, from the
       // left contact's centre, so the contacts hide its ends.
       h += '<g class="sw" id="mtrSw" tabindex="0" role="switch" aria-label="Switch" aria-checked="' + ms.closed + '"><rect class="hit" x="128" y="12" width="46" height="36" rx="4"/>';
@@ -408,7 +413,7 @@
       document.querySelectorAll("#mRed button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.textContent === ms.red)); });
       document.querySelectorAll("#mBlk button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.textContent === ms.blk)); });
       var a = PTS[ms.red - 1][2], b = PTS[ms.blk - 1][2], v = pot(a) - pot(b), hide = ms.hidden && !ms.shown;
-      draw(hide ? "? V" : (v < 0 ? "−" + (-v) : v) + " V");
+      draw(hide ? "? V" : (v < 0 ? "−" + (-v) : v) + " V", hide);
       $("mShow").hidden = !hide;
       $("mV").textContent = hide ? "?" : (v < 0 ? "−" + (-v) : v) + " V";
       $("mI").textContent = hide ? "?" : (ms.closed ? "0.5 A" : "0 A");
