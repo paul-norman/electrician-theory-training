@@ -13,6 +13,7 @@
   .winding.ph3 { stroke: var(--l3); }
   .winding.ph2-halo { stroke: var(--l2-halo); stroke-width: 6; }
   .coil { stroke: var(--fg); stroke-width: 1.5; }
+  .fline { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 2 4; stroke-linecap: round; opacity: 0.8; }
   .axis-t { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
 </style>
 </head>
@@ -43,6 +44,7 @@
   <section class="prose">
     <h2>How three-phase is made</h2>
     <p>A power station generator has a magnet (the <strong>rotor</strong>) spinning inside three fixed coils (the <strong>stator</strong>), spaced a third of a turn (120°) apart. As the magnet turns, the magnetic field through each coil rises, falls and reverses. That changing field induces an alternating voltage in the coil.</p>
+    <p>What matters is how fast the field through a coil is <em>changing</em>, not how strong it is. When a pole points straight at a coil, the field through it is strongest but momentarily not changing, so the voltage is zero. A quarter of a turn later, the magnet's side is sweeping past and the field lines (dotted) are swinging across the coil fastest: that's when the voltage peaks.</p>
     <p>(For what a sine wave, <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> and 50 Hz mean, see <a href="../principles/dc-and-ac.html"><abbr title="direct current">DC</abbr> and <abbr title="alternating current">AC</abbr></a>.) Each coil gets the same wave, but a third of a turn later than the one before. A coil's voltage is biggest when the field through it is changing fastest: as the poles sweep <em>across</em> it, not when a pole points straight at it. A two-pole generator spinning at 3,000 revolutions per minute makes 50 turns a second, which gives 50 Hz.</p>
   </section>
 
@@ -54,12 +56,14 @@
     </div>
     <div class="stage">
       <svg id="gen" viewBox="0 0 780 310" class="wide" role="img" aria-labelledby="w5d">
-        <title id="w5d">A magnet spins inside three coils spaced 120 degrees apart. Beside it, a graph draws the three voltages L1, L2 and L3 as sine waves a third of a cycle apart.</title>
+        <title id="w5d">A magnet, with dotted magnetic field lines looping from its north pole round to its south pole, spins inside three coils spaced 120 degrees apart. Beside it, a graph draws the three voltages L1, L2 and L3 as sine waves a third of a cycle apart.</title>
         <g id="genBody">
         <!-- stator -->
         <circle cx="150" cy="160" r="118" fill="none" stroke="var(--muted)" stroke-width="14" opacity="0.25"/>
         <path d="M228,62 A128,128 0 0,1 268,110" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#rot)"/>
         <text x="236" y="54" class="small">turns</text>
+        <!-- field lines rotate with the magnet, drawn under the coils -->
+        <g id="field"><path class="fline" d="M150,88 C138.1,67.6 116.0,134.5 116.0,160 S138.1,252.4 150,232"/><path class="fline" d="M150,88 C161.9,67.6 184.0,134.5 184.0,160 S161.9,252.4 150,232"/><path class="fline" d="M150,88 C128.3,50.8 88.0,113.5 88.0,160 S128.3,269.2 150,232"/><path class="fline" d="M150,88 C171.7,50.8 212.0,113.5 212.0,160 S171.7,269.2 150,232"/><path class="fline" d="M150,88 C117.8,32.8 58.0,91.0 58.0,160 S117.8,287.2 150,232"/><path class="fline" d="M150,88 C182.2,32.8 242.0,91.0 242.0,160 S182.2,287.2 150,232"/><path d="M112,156 L116,163 L120,156" fill="none" stroke="var(--muted)" stroke-width="1.4"/><path d="M180,156 L184,163 L188,156" fill="none" stroke="var(--muted)" stroke-width="1.4"/><path d="M84,156 L88,163 L92,156" fill="none" stroke="var(--muted)" stroke-width="1.4"/><path d="M208,156 L212,163 L216,156" fill="none" stroke="var(--muted)" stroke-width="1.4"/><path d="M54,156 L58,163 L62,156" fill="none" stroke="var(--muted)" stroke-width="1.4"/><path d="M238,156 L242,163 L246,156" fill="none" stroke="var(--muted)" stroke-width="1.4"/></g>
         <g id="coils"></g>
         <!-- rotor -->
         <g id="rotor">
@@ -288,6 +292,7 @@
     function draw() {
       var th = ((g.th % 720) + 720) % 720, x = sx(th);
       $("rotor").setAttribute("transform", "rotate(" + (g.th % 360).toFixed(2) + " 150 160)");
+      $("field").setAttribute("transform", "rotate(" + (g.th % 360).toFixed(2) + " 150 160)");
       var vs = [0, 1, 2].map(function (k) { return volt(th, k); });
       vs.forEach(function (v, k) {
         $("coil" + k).style.opacity = (0.2 + 0.8 * Math.abs(v) / PK).toFixed(2);
