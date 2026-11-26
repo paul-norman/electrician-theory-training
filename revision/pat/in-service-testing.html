@@ -12,6 +12,18 @@
   .cls svg { width: 56px; height: 56px; }
   .cls .n { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; }
   .seq { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 6px; }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); }
+  .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); }
+  .verdict.bad strong { color: var(--bad); }
+  .finder-q { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; font-size: 1.02rem; min-height: 3.2em; }
+  .finder-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+  .finder-opts button { height: auto; min-height: var(--ctl-h); padding: 8px 12px; }
+  .finder-opts button.right { border-color: var(--ok); background: var(--ok-bg); }
+  .finder-opts button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+  .finder-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 </style>
 </head>
 <body data-lesson="pat">
@@ -19,12 +31,12 @@
 <main class="page">
   <header class="lesson-head">
     <h1>In-service inspection and testing</h1>
-    <p class="lead">Often called <abbr title="portable appliance testing">PAT</abbr>, this is the checking of electrical equipment while it's in use: kettles, drills and extension leads, but also fixed and IT equipment. The reference is the <abbr title="Institution of Engineering and Technology">IET</abbr> Code of Practice, 5th edition.</p>
+    <p class="lead">Often called <abbr title="portable appliance testing">PAT</abbr>, this is the checking of electrical equipment while it's in use: kettles, drills and extension leads, but also fixed and <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> equipment. The reference is the <abbr title="Institution of Engineering and Technology">IET</abbr> Code of Practice, 5th edition.</p>
   </header>
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p>No law says "test every year". The Electricity at Work Regulations and <abbr title="Provision and Use of Work Equipment Regulations 1998">PUWER</abbr> require equipment to be maintained so it isn't dangerous, and the duty holder decides how often by <strong>risk assessment</strong>. The Code of Practice covers all electrical equipment, not just portable appliances. There are three levels: a <strong>user check</strong> before each use, a <strong>formal visual inspection (<abbr title="formal visual inspection">FVI</abbr>)</strong> by a competent person, and a <strong>combined inspection and test (<abbr title="combined inspection and test">CIT</abbr>)</strong>. Most faults are found by looking. <strong>Class I</strong> equipment relies on earthed metalwork; <strong>Class II</strong> relies on double or reinforced insulation (the double-square symbol) and has no earth. The tests, in order: <strong>protective conductor continuity</strong> (Class I, limit 0.1 Ω plus the cord's own resistance), <strong>insulation resistance</strong> at 500 V <abbr title="direct current">DC</abbr> (at least 1.0 MΩ for Class I, 2.0 MΩ for Class II), <strong>protective conductor or touch current</strong> if needed, then a <strong>functional check</strong>.</p>
+    <p>No law says "test every year". The Electricity at Work Regulations and <abbr title="Provision and Use of Work Equipment Regulations 1998">PUWER</abbr> require equipment to be maintained so it isn't dangerous, and the duty holder decides how often by <strong>risk assessment</strong>. The Code of Practice covers all electrical equipment, not just portable appliances. There are three levels: a <strong>user check</strong> before each use, a <strong>formal visual inspection (<abbr title="formal visual inspection">FVI</abbr>)</strong> by a competent person, and a <strong>combined inspection and test (<abbr title="combined inspection and test">CIT</abbr>)</strong>. Most faults are found by looking. <strong>Class I</strong> equipment relies on earthed metalwork; <strong>Class II</strong> relies on double or reinforced insulation (the double-square symbol) and has no earth. The tests, in order: <strong>protective conductor continuity</strong> (Class I, limit 0.1 Ω plus the cord's own resistance), <strong>insulation resistance</strong> at 500 V <abbr title="direct current">DC</abbr> (at least 1.0 MΩ for Class I, 2.0 MΩ for Class II), <strong>protective conductor or touch current</strong> if needed, then a <strong>functional check</strong>. Anything without the Class II mark is treated as Class I, and an all-plastic extension lead is Class I. Labels show the date, initials, item number and status, never a next test date. Tests go in order: continuity (Class I and II FE), insulation resistance with line and neutral joined, touch current if needed, functional check. <abbr title="residual current device">RCDs</abbr> built into leads and adaptors must trip within 40 ms at 150 mA.</p>
   </aside>
 
   <section class="prose">
@@ -34,9 +46,65 @@
       <li>The <strong>Electricity at Work Regulations 1989</strong> require electrical systems, including equipment, to be maintained to prevent danger, so far as is reasonably practicable.</li>
       <li><strong><abbr title="Provision and Use of Work Equipment Regulations 1998">PUWER</abbr></strong> requires work equipment to be kept in efficient working order and good repair.</li>
       <li>The <strong>Management of Health and Safety at Work Regulations 1999</strong> require a risk assessment, which sets how often equipment is checked.</li>
-      <li>Landlords must keep equipment they supply with a tenancy safe, checking it periodically and at each new tenancy.</li>
+      <li>Landlords must keep equipment they supply with a tenancy safe, checking it periodically and at each new tenancy. The Housing Acts set this out: the Housing Act 2004 (England and Wales), the Housing (Scotland) Act 2006 and the Housing (Wales) Act 2014.</li>
     </ul>
+    <p>Section 3 of the Code of Practice lists the legislation, and a few details come up in exams:</p>
+    <ul>
+      <li>The <strong>Health and Safety at Work etc. Act 1974</strong> sits at the top; the regulations above are made under it.</li>
+      <li>The Management Regulations (regulation 3(1)) require a suitable and sufficient risk assessment covering employees <em>and</em> anyone else affected, such as visitors to a site.</li>
+      <li><abbr title="Provision and Use of Work Equipment Regulations 1998">PUWER</abbr> covers <strong>work equipment</strong> only, not the fixed installation. Regulation 4 requires equipment suitable for its purpose, regulation 5 keeps it maintained, and maintenance records are expected. Meeting the Electricity at Work Regulations will usually meet <abbr title="Provision and Use of Work Equipment Regulations 1998">PUWER</abbr> too.</li>
+      <li>The Electricity at Work Regulations cover everything from a 400 kV overhead line to a battery lamp. "Danger" means risk of injury, including death. <strong>Table 3.1</strong> summarises regulations 4 to 16 (below).</li>
+      <li>Also listed: the Electrical Equipment (Safety) Regulations 2016, the Supply of Machinery (Safety) Regulations 2008, the Supply of Goods and Services Act 1982 and the Plugs and Sockets etc. (Safety) Regulations 1994.</li>
+    </ul>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th><abbr title="Electricity at Work Regulations 1989">EAWR</abbr> regulation</th><th>Covers</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">4</td><td>Systems, work activities and protective equipment</td></tr>
+          <tr><td class="mono">5</td><td>Strength and capability of equipment</td></tr>
+          <tr><td class="mono">6</td><td>Adverse or hazardous environments</td></tr>
+          <tr><td class="mono">7</td><td>Insulation, protection and placing of conductors</td></tr>
+          <tr><td class="mono">8</td><td>Earthing or other suitable precautions</td></tr>
+          <tr><td class="mono">9</td><td>Integrity of referenced conductors</td></tr>
+          <tr><td class="mono">10</td><td>Connections</td></tr>
+          <tr><td class="mono">11</td><td>Means for protecting from excess current</td></tr>
+          <tr><td class="mono">12</td><td>Means for cutting off the supply and for isolation</td></tr>
+          <tr><td class="mono">13</td><td>Precautions for work on equipment made dead</td></tr>
+          <tr><td class="mono">14</td><td>Work on or near live conductors</td></tr>
+          <tr><td class="mono">15</td><td>Working space, access and lighting</td></tr>
+          <tr><td class="mono">16</td><td>Persons to be competent to prevent danger and injury</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Learn these numbers: the table is in the Code of Practice, but not in the books for your other exams.</p>
     <p>Records aren't specifically required by law, but the <abbr title="Health and Safety Executive">HSE</abbr> recommends keeping them, and they're the evidence that maintenance was done. The <strong><abbr title="Institution of Engineering and Technology">IET</abbr> Code of Practice for In-service Inspection and Testing of Electrical Equipment (5th edition)</strong> explains how to do it, and it's the book allowed in the exam. Because it covers every type of equipment, it avoids the term "portable appliance".</p>
+  </section>
+
+  <section class="prose">
+    <h2>What the Code of Practice covers</h2>
+    <p>It covers <strong>all electrical equipment connected to the fixed wiring</strong>, not just things with a plug. For years "<abbr title="portable appliance testing">PAT</abbr>" meant "anything with a plug top", and hard-wired equipment such as hand dryers and wall heaters on fused connection units was never checked. That was wrong. Section 4 lists the kinds of equipment in scope:</p>
+    <ul>
+      <li><strong>Mobile</strong>: desk lamps, toasters, fan heaters</li>
+      <li><strong>Stationary</strong>: welders, bench grinders, <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> racks, vending machines</li>
+      <li><strong>Fixed</strong>: lighting, hand dryers, boilers, alarms and security panels, split air conditioning units</li>
+      <li><strong>Handheld</strong>: hair dryers, floor polishers, power tools</li>
+      <li><strong>Built-in appliances</strong>: dishwashers, fridges, ovens, hobs</li>
+      <li><strong><abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> equipment</strong>: laptop power supplies, monitors, computers, printers</li>
+      <li><strong>Extension leads, multiway adaptors and <abbr title="residual current device">RCD</abbr> adaptors</strong></li>
+      <li><strong><abbr title="electric vehicle">EV</abbr> charging equipment</strong> not under another maintenance regime, <strong>electric heating</strong> (storage heaters, immersion heaters) and <strong>electrical installations in office furniture</strong></li>
+    </ul>
+    <p>These are descriptions, not a classification you record: the old categories (portable, movable, stationary and so on) are no longer used on the forms.</p>
+    <p>It applies wherever equipment is used for work or supplied to others: offices, shops, hotels, schools, hospitals, industrial sites, construction sites, portable buildings, caravans (static and touring), swimming pools and farms. A <strong>home</strong> is in scope only where someone else is responsible for the equipment: a landlord's appliances in a rented house or a holiday caravan, or equipment used for a business at home, such as a childminder's playroom or a home office, which comes under <abbr title="Provision and Use of Work Equipment Regulations 1998">PUWER</abbr>. Your own kettle in your own house isn't covered.</p>
+    <p>Hard-wired equipment takes longer to test: you identify and isolate the circuit, disconnect the appliance, and connect it temporarily so the tester can reach it. Agree the scope and the price with the duty holder first. They may give you their equipment register and ask you to test only what's on it.</p>
+    <h3>New, second-hand, hired and fake equipment (Section 13)</h3>
+    <ul>
+      <li><strong>New equipment</strong> shouldn't normally need testing before it goes into service, but it should be added to the <strong>asset register</strong> (equipment register) and get a user check.</li>
+      <li><strong>Second-hand</strong> equipment sold for profit must be safe and should be inspected and tested.</li>
+      <li><strong>Hired</strong> equipment becomes the hirer's responsibility, unless there's a maintenance contract with the supplier.</li>
+      <li><strong>Counterfeit</strong> equipment carries fake marks that are hard to spot: Figure 13.1 shows a real and a fake BSI Kitemark. Genuine conformity marks include <abbr title="UK Conformity Assessed">UKCA</abbr> (introduced in Great Britain after Brexit) and <abbr title="Conformité Européenne: the European conformity mark">CE</abbr>.</li>
+    </ul>
+    <h3>Two definitions worth knowing</h3>
+    <p>An <strong>accessible metal part</strong> is any metal part that can be touched with a standard test finger (BS EN 61032), or that's connected to such a part. <strong>Appendix 2</strong> of the Code of Practice has the full <abbr title="ingress protection">IP</abbr> code table (first digit solids, second water, plus the additional letters) and the IK impact codes. It's a useful revision page for every exam.</p>
   </section>
 
   <section class="prose">
@@ -62,6 +130,30 @@
   </div>
 
   <section class="prose">
+    <p>Some details from Section 6 and the definitions:</p>
+    <ul>
+      <li><strong>Class I</strong> can include unearthed metal that's separated from live parts by basic and supplementary insulation, such as the soleplate of some irons or the fins of an oil-filled radiator. A plastic kettle is still Class I: its element is earthed.</li>
+      <li><strong>Class II</strong> can be metal: some metal light fittings are Class II, which matters on old lighting circuits with no <abbr title="circuit protective conductor">CPC</abbr>.</li>
+      <li><strong>Class II FE</strong>: electronic equipment (laptops, TVs, games consoles) turns the <abbr title="alternating current">AC</abbr> supply into <abbr title="direct current">DC</abbr> with a rectifier, and filter capacitors leak a little current to earth. The earth connection carries that leakage; it isn't there for shock protection.</li>
+      <li><strong>Class 0</strong>: basic insulation only, with no earth and no second layer, so a crack in the insulation leaves a live part exposed. Old mains series-wired Christmas tree lights are the classic example. It's no longer allowed.</li>
+      <li><strong>Energy source classes</strong> (definitions and Appendix 3): ES1 is detectable but not painful, within 30 V <abbr title="alternating current">AC</abbr> <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> or 60 V <abbr title="direct current">DC</abbr>; ES2 exceeds ES1 but stays within the ES2 limits; ES3 is anything beyond. <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> is 0.707 × the peak value, so 230 V <abbr title="root mean square: the effective value of an AC voltage or current">RMS</abbr> peaks at about 325 V.</li>
+      <li><strong>Table 6.1</strong> shows the symbols. <strong>If equipment doesn't show the Class II mark, treat it as Class I.</strong> A flat two-core flex or a plastic earth pin on a moulded plug hints at Class II, but the symbol is what counts.</li>
+      <li>An <strong>extension lead</strong> is Class I even if it's all plastic: its sockets carry an earth, and anything could be plugged into it.</li>
+    </ul>
+  </section>
+
+  <section class="widget" aria-labelledby="w0">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w0">Which class is it?</h3>
+    </div>
+    <div class="finder-q" id="cq" aria-live="polite"></div>
+    <div class="finder-opts" id="co"></div>
+    <div class="verdict" id="cv" aria-live="polite" hidden><strong></strong><span></span></div>
+    <div class="finder-foot"><span class="caption" id="cs"></span><button type="button" class="btn" id="cn">Next item</button></div>
+  </section>
+
+  <section class="prose">
     <h2>Three levels of check</h2>
     <div class="table-wrap">
       <table>
@@ -74,29 +166,50 @@
       </table>
     </div>
     <p>There's no fixed timescale. Frequency depends on the environment, the user, how the equipment is built and used, and its history: a drill on a building site needs checking far more often than a printer in an office. The Code of Practice gives example starting points.</p>
+    <p><strong>Section 11</strong> lists what decides the frequency: the environment, the users (do they look after it?), the construction (robust Class I or more fragile Class II), the type of equipment (handheld, fixed and so on), how often it's used, how it's installed, its records and history, and its intended service life (some equipment, with built-in batteries or software, is meant to be replaced after a few years). The <strong>duty holder</strong> carries out the risk assessment and tells the inspector the frequency, not the other way round. <strong>Appendix 9</strong> has an example risk assessment with suggested intervals for workshop tools, office and kitchen equipment and the like. It's guidance, not a rule.</p>
+    <h3>Who can inspect and test (Section 5)</h3>
+    <p>Section 5 covers training and competence for users, inspectors, test operatives and duty holders. It describes two levels:</p>
+    <ul>
+      <li>A <strong>level 1 person</strong> isn't skilled in electrical work, and routinely uses a simple <strong>pass/fail</strong> instrument where no readings need interpreting, following set procedures with clear acceptance criteria.</li>
+      <li>A <strong>level 2 person</strong> has electrical skills and uses more sophisticated instruments whose <strong>readings need interpreting</strong>. That's what you'll be doing with a multifunction tester on fixed wiring.</li>
+    </ul>
   </section>
 
   <section class="prose">
     <h2>The formal visual inspection</h2>
-    <p>Before inspecting, check you're allowed to switch the equipment off and unplug it (a server or freezer may not be), then disconnect it. Look at:</p>
+    <p>Before inspecting, check you're allowed to switch the equipment off and unplug it (a server or freezer may not be), and ask the user to save their work and power down, so no data is lost. For hard-wired equipment, find out what else is on the circuit before you isolate it. Then disconnect it. Section 8 lists what to look at:</p>
     <ul>
       <li><strong>The environment and suitability:</strong> is it right for where and how it's used? Is there room for ventilation? Are cables a trip hazard?</li>
-      <li><strong>The plug:</strong> no cracks or burn marks; sleeved pins (required on plugs since 1984); the right fuse. As a guide, equipment up to about 700 W takes a 3 A fuse; above that, 13 A. Inside: the cord grip holding the sheath, correct connections, tight terminals.</li>
+      <li><strong>The plug:</strong> no cracks or burn marks; sleeved pins (required on plugs since 1984); the right fuse. As a guide, equipment up to about 700 W takes a 3 A fuse; above that, 13 A. Inside: the cord grip holding the outer sheath, with no inner insulation showing below it; correct connections; tight terminals; no loose strands or bare copper showing. Table 10.6 gives the right fuse for each flex size.</li>
       <li><strong>The flex:</strong> no cuts, damage, joints or taped repairs, and suitable for the job.</li>
       <li><strong>The equipment:</strong> no damage to the case, no overheating, all covers and screws in place.</li>
     </ul>
-    <p><strong>Extension leads</strong> aren't a permanent extension of the fixed wiring, so inspect them more often. Maximum lengths: 12 m for 1.25 mm² flex, 15 m for 1.5 mm². Longer leads need a 30 mA <abbr title="residual current device">RCD</abbr>.</p>
+    <p><strong>Appendix 6</strong> illustrates common faults found on plugs and flexes. Some worth knowing:</p>
+    <ul>
+      <li>The earth pin is longer than the others so it opens the socket's shutters first; the line and neutral pins are sleeved so no bare metal can be touched while the plug is part-way in.</li>
+      <li>A plug with a plastic earth pin is only for Class II equipment, and the earth pin itself is never sleeved.</li>
+      <li>The fitting instructions card must be removed, and the fuse must sit properly in its holder (never bridged with foil).</li>
+      <li>Not allowed: two flexes in one plug, twin and earth cable instead of flex, a split sheath, or a terminal screw sheared off (cut the plug off and fit a new one).</li>
+      <li>Round-pin plugs (5 A, 15 A) have no fuse, so they rely on the circuit's protection.</li>
+    </ul>
+    <p><strong>Extension leads</strong> aren't a permanent extension of the fixed wiring, so inspect them more often. Maximum lengths: 12 m for 1.25 mm² flex, 15 m for 1.5 mm². Longer leads need a 30 mA <abbr title="residual current device">RCD</abbr> (Table 10.3), because the longer cable's higher resistance means less fault current. Unwind a reel fully to inspect it. Every core of the flex must be connected, matching the plug's terminals. If a room relies on lots of extension leads, recommend to the duty holder that more fixed socket-outlets are installed.</p>
+    <p><strong>Polarity</strong> means every conductor is on the right terminal: brown to L, blue to N, green and yellow to earth. Fuses and single-pole switches go in the line conductor only; a neutral may be switched only by a device that switches the line at the same time, such as a double-pole switch. On a desk lamp with an Edison screw (ES) lampholder, the centre contact must be the line and the screw thread the neutral. Reversed, the thread you touch while changing a lamp would be live.</p>
   </section>
 
   <section class="prose">
     <h2>The tests</h2>
+    <p>After the formal visual inspection, the tests are done in this order:</p>
     <ol class="seq">
-      <li><strong>Protective conductor continuity (Class I only).</strong> Proves accessible metal is connected to the plug's earth pin. Flex the cord along its length during the test, to find broken strands. The limit is <strong>(0.1 + R) Ω</strong>, where R is the resistance of the cord's protective conductor; 0.1 Ω where there's no cord. A low test current (20 to 200 mA) suits most equipment; a high current (up to 25 A) needs a solid connection to bare metal.</li>
+      <li><strong>Protective conductor continuity (Class I and Class II FE only: Class II has no protective conductor to test).</strong> Proves accessible metal is connected to the plug's earth pin. Flex the cord along its length during the test, to find broken strands. The limit is <strong>(0.1 + R) Ω</strong>, where R is the resistance of the cord's protective conductor; 0.1 Ω where there's no cord. A low test current (20 to 200 mA) suits most equipment; a high current (up to 25 A) needs a solid connection to bare metal and should only be applied long enough to get a stable reading. Clip onto a screw head or other bare metal; never scratch through paint or powder coating to get a reading. For older equipment, a higher reading can be accepted if the inspector is satisfied it's down to the design and not a deteriorating earth (note to Table 10.1).</li>
       <li><strong>Insulation resistance.</strong> 500 V <abbr title="direct current">DC</abbr> between the live conductors (joined together) and earth, with the equipment switched on. Minimum <strong>1.0 MΩ for Class I</strong> and <strong>2.0 MΩ for Class II</strong>. For equipment with electronics that a 500 V test could damage or upset, test at 250 V, or use the protective conductor or touch current test instead.</li>
-      <li><strong>Protective conductor current or touch current</strong>, where needed. The equipment runs normally while the tester measures the current flowing in its earth (Class I), or that would flow through a person touching it.</li>
-      <li><strong>Functional check.</strong> Switch it on and make sure it works properly. Fill a kettle first, take care with moving parts, and don't touch metal parts while it's running.</li>
+      <li><strong>Protective conductor current or touch current</strong>, where needed. The equipment runs normally while the tester measures the current flowing in its earth (Class I or II FE), or that would flow through a person touching it. Read it once it has been stable for more than 2 seconds; it shouldn't exceed 5 mA for mains-powered equipment.</li>
+      <li><strong>Functional check.</strong> Switch it on and make sure it works properly. Fill a kettle first, take care with moving parts, and don't touch metal parts while it's running. Some testers can also do a load test, which is useful for heating equipment.</li>
     </ol>
-    <p>Extension leads and cord sets are tested as items on their own: earth continuity, insulation resistance and polarity for a 3-core lead; insulation and polarity for a 2-core one.</p>
+    <p>Extension leads and cord sets are tested as items on their own: earth continuity, insulation resistance and polarity for a 3-core lead; insulation and polarity for a 2-core one. The lead plugs into the tester, and a test lead (usually red, labelled for test use only) goes from the tester into one of its sockets, making a loop. Test every socket on a multiway lead, since any one could be faulty.</p>
+    <h3>Why line and neutral are joined for the insulation test</h3>
+    <p>The equipment is connected, so its load sits between line and neutral. Test between them and the tester's voltage simply flows through the element or motor: you'd read almost nothing, and a 500 V test could damage electronics. So the tester joins line and neutral internally and tests from both of them to earth. Both are then at the same test voltage, so nothing flows through the load, and any current that does flow must be leaking through damaged insulation to the earthed parts.</p>
+    <h3><abbr title="residual current device">RCDs</abbr> in equipment and leads</h3>
+    <p><abbr title="residual current device">RCD</abbr> adaptors, plugs with a built-in <abbr title="residual current device">RCD</abbr> and extension leads with one are in scope and must be tested. They need a supply, so plug them into a socket, press the test button (it should trip), then, in a combined inspection and test, do a performance test with an instrument: at <strong>5 × I<sub>Δn</sub> (150 mA for a 30 mA device) it must trip within 40 ms</strong> (Table 10.5). Don't confuse this with fixed wiring, where the recorded test is at 1 × I<sub>Δn</sub> (30 mA), with a 300 ms limit. Watch out for an <abbr title="residual current device">RCD</abbr> upstream: if the socket you're using is already <abbr title="residual current device">RCD</abbr> protected, the test may trip that one instead, switching off other people's equipment and proving nothing about the device you're testing. Use a socket without <abbr title="residual current device">RCD</abbr> protection where you can.</p>
   </section>
 
   <section class="widget" aria-labelledby="w1">
@@ -104,13 +217,14 @@
       <span class="eyebrow">Practice</span>
       <h3 id="w1">Earth continuity limits</h3>
     </div>
-    <p class="muted" style="font-size:0.9rem">Protective conductor resistance per metre: 0.75 mm² 26 mΩ, 1.0 mm² 19.5 mΩ, 1.25 mm² 15.6 mΩ, 1.5 mm² 13.3 mΩ.</p>
+    <p class="muted" style="font-size:0.9rem">Protective conductor resistance per metre (Appendix 5, Table A5.1): 0.75 mm² 26 mΩ, 1.0 mm² 19.5 mΩ, 1.25 mm² 15.6 mΩ, 1.5 mm² 13.3 mΩ. R = <span class="frac"><span>mΩ/m × length</span><span>1000</span></span> in ohms; turned round, length = <span class="frac"><span>1000 × R</span><span>mΩ/m</span></span>. Watch whether a question wants the answer in ohms or milliohms.</p>
     <div id="prac"></div>
   </section>
 
   <section class="prose">
     <h2>Records and labels</h2>
-    <p>The Code of Practice gives model forms: an <strong>equipment register</strong> (make, model, serial or asset number, inspection and test frequency, repairs), an <strong>inspection and test record</strong> for each visit, a faulty equipment register and a repair register. Labels show that an item has been checked. Test instruments must be to BS EN 61010 with GS38 leads, and their accuracy should be checked regularly, since a calibration certificate only proves the instrument was accurate on the day.</p>
+    <p>The <abbr title="Institution of Engineering and Technology">IET</abbr> model forms are numbered <strong>V1 to V6</strong> (V1 is the equipment register, V2 the formal visual and combined inspection and test record, V3 the labels, V4 the repair register, and the last the test instrument record). Appendix 4 of the book still shows only two of them, under older numbers, so note the V numbers on a sticky note in Appendix 4. The test record holds the item's ID, description, class, location, the frequencies set by the duty holder, make, model and serial number, voltage if not 230 V, rating, the visual results (plug or socket, flex, body), the test results (continuity, or N/A for Class II; insulation resistance; polarity; functional check), whether it's suitable for its environment and continued use, and your initials. Note any fault you spot in the fixed installation too, such as a damaged socket behind an appliance. <abbr title="Health and Safety Executive">HSE</abbr> guidance HSG107, <em>Maintaining portable electrical equipment</em>, is also good revision.</p>
+    <p>The Code of Practice gives model forms: an <strong>equipment register</strong> (make, model, serial or asset number, inspection and test frequency, repairs), an <strong>inspection and test record</strong> for each visit, a faulty equipment register and a repair register. Labels show that an item has been checked: the date, the tester's initials and the item's unique number (the Code of Practice shows examples), with a pass or fail status. <strong>Don't put a next test date on the label.</strong> The <strong>duty holder</strong> decides how often each item is checked, by risk assessment, because only they know where it will be used next. Your job is to report its condition on the day. Testers range from simple pass/fail units, through mid-range ones that store results and do touch current and <abbr title="residual current device">RCD</abbr> tests, to models with label printers and barcode scanners; a multifunction tester with a <abbr title="portable appliance testing">PAT</abbr> adaptor also works. Any adaptors or leads made up for testing must be labelled for test use only. Test instruments must be to BS EN 61010 with GS38 leads, and their accuracy should be checked regularly, since a calibration certificate only proves the instrument was accurate on the day.</p>
   </section>
 
   <section aria-labelledby="qz">
@@ -127,11 +241,67 @@
   Course.practice("#prac", function () {
     var csa = Course.pick(Object.keys(MOHM)), len = Course.pick([1.5, 2, 3, 5, 10, 12]);
     var r = MOHM[csa] * len / 1000, lim = 0.1 + r;
+    if (Math.random() < 0.35) {
+      var rr = Math.round(r * 1000) / 1000;
+      return { q: "The protective conductor of a " + csa + " mm² cord measures " + rr + " Ω. How long is the cord?", answer: 1000 * rr / MOHM[csa], unit: "m",
+        working: "length = " + Course.frac("1000 × " + rr, MOHM[csa]) + " = " + Course.sig(1000 * rr / MOHM[csa], 3) + " m" };
+    }
     return { q: "A Class I appliance has a " + len + " m cord in " + csa + " mm² flex. What's the maximum acceptable protective conductor resistance?", answer: lim, unit: "Ω",
-      working: "R = " + MOHM[csa] + " mΩ/m × " + len + " m = " + r.toFixed(3) + " Ω; limit = 0.1 + " + r.toFixed(3) + " = " + lim.toFixed(3) + " Ω" };
+      working: "R = " + Course.frac(MOHM[csa] + " × " + len, "1000") + " = " + r.toFixed(3) + " Ω; limit = 0.1 + " + r.toFixed(3) + " = " + lim.toFixed(3) + " Ω" };
   });
 
+  // ---- Which class is it? [item, class, why] ----
+  var $ = function (id) { return document.getElementById(id); };
+  var CL = ["Class 0", "Class I", "Class II", "Class II FE", "Class III"];
+  var ITEMS = [
+    ["A plastic kettle with a round 3-core flex and no double-square mark", "Class I", "The element is earthed. No Class II mark means treat it as Class I anyway."],
+    ["An all-plastic 4-gang extension lead", "Class I", "Its sockets carry an earth, and any class of equipment can be plugged in."],
+    ["A desk fan marked with a square inside a square, on a flat 2-core flex", "Class II", "The double square is the Class II mark; the flat 2-core flex fits."],
+    ["A washing machine with a metal case", "Class I", "Exposed metal, earthed through the CPC."],
+    ["A laptop power supply marked with the Class II symbol and an FE symbol", "Class II FE", "Class II construction, with a functional earth for leakage from the electronics."],
+    ["Old mains series-wired Christmas tree lights with single-insulated wire", "Class 0", "Basic insulation only, no earth. Not allowed now."],
+    ["An oil-filled radiator with unearthed fins and an earthed frame", "Class I", "It has earthed metal; the fins are separated by extra insulation."],
+    ["A hair dryer marked with a double square", "Class II", "Double or reinforced insulation, no earth."],
+    ["A 12 V lamp fed from a safety isolating transformer, marked III in a diamond", "Class III", "Supplied from an ES1 source at extra-low voltage."],
+    ["A plain plastic item with a 3-core flex and no markings at all", "Class I", "Without the Class II mark, assume Class I and test it as such."],
+    ["A metal light fitting marked with a double square", "Class II", "Metal can be Class II if it's built that way and marked."],
+    ["A microwave oven with a metal case", "Class I", "Exposed metal, earthed."]
+  ];
+  var cur = null, done = 0, right = 0, answered = false, bag = [];
+  var shuf = function (x) { for (var i = x.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = x[i]; x[i] = x[j]; x[j] = t; } return x; };
+  function nextItem() {
+    if (!bag.length) bag = shuf(ITEMS.slice());
+    cur = bag.pop(); answered = false;
+    $("cq").textContent = cur[0];
+    $("co").innerHTML = CL.map(function (c) { return '<button type="button" class="btn" data-k="' + c + '">' + c + "</button>"; }).join("");
+    $("cv").hidden = true;
+  }
+  $("co").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || answered) return;
+    answered = true; done++;
+    var ok = b.getAttribute("data-k") === cur[1]; if (ok) right++;
+    Array.prototype.forEach.call($("co").children, function (x) { x.disabled = true; if (x.getAttribute("data-k") === cur[1]) x.classList.add("right"); else if (x === b) x.classList.add("wrong"); });
+    var v = $("cv"); v.hidden = false; v.className = "verdict " + (ok ? "ok" : "bad");
+    v.querySelector("strong").textContent = ok ? "Right" : "Not quite: " + cur[1];
+    v.querySelector("span").textContent = cur[2];
+    $("cs").textContent = right + " of " + done + " right";
+  });
+  $("cn").addEventListener("click", nextItem);
+  nextItem();
+
   Course.quiz("#quiz", [
+    { q: "An item has no Class II symbol and a 3-core flex. How should you treat it?",
+      options: ["As Class I", "As Class II", "As Class III", "As Class 0"], answer: 0, fixed: true,
+      why: "Unless the double-square mark is shown, assume Class I." },
+    { q: "What should a PAT label show?",
+      options: ["Date, tester's initials, item number and status", "The date the item is next due for a test", "The tester's company and phone number only", "The insulation resistance reading"], answer: 0,
+      why: "The duty holder sets the next test date, so it doesn't go on the label." },
+    { q: "Which of these is in scope of the Code of Practice?",
+      options: ["A hand dryer wired to a fused connection unit", "The ring final circuit supplying it", "The consumer unit's main switch", "The meter tails"], answer: 0,
+      why: "All equipment connected to the fixed wiring is in scope; the fixed wiring itself isn't." },
+    { q: "Which EAWR regulation covers work on or near live conductors?",
+      options: ["Regulation 4", "Regulation 12", "Regulation 14", "Regulation 16"], answer: 2, fixed: true,
+      why: "14: work on or near live conductors. 12 is isolation, 16 competence, 4 systems and work activities." },
     { q: "How often does the law say equipment must be PAT tested?",
       options: ["It doesn't: the duty holder sets it by risk assessment", "Every year, for all equipment in a workplace", "Every three months on construction sites", "Every five years, the same as rented homes"], answer: 0,
       why: "The law requires equipment to be maintained; the frequency comes from a risk assessment." },

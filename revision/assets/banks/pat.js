@@ -12,6 +12,7 @@
     records: "Records and labels"
   };
   var COP = "Code of Practice";
+  var F = function (n, d) { return '<span class="frac"><span>' + n + "</span><span>" + d + "</span></span>"; };
   var Q = [
     // ---- Scope ----
     { id: "pa-001", topic: "scope", q: "What does the Code of Practice for in-service inspection and testing cover?",
@@ -343,7 +344,57 @@
       why: "Records let the duty holder monitor the scheme, review frequency and demonstrate compliance.", ref: COP + ", documentation" },
     { id: "pa-137", topic: "records", q: "Which register records equipment taken out of service as faulty?",
       options: ["The faulty equipment register", "The equipment register", "The repair register", "The test instrument log"], answer: 0,
-      why: "The model forms include an equipment register, inspection and test record, faulty equipment register and repair register.", ref: COP + ", Appendix 4: model forms" }
+      why: "The model forms include an equipment register, inspection and test record, faulty equipment register and repair register.", ref: COP + ", Appendix 4: model forms" },
+    // ---- Added from PAT webinar 1 ----
+    { id: "pa-138", topic: "classes", q: "Equipment shows no Class II symbol. How should it be treated?",
+      options: ["As Class I", "As Class II", "As Class III", "As Class 0"], answer: 0,
+      why: "Unless equipment clearly shows the Class II mark, assume it's Class I.", ref: COP + ", Section 6, Table 6.1" },
+    { id: "pa-139", topic: "classes", q: "An all-plastic multiway extension lead is classed as:",
+      options: ["Class I", "Class II", "Class II FE", "Class 0"], answer: 0,
+      why: "Its sockets provide an earth for whatever is plugged in, so it's tested as Class I.", ref: COP + ", Section 10, extension leads" },
+    { id: "pa-140", topic: "classes", q: "Which is an example of Class 0 equipment?",
+      options: ["Old mains series-wired Christmas tree lights", "A double-insulated hair dryer", "A laptop power supply with FE", "A metal-cased washing machine"], answer: 0,
+      why: "Class 0 relies on basic insulation only, with no earth. It's no longer permitted.", ref: COP + ", Section 6.6" },
+    { id: "pa-141", topic: "law", q: "Which regulation of the Electricity at Work Regulations covers work on or near live conductors?",
+      options: ["Regulation 14", "Regulation 12", "Regulation 13", "Regulation 16"], answer: 0,
+      why: "12 isolation, 13 work on equipment made dead, 14 work on or near live conductors, 16 competence.", ref: COP + ", Section 3, Table 3.1" },
+    { id: "pa-142", topic: "law", q: "PUWER applies to:",
+      options: ["Work equipment used by workers at work", "The fixed wiring in buildings", "Equipment in owner-occupied homes", "Only equipment with a plug"], answer: 0,
+      why: "PUWER covers work equipment; it doesn't apply to the fixed installation.", ref: COP + ", Section 3" },
+    { id: "pa-143", topic: "classes", q: "An accessible metal part is one that can be touched with a test finger to which standard?",
+      options: ["BS EN 61032", "BS EN 61010", "BS EN 60335", "BS 7671"], answer: 0,
+      why: "BS EN 61032 covers test probes, including the test finger.", ref: COP + ", Section 2, definitions" },
+    { id: "pa-144", topic: "classes", q: "Where in the Code of Practice are the IP and IK code tables?",
+      options: ["Appendix 2", "Appendix 3", "Section 6", "Section 10"], answer: 0,
+      why: "Appendix 2 has IP codes (solids, water, letters) and IK impact codes. Appendix 3 has the energy source classes.", ref: COP + ", Appendix 2" },
+    { id: "pa-145", topic: "classes", q: "An AC voltage of 230 V RMS has a peak value of about:",
+      options: ["325 V", "230 V", "400 V", "163 V"], answer: 0,
+      why: "RMS = 0.707 × peak, so peak = " + F("230", "0.707") + " ≈ 325 V.", ref: COP + ", Section 6, energy sources" },
+    // ---- Added from PAT webinar 2 ----
+    { id: "pa-146", topic: "inspection", q: "According to Section 5, a level 1 person is someone who:",
+      options: ["Isn't electrically skilled and uses a simple pass/fail instrument", "Is electrically skilled and interprets instrument readings", "Is the duty holder who sets test frequencies", "Repairs faulty equipment found during testing"], answer: 0,
+      why: "Level 1: not skilled in electrical work, pass/fail instrument, no interpretation needed. Level 2: electrically skilled, interprets readings.", ref: COP + ", Section 5" },
+    { id: "pa-147", topic: "tests", q: "Why is the insulation resistance test on equipment made between line and neutral joined together, and earth?",
+      options: ["The load between line and neutral would give a near-zero reading", "Line and neutral are always at the same voltage in use", "It halves the test current through the earth", "The earth pin can't take the full test voltage"], answer: 0,
+      why: "Testing line to neutral just measures through the connected load (and could damage electronics). Joined together, nothing flows through the load.", ref: COP + ", Section 10, insulation resistance" },
+    { id: "pa-148", topic: "tests", q: "On which equipment can a protective conductor continuity test be done?",
+      options: ["Class I and Class II FE", "Class II and Class III", "Class II only", "All classes"], answer: 0,
+      why: "Class II has no protective conductor to test.", ref: COP + ", Section 10" },
+    { id: "pa-149", topic: "tests", q: "An RCD socket on an extension lead is tested by plugging it into a socket already protected by a 30 mA RCD. What's the risk?",
+      options: ["The upstream RCD may trip instead, proving nothing", "The lead's RCD will be damaged by the test", "The test current will be doubled", "None: it's the recommended method"], answer: 0,
+      why: "Use a supply without RCD protection where possible, so you know which device operated.", ref: COP + ", Section 10, testing RCDs" },
+    { id: "pa-150", topic: "tests", q: "A 1.0 mm² cord's protective conductor measures 0.195 Ω. How long is the cord?",
+      options: ["10 m", "5 m", "19.5 m", "1 m"], answer: 0,
+      why: "Length = " + F("1000 × 0.195", "19.5") + " = 10 m.", ref: COP + ", Appendix 5, Table A5.1" },
+    { id: "pa-151", topic: "inspection", q: "Why is the earth pin on a BS 1363 plug longer than the others?",
+      options: ["To open the socket's shutters before the other pins enter", "To carry the higher fault current", "To stop the plug going in upside down", "To hold the fuse in place"], answer: 0,
+      why: "It enters first and opens the shutters; the line and neutral pins are sleeved.", ref: COP + ", Appendix 6" },
+    { id: "pa-152", topic: "inspection", q: "A round-pin plug (5 A or 15 A) differs from a BS 1363 plug because it has:",
+      options: ["No fuse", "No earth pin", "A built-in RCD", "Sleeved earth pin"], answer: 0,
+      why: "Round-pin plugs are unfused, so they rely on the circuit's protective device.", ref: COP + ", Appendix 6" },
+    { id: "pa-153", topic: "records", q: "The IET's PAT model forms are now numbered:",
+      options: ["V1 to V6", "4.1 to 4.6", "A to F", "PAT1 to PAT4"], answer: 0,
+      why: "The book's Appendix 4 still shows older numbering for two of them.", ref: COP + ", Appendix 4; IET model forms" }
   ];
   // Lessons to revise for each topic (paths from the course root)
   var LINKS = {"scope": [["pat/in-service-testing.html", "In-service inspection and testing"]], "law": [["pat/in-service-testing.html", "In-service inspection and testing"]], "classes": [["pat/in-service-testing.html", "In-service inspection and testing"]], "inspection": [["pat/in-service-testing.html", "In-service inspection and testing"]], "tests": [["pat/in-service-testing.html", "In-service inspection and testing"]], "instruments": [["pat/in-service-testing.html", "In-service inspection and testing"]], "records": [["pat/in-service-testing.html", "In-service inspection and testing"]]};

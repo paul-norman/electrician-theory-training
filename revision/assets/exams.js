@@ -50,7 +50,8 @@
       covers: ["The law: EAWR, PUWER, the Management Regulations", "Equipment types and classes", "User checks, formal visual inspection and combined inspection and test",
         "Test methods and limits", "Test instruments", "Records and labels"],
       lessons: [["../pat/in-service-testing.html", "In-service inspection and testing"]],
-      tips: ["There's also a practical test. The Code of Practice is allowed in both.",
+      tips: ["There's also a practical test. The Code of Practice is allowed in both. You need both the theory exam and the practical to get the certificate, and a failed exam is resat on its own.",
+        "Learn the EAWR regulation numbers in Table 3.1 (4 to 16). Note them on a sticky note.",
         "The 5th edition changed some terms (energy source classes instead of SELV). Use its wording.",
         "Questions on frequency usually want \"risk assessment\", not a fixed number of months."]
     },

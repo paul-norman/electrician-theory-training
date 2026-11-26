@@ -765,7 +765,20 @@
     { id: "pat-11", lesson: "pat", q: "Maximum length of a 1.5 mm² extension lead without a 30 mA RCD?", a: "15 m", num: 15, tol: 0, unit: "m" },
     { id: "pat-12", lesson: "pat", q: "As a guide, what plug fuse suits equipment up to about 700 W?", a: "3 A", num: 3, tol: 0, unit: "A" },
     { id: "pat-13", lesson: "pat", q: "Resistance per metre of 1.25 mm² flex protective conductor, in mΩ?", a: "15.6 mΩ/m", num: 15.6, unit: "mΩ/m" },
-    { id: "pat-14", lesson: "pat", q: "Which regulations require work equipment to be kept in efficient working order and good repair?", a: "PUWER (Provision and Use of Work Equipment Regulations 1998)", accept: ["puwer", "provision and use of work equipment regulations", "puwer 1998"] }
+    { id: "pat-14", lesson: "pat", q: "Which regulations require work equipment to be kept in efficient working order and good repair?", a: "PUWER (Provision and Use of Work Equipment Regulations 1998)", accept: ["puwer", "provision and use of work equipment regulations", "puwer 1998"] },
+    { id: "pat-15", lesson: "pat", q: "Equipment shows no Class II mark. Which class should you treat it as?", a: "Class I", accept: ["class i", "class 1", "1", "i", "one"] },
+    { id: "pat-16", lesson: "pat", q: "What class is an all-plastic multiway extension lead?", a: "Class I (its sockets carry an earth)", accept: ["class i", "class 1", "1", "i", "one"] },
+    { id: "pat-17", lesson: "pat", q: "Which EAWR regulation covers work on or near live conductors?", a: "Regulation 14", num: 14, tol: 0 },
+    { id: "pat-18", lesson: "pat", q: "Which EAWR regulation covers isolation and cutting off the supply?", a: "Regulation 12", num: 12, tol: 0 },
+    { id: "pat-19", lesson: "pat", q: "Who decides how often equipment is inspected and tested?", a: "The duty holder (by risk assessment)", accept: ["duty holder", "the duty holder", "responsible person", "the responsible person", "employer", "landlord"] },
+    { id: "pat-20", lesson: "pat", q: "Which appendix of the Code of Practice has the IP and IK code tables?", a: "Appendix 2", num: 2, tol: 0 },
+    { id: "pat-21", lesson: "pat", q: "What's the classic example of Class 0 equipment?", a: "Old mains series-wired Christmas tree lights", accept: ["christmas lights", "christmas tree lights", "old christmas lights", "series christmas lights", "fairy lights"] },
+    { id: "pat-22", lesson: "pat", q: "A built-in RCD on an extension lead is tested at 150 mA. Within what time must it trip?", a: "40 ms", num: 40, tol: 0, unit: "ms" },
+    { id: "pat-23", lesson: "pat", q: "In PAT, what does a level 1 person use?", a: "A simple pass/fail instrument (no interpretation of readings)", accept: ["pass/fail", "pass fail", "a pass/fail tester", "pass/fail instrument", "simple pass fail tester"] },
+    { id: "pat-24", lesson: "pat", q: "Maximum protective conductor or touch current for mains-powered equipment?", a: "5 mA", num: 5, tol: 0, unit: "mA" },
+    { id: "pat-25", lesson: "pat", q: "Which section of the Code of Practice covers how often equipment is inspected and tested?", a: "Section 11", num: 11, tol: 0 },
+    { id: "pat-26", lesson: "pat", q: "Which appendix of the Code of Practice gives the resistance per metre of flexible cords?", a: "Appendix 5 (Table A5.1)", num: 5, tol: 0 },
+    { id: "pat-27", lesson: "pat", q: "What are the IET PAT model forms numbered?", a: "V1 to V6", accept: ["v1 to v6", "v1-v6", "v1 v6", "v forms", "v1 to v 6"] },
 
   ];
 })();
