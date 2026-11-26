@@ -21,6 +21,11 @@
   .verdict.ok { background: var(--ok-bg); } .verdict.ok strong { color: var(--ok); }
   .verdict.bad { background: var(--bad-bg); } .verdict.bad strong { color: var(--bad); }
   select.wide { width: 100%; max-width: 520px; }
+  .chase { fill: var(--muted); opacity: 0.25; }
+  .tecab { stroke: var(--muted); stroke-width: 5; stroke-linecap: round; }
+  .tecab-x { fill: var(--surface); stroke: var(--fg); stroke-width: 1.5; }
+  .brick { fill: var(--muted); opacity: 0.4; }
+  .plaster { fill: var(--surface); stroke: var(--rule); stroke-width: 1; }
 </style>
 </head>
 <body data-lesson="installing-cables">
@@ -137,10 +142,70 @@
   </section>
 
   <section class="prose">
-    <h2>Chases, joists and notches</h2>
+    <h2>Chases</h2>
     <p>Cutting into the building can weaken it, so Approved Document A sets limits (they're summarised in the Electrician's Guide to the Building Regulations):</p>
+    <p>A <strong>chase</strong> is a groove cut into a wall to bury a cable. Vertical chases must be no deeper than a third of the thickness of the wall (or leaf); horizontal chases no deeper than a sixth. A brick leaf is about 100 mm thick, so that's about 33 mm vertically and 16 mm horizontally, measured into the masonry, not including the plaster. Horizontal chases are limited more because a groove running along a wall weakens it far more than one running up it. Keep chases to the safe zones (see above), and fill them back flush.</p>
+  </section>
+
+  <figure class="widget" aria-labelledby="wch">
+    <div class="widget-title">
+      <span class="eyebrow">Diagram</span>
+      <h3 id="wch">How deep a chase can go</h3>
+    </div>
+    <div class="stage">
+      <svg viewBox="0 0 360 330" role="img" aria-labelledby="wchd" style="max-width:600px;margin:0 auto">
+        <title id="wchd">Top: a wall seen from the front, with a vertical chase running down from the ceiling to a switch and a horizontal chase running between two sockets. Bottom: two cross-sections through a 100 mm masonry leaf behind its plaster. The vertical chase is cut no deeper than a third of the leaf, about 33 mm; the horizontal chase no deeper than a sixth, about 16 mm.</title>
+        <text class="small" x="180" y="14" text-anchor="middle">The wall from the front</text>
+        <rect class="wall" x="20" y="22" width="320" height="100"/>
+        <rect class="chase" x="82" y="22" width="14" height="46"/>
+        <rect class="chase" x="212" y="97" width="86" height="14"/>
+        <!-- cables first, so the accessories sit on top of their ends -->
+        <line class="tecab" x1="89" y1="22" x2="89" y2="66"/>
+        <line class="tecab" x1="210" y1="104" x2="300" y2="104"/>
+        <rect class="acc" x="78" y="62" width="22" height="18" rx="2"/>
+        <rect class="acc" x="192" y="95" width="22" height="18" rx="2"/>
+        <rect class="acc" x="296" y="95" width="22" height="18" rx="2"/>
+        <text class="small" x="104" y="40">vertical chase</text>
+        <text class="small" x="89" y="94" text-anchor="middle">switch</text>
+        <text class="small" x="255" y="88" text-anchor="middle">horizontal chase</text>
+
+        <text class="small" x="100" y="142" text-anchor="middle">Vertical chase, cut through</text>
+        <text class="small" x="270" y="142" text-anchor="middle">Horizontal chase, cut through</text>
+        <!-- left section -->
+        <rect class="brick" x="40" y="172" width="120" height="100"/>
+        <rect class="plaster" x="40" y="160" width="120" height="12"/>
+        <rect class="plaster" x="80" y="172" width="30" height="33"/>
+        <ellipse class="tecab-x" cx="95" cy="194" rx="10" ry="5"/>
+        <path class="dim" d="M114,172 h8 M118,172 v33 M114,205 h8"/>
+        <text class="small" x="124" y="193">33 mm</text>
+        <path class="dim" d="M26,172 h8 M30,172 v100 M26,272 h8"/>
+        <text class="small" x="40" y="290">100 mm leaf</text>
+        <text class="small" x="210" y="290">100 mm leaf</text>
+        <text class="small" x="100" y="308" text-anchor="middle">No deeper than a third</text>
+        <text class="small" x="100" y="322" text-anchor="middle">of the leaf: about 33 mm</text>
+        <!-- right section -->
+        <rect class="brick" x="210" y="172" width="120" height="100"/>
+        <rect class="plaster" x="210" y="160" width="120" height="12"/>
+        <rect class="plaster" x="250" y="172" width="30" height="16"/>
+        <ellipse class="tecab-x" cx="265" cy="182" rx="10" ry="5"/>
+        <path class="dim" d="M284,172 h8 M288,172 v16 M284,188 h8"/>
+        <text class="small" x="294" y="185">16 mm</text>
+        <path class="dim" d="M196,172 h8 M200,172 v100 M196,272 h8"/>
+        <text class="small" x="270" y="308" text-anchor="middle">No deeper than a sixth</text>
+        <text class="small" x="270" y="322" text-anchor="middle">of the leaf: about 16 mm</text>
+        <text class="small" x="326" y="170" text-anchor="end" style="font-size:10px">plaster</text>
+        <text class="small" x="156" y="170" text-anchor="end" style="font-size:10px">plaster</text>
+        <text class="small" x="100" y="262" text-anchor="middle">brick or block</text>
+        <text class="small" x="270" y="262" text-anchor="middle">brick or block</text>
+      </svg>
+    </div>
+    <p class="caption">Depths are measured into the masonry, not counting the plaster. Section drawings to scale (1 mm = 1 unit); the front view isn't.</p>
+  </figure>
+
+  <section class="prose">
+    <h2>Joists and notches</h2>
+    <p>Floor and ceiling joists carry the building's weight, so holes and notches are limited to the places where they take least strength away (also from Approved Document A):</p>
     <ul>
-      <li><strong>Chases in walls:</strong> vertical chases no deeper than a third of the thickness of the wall (or leaf); horizontal chases no deeper than a sixth. A brick leaf is about 100 mm thick, so that's about 33 mm vertically and 16 mm horizontally, measured into the masonry, not including the plaster.</li>
       <li><strong>Holes in joists:</strong> on the centre line (the neutral axis, where the joist is under least stress), no larger than 0.25 × the joist's depth in diameter, and between 0.25 and 0.4 × the span from the support. Cables through joists must also be at least 50 mm from the top and bottom edges, out of reach of floorboard nails and ceiling fixings (regulation 522.6.201). If that isn't possible, run the cable in earthed steel conduit or fit steel plates over it.</li>
       <li><strong>Notches:</strong> in the top edge only, no deeper than 0.125 × the joist's depth, and between 0.07 and 0.25 × the span from the support.</li>
     </ul>
