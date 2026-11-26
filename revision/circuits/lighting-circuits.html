@@ -341,7 +341,7 @@
       h += '<rect x="' + (x - 5) + '" y="' + (on[k] ? 184 : 193) + '" width="10" height="9" rx="2" fill="' + (on[k] ? "var(--fg)" : "var(--muted)") + '"/></g>';
       h += '<text class="small" x="' + (x - 24) + '" y="197" text-anchor="end" style="font-weight:600;fill:' + (on[k] ? "var(--ok)" : "var(--muted)") + '">' + (on[k] ? "ON" : "OFF") + '</text>';
     });
-    h += '<text class="small" x="4" y="26">from consumer unit</text><text class="small" x="356" y="30" text-anchor="end">' + (mode === "3" ? "to next light" : "to next switch") + '</text>';
+    h += '<text class="small" x="4" y="30">from consumer unit</text><text class="small" x="356" y="30" text-anchor="end">' + (mode === "3" ? "to next light" : "to next switch") + '</text>';
     $("plSvg").innerHTML = $("plSvg").querySelector("title").outerHTML + h;
     $("plTab").innerHTML = T[mode].map(function (r) { return "<tr><td><strong>" + r[0] + "</strong></td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("");
     $("plCap").textContent = CAP[mode];
