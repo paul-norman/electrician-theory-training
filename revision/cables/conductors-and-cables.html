@@ -120,7 +120,7 @@
     </div>
     <div class="stage">
       <svg id="wireSvg" viewBox="0 0 360 96" role="img" aria-labelledby="wsT" style="max-width:520px;margin:0 auto">
-        <title id="wsT">A single insulated conductor with its end stripped, drawn to scale: it gets thicker as the cross-sectional area goes up, and the bare end changes colour with the metal.</title>
+        <title id="wsT">A single blue (neutral) insulated conductor with its end stripped, drawn to scale: it gets thicker as the cross-sectional area goes up, and the bare end changes colour with the metal.</title>
         <g id="wireG"></g>
       </svg>
     </div>
@@ -245,7 +245,7 @@
     // Fixed length; the thickness follows the real diameter (12 px per mm), so 16 mm² is twice as wide as 4 mm².
     var d = 2 * Math.sqrt(rc.a / Math.PI) * 12, t = 7, cy = 42, mc = METAL[rc.m], h = "";
     h += '<rect x="236" y="' + (cy - d / 2) + '" width="84" height="' + d + '" rx="1.5" fill="' + mc[0] + '" stroke="' + mc[1] + '" stroke-width="1.2"/>';
-    h += '<rect x="24" y="' + (cy - d / 2 - t) + '" width="226" height="' + (d + 2 * t) + '" rx="5" fill="var(--line)"/>';
+    h += '<rect x="24" y="' + (cy - d / 2 - t) + '" width="226" height="' + (d + 2 * t) + '" rx="5" fill="var(--neutral)"/>';
     h += '<text x="180" y="90" text-anchor="middle" class="small">' + rc.a + " mm² " + rc.m + ": about " + f(d / 12, 2) + " mm across</text>";
     $("wireG").innerHTML = h;
   }
