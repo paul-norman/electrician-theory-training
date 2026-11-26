@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Test Bench</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 8ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); } .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); } .verdict.bad strong { color: var(--bad); }
+  .verdict.warn { background: var(--note-bg); } .verdict.warn strong { color: var(--note); }
+  .mft { background: var(--meter-bg); color: var(--meter-fg); border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; min-height: 92px; }
+  .mft .mode { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.8; }
+  .mft .val { font-family: var(--font-mono); font-size: 2rem; font-weight: 600; line-height: 1.1; }
+  .mft .sub { font-family: var(--font-mono); font-size: 1rem; }
+  .mft .where { font-size: 0.9rem; opacity: 0.9; }
+  table.log td, table.log th { text-align: center; }
+</style>
+</head>
+<body data-lesson="live-test-bench">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <h1>Live test bench</h1>
+    <p class="lead">Practise the live tests from the demonstrations: Z<sub>e</sub> and fault current at the origin, Z<sub>s</sub> by calculation or measurement, <abbr title="residual current device">RCD</abbr> tests, and proving supply polarity, with mistakes and faults to spot.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Z<sub>e</sub>: main switch off and locked, earthing conductor disconnected (or the bonding gives a falsely low reading), neutral probe first, then line. Typical maximums 0.8 Ω <abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr>, 0.35 Ω <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr>; above 200 Ω a <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> electrode is unstable. The tester also gives the fault current, I = <span class="frac"><span>U</span><span>Z</span></span>; record the higher of <abbr title="prospective short-circuit current">PSCC</abbr> and <abbr title="prospective earth fault current">PEFC</abbr> as I<sub>pf</sub>, and check it doesn't exceed the devices' breaking capacity. Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>) is GN3's preferred method; a measured loop test trips 30 mA <abbr title="residual current device">RCDs</abbr> unless set to no-trip. <abbr title="residual current device">RCDs</abbr>: test button first, ½ × I<sub>Δn</sub> no trip, 1 × I<sub>Δn</sub> within 300 ms on both half-cycles, record the longer time.</p>
+  </aside>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Z<sub>e</sub> and fault current at the origin</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="sys">Earthing system</label><select id="sys"><option value="TNS">TN-S</option><option value="TNCS" selected>TN-C-S (PME)</option><option value="TT">TT</option></select></div>
+      <div class="ctl"><label for="ms"><input type="checkbox" id="ms"> Main switch on</label></div>
+      <div class="ctl"><label for="ec"><input type="checkbox" id="ec" checked> Earthing conductor still connected to the <abbr title="main earthing terminal">MET</abbr></label></div>
+      <div class="ctl"><label for="rev"><input type="checkbox" id="rev"> Probes swapped (line probe on neutral)</label></div>
+      <div class="ctl"><label for="icn">Circuit breakers' breaking capacity</label><select id="icn"><option value="6000">6 kA (6000)</option><option value="10000">10 kA (10000)</option></select></div>
+      <div class="ctl"><button type="button" class="btn primary" id="zeT">Test</button><button type="button" class="btn" id="zeNew" style="margin-left:6px">New installation</button></div>
+    </div>
+    <div class="mft" aria-live="polite"><span class="mode">Loop Z<sub>e</sub> / <abbr title="prospective fault current">PFC</abbr></span><span class="val" id="zeV">—</span><span class="sub" id="zeS"></span><span class="where" id="zeW">Set up the test, then press Test.</span></div>
+    <div class="verdict" id="zeVd" aria-live="polite" hidden><strong></strong><span></span></div>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">Z<sub>s</sub>: calculate or measure?</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="zsC">Circuit</label><select id="zsC"><option value="6">Lighting, 6 A Type B, RCBO</option><option value="16">Immersion, 16 A Type B, RCBO</option><option value="32" selected>Ring final, 32 A Type B, RCBO</option></select></div>
+      <div class="ctl"><label for="zsZe">Z<sub>e</sub> (Ω)</label><input class="num-in" id="zsZe" type="number" step="0.01" min="0" value="0.30" inputmode="decimal"></div>
+      <div class="ctl"><label for="zsR">R<sub>1</sub> + R<sub>2</sub> (Ω)</label><input class="num-in" id="zsR" type="number" step="0.01" min="0" value="0.24" inputmode="decimal"></div>
+    </div>
+    <div class="controls">
+      <div class="ctl"><button type="button" class="btn primary" id="zsCalc">Calculate</button></div>
+      <div class="ctl"><button type="button" class="btn" id="zsStd">Measure: standard loop test</button></div>
+      <div class="ctl"><button type="button" class="btn" id="zsNt">Measure: no-trip setting</button></div>
+    </div>
+    <div class="mft" aria-live="polite"><span class="mode">Z<sub>s</sub></span><span class="val" id="zsV">—</span><span class="where" id="zsW">Choose a method.</span></div>
+    <div class="verdict" id="zsVd" aria-live="polite" hidden><strong></strong><span></span></div>
+    <p class="caption">Limits: 80% of the <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Table 41.3 maximum (On-Site Guide's maximum measured values), worked out as 0.8 × <span class="frac"><span>230 × 0.95</span><span>5 × I<sub>n</sub></span></span> for Type B.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w3"><abbr title="residual current device">RCD</abbr> tester</h3>
+    </div>
+    <p class="caption" style="margin-top:0">A 30 mA Type A <abbr title="residual current device">RCD</abbr>. Follow GN3: test button first, then ½ × and 1 × on both half-cycles. Use "Mystery <abbr title="residual current device">RCD</abbr>" to test one that may be faulty.</p>
+    <div class="controls">
+      <div class="ctl"><button type="button" class="btn" id="rBtn">Press the <abbr title="residual current device">RCD</abbr>'s test button</button></div>
+      <div class="ctl">
+        <span class="label" id="rmL">Test</span>
+        <div class="seg" role="group" aria-labelledby="rmL" id="rm">
+          <button type="button" data-v="0.5" aria-pressed="true">½ × (15 mA)</button>
+          <button type="button" data-v="1" aria-pressed="false">1 × (30 mA)</button>
+          <button type="button" data-v="5" aria-pressed="false">5 × (150 mA)</button>
+          <button type="button" data-v="ramp" aria-pressed="false">Ramp</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <span class="label" id="rpL">Half-cycle</span>
+        <div class="seg" role="group" aria-labelledby="rpL" id="rp">
+          <button type="button" data-v="0" aria-pressed="true">0°</button>
+          <button type="button" data-v="180" aria-pressed="false">180°</button>
+        </div>
+      </div>
+      <div class="ctl"><button type="button" class="btn primary" id="rT">Test</button></div>
+    </div>
+    <div class="mft" aria-live="polite"><span class="mode" id="rMode"><abbr title="residual current device">RCD</abbr>, type <abbr title="alternating current">AC</abbr> setting</span><span class="val" id="rV">—</span><span class="where" id="rW">Start with the test button.</span></div>
+    <div class="table-wrap">
+      <table class="log">
+        <thead><tr><th>Test</th><th>0°</th><th>180°</th></tr></thead>
+        <tbody id="rLog"></tbody>
+      </table>
+    </div>
+    <div class="controls">
+      <div class="ctl"><button type="button" class="btn" id="rMys">Mystery <abbr title="residual current device">RCD</abbr></button></div>
+      <div class="ctl" id="rGuessC" hidden><label for="rGuess">Your verdict</label><select id="rGuess"><option value="ok">Healthy: record it</option><option value="sens">Faulty: oversensitive (trips at ½ ×)</option><option value="slow">Faulty: too slow at 1 ×</option><option value="mech">Faulty: test button doesn't trip it</option></select></div>
+      <div class="ctl" id="rGuessB" hidden><button type="button" class="btn" id="rCheck">Check</button></div>
+    </div>
+    <div class="verdict" id="rVd" aria-live="polite" hidden><strong></strong><span></span></div>
+  </section>
+
+  <section class="widget" aria-labelledby="w4">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w4">Proving supply polarity</h3>
+    </div>
+    <p class="caption" style="margin-top:0">An approved voltage indicator at the origin. The supply might be wired correctly, or not. Take all three readings, then decide.</p>
+    <div class="controls">
+      <div class="ctl">
+        <span class="label" id="ppL">Probes on</span>
+        <div class="seg" role="group" aria-labelledby="ppL" id="pp">
+          <button type="button" data-v="LN">L and N</button>
+          <button type="button" data-v="LE">L and E</button>
+          <button type="button" data-v="NE">N and E</button>
+        </div>
+      </div>
+      <div class="ctl"><button type="button" class="btn" id="pNew">New supply</button></div>
+    </div>
+    <div class="mft" aria-live="polite"><span class="mode">Voltage indicator</span><span class="val" id="pV">—</span><span class="where" id="pW">Choose a pair of terminals.</span></div>
+    <div class="controls">
+      <div class="ctl"><button type="button" class="btn" id="pOk">Polarity correct</button></div>
+      <div class="ctl"><button type="button" class="btn" id="pBad">Polarity reversed</button></div>
+    </div>
+    <div class="verdict" id="pVd" aria-live="polite" hidden><strong></strong><span></span></div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var rnd = function (a, b) { return a + Math.random() * (b - a); };
+  function verdict(id, cls, head, body) { var v = $(id); v.hidden = false; v.className = "verdict " + cls; v.querySelector("strong").textContent = head; v.querySelector("span").innerHTML = body; }
+  var fmtA = function (I) { return I >= 1000 ? Course.sig(I / 1000, 3) + " kA" : Math.round(I) + " A"; };
+
+  // ---- Ze and PFC ----
+  var inst = {};
+  function newInst() {
+    var sys = $("sys").value;
+    inst.U = Math.round(rnd(230, 242));
+    inst.ze = sys === "TNS" ? rnd(0.18, 0.65) : sys === "TNCS" ? rnd(0.06, 0.3) : rnd(35, 160);
+    inst.zln = sys === "TT" ? rnd(0.08, 0.3) : sys === "TNS" ? inst.ze * rnd(0.6, 0.9) : inst.ze; // PEN: PSCC ≈ PEFC
+    $("zeV").textContent = "—"; $("zeS").textContent = ""; $("zeW").textContent = "Set up the test, then press Test."; $("zeVd").hidden = true;
+  }
+  $("sys").addEventListener("change", newInst); $("zeNew").addEventListener("click", newInst); newInst();
+  $("zeT").addEventListener("click", function () {
+    var sys = $("sys").value, ec = $("ec").checked, ms = $("ms").checked;
+    if ($("rev").checked) { $("zeV").textContent = inst.U + " V"; $("zeS").textContent = "POLARITY ✗"; $("zeW").textContent = "The tester shows the voltage but sounds a polarity warning and won't test.";
+      verdict("zeVd", "warn", "Probes the wrong way round", "Swap them: neutral probe first (it should be at 0 V), then line. Most testers refuse to test with polarity wrong, which is also a check of the supply polarity."); return; }
+    var rp = sys === "TT" ? 4 : 0.4, z = ec ? inst.ze * rp / (inst.ze + rp) : inst.ze;
+    var pefc = inst.U / z, pscc = inst.U / inst.zln, ipf = Math.max(pefc, pscc), icn = +$("icn").value;
+    $("zeV").textContent = Course.sig(z, 3) + " Ω";
+    $("zeS").textContent = "PEFC " + fmtA(pefc) + " · PSCC " + fmtA(pscc) + " · " + inst.U + " V";
+    $("zeW").innerHTML = "Highest fault current, I<sub>pf</sub>: " + fmtA(ipf);
+    var lim = sys === "TNS" ? 0.8 : sys === "TNCS" ? 0.35 : 200;
+    if (ms) { verdict("zeVd", "bad", "Stop: main switch on", "The main switch must be off and locked off. With the earthing conductor disconnected and the installation live, any fault leaves exposed metal live with nothing to disconnect it."); return; }
+    if (ec) { verdict("zeVd", "bad", "Reading too low to trust", "The earthing conductor is still connected, so the test current also returns through the main bonding and pipework (a parallel path). Disconnect it from the MET, test, then reconnect it straight away."); return; }
+    var msg = "Z<sub>e</sub> " + Course.sig(z, 3) + " Ω " + (z <= lim ? "is within" : "is over") + " the typical " + (sys === "TT" ? "200 Ω stability point" : "maximum of " + lim + " Ω") + ". I<sub>pf</sub> is " + fmtA(ipf) + (ipf <= icn ? ", within" : ", MORE than") + " the " + (icn / 1000) + " kA breaking capacity. Record Z<sub>e</sub> and I<sub>pf</sub> on the EIC, then reconnect the earthing conductor.";
+    verdict("zeVd", z <= lim && ipf <= icn ? "ok" : "warn", z <= lim && ipf <= icn ? "Good test" : "Investigate", msg);
+  });
+
+  // ---- Zs ----
+  function zsLim(In) { return 0.8 * 230 * 0.95 / (5 * In); }
+  function zsVals() { return { In: +$("zsC").value, ze: parseFloat($("zsZe").value), r: parseFloat($("zsR").value) }; }
+  function zsJudge(zs, how) {
+    var v = zsVals(), lim = zsLim(v.In);
+    verdict("zsVd", zs <= lim ? "ok" : "bad", zs <= lim ? "Within the limit" : "Too high", how + " Z<sub>s</sub> = " + zs.toFixed(2) + " Ω against a maximum measured value of " + lim.toFixed(2) + " Ω for a " + v.In + " A Type B.");
+  }
+  $("zsCalc").addEventListener("click", function () {
+    var v = zsVals(); if (!(v.ze >= 0) || !(v.r >= 0)) return;
+    var zs = v.ze + v.r; $("zsV").textContent = zs.toFixed(2) + " Ω"; $("zsW").innerHTML = "Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>) = " + v.ze.toFixed(2) + " + " + v.r.toFixed(2);
+    zsJudge(zs, "Calculated (GN3's preferred method, and no live terminals involved):");
+  });
+  $("zsStd").addEventListener("click", function () {
+    $("zsV").textContent = "Tripped"; $("zsW").textContent = "The RCBO tripped and the circuit went off.";
+    verdict("zsVd", "warn", "The RCD part tripped", "A standard loop test puts a big current to earth for a moment: far more than 30 mA. Use the no-trip setting, or better, calculate Z<sub>s</sub>.");
+  });
+  $("zsNt").addEventListener("click", function () {
+    var v = zsVals(); if (!(v.ze >= 0) || !(v.r >= 0)) return;
+    var zs = (v.ze + v.r) * rnd(0.97, 1.06); $("zsV").textContent = zs.toFixed(2) + " Ω"; $("zsW").textContent = "No-trip mode: slow (often 10 seconds or more) with probes on live terminals.";
+    zsJudge(zs, "Measured, live, at the far end:");
+  });
+
+  // ---- RCD tester ----
+  var rcd, rMode = 0.5, rPh = 0, rBtnDone = false, rLogD = {}, mystery = false;
+  function newRcd(kind) {
+    rcd = { kind: kind, trip: kind === "sens" ? rnd(9, 13) : rnd(19, 27), t: [rnd(14, 34), rnd(16, 38)], slow: kind === "slow", mech: kind === "mech" };
+    rBtnDone = false; rLogD = {}; renderR();
+    $("rV").textContent = "—"; $("rW").textContent = "Start with the test button."; $("rVd").hidden = true;
+  }
+  function renderR() {
+    var rows = [["0.5", "½ × (15 mA)"], ["1", "1 × (30 mA)"], ["5", "5 × (150 mA)"]];
+    $("rLog").innerHTML = rows.map(function (r) { var d = rLogD[r[0]] || {}; return "<tr><td>" + r[1] + "</td><td>" + (d[0] || "—") + "</td><td>" + (d[180] || "—") + "</td></tr>"; }).join("") +
+      "<tr><td>Ramp</td><td colspan='2'>" + (rLogD.ramp || "—") + "</td></tr>";
+  }
+  $("rBtn").addEventListener("click", function () {
+    rBtnDone = true;
+    if (rcd.mech) { $("rV").textContent = "No trip"; $("rW").textContent = "You pressed the test button. Nothing happened."; verdict("rVd", "bad", "The mechanism doesn't work", "Don't go on to the instrument tests. The RCD is faulty and the circuit isn't protected: it needs replacing."); }
+    else { $("rV").textContent = "Tripped"; $("rW").textContent = "The test button tripped it. Reset it and continue with the instrument."; $("rVd").hidden = true; }
+  });
+  function segSel(id, cb) { $(id).addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; document.querySelectorAll("#" + id + " button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); cb(b.getAttribute("data-v")); }); }
+  segSel("rm", function (v) { rMode = v === "ramp" ? "ramp" : +v; });
+  segSel("rp", function (v) { rPh = +v; });
+  $("rT").addEventListener("click", function () {
+    if (!rBtnDone) verdict("rVd", "warn", "Test button first", "GN3 says to press the RCD's own test button before using the instrument.");
+    else $("rVd").hidden = true;
+    var idx = rPh === 0 ? 0 : 1, out;
+    if (rcd.mech) { out = "> 2000 ms"; }
+    else if (rMode === "ramp") { out = "Tripped at " + Math.round(rcd.trip) + " mA"; rLogD.ramp = out; }
+    else {
+      var I = 30 * rMode;
+      if (I < rcd.trip) out = "> 2000 ms";
+      else { var t = rMode >= 5 ? rnd(8, 16) : (rcd.slow ? 330 + idx * 40 : rcd.t[idx] * (rMode === 0.5 ? 1.4 : 1)); out = t.toFixed(1) + " ms"; }
+      (rLogD[String(rMode)] = rLogD[String(rMode)] || {})[rPh] = out;
+    }
+    $("rV").textContent = out;
+    $("rW").innerHTML = rMode === "ramp" ? "Ramp: the current rises until it trips (optional test)." : (rMode === 0.5 ? "½" : rMode) + " × I<sub>Δn</sub> at " + rPh + "°";
+    renderR();
+  });
+  $("rMys").addEventListener("click", function () {
+    var kinds = ["ok", "ok", "sens", "slow", "mech"]; newRcd(kinds[Math.floor(Math.random() * kinds.length)]); mystery = true;
+    $("rGuessC").hidden = false; $("rGuessB").hidden = false;
+    verdict("rVd", "warn", "Mystery RCD fitted", "Test it properly, then give your verdict.");
+  });
+  $("rCheck").addEventListener("click", function () {
+    var right = $("rGuess").value === rcd.kind, names = { ok: "healthy", sens: "oversensitive: it trips at ½ ×", slow: "too slow: over 300 ms at 1 ×", mech: "faulty: the test button doesn't trip it" };
+    var t = Math.max(rcd.t[0], rcd.t[1]);
+    verdict("rVd", right ? "ok" : "bad", right ? "Right" : "Not quite", "This RCD was " + names[rcd.kind] + "." + (rcd.kind === "ok" ? " Record the longer of the two 1 × times (about " + t.toFixed(0) + " ms)." : " It needs replacing."));
+    $("rGuessC").hidden = true; $("rGuessB").hidden = true; mystery = false;
+  });
+  newRcd("ok");
+
+  // ---- Supply polarity ----
+  var revSup = false;
+  function newSup() { revSup = Math.random() < 0.4; $("pV").textContent = "—"; $("pW").textContent = "Choose a pair of terminals."; $("pVd").hidden = true; }
+  segSel("pp", function (v) {
+    var volts = { LN: 230, LE: revSup ? 0 : 230, NE: revSup ? 230 : 0 }[v];
+    $("pV").textContent = volts ? "230 V" : "0 V";
+    $("pW").textContent = { LN: "Line to neutral", LE: "Line to earth", NE: "Neutral to earth" }[v];
+  });
+  $("pNew").addEventListener("click", newSup);
+  $("pOk").addEventListener("click", function () { verdict("pVd", !revSup ? "ok" : "bad", !revSup ? "Right" : "Not quite", revSup ? "Line to earth read 0 V and neutral to earth 230 V: the supply is reversed. Don't energise; the network operator or the person who wired the tails must correct it." : "230 V L–N, 230 V L–E and 0 V N–E: correct polarity."); });
+  $("pBad").addEventListener("click", function () { verdict("pVd", revSup ? "ok" : "bad", revSup ? "Right" : "Not quite", revSup ? "Neutral to earth at 230 V means what's connected as neutral is actually the line." : "230 V L–E and 0 V N–E is correct. Take all three readings before deciding."); });
+  newSup();
+
+  Course.quiz("#quiz", [
+    { q: "Why disconnect the earthing conductor from the MET to measure Z<sub>e</sub>?",
+      options: ["To remove parallel paths through the bonding", "To protect the tester from damage", "Because the MET is live during the test", "To let the RCDs reset"], answer: 0,
+      why: "Otherwise the reading includes the bonded water and gas pipes and comes out falsely low." },
+    { q: "Which probe goes on first when measuring Z<sub>e</sub>?",
+      options: ["Neutral", "Line", "Either", "Earth only"], answer: 0,
+      why: "Go on to the conductor you expect to be at 0 V first; the line goes on last." },
+    { q: "The tester gives a PSCC of 2.1 kA and a PEFC of 1.4 kA. What's recorded as I<sub>pf</sub>?",
+      options: ["2.1 kA", "1.4 kA", "3.5 kA", "1.75 kA"], answer: 0,
+      why: "The higher of the two." },
+    { q: "What does GN3 prefer for verifying Z<sub>s</sub>?",
+      options: ["Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>)", "A measured test at every point", "Measuring with RCDs bypassed", "Doubling Z<sub>e</sub>"], answer: 0,
+      why: "It avoids a live test on a live circuit." },
+    { q: "A 30 mA RCD trips during the ½ × I<sub>Δn</sub> test. What does that mean?",
+      options: ["It's oversensitive and faulty", "It's working perfectly", "The test was on the wrong half-cycle", "The circuit has too much load"], answer: 0,
+      why: "At 15 mA it must not trip." },
+    { q: "Before using the RCD tester, what does GN3 say to do?",
+      options: ["Press the RCD's own test button", "Set the tester to Type A", "Bypass the RCD", "Do a ramp test"], answer: 0,
+      why: "It proves the mechanism. GN3 also says to use the Type AC setting for all RCD types." },
+    { q: "With a voltage indicator at the origin, line to earth reads 0 V and neutral to earth 230 V. What does that show?",
+      options: ["Line and neutral are reversed", "The earth is disconnected", "Polarity is correct", "The main fuse has blown"], answer: 0,
+      why: "Correct is 230 V L–N, 230 V L–E, 0 V N–E." }
+  ]);
+})();
+</script>
+</body>
+</html>

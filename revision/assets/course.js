@@ -85,7 +85,8 @@
         { id: "inspection", file: "inspection-and-certification.html", title: "Inspection and certification", desc: "Initial verification, periodic inspection, certificates and codes." },
         { id: "dead-tests", file: "dead-tests.html", title: "Dead tests", desc: "Continuity, ring finals, insulation resistance and polarity." },
         { id: "test-bench", file: "test-bench.html", title: "Dead test bench", desc: "Virtual ring final and insulation resistance tests, with faults to diagnose." },
-        { id: "live-tests", file: "live-tests.html", title: "Live tests", desc: "Earth electrodes, Z<sub>e</sub>, Z<sub>s</sub>, fault current and RCDs." }
+        { id: "live-tests", file: "live-tests.html", title: "Live tests", desc: "Earth electrodes, Z<sub>e</sub>, Z<sub>s</sub>, fault current and RCDs." },
+        { id: "live-test-bench", file: "live-test-bench.html", title: "Live test bench", desc: "Virtual Z<sub>e</sub>, fault current, Z<sub>s</sub>, RCD and polarity tests, with mistakes to spot." }
       ]
     },
     {

@@ -29,18 +29,19 @@
 
   <section class="prose">
     <h2>Before you start</h2>
-    <p>Live testing means working near live parts, so it needs the right instrument (to GS38, see <a href="safe-isolation.html">Safe isolation</a>), a risk assessment and care. Loop and <abbr title="residual current device">RCD</abbr> testers deliberately make a current flow to earth for a moment. Warn people on site, and keep others away from exposed metalwork while you test.</p>
+    <p>Live testing means working near live parts, so it needs the right instrument (to GS38, see <a href="safe-isolation.html">Safe isolation</a>), a risk assessment and care. GN3 1.1 says to pay particular attention to GS38 for any test with an instrument that generates more than 50 V <abbr title="alternating current">AC</abbr> or 120 V <abbr title="direct current">DC</abbr> (insulation resistance), or that uses the supply voltage (every test in the live part of the sequence). Continuity is the one test it doesn't flag. Even the Z<sub>e</sub> test is a live test: the installation is switched off, but your probes are on the live side of the main switch. Fence off the work area and don't leave open equipment unattended (GN3 1.1): that's what keeps <em>other people</em> safe, while isolation and locking off keep you safe. Loop and <abbr title="residual current device">RCD</abbr> testers deliberately make a current flow to earth for a moment. Warn people on site, and keep others away from exposed metalwork while you test.</p>
   </section>
 
   <section class="prose">
     <h2>Earth electrode resistance (<abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> systems)</h2>
     <p>On a <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> system the installation's earth electrode is part of the fault path, so its resistance (R<sub>A</sub>) has to be measured. Guidance Note 3 describes three ways:</p>
     <ul>
-      <li><strong>Method E1, earth electrode tester with test spikes.</strong> Drive a current spike well away from the electrode (at least 10 times the electrode's length), and a potential spike halfway between. Take readings with the potential spike at the halfway point and 10% of the distance either side. If all three agree closely, use the average. It needs a lot of open ground.</li>
-      <li><strong>Method E2, stakeless (clamp) tester.</strong> Quick, but only works where there are several electrodes in parallel, and can be less accurate.</li>
-      <li><strong>Method E3, earth fault loop impedance tester.</strong> Measure between the line conductor at the origin and the electrode. Common in houses, and good enough for an installation protected by <abbr title="residual current device">RCDs</abbr>.</li>
+      <li><strong>Method E1, earth electrode tester with test spikes.</strong> Drive a current spike well away from the electrode (at least 10 times the electrode's length), and a potential spike halfway between. Take readings with the potential spike at the halfway point and 10% of the distance either side. If all three agree closely, add them up, divide by three and record the average on the <abbr title="Electrical Installation Certificate">EIC</abbr> (details of the earth electrode). It needs a lot of open ground and the electrode's length: on new work, the installer must give you that (GN3 2.3, required information). If you don't know the length, or there isn't room, use another method. E1 is the most accurate, and can even be done on an empty plot before the house is built.</li>
+      <li><strong>Method E2, stakeless (clamp) tester.</strong> Clamps on the earthing conductor measure the current and voltage there, so the earthing conductor stays connected and the installation can stay live, handy for an office that can't be switched off. It only works where there are several electrodes in parallel, needs special kit, and can be less accurate.</li>
+      <li><strong>Method E3, earth fault loop impedance tester.</strong> Measure between the line conductor at the origin and the electrode. It's exactly the Z<sub>e</sub> test (below): the reading is the whole loop through the transformer, the ground and the electrode, but the electrode is by far the biggest part. It needs only a multifunction tester and takes a minute, so it's by far the most common method, and good enough for an installation protected by <abbr title="residual current device">RCDs</abbr>.</li>
     </ul>
-    <p>For E1 and E3, isolate the supply and disconnect the earthing conductor first, so you measure the electrode alone. Remember the stability limit from <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>: above about 200 Ω, an electrode may not be reliable.</p>
+    <p>For E1 and E3, isolate the supply and disconnect the earthing conductor first, so you measure the electrode alone. Remember the stability limit from <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>: above about 200 Ω, an electrode may not be reliable. That isn't a pass/fail limit, just the point where it's considered unstable.</p>
+    <p><strong>Ground conditions.</strong> Test when the ground is driest (or frozen), since that's the worst case. If the temporary spikes in an E1 test give poor contact, drive them deeper or water them (even with brine), but <strong>never</strong> water the electrode under test: it would read well today and badly once it dried out. Reconnect the earthing conductor before switching the installation back on.</p>
   </section>
 
   <figure class="widget" aria-labelledby="w1">
@@ -77,8 +78,9 @@
     <h2>External earth fault loop impedance, Z<sub>e</sub></h2>
     <p>Z<sub>e</sub> is the part of the loop outside the installation (see <a href="../earthing/earthing-systems.html">Earthing systems</a>). Measure it at the origin with an earth fault loop impedance tester, between the incoming line and the earthing conductor:</p>
     <ul>
-      <li>Isolate the installation at the main switch.</li>
+      <li>Isolate the installation at the main switch, and lock it off.</li>
       <li>Disconnect the earthing conductor from the <abbr title="main earthing terminal">MET</abbr>, so that current can't take a parallel path through the main bonding and pipework, which would give a falsely low reading.</li>
+      <li>Clip the tester's earth lead firmly onto the disconnected earthing conductor. Put the neutral probe on the incoming neutral first (it should be at 0 V), then the line probe on the incoming line. The tester shows the voltage; if the probes are the wrong way round, most testers sound a polarity warning and won't test, which also checks the supply polarity.</li>
       <li>Take the reading, and <strong>reconnect the earthing conductor immediately</strong>. While it's off, the installation has no earth.</li>
     </ul>
     <p>Compare the reading with what the <abbr title="distribution network operator">DNO</abbr> quotes for the system: typically 0.8 Ω for <abbr title="TN-S earthing: separate (S) neutral and protective conductors all the way from the transformer">TN-S</abbr> and 0.35 Ω for <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr>. A higher value needs investigating.</p>
@@ -86,18 +88,19 @@
 
   <section class="prose">
     <h2>Earth fault loop impedance, Z<sub>s</sub></h2>
-    <p>Z<sub>s</sub> is measured at the furthest point of each circuit, with the installation energised and the main bonding connected. It should be close to Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>), and Guidance Note 3 accepts that calculated value as a check. Compare the measured value with about 80% of the maximum in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Tables 41.2 to 41.4, because the conductors are cold (see <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>).</p>
+    <p>Z<sub>s</sub> is the whole loop: Z<sub>e</sub> outside the installation plus the circuit's own R<sub>1</sub> + R<sub>2</sub>. Every circuit has a Z<sub>s</sub>, and every protective device has a maximum Z<sub>s</sub>: keep under it and the device disconnects in time. GN3 gives two ways to verify it, and <strong>prefers the calculation</strong>: Z<sub>s</sub> = Z<sub>e</sub> + (R<sub>1</sub> + R<sub>2</sub>), using readings you already have. Measuring it means a live test on a live circuit, often up a stepladder holding probes on live terminals while the tester works, so it's safer to avoid where you can. If you do measure, reconnect everything you disconnected first (earthing conductor, bonding), and test at the furthest point. Compare the value with about 80% of the maximum in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Tables 41.2 to 41.4, because the conductors are cold (see <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>).</p>
     <p><strong><abbr title="residual current device">RCDs</abbr> and loop testing.</strong> A standard loop test passes a large current to earth for a few tens of milliseconds, which will trip a 30 mA <abbr title="residual current device">RCD</abbr>. Use the tester's <strong>no-trip</strong> (low-current) setting on RCD-protected circuits. Never bypass an <abbr title="residual current device">RCD</abbr> to take a reading.</p>
   </section>
 
   <section class="prose">
     <h2>Prospective fault current</h2>
+    <p>Most testers measure it at the same time as Z<sub>e</sub>: they know the voltage and the impedance, so they work out I = <span class="frac"><span>U</span><span>Z</span></span>. With 237 V and Z<sub>e</sub> of 1.07 Ω, that's about 221 A.</p>
     <p>The <strong>prospective fault current (<abbr title="prospective fault current">PFC</abbr>)</strong> is the biggest current that could flow in a fault at a given point. Every protective device must be able to break it safely, otherwise it could explode instead of clearing the fault. Measure at the origin (and at each distribution board):</p>
     <ul>
       <li><strong><abbr title="prospective short-circuit current">PSCC</abbr></strong>, prospective short-circuit current: between line and neutral</li>
       <li><strong><abbr title="prospective earth fault current">PEFC</abbr></strong>, prospective earth fault current: between line and earth</li>
     </ul>
-    <p>Record the <strong>larger</strong> of the two as the <abbr title="prospective fault current">PFC</abbr> (I<sub>pf</sub>), in kA. It can also be found by calculation or by asking the <abbr title="distribution network operator">DNO</abbr>: roughly I = <span class="frac"><span>U<sub>0</sub></span><span>Z</span></span>, so a low impedance means a high fault current. With Z<sub>e</sub> of 0.03 Ω near a substation: <span class="frac"><span>230</span><span>0.03</span></span> ≈ 7,700 A, more than the 6 kA a typical domestic circuit breaker can break on its own. (Consumer units are tested as an assembly with the supply fuse, which is why they're commonly rated to 16 kA.)</p>
+    <p>Record the <strong>larger</strong> of the two as the <abbr title="prospective fault current">PFC</abbr> (I<sub>pf</sub>), in kA. It can also be found by calculation or by asking the <abbr title="distribution network operator">DNO</abbr>: roughly I = <span class="frac"><span>U<sub>0</sub></span><span>Z</span></span>, so a low impedance means a high fault current. With Z<sub>e</sub> of 0.03 Ω near a substation: <span class="frac"><span>230</span><span>0.03</span></span> ≈ 7,700 A, more than the 6 kA a typical domestic circuit breaker can break on its own. (Consumer units are tested as an assembly with the supply fuse, which is why they're commonly rated to 16 kA.) The point of measuring it: every protective device has a <strong>rated breaking capacity</strong> (I<sub>cn</sub>), printed in a rectangle on the front or side, such as 6000 (6 kA) or 10000 (10 kA). I<sub>pf</sub> must not exceed it, or the device could explode instead of clearing the fault. Z<sub>e</sub> and I<sub>pf</sub> are recorded on page 2 of the <abbr title="Electrical Installation Certificate">EIC</abbr>.</p>
   </section>
 
   <section class="widget" aria-labelledby="w2">
@@ -110,22 +113,33 @@
 
   <section class="prose">
     <h2><abbr title="residual current device">RCD</abbr> testing</h2>
-    <p>An <abbr title="residual current device">RCD</abbr> tester creates a measured leakage from line to earth, downstream of the <abbr title="residual current device">RCD</abbr>, and times how long the <abbr title="residual current device">RCD</abbr> takes to trip. Test with all load disconnected, at the rated residual current I<sub>Δn</sub>, on both the positive (0°) and negative (180°) half-cycles, and record the <strong>longer</strong> time:</p>
+    <p>GN3 section 2.6.18 sets the order:</p>
+    <ol class="seq">
+      <li><strong>Press the <abbr title="residual current device">RCD</abbr>'s own test button first</strong>, before using the instrument. It proves the mechanism works. If it doesn't trip, stop: the circuit isn't safe, and the <abbr title="residual current device">RCD</abbr> needs replacing.</li>
+      <li>With load disconnected, connect the <abbr title="residual current device">RCD</abbr> tester on the load side (at the board, or with a plug-in lead at a socket). GN3 says to use the tester's <strong>Type <abbr title="alternating current">AC</abbr> setting for every <abbr title="residual current device">RCD</abbr> type</strong>, even on a Type A.</li>
+      <li>Test at <strong>½ × I<sub>Δn</sub></strong> (15 mA for a 30 mA device), on both half-cycles: it must <strong>not</strong> trip. If it does, the <abbr title="residual current device">RCD</abbr> is oversensitive and faulty.</li>
+      <li>Test at <strong>1 × I<sub>Δn</sub></strong> on both the 0° and 180° half-cycles: it must trip within the time below. Record the <strong>longer</strong> of the two. (An <abbr title="residual current device">RCD</abbr> can trip at a different point of the wave depending on which half-cycle the fault starts on, which is why both are tested.)</li>
+    </ol>
     <div class="table-wrap">
       <table>
-        <thead><tr><th><abbr title="residual current device">RCD</abbr></th><th>Test current</th><th>Must trip within</th></tr></thead>
+        <thead><tr><th><abbr title="residual current device">RCD</abbr></th><th>Test current</th><th>Result</th></tr></thead>
         <tbody>
-          <tr><td>General type (including 30 mA for additional protection)</td><td class="mono">1 × I<sub>Δn</sub></td><td class="mono">300 ms</td></tr>
+          <tr><td>General type (<abbr title="alternating current">AC</abbr>, A, F, B), including 30 mA for additional protection</td><td class="mono">½ × I<sub>Δn</sub></td><td>No trip</td></tr>
+          <tr><td>General type</td><td class="mono">1 × I<sub>Δn</sub></td><td class="mono">Trips within 300 ms</td></tr>
           <tr><td>Time-delayed, type S</td><td class="mono">1 × I<sub>Δn</sub></td><td class="mono">130 to 500 ms</td></tr>
         </tbody>
       </table>
     </div>
-    <p><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> only requires the test at I<sub>Δn</sub>. Many testers also run tests at half and five times the rating, which can help with fault-finding. Afterwards, press the <abbr title="residual current device">RCD</abbr>'s own <strong>test button</strong> as a functional check. That proves the mechanism works, but not the trip time.</p>
+    <p>The rest of the table in GN3 (such as tests at 5 × I<sub>Δn</sub>) is optional and useful for fault-finding. A <strong>ramp test</strong>, where the tester raises the current until the <abbr title="residual current device">RCD</abbr> trips and shows the trip current, is also optional: handy when a customer complains of nuisance tripping (a 30 mA device tripping at 27 mA is normal). Don't confuse fixed-wiring tests with in-service (<abbr title="portable appliance testing">PAT</abbr>) testing of plug-in <abbr title="residual current device">RCDs</abbr>, which uses 5 × I<sub>Δn</sub> within 40 ms. Practise on the <a href="live-test-bench.html">Live test bench</a>.</p>
   </section>
 
   <section class="prose">
     <h2>Functional tests</h2>
     <p>The last step: check everything works as intended. Switches, isolators and circuit breakers operate; controls, interlocks and time switches do their job; <abbr title="residual current device">RCD</abbr> and <abbr title="arc fault detection device">AFDD</abbr> test buttons work. On three-phase installations, check the <strong>phase sequence</strong> (L1, L2, L3 in the right order), so that motors turn the right way.</p>
+      <h3>Supply polarity</h3>
+    <p>Before relying on anything live, confirm the supply is the right way round at the origin: if it's reversed there, it's reversed everywhere, however well every circuit is wired. With an approved voltage indicator: line to neutral about 230 V, line to earth about 230 V, neutral to earth about 0 V. Line to earth reading 0 V and neutral to earth 230 V means line and neutral are swapped. A test lamp also works; a neon screwdriver doesn't. GN3's list of tests doesn't name supply polarity separately (it's confirmed during the loop test), but the On-Site Guide does, and it's the first thing to check when the supply goes on.</p>
+    <h3>When something's wrong on new work</h3>
+    <p>Initial verification certifies that new work meets <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, so there shouldn't be anything wrong with it. Any defects or omissions the inspector finds must be <strong>put right by the installer</strong> and re-inspected and retested before the <abbr title="Electrical Installation Certificate">EIC</abbr> is issued. It isn't the inspector's job to fix them (GN3 2.1), and you don't "report" them as on a condition report: either it's right and certified, or it isn't finished.</p>
   </section>
 
   <section aria-labelledby="qz">

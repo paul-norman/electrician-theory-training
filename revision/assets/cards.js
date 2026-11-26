@@ -763,6 +763,14 @@
     { id: "lt-09", lesson: "live-tests", q: "Earth electrode method E1: how far is the current spike from the electrode?", a: "At least 10 times the electrode's length", num: 10, tol: 0, unit: "× length" },
     { id: "lt-10", lesson: "live-tests", q: "A time-delayed type S RCD must trip within what range at I<sub>Δn</sub>?", a: "130 to 500 ms", accept: ["130 to 500", "130-500", "130 500", "130 to 500 ms", "130-500ms", "130ms to 500ms"] },
     { id: "lt-11", lesson: "live-tests", q: "On a three-phase installation, which live test checks motors will turn the right way?", a: "Phase sequence (rotation)", accept: ["phase sequence", "phase rotation", "rotation", "phase sequence test"] },
+    { id: "lt-12", lesson: "live-tests", q: "Earth electrode method E1: three readings are taken. What do you record?", a: "The average of the three", accept: ["average", "the average", "mean", "the mean"] },
+    { id: "lt-13", lesson: "live-tests", q: "Which earth electrode test method is the most common?", a: "Method E3 (loop tester, same as a Ze test)", accept: ["e3", "method e3", "loop tester", "ze"] },
+    { id: "lt-14", lesson: "live-tests", q: "Which earth electrode test method lets the installation stay live?", a: "Method E2 (clamp/stakeless)", accept: ["e2", "method e2", "clamp", "stakeless"] },
+    { id: "lt-15", lesson: "live-tests", q: "Under GN3 1.1, which test doesn't need particular attention to GS38?", a: "Continuity (low-resistance ohmmeter)", accept: ["continuity", "continuity test", "continuity of protective conductors"] },
+    { id: "lt-16", lesson: "live-tests", q: "A 30 mA RCD at ½ × IΔn: trip or no trip?", a: "No trip (if it trips, it's oversensitive)", accept: ["no trip", "no", "must not trip", "shouldn't trip", "it should not trip"] },
+    { id: "lt-17", lesson: "live-tests", q: "What does GN3 say to do before using the instrument on an RCD?", a: "Press the RCD's own test button", accept: ["test button", "press the test button", "press test button", "operate the test button"] },
+    { id: "lt-18", lesson: "live-tests", q: "Ipf must not exceed which rating of the protective devices?", a: "Their rated breaking capacity (Icn)", accept: ["breaking capacity", "icn", "rated breaking capacity", "short circuit capacity"] },
+    { id: "lt-19", lesson: "live-tests", q: "Correct supply polarity at the origin: what should neutral to earth read?", a: "About 0 V", num: 0, tol: 2, unit: "V" },
 
     // ---------------- In-service inspection and testing ----------------
     { id: "pat-01", lesson: "pat", q: "Which edition of the IET Code of Practice for in-service inspection and testing is used in the exam?", a: "5th edition", num: 5, tol: 0 },
