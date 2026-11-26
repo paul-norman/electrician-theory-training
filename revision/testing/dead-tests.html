@@ -33,19 +33,54 @@
       <li>Insulation resistance</li>
       <li>Protection by <abbr title="separated extra-low voltage">SELV</abbr>, <abbr title="protective extra-low voltage">PELV</abbr> or electrical separation, and by barriers and enclosures, where used</li>
       <li>Polarity</li>
-      <li>Then the live tests: earth electrode resistance, earth fault loop impedance, prospective fault current, <abbr title="residual current device">RCDs</abbr>, functional tests (see <a href="live-tests.html">Live tests</a>)</li>
+      <li>Then the live tests. The very first, as soon as the supply is connected, is to check the <strong>supply polarity</strong> at the origin. Then earth electrode resistance, earth fault loop impedance, prospective fault current, <abbr title="residual current device">RCDs</abbr>, functional tests (see <a href="live-tests.html">Live tests</a>)</li>
     </ol>
     <p>If any test fails, put it right and repeat that test and any earlier ones the fault could have affected.</p>
   </section>
 
   <section class="prose">
     <h2>Continuity of protective conductors</h2>
-    <p>Use a <strong>low-resistance ohmmeter</strong>, and <strong>null the leads</strong> first (touch them together and zero the meter), so their own resistance isn't added to every reading. There are two methods:</p>
+    <p>Use a <strong>low-resistance ohmmeter</strong>, and <strong>null the leads</strong> first (touch them together and zero the meter), so their own resistance isn't added to every reading. If you can't null them, subtract the lead resistance: with 1.50 Ω of leads, a reading of 1.51 Ω means the conductor itself is 0.01 Ω. There are two methods:</p>
     <ul>
       <li><strong>Method 1 (R<sub>1</sub> + R<sub>2</sub>).</strong> At the board, link the circuit's line conductor to its <abbr title="circuit protective conductor">CPC</abbr> with a short lead. Then measure between line and earth at every point on the circuit. Each reading is the resistance of the line conductor and <abbr title="circuit protective conductor">CPC</abbr> to that point, R<sub>1</sub> + R<sub>2</sub>. The highest, usually at the far end, is recorded. It also checks polarity as you go, and it's the value you need for Z<sub>s</sub>.</li>
-      <li><strong>Method 2 (R<sub>2</sub> only).</strong> Use a long "wander lead" from the main earthing terminal, and measure from it to the earth terminal at each point. That gives R<sub>2</sub> on its own. It's also how you test main and supplementary bonding conductors: one lead at each end of the conductor.</li>
+      <li><strong>Method 2 (R<sub>2</sub> only).</strong> Use a long "wander lead" from the main earthing terminal, and measure from it to the earth terminal at each point. That gives R<sub>2</sub> on its own. It's also how you test main and supplementary bonding conductors: one lead at each end of the conductor. Disconnect the bonding conductor at the <abbr title="main earthing terminal">MET</abbr> first (with the installation isolated, and reconnect it straight after). Otherwise the test current can find a way back through the other bonded services: water and gas pipes both meet at a boiler, for example. You'd then get a good reading even if the conductor you're testing were broken. Bond after the meter or stopcock, within 600 mm of where the service enters.</li>
     </ul>
     <p>Check for parallel paths: metal conduit, bonded pipework or a second earth connection can give a low reading even when the <abbr title="circuit protective conductor">CPC</abbr> itself is broken.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Working out expected resistances: GN3 Table B1</h2>
+    <p>Guidance Note 3, Appendix B, <strong>Table B1</strong> (also in the On-Site Guide, Appendix I) gives copper conductor resistance in mΩ per metre at 20 °C. Read its first column as "conductor 1" and the second as "conductor 2", rather than line and protective conductor. A size with an asterisk is twin and earth, and the pair next to it shows the <abbr title="circuit protective conductor">CPC</abbr> that comes in that cable: 1.0/1.0, 1.5/1.0, 2.5/1.5, 4/1.5, 6/2.5, 10/4 and 16/6. The value on a pair row is the two conductors added together, which is what an R<sub>1</sub> + R<sub>2</sub> reading measures.</p>
+    <p><span class="formula">R = <span class="frac"><span>mΩ/m × length</span><span>1000</span></span></span> &nbsp; and &nbsp; <span class="formula">length = <span class="frac"><span>1000 × R</span><span>mΩ/m</span></span></span></p>
+    <ul>
+      <li><strong>One conductor</strong>, such as a 15 m, 4 mm² supplementary bonding conductor: use the single 4 mm² value, 4.61 mΩ/m, not the 4/1.5 pair (9.22 is the trap: that's two 4 mm² conductors). R = <span class="frac"><span>4.61 × 15</span><span>1000</span></span> = 0.069 Ω.</li>
+      <li><strong>A twin and earth circuit's R<sub>1</sub> + R<sub>2</sub></strong>, 20 m of 2.5 mm²: the 2.5/1.5 pair, 19.51 mΩ/m. R = <span class="frac"><span>19.51 × 20</span><span>1000</span></span> = 0.39 Ω.</li>
+      <li><strong>Length from a reading</strong>, 4 mm² twin and earth measuring 0.62 Ω: the 4/1.5 pair is 16.71 mΩ/m, so length = <span class="frac"><span>1000 × 0.62</span><span>16.71</span></span> = 37.1 m. Handy for fault-finding.</li>
+    </ul>
+    <p>Real conductors run warmer than 20 °C, so later tables apply a multiplier for design work; for checking test readings, the 20 °C values are what you compare against. Circuits wired in singles usually have a <abbr title="circuit protective conductor">CPC</abbr> the same size as the line (Table 54.7 makes that the easy choice), so use the matching single size twice.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="wb1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="wb1">Table B1 calculator</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="b1c">Conductors</label><select id="b1c"></select></div>
+      <div class="ctl">
+        <span class="label" id="b1mL">Find</span>
+        <div class="seg" role="group" aria-labelledby="b1mL" id="b1m">
+          <button type="button" data-v="R" aria-pressed="true">Resistance</button>
+          <button type="button" data-v="L" aria-pressed="false">Length</button>
+        </div>
+      </div>
+      <div class="ctl"><label for="b1x" id="b1xL">Length (m)</label><input class="num-in" id="b1x" type="number" step="any" min="0" value="20" inputmode="decimal"></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">mΩ/m</span><span class="v" id="b1r">—</span><span class="s">Table B1, 20 °C</span></div>
+      <div class="ro"><span class="k" id="b1oK">Resistance</span><span class="v" id="b1o">—</span><span class="s" id="b1w"></span></div>
+    </div>
+    <p class="caption">Values from GN3 Table B1 for copper at 20 °C. Check them against your copy.</p>
   </section>
 
   <section class="prose">
@@ -78,6 +113,7 @@
   </section>
 
   <section class="prose">
+    <p>Practise all three steps, with faults to find, on the <a href="test-bench.html">Dead test bench</a>.</p>
     <h2>Insulation resistance</h2>
     <p>This proves the insulation between conductors, and between conductors and earth, is sound. An <strong>insulation resistance tester</strong> applies a <abbr title="direct current">DC</abbr> test voltage and measures the tiny current that leaks through. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> gives the test voltage and minimum value:</p>
     <div class="table-wrap">
@@ -92,6 +128,9 @@
     </div>
     <p>New circuits usually read off the top of the meter's scale (often over 200 MΩ), so a reading that passes but is much lower than expected is worth investigating.</p>
     <p><strong>Before you test</strong>, protect anything that could be damaged or give a false reading: unplug or disconnect equipment, and disconnect or isolate electronic devices such as dimmers, timers, smoke alarms and surge protective devices. Close switches and circuit breakers so the whole circuit is tested, and operate two-way switches to test both strappers. Test between line and neutral, and between the live conductors (joined) and earth. Where electronic devices can't be disconnected, join line and neutral and test only to earth, at 250 V if necessary.</p>
+    <p>The order GN3 gives: with loads removed, test <strong>line to neutral</strong> at 500 V, then <strong>line and neutral joined, to earth</strong> at 500 V. Once the voltage-sensitive equipment is reconnected, a further test from line and neutral joined to earth at 250 V is acceptable, because both conductors are at the same voltage and nothing flows through the equipment. Check the tester first: leads apart should read off the scale and leads together near zero. Many electricians start at 250 V in case something's been missed: a lamp left in place reads almost nothing line to neutral and glows from the test voltage (try it on the <a href="test-bench.html">Dead test bench</a>).</p>
+    <p><strong>Testing a whole board at once</strong>: with the main switch off and every circuit breaker on, testing between the neutral bar and the line busbar covers all the circuits together. That only works with plain circuit breakers; with <abbr title="residual current breaker with overcurrent protection">RCBOs</abbr>, each circuit has to be tested on its own.</p>
+    <p><strong>Recording:</strong> for continuity, record the <strong>highest</strong> reading (the worst); for insulation resistance, the <strong>lowest</strong>. The schedule of test results has a column for the test voltage and two for readings: live to live (L–N on single-phase; every combination of L1, L2, L3 and N on three-phase) and live to earth. GN3 notes that although 1 MΩ meets <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, a new installation shouldn't give a result anywhere near that low.</p>
     <p><strong>Circuits in parallel.</strong> Testing at the board measures all the circuits at once, and their insulation resistances combine like resistors in parallel (see <a href="../principles/series-and-parallel.html">Series and parallel circuits</a>). So the whole-installation reading is always <strong>lower</strong> than the lowest single circuit. Eight circuits at 10 MΩ each give <span class="frac"><span>10</span><span>8</span></span> = 1.25 MΩ. Extending a circuit adds more cable in parallel, so its insulation resistance goes down.</p>
   </section>
 
@@ -135,6 +174,26 @@
     $("oS3").textContent = ((a + c) / 4).toFixed(2) + " Ω";
   }
   ["r1", "rn", "r2"].forEach(function (id) { $(id).addEventListener("input", ring); }); ring();
+
+  // ---- Table B1 calculator (GN3, copper, mΩ/m at 20 °C) ----
+  var B1 = [["1.0 mm² (one conductor)", 18.10], ["1.5 mm² (one conductor)", 12.10], ["2.5 mm² (one conductor)", 7.41], ["4 mm² (one conductor)", 4.61], ["6 mm² (one conductor)", 3.08], ["10 mm² (one conductor)", 1.83], ["16 mm² (one conductor)", 1.15],
+    ["1.0/1.0 twin and earth", 36.20], ["1.5/1.0 twin and earth", 30.20], ["2.5/1.5 twin and earth", 19.51], ["4/1.5 twin and earth", 16.71], ["6/2.5 twin and earth", 10.49], ["10/4 twin and earth", 6.44], ["16/6 twin and earth", 4.23],
+    ["2.5/2.5 singles", 14.82], ["4/4 singles", 9.22], ["6/6 singles", 6.16]];
+  B1.forEach(function (b, i) { var o = document.createElement("option"); o.value = i; o.textContent = b[0]; if (i === 9) o.selected = true; document.getElementById("b1c").appendChild(o); });
+  var b1mode = "R";
+  function b1() {
+    var m = B1[+document.getElementById("b1c").value][1], x = parseFloat(document.getElementById("b1x").value);
+    document.getElementById("b1r").textContent = m.toFixed(2);
+    document.querySelectorAll("#b1m button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === b1mode)); });
+    document.getElementById("b1xL").textContent = b1mode === "R" ? "Length (m)" : "Measured resistance (Ω)";
+    document.getElementById("b1oK").textContent = b1mode === "R" ? "Resistance" : "Length";
+    if (!(x > 0)) { document.getElementById("b1o").textContent = "—"; document.getElementById("b1w").textContent = ""; return; }
+    if (b1mode === "R") { var R = m * x / 1000; document.getElementById("b1o").textContent = Course.sig(R, 3) + " Ω"; document.getElementById("b1w").innerHTML = Course.frac(m.toFixed(2) + " × " + x, "1000"); }
+    else { var L = 1000 * x / m; document.getElementById("b1o").textContent = Course.sig(L, 3) + " m"; document.getElementById("b1w").innerHTML = Course.frac("1000 × " + x, m.toFixed(2)); }
+  }
+  document.getElementById("b1m").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; b1mode = b.getAttribute("data-v"); document.getElementById("b1x").value = b1mode === "R" ? 20 : 0.39; b1(); });
+  ["b1c", "b1x"].forEach(function (id) { document.getElementById(id).addEventListener("input", b1); document.getElementById(id).addEventListener("change", b1); });
+  b1();
 
   Course.practice("#prac", function () {
     if (Math.random() < 0.5) {

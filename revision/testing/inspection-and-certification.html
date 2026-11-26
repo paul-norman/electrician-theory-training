@@ -17,6 +17,10 @@
   .codes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
   .code { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; border: 1px solid var(--rule); background: var(--surface); }
   .code .n { font-family: var(--font-mono); font-weight: 600; font-size: 1.2rem; }
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 9ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .verdict.ok { background: var(--ok-bg); } .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); } .verdict.bad strong { color: var(--bad); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 </style>
 </head>
 <body data-lesson="inspection">
@@ -29,7 +33,7 @@
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p><strong>Initial verification</strong> (<abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Chapter 64) checks new work, by inspection and then testing, before it's energised and used. It's recorded on an <strong><abbr title="Electrical Installation Certificate">EIC</abbr></strong> (new installations, new circuits, consumer unit changes) or a <strong><abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr></strong> (an addition or alteration without a new circuit), given to the person who ordered the work. An <abbr title="Electrical Installation Certificate">EIC</abbr> can have one signature, or three: designer, installer and inspector. <strong>Periodic inspection</strong> (Chapter 65) reports on an existing installation's condition on an <strong><abbr title="Electrical Installation Condition Report">EICR</abbr></strong>, within an agreed extent and limitations. Each observation is coded: <strong>C1</strong> danger present, <strong>C2</strong> potentially dangerous, <strong>C3</strong> improvement recommended, <strong>FI</strong> further investigation required. Any C1 or C2 makes the report unsatisfactory; under Amendment 4, an FI no longer does so automatically. Guidance Note 3 is the reference book for all three inspection and testing exams.</p>
+    <p><strong>Initial verification</strong> (<abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Chapter 64) checks new work, by inspection and then testing, before it's energised and used. It's recorded on an <strong><abbr title="Electrical Installation Certificate">EIC</abbr></strong> (new installations, new circuits, consumer unit changes) or a <strong><abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr></strong> (an addition or alteration without a new circuit), given to the person who ordered the work. An <abbr title="Electrical Installation Certificate">EIC</abbr> has three signatures: designer, installer and inspector (a sole trader signs all three; the single-signature form has been withdrawn). It needs a set of schedules for each board. <strong>Periodic inspection</strong> (Chapter 65) reports on an existing installation's condition on an <strong><abbr title="Electrical Installation Condition Report">EICR</abbr></strong>, within an agreed extent and limitations. Each observation is coded: <strong>C1</strong> danger present, <strong>C2</strong> potentially dangerous, <strong>C3</strong> improvement recommended, <strong>FI</strong> further investigation required. Any C1 or C2 makes the report unsatisfactory; under Amendment 4, an FI no longer does so automatically. Guidance Note 3 is the reference book for all three inspection and testing exams.</p>
   </aside>
 
   <section class="prose">
@@ -46,6 +50,12 @@
         </tbody>
       </table>
     </div>
+  </section>
+
+  <section class="prose">
+    <h2>Guidance Note 3</h2>
+    <p>GN3 is the only book allowed in all three inspection and testing exams (Level 2 fundamental, Level 3 initial verification, Level 3 periodic), so treat it as one subject and learn the whole book. Chapter 1 covers general requirements (safety, competence, the client, additions and alterations), Chapter 2 initial verification, including every test in order (the only place the tests are described in full), Chapter 3 periodic inspection, Chapter 4 test instruments, and Chapter 5 completed model forms. Numbers in the margin point to the matching <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> regulations.</p>
+    <p>Section 1.1 on safety asks for particular care with any test instrument that can produce more than <strong>50 V <abbr title="alternating current">AC</abbr> or 120 V <abbr title="direct current">DC</abbr></strong> in dry conditions, or <strong>25 V <abbr title="alternating current">AC</abbr> or 60 V <abbr title="direct current">DC</abbr></strong> in wet or damp ones (insulation testers), and with tests that use the supply itself (earth fault loop, earth electrode and <abbr title="residual current device">RCD</abbr> tests). Table 1.1 explains the measurement category (CAT) markings on instruments. Instruments must meet BS EN 61010 and leads GS38.</p>
   </section>
 
   <section class="prose">
@@ -74,7 +84,56 @@
         </tbody>
       </table>
     </div>
-    <p>An <abbr title="Electrical Installation Certificate">EIC</abbr> has room for <strong>three signatures</strong>, for the designer, the installer (construction) and the inspector, because they may be different people with different responsibilities. A one-person job can use the <strong>single-signature</strong> version. Certificates go to the person who ordered the work. Notifying building control is a separate matter (see <a href="../regulations/part-p-and-notification.html">Part P and notification</a>).</p>
+    <p>An <abbr title="Electrical Installation Certificate">EIC</abbr> has room for <strong>three signatures</strong>, for the designer, the installer (construction) and the inspector, because they may be different people with different responsibilities. The old single-signature <abbr title="Electrical Installation Certificate">EIC</abbr> has been withdrawn, so a sole trader simply signs all three parts. Certificates go to the person who ordered the work (the client, GN3 1.3); keep a copy for your records, which a competent person scheme will ask to see at its annual assessment. Notifying building control is a separate matter (see <a href="../regulations/part-p-and-notification.html">Part P and notification</a>).</p>
+  </section>
+
+  <section class="prose">
+    <h3>Filling in the certificates</h3>
+    <ul>
+      <li><strong>One <abbr title="Electrical Installation Certificate">EIC</abbr> per job, one set of schedules per board.</strong> A house with a garage sub-board gets one <abbr title="Electrical Installation Certificate">EIC</abbr> and two sets of schedules (circuit details and test results); a school with ten boards gets one <abbr title="Electrical Installation Certificate">EIC</abbr> and ten. The <abbr title="Electrical Installation Certificate">EIC</abbr> isn't valid without them.</li>
+      <li><strong>One <abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr> per circuit.</strong> Adding sockets and changing the lighting in one bedroom touches two circuits, so it needs two minor works certificates.</li>
+      <li>The <strong>designer</strong> sets the interval to the first periodic inspection, recorded on the <abbr title="Electrical Installation Certificate">EIC</abbr>. If a question asks who decides it, the certificate itself gives the answer.</li>
+      <li>Write N/A rather than leaving a box blank. Use a unique certificate number for your own records.</li>
+      <li>The <abbr title="Institution of Engineering and Technology">IET</abbr> model forms are free to download. Completed examples are in GN3 Chapter 5 and the blank forms in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> Appendix 6. Software and scheme forms (<abbr title="National Inspection Council for Electrical Installation Contracting">NICEIC</abbr>, <abbr title="National Association of Professional Inspectors and Testers">NAPIT</abbr>) are based on them. You don't have to belong to a competent person scheme to issue an <abbr title="Electrical Installation Certificate">EIC</abbr>: certifying is for all work, while the scheme only lets you <em>notify</em> building control yourself (see <a href="../regulations/part-p-and-notification.html">Part P and notification</a>). A scheme may cover you for domestic work only, in which case its forms can't be used for commercial jobs.</li>
+    </ul>
+    <h3>Supply characteristics on the <abbr title="Electrical Installation Certificate">EIC</abbr></h3>
+    <p>Page 2 of the <abbr title="Electrical Installation Certificate">EIC</abbr> records what GN3 2.3 calls the required information:</p>
+    <ul>
+      <li><strong>Earthing arrangement</strong>, such as <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr> (<abbr title="protective multiple earthing">PME</abbr>).</li>
+      <li><strong>Number and type of live conductors</strong>: <abbr title="alternating current">AC</abbr>, and "1-phase, 2-wire" for a normal home (line and neutral) or "3-phase, 4-wire" (L1, L2, L3 and N). The earthing conductor isn't counted: it isn't a live conductor.</li>
+      <li><strong>Nominal voltage U/U<sub>0</sub></strong>: written in the order the form asks, so 400/230 V for three-phase (U between lines, U<sub>0</sub> to earth), or 230 V single-phase. Frequency 50 Hz.</li>
+      <li><strong>Prospective fault current and Z<sub>e</sub></strong>, by enquiry to the network operator or by measurement.</li>
+      <li><strong>Supply protective device</strong>: type and rating from the label on the cut-out fuse carrier. Never pull the network operator's fuse to look; say in the comments that you've taken it from the label.</li>
+      <li><strong>Main switch</strong>: its standard (often BS EN 60947-3), number of poles, and current rating, such as 100 A. It's an on-load isolator, not overcurrent protection.</li>
+      <li><strong>Maximum demand</strong>, after diversity. Adding up the circuit breaker ratings almost always comes to more than the 100 A supply, so use diversity instead (see the calculator below and <a href="../design/design-current.html">Design current and diversity</a>).</li>
+    </ul>
+    <h3>Who's responsible for what (GN3 2.1)</h3>
+    <p>The inspector checks the work against the design but doesn't redo it. For example, you'd check at the board that the cable sizes and device ratings match the designer's circuit schedule. You wouldn't redo the cable-sizing calculations (that's the designer's job), or check that the size is kept along the whole run (that's the installer's). Inspection confirms other people's work; it doesn't take their responsibility away or fix their problems.</p>
+    <h3>Adding to an existing installation</h3>
+    <p>Before adding a circuit, check the existing installation can take it (<abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> 132.16): the cut-out and meter in good condition, the earthing and bonding in place, and a consumer unit fit to extend. You certify only your own work, but if you notice other defects, tell the client and note them in the comments, including any they decline to have fixed. Anything immediately dangerous must be made safe. Some things to look out for:</p>
+    <ul>
+      <li>A meter with its cover missing, or a consumer unit with a missing blank, leaves live parts exposed: C1 on a condition report, and the energy supplier must be called for the meter.</li>
+      <li>Bitumen dripping from an old cut-out means it's overheating. Get the network operator to look at it.</li>
+      <li>A plastic consumer unit in good condition can take a new circuit; a cracked or heat-damaged one can't.</li>
+    </ul>
+    <h3>Test at first fix, too</h3>
+    <p>Inspection and testing also happen during construction (GN3 2.4). After first fix, before plastering, join the cable ends (lever connectors are handy) and test continuity and insulation resistance on each circuit, then record the results and give the client a copy. If a cable is later cut or screwed through by another trade, your earlier readings show it was sound when you left. Repeat all the tests at second fix and compare.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">Maximum demand from the circuit breakers</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl wide"><label for="mdIn">Circuit breaker ratings in the board (A), separated by spaces</label><input class="num-in" id="mdIn" type="text" style="width:100%;max-width:420px" value="6 20 32 16 40 6 32"></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Simple total</span><span class="v" id="mdSum">—</span><span class="s">every rating added</span></div>
+      <div class="ro"><span class="k">With diversity</span><span class="v" id="mdDiv">—</span><span class="s">100% of the largest + 40% of the rest</span></div>
+    </div>
+    <div class="verdict" id="mdV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">The On-Site Guide's quick method for a household with standard circuits (Appendix A, Table A2): 100% of the largest circuit plus 40% of every other. It uses device ratings, so it's still an overestimate: a 6 A lighting circuit rarely draws 6 A.</p>
   </section>
 
   <section class="prose">
@@ -131,6 +190,16 @@
 (function () {
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
+  // ---- Maximum demand ----
+  function md() {
+    var vals = $("mdIn").value.split(/[^0-9.]+/).map(parseFloat).filter(function (x) { return x > 0; }), v = $("mdV");
+    if (!vals.length) { $("mdSum").textContent = "—"; $("mdDiv").textContent = "—"; v.className = "verdict"; v.querySelector("strong").textContent = "Enter some ratings"; v.querySelector("span").textContent = ""; return; }
+    var sum = vals.reduce(function (a, b) { return a + b; }, 0), big = Math.max.apply(null, vals), div = big + 0.4 * (sum - big);
+    $("mdSum").textContent = Course.sig(sum, 4) + " A"; $("mdDiv").textContent = Course.sig(div, 3) + " A";
+    if (div <= 100) { v.className = "verdict ok"; v.querySelector("strong").textContent = "Within a 100 A supply"; v.querySelector("span").textContent = "The total of " + Course.sig(sum, 4) + " A looks alarming, but they never all run at full load together."; }
+    else { v.className = "verdict bad"; v.querySelector("strong").textContent = "Over a 100 A supply"; v.querySelector("span").textContent = "Even with diversity, this needs a proper assessment, or load management, or a bigger supply."; }
+  }
+  $("mdIn").addEventListener("input", md); md();
   // [finding, code, why]
   var OBS = [
     ["A broken socket-outlet with live parts you can touch", "C1", "Danger present: someone could touch a live part right now. Make it safe immediately."],
@@ -155,6 +224,15 @@
   $("obs").addEventListener("change", obs); obs();
 
   Course.quiz("#quiz", [
+    { q: "A house has a consumer unit in the house and a sub-board in the garage. What paperwork does a full rewire need?",
+      options: ["One EIC, with a set of schedules for each board", "Two EICs, one for each board", "One EIC and one MEIWC", "An EIC for the house and an EICR for the garage"], answer: 0,
+      why: "One certificate per job, and one set of circuit details and test results per distribution board." },
+    { q: "On the EIC, how is the nominal voltage of a three-phase supply written?",
+      options: ["400/230 V (U/U<sub>0</sub>)", "230/400 V", "415/240 V", "400 V only"], answer: 0,
+      why: "The form asks for U/U<sub>0</sub>: 400 V between lines, then 230 V to earth." },
+    { q: "Who decides the interval to the first periodic inspection on an EIC?",
+      options: ["The designer", "The client", "The network operator", "Building control"], answer: 0,
+      why: "It's recorded on the EIC by the designer." },
     { q: "Which certificate is issued after adding a socket to an existing circuit?",
       options: ["Minor Electrical Installation Works Certificate", "Electrical Installation Certificate", "Electrical Installation Condition Report", "Building Regulations compliance certificate"], answer: 0,
       why: "An addition with no new circuit gets a MEIWC." },

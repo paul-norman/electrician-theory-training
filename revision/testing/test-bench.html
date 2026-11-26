@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dead Test Bench</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 8ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); } .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); } .verdict.bad strong { color: var(--bad); }
+  .verdict.warn { background: var(--note-bg); } .verdict.warn strong { color: var(--note); }
+  .mft { background: var(--meter-bg); color: var(--meter-fg); border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; min-height: 92px; }
+  .mft .mode { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.8; }
+  .mft .val { font-family: var(--font-mono); font-size: 2rem; font-weight: 600; line-height: 1.1; }
+  .mft .where { font-size: 0.9rem; opacity: 0.9; }
+  .sock { cursor: pointer; }
+  .sock rect { fill: var(--surface); stroke: var(--fg); stroke-width: 2; }
+  .sock text { font-family: var(--font-mono); font-weight: 600; font-size: 15px; fill: var(--fg); pointer-events: none; }
+  .sock:hover rect, .sock:focus-visible rect { stroke: var(--flow); stroke-width: 3; }
+  .sock:focus { outline: none; }
+  .sock.sel rect { fill: var(--flow); } .sock.sel text { fill: var(--bg); }
+  .boardbox { fill: var(--surface-2); stroke: var(--fg); stroke-width: 2; }
+  .cable { fill: none; stroke: var(--muted); stroke-width: 6; stroke-linecap: round; }
+  .lbl { font-size: 13px; fill: var(--muted); }
+  table.log td, table.log th { text-align: center; }
+  table.log td.hi { font-weight: 600; }
+  .lamp { font-weight: 600; }
+  .glow { color: var(--note); }
+</style>
+</head>
+<body data-lesson="test-bench">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <h1>Dead test bench</h1>
+    <p class="lead">Practise the dead tests from the demonstrations on a virtual circuit: the three-step ring final test and the insulation resistance test, with faults you can switch on and a mystery mode to diagnose.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Ring final, step 1: measure each conductor end to end (r<sub>1</sub>, r<sub>n</sub>, r<sub>2</sub>); line and neutral should match within 0.05 Ω, and the 1.5 mm² <abbr title="circuit protective conductor">CPC</abbr> of 2.5 mm² twin and earth reads 1.67 times higher. Step 2: cross-connect line and neutral of opposite legs and measure line to neutral at every socket: each reads about <span class="frac"><span>r<sub>1</sub> + r<sub>n</sub></span><span>4</span></span>. Step 3: the same with line and <abbr title="circuit protective conductor">CPC</abbr>; every socket reads about <span class="frac"><span>r<sub>1</sub> + r<sub>2</sub></span><span>4</span></span>, and the highest is recorded as R<sub>1</sub> + R<sub>2</sub>. Readings that rise towards the middle mean the legs are linked the wrong way; a socket that reads normally in step 2 but open in step 3 has line and neutral reversed. For insulation resistance, remove loads, test line to neutral, then line and neutral joined to earth.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>How to use it</h2>
+    <p>The ring below has six sockets and an optional spur. Choose a step, set the links at the board, then click or tap a socket to "plug in" and read the tester. Readings are calculated from the actual circuit, so a fault changes them the way it would on site. Fill the table, then compare with what you'd expect. In <strong>mystery mode</strong>, a hidden fault is put somewhere in the ring and you diagnose it from your readings.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Ring final continuity</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="cab">Cable</label><select id="cab"><option value="2.5">2.5/1.5 mm² twin and earth</option><option value="4">4/1.5 mm² twin and earth</option></select></div>
+      <div class="ctl"><label for="len">Ring length (m)</label><input class="num-in" id="len" type="number" min="10" max="150" step="5" value="50" inputmode="numeric"></div>
+      <div class="ctl">
+        <span class="label" id="stepL">Step</span>
+        <div class="seg" role="group" aria-labelledby="stepL" id="step">
+          <button type="button" data-v="1" aria-pressed="true">1: end to end</button>
+          <button type="button" data-v="2" aria-pressed="false">2: L–N cross</button>
+          <button type="button" data-v="3" aria-pressed="false">3: L–<abbr title="circuit protective conductor">CPC</abbr> cross</button>
+        </div>
+      </div>
+    </div>
+    <div class="controls" id="crossCtl" hidden>
+      <div class="ctl">
+        <span class="label" id="crossL">Links at the board</span>
+        <div class="seg" role="group" aria-labelledby="crossL" id="cross">
+          <button type="button" data-v="ok" aria-pressed="true">Opposite legs (correct)</button>
+          <button type="button" data-v="bad" aria-pressed="false">Same leg (wrong)</button>
+        </div>
+      </div>
+    </div>
+    <div class="controls" id="endCtl">
+      <div class="ctl">
+        <span class="label" id="endL">Measure at the board, end to end</span>
+        <div class="seg" role="group" aria-labelledby="endL" id="ends">
+          <button type="button" data-v="L">Line, r<sub>1</sub></button>
+          <button type="button" data-v="N">Neutral, r<sub>n</sub></button>
+          <button type="button" data-v="E"><abbr title="circuit protective conductor">CPC</abbr>, r<sub>2</sub></button>
+        </div>
+      </div>
+    </div>
+    <div class="stage">
+      <svg id="ringSvg" viewBox="0 0 640 300" role="img" aria-labelledby="ringT">
+        <title id="ringT">A ring final circuit drawn as a loop starting and ending at the consumer unit on the left, with six socket-outlets around it and an optional spur from socket 3. Each socket can be selected to take a reading.</title>
+        <g id="ringG"></g>
+      </svg>
+    </div>
+    <div class="mft" aria-live="polite"><span class="mode" id="mMode">Continuity</span><span class="val" id="mVal">—</span><span class="where" id="mWhere">Choose a step, then measure.</span></div>
+    <div class="table-wrap">
+      <table class="log">
+        <thead><tr><th>Socket</th><th>Step 2: L–N</th><th>Step 3: L–<abbr title="circuit protective conductor">CPC</abbr></th></tr></thead>
+        <tbody id="logB"></tbody>
+      </table>
+    </div>
+    <p class="caption" id="expect"></p>
+    <div class="controls">
+      <div class="ctl"><label for="spur"><input type="checkbox" id="spur"> Add a spur from socket 3</label></div>
+      <div class="ctl"><label for="fault">Fault (practice mode)</label><select id="fault"></select></div>
+      <div class="ctl"><button type="button" class="btn" id="clearLog">Clear readings</button></div>
+    </div>
+    <div class="controls">
+      <div class="ctl"><button type="button" class="btn primary" id="mystery">Mystery fault</button></div>
+      <div class="ctl" id="guessCtl" hidden><label for="guess">What's wrong?</label><select id="guess"></select></div>
+      <div class="ctl" id="guessBtnCtl" hidden><button type="button" class="btn" id="guessBtn">Check my diagnosis</button></div>
+    </div>
+    <div class="verdict" id="mysV" aria-live="polite" hidden><strong></strong><span></span></div>
+  </section>
+
+  <section class="prose">
+    <h2>What the readings tell you</h2>
+    <ul>
+      <li><strong>Step 1 open circuit</strong> on any conductor: the ring is broken. Find and fix it before going on (on new work; on a periodic inspection you'd report it).</li>
+      <li><strong>r<sub>1</sub> and r<sub>n</sub> more than 0.05 Ω apart</strong>: usually a loose or poorly made connection, such as a screw clamping on insulation, in the higher conductor.</li>
+      <li><strong>Step 2 or 3 readings low at both ends and highest in the middle</strong>: the legs are linked the wrong way at the board (same leg to same leg). Swap the links.</li>
+      <li><strong>One socket open in step 3 but normal in step 2</strong>: line and neutral reversed at that socket. Step 2 can't see it, because it measures between the same two conductors whichever terminal they're on.</li>
+      <li><strong>A slightly higher reading at one point</strong>: a spur, which is normal. Record the highest step 3 reading as R<sub>1</sub> + R<sub>2</sub>.</li>
+      <li>Step 2 isn't recorded on the schedule of test results, but you still have to do it: it's what proves the ring and the line–neutral polarity at each socket.</li>
+    </ul>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w2">Insulation resistance on a lighting circuit</h3>
+    </div>
+    <p class="caption" style="margin-top:0">A radial lighting circuit with one lamp, like the tutor's demonstration board. Set the tester, choose where the leads go, and press Test.</p>
+    <div class="controls">
+      <div class="ctl">
+        <span class="label" id="ivL">Test voltage (<abbr title="direct current">DC</abbr>)</span>
+        <div class="seg" role="group" aria-labelledby="ivL" id="iv">
+          <button type="button" data-v="250" aria-pressed="false">250 V</button>
+          <button type="button" data-v="500" aria-pressed="true">500 V</button>
+          <button type="button" data-v="1000" aria-pressed="false">1000 V</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <span class="label" id="ilL">Leads between</span>
+        <div class="seg" role="group" aria-labelledby="ilL" id="il">
+          <button type="button" data-v="open" aria-pressed="false">Nothing (leads apart)</button>
+          <button type="button" data-v="short" aria-pressed="false">Leads touching</button>
+          <button type="button" data-v="LN" aria-pressed="true">L and N</button>
+          <button type="button" data-v="LE" aria-pressed="false">L and E</button>
+          <button type="button" data-v="NE" aria-pressed="false">N and E</button>
+          <button type="button" data-v="LNE" aria-pressed="false">L+N joined, and E</button>
+        </div>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="lampIn"><input type="checkbox" id="lampIn" checked> Lamp fitted</label></div>
+      <div class="ctl"><label for="swOn"><input type="checkbox" id="swOn" checked> Light switch on</label></div>
+      <div class="ctl"><label for="irFault">Hidden damage</label><select id="irFault"><option value="none">None</option><option value="LE">Screw through the cable, touching line and CPC</option><option value="NE">Damp in a joint box, between neutral and CPC</option></select></div>
+      <div class="ctl"><button type="button" class="btn primary" id="irTest">Test</button></div>
+    </div>
+    <div class="mft" aria-live="polite"><span class="mode" id="iMode">Insulation resistance</span><span class="val" id="iVal">—</span><span class="where" id="iWhere">Press Test.</span></div>
+    <div class="verdict" id="irV" aria-live="polite" hidden><strong></strong><span></span></div>
+  </section>
+
+  <section class="prose">
+    <h2>Insulation resistance in practice</h2>
+    <ul>
+      <li><strong>Check the tester first</strong>: leads apart should read off the scale, leads touching near zero. Then you know it's set up and the leads are in the right sockets.</li>
+      <li><strong>Remove loads</strong>, such as lamps and plugged-in equipment, and isolate electronics (dimmers, timers, <abbr title="surge protective device">SPDs</abbr>, smoke alarms). A lamp left in makes a line–neutral test read almost nothing, and the lamp even glows from the test voltage. A laptop could be damaged. Starting at 250 V is a sensible habit in case you've missed something.</li>
+      <li><strong>Test line to neutral, then line and neutral joined to earth</strong>, at 500 V for a 230 V circuit. Close switches and operate two-way switches so every part is tested.</li>
+      <li>Once the voltage-sensitive equipment is reconnected, you can test line and neutral joined to earth at 250 V. Both conductors are at the same voltage, so nothing flows through the load.</li>
+      <li><strong>Record the lowest reading</strong> (the worst); for continuity, record the highest. Minimum 1 MΩ by <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>, but a new circuit should read far higher. Investigate anything unexpectedly low.</li>
+      <li>Some testers let you "piggyback" one lead onto another so line and neutral are joined without disconnecting them. If yours doesn't, disconnect them and clip both under one lead.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var NS = "http://www.w3.org/2000/svg";
+  var MOHM = { "2.5": { L: 7.41, E: 12.10 }, "4": { L: 4.61, E: 12.10 } }; // GN3 Table B1, mΩ/m at 20 °C
+  var POS = [0, 0.11, 0.27, 0.42, 0.58, 0.74, 0.89, 1]; // ends A and B, then sockets 1 to 6
+  var SPUR = 0.08; // spur length as a share of the ring length
+
+  // ---- Resistance between two nodes of a resistor network ----
+  function resistance(edges, s, t) {
+    if (s === t) return 0;
+    var adj = {};
+    edges.forEach(function (e) { (adj[e[0]] = adj[e[0]] || []).push(e[1]); (adj[e[1]] = adj[e[1]] || []).push(e[0]); });
+    var seen = {}; seen[t] = true; var q = [t];
+    while (q.length) { var u = q.shift(); (adj[u] || []).forEach(function (v) { if (!seen[v]) { seen[v] = true; q.push(v); } }); }
+    if (!seen[s]) return Infinity;
+    var nodes = Object.keys(seen).filter(function (n) { return n !== t; }), idx = {};
+    nodes.forEach(function (n, i) { idx[n] = i; });
+    var n = nodes.length, G = [], b = [];
+    for (var i = 0; i < n; i++) { G.push(new Array(n).fill(0)); b.push(0); }
+    edges.forEach(function (e) {
+      if (!seen[e[0]] || !seen[e[1]]) return;
+      var g = 1 / e[2], a = idx[e[0]], c = idx[e[1]];
+      if (a !== undefined) G[a][a] += g;
+      if (c !== undefined) G[c][c] += g;
+      if (a !== undefined && c !== undefined) { G[a][c] -= g; G[c][a] -= g; }
+    });
+    b[idx[s]] = 1;
+    for (var k = 0; k < n; k++) {
+      var p = k; for (var r = k + 1; r < n; r++) if (Math.abs(G[r][k]) > Math.abs(G[p][k])) p = r;
+      var tmp = G[k]; G[k] = G[p]; G[p] = tmp; var tb = b[k]; b[k] = b[p]; b[p] = tb;
+      if (Math.abs(G[k][k]) < 1e-15) return Infinity;
+      for (var r2 = k + 1; r2 < n; r2++) { var f = G[r2][k] / G[k][k]; if (!f) continue; for (var c2 = k; c2 < n; c2++) G[r2][c2] -= f * G[k][c2]; b[r2] -= f * b[k]; }
+    }
+    var x = new Array(n).fill(0);
+    for (var k2 = n - 1; k2 >= 0; k2--) { var sum = b[k2]; for (var c3 = k2 + 1; c3 < n; c3++) sum -= G[k2][c3] * x[c3]; x[k2] = sum / G[k2][k2]; }
+    return x[idx[s]];
+  }
+
+  // ---- Faults: [id, label, description] ----
+  var FAULTS = [
+    ["none", "No fault", "The ring is sound."],
+    ["breakL", "Line broken between sockets 3 and 4", "Step 1 shows the line open. Fix it before steps 2 and 3."],
+    ["breakE", "CPC broken between sockets 5 and 6", "Step 1 shows the CPC open."],
+    ["looseN", "Loose neutral at socket 5", "Step 1: r<sub>n</sub> is well above r<sub>1</sub> (more than 0.05 Ω apart)."],
+    ["revLN", "Line and neutral reversed at socket 4", "Step 2 looks normal; step 3 is open at socket 4."],
+    ["revLE", "Line and CPC reversed at socket 2", "Step 3 looks normal at socket 2, but step 2 is open there."]
+  ];
+  FAULTS.forEach(function (f) { var o = document.createElement("option"); o.value = f[0]; o.innerHTML = f[1]; $("fault").appendChild(o); var g = o.cloneNode(true); $("guess").appendChild(g); });
+
+  var st = { step: 1, cross: "ok", fault: "none", mystery: null, sel: null, log: {} };
+  function r() { var m = MOHM[$("cab").value], L = Math.max(1, parseFloat($("len").value) || 50); return { L: m.L * L / 1000, N: m.L * L / 1000, E: m.E * L / 1000 }; }
+  function activeFault() { return st.mystery || st.fault; }
+
+  function network(withLinks) {
+    var rr = r(), f = activeFault(), E = [];
+    ["L", "N", "E"].forEach(function (c) {
+      for (var i = 0; i < 7; i++) {
+        if (f === "breakL" && c === "L" && i === 3) continue;
+        if (f === "breakE" && c === "E" && i === 5) continue;
+        var R = (POS[i + 1] - POS[i]) * rr[c];
+        if (f === "looseN" && c === "N" && i === 4) R += 0.25;
+        E.push([c + i, c + (i + 1), R]);
+      }
+      if ($("spur").checked) E.push([c + 3, c + "s", SPUR * rr[c]]);
+    });
+    if (withLinks) {
+      var o = st.step === 2 ? "N" : "E";
+      if (st.cross === "ok") { E.push(["L0", o + "7", 1e-6]); E.push(["L7", o + "0", 1e-6]); }
+      else { E.push(["L0", o + "0", 1e-6]); E.push(["L7", o + "7", 1e-6]); }
+    }
+    return E;
+  }
+  function terminals(k) {
+    var t = { L: "L" + k, N: "N" + k, E: "E" + k }, f = activeFault();
+    if (f === "revLN" && k === 4) { t.L = "N4"; t.N = "L4"; }
+    if (f === "revLE" && k === 2) { t.L = "E2"; t.E = "L2"; }
+    return t;
+  }
+  var fmt = function (R) { return isFinite(R) ? R.toFixed(2) + " Ω" : "> 1999 Ω"; };
+
+  function measureEnds(c) {
+    var R = resistance(network(false), c + "0", c + "7");
+    $("mMode").textContent = "Continuity, step 1";
+    $("mVal").textContent = fmt(R);
+    $("mWhere").innerHTML = { L: "Line end to end, r<sub>1</sub>", N: "Neutral end to end, r<sub>n</sub>", E: "CPC end to end, r<sub>2</sub>" }[c];
+  }
+  function measureSocket(k) {
+    if (st.step === 1) { $("mWhere").textContent = "Step 1 is measured at the board. Choose step 2 or 3 to test at the sockets."; return; }
+    var t = terminals(k), o = st.step === 2 ? "N" : "E";
+    var R = resistance(network(true), t.L, t[o]);
+    $("mMode").textContent = "Continuity, step " + st.step;
+    $("mVal").textContent = fmt(R);
+    $("mWhere").textContent = (k === "s" ? "Spur socket" : "Socket " + k) + ", line to " + (st.step === 2 ? "neutral" : "CPC");
+    (st.log[k] = st.log[k] || {})[st.step] = R;
+    renderLog();
+  }
+  function renderLog() {
+    var keys = [1, 2, 3, 4, 5, 6]; if ($("spur").checked) keys.splice(3, 0, "s");
+    var hi3 = -1; keys.forEach(function (k) { var v = (st.log[k] || {})[3]; if (isFinite(v) && v > hi3) hi3 = v; });
+    $("logB").innerHTML = keys.map(function (k) {
+      var l = st.log[k] || {};
+      var c = function (s) { return l[s] === undefined ? "—" : fmt(l[s]); };
+      return "<tr><td>" + (k === "s" ? "Spur" : k) + "</td><td>" + c(2) + '</td><td class="' + (l[3] === hi3 && hi3 > 0 ? "hi" : "") + '">' + c(3) + "</td></tr>";
+    }).join("");
+    var rr = r();
+    $("expect").innerHTML = "Healthy ring: r<sub>1</sub> = r<sub>n</sub> = " + rr.L.toFixed(2) + " Ω, r<sub>2</sub> = " + rr.E.toFixed(2) + " Ω. Expect step 2 ≈ " + ((rr.L + rr.N) / 4).toFixed(2) + " Ω and step 3 ≈ " + ((rr.L + rr.E) / 4).toFixed(2) + " Ω at every socket on the ring (bold: highest step 3 reading, recorded as R<sub>1</sub> + R<sub>2</sub>).";
+  }
+
+  // ---- Drawing (wide and narrow layouts) ----
+  var GEO = {
+    wide: { vb: "0 0 640 300", cable: "M 92 120 L 110 120 L 110 50 Q 110 30 130 30 L 590 30 Q 610 30 610 50 L 610 250 Q 610 270 590 270 L 130 270 Q 110 270 110 250 L 110 180 L 92 180",
+      loop: "M 110 120 L 110 50 Q 110 30 130 30 L 590 30 Q 610 30 610 50 L 610 250 Q 610 270 590 270 L 130 270 Q 110 270 110 250 L 110 180",
+      box: [10, 95, 82, 110], sw: 44, sh: 32, fs: 15, spur: [0, 70] },
+    narrow: { vb: "0 0 360 460", cable: "M 74 210 L 96 210 L 96 60 Q 96 40 116 40 L 296 40 Q 316 40 316 60 L 316 400 Q 316 420 296 420 L 116 420 Q 96 420 96 400 L 96 250 L 74 250",
+      loop: "M 96 210 L 96 60 Q 96 40 116 40 L 296 40 Q 316 40 316 60 L 316 400 Q 316 420 296 420 L 116 420 Q 96 420 96 400 L 96 250",
+      box: [6, 175, 68, 110], sw: 56, sh: 42, fs: 20, spur: [-110, 0] }
+  };
+  var mode = "wide";
+  function draw() {
+    var g = $("ringG"), G = GEO[mode]; g.innerHTML = ""; $("ringSvg").setAttribute("viewBox", G.vb);
+    var path = document.createElementNS(NS, "path"); path.setAttribute("d", G.cable); path.setAttribute("class", "cable"); g.appendChild(path);
+    // place sockets along the loop (ignoring the short tails to the board)
+    var loop = document.createElementNS(NS, "path"); loop.setAttribute("d", G.loop); loop.setAttribute("fill", "none"); loop.setAttribute("stroke", "none"); g.appendChild(loop);
+    var Lt = loop.getTotalLength(), pts = {};
+    for (var k = 1; k <= 6; k++) pts[k] = loop.getPointAtLength(POS[k] * Lt);
+    if ($("spur").checked) {
+      var p3 = pts[3], sp = { x: p3.x + G.spur[0], y: p3.y + G.spur[1] };
+      var sl = document.createElementNS(NS, "line"); sl.setAttribute("x1", p3.x); sl.setAttribute("y1", p3.y); sl.setAttribute("x2", sp.x); sl.setAttribute("y2", sp.y); sl.setAttribute("class", "cable"); g.appendChild(sl);
+      pts.s = sp;
+    }
+    var box = document.createElementNS(NS, "rect"); box.setAttribute("x", G.box[0]); box.setAttribute("y", G.box[1]); box.setAttribute("width", G.box[2]); box.setAttribute("height", G.box[3]); box.setAttribute("rx", 6); box.setAttribute("class", "boardbox"); g.appendChild(box);
+    var bt = document.createElementNS(NS, "text"); bt.setAttribute("x", G.box[0] + G.box[2] / 2); bt.setAttribute("y", G.box[1] + G.box[3] / 2 - 4); bt.setAttribute("text-anchor", "middle"); bt.setAttribute("class", "lbl"); bt.textContent = "Consumer"; g.appendChild(bt);
+    var bt2 = bt.cloneNode(); bt2.setAttribute("y", G.box[1] + G.box[3] / 2 + 12); bt2.textContent = "unit"; g.appendChild(bt2);
+    Object.keys(pts).forEach(function (k) {
+      var p = pts[k], s = document.createElementNS(NS, "g");
+      s.setAttribute("class", "sock" + (String(st.sel) === String(k) ? " sel" : "")); s.setAttribute("tabindex", "0"); s.setAttribute("role", "button");
+      s.setAttribute("aria-label", k === "s" ? "Spur socket" : "Socket " + k);
+      var rc = document.createElementNS(NS, "rect"); rc.setAttribute("x", p.x - G.sw / 2); rc.setAttribute("y", p.y - G.sh / 2); rc.setAttribute("width", G.sw); rc.setAttribute("height", G.sh); rc.setAttribute("rx", 5); s.appendChild(rc);
+      var tx = document.createElementNS(NS, "text"); tx.setAttribute("x", p.x); tx.setAttribute("y", p.y + G.fs / 3); tx.setAttribute("style", "font-size:" + G.fs + "px"); tx.setAttribute("text-anchor", "middle"); tx.textContent = k === "s" ? "S" : k; s.appendChild(tx);
+      var go = function () { st.sel = k; draw(); measureSocket(k === "s" ? "s" : +k); };
+      s.addEventListener("click", go);
+      s.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+      g.appendChild(s);
+    });
+  }
+
+  function setStep(v) {
+    st.step = v;
+    document.querySelectorAll("#step button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.getAttribute("data-v") === v)); });
+    $("crossCtl").toggleAttribute("hidden", v === 1); $("endCtl").toggleAttribute("hidden", v !== 1);
+    $("mMode").textContent = "Continuity, step " + v; $("mVal").textContent = "—";
+    $("mWhere").textContent = v === 1 ? "Choose a conductor to measure end to end." : "Click or tap a socket to measure.";
+  }
+  function refresh() { st.log = {}; renderLog(); draw(); $("mVal").textContent = "—"; }
+  $("step").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) setStep(+b.getAttribute("data-v")); });
+  $("cross").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; st.cross = b.getAttribute("data-v");
+    document.querySelectorAll("#cross button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    st.log = {}; renderLog(); $("mVal").textContent = "—";
+  });
+  $("ends").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) measureEnds(b.getAttribute("data-v")); });
+  ["cab", "len"].forEach(function (id) { $(id).addEventListener("input", refresh); });
+  $("spur").addEventListener("change", refresh);
+  $("fault").addEventListener("change", function () { st.fault = $("fault").value; st.mystery = null; $("mysV").hidden = true; $("guessCtl").hidden = true; $("guessBtnCtl").hidden = true; refresh(); });
+  $("clearLog").addEventListener("click", function () { st.log = {}; renderLog(); });
+  $("mystery").addEventListener("click", function () {
+    st.mystery = FAULTS[Math.floor(Math.random() * FAULTS.length)][0];
+    $("fault").value = "none"; $("fault").disabled = true; st.fault = "none";
+    $("guessCtl").hidden = false; $("guessBtnCtl").hidden = false;
+    var v = $("mysV"); v.hidden = false; v.className = "verdict warn"; v.querySelector("strong").textContent = "Mystery fault set";
+    v.querySelector("span").textContent = "Do the three steps, fill the table, then choose your diagnosis. It might be a sound ring.";
+    setStep(1); refresh();
+  });
+  $("guessBtn").addEventListener("click", function () {
+    var f = FAULTS.filter(function (x) { return x[0] === st.mystery; })[0], ok = $("guess").value === st.mystery, v = $("mysV");
+    v.className = "verdict " + (ok ? "ok" : "bad"); v.querySelector("strong").textContent = ok ? "Right: " + f[1].replace(/<[^>]+>/g, "") : "Not quite. It was: " + f[1].replace(/<[^>]+>/g, "");
+    v.querySelector("span").innerHTML = f[2];
+    st.mystery = null; $("fault").disabled = false; $("guessCtl").hidden = true; $("guessBtnCtl").hidden = true;
+  });
+  setStep(1); renderLog();
+  Course.layout($("ringSvg").parentNode, 600, function (m) { mode = m; draw(); });
+
+  // ---- Insulation resistance bench ----
+  var ir = { v: 500, leads: "LN" };
+  function segBind(id, key, num) {
+    $(id).addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return; ir[key] = num ? +b.getAttribute("data-v") : b.getAttribute("data-v");
+      document.querySelectorAll("#" + id + " button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    });
+  }
+  segBind("iv", "v", true); segBind("il", "leads", false);
+  $("irTest").addEventListener("click", function () {
+    var lamp = $("lampIn").checked && $("swOn").checked, f = $("irFault").value, L = ir.leads, val, glow = false, msg, cls;
+    var HIGH = Infinity;
+    if (L === "open") { val = HIGH; cls = "ok"; msg = "Leads apart: off the scale, as it should be. The tester is working."; }
+    else if (L === "short") { val = 0.00; cls = "ok"; msg = "Leads touching: near zero. Together with the open test, that proves the tester and leads."; }
+    else {
+      val = HIGH;
+      if (L === "LN" && lamp) { val = 0.17; glow = ir.v >= 250; }
+      if (f === "LE" && (L === "LE" || L === "LNE")) val = Math.min(val, 0.04);
+      if (f === "NE" && (L === "NE" || L === "LNE")) val = Math.min(val, 2.6);
+      if (f === "LE" && L === "NE" && lamp) val = Math.min(val, 0.21);
+      if (f === "NE" && L === "LE" && lamp) val = Math.min(val, 2.8);
+      if (val < 1) { cls = "bad"; msg = (L === "LN" && lamp && f === "none") ? "A very low reading, and the lamp glows: the test is just measuring through the lamp. Remove it (or switch it off) and test again." : "Below 1 MΩ: a fault. Something is bridging the insulation. Find it before going any further."; }
+      else if (val < 20 && isFinite(val)) { cls = "warn"; msg = "It passes the 1 MΩ minimum, but a new circuit should read far higher. Investigate."; }
+      else { cls = "ok"; msg = L === "LNE" ? "Line and neutral are joined, so they're at the same test voltage: nothing flows through the lamp, and only leakage to earth would show." : "Off the scale: the insulation between these conductors is sound."; }
+    }
+    $("iMode").textContent = "Insulation resistance, " + ir.v + " V DC";
+    $("iVal").textContent = isFinite(val) ? val.toFixed(2) + " MΩ" : "> 999 MΩ";
+    $("iWhere").innerHTML = { open: "Leads apart", short: "Leads touching", LN: "Line to neutral", LE: "Line to CPC", NE: "Neutral to CPC", LNE: "Line and neutral joined, to CPC" }[L] + (glow ? ' · <span class="lamp glow">the lamp glows</span>' : "");
+    var v = $("irV"); v.hidden = false; v.className = "verdict " + cls; v.querySelector("strong").textContent = cls === "ok" ? "Good" : cls === "warn" ? "Check" : "Problem"; v.querySelector("span").textContent = msg;
+  });
+
+  Course.quiz("#quiz", [
+    { q: "In step 1 of a ring test, r<sub>1</sub> is 0.37 Ω. What should r<sub>2</sub> be in 2.5/1.5 mm² twin and earth?",
+      options: ["About 0.62 Ω", "About 0.37 Ω", "About 0.22 Ω", "About 0.09 Ω"], answer: 0,
+      why: "The CPC is smaller: 0.37 × " + Course.frac("2.5", "1.5") + " = 0.37 × 1.67 ≈ 0.62 Ω." },
+    { q: "With r<sub>1</sub> = r<sub>n</sub> = 0.37 Ω, what should each socket read in step 2?",
+      options: ["About 0.18 Ω", "About 0.37 Ω", "About 0.74 Ω", "About 0.09 Ω"], answer: 0,
+      why: Course.frac("0.37 + 0.37", "4") + " ≈ 0.18 Ω." },
+    { q: "Step 2 readings are low near the board and highest halfway round. What's wrong?",
+      options: ["The legs are cross-connected the wrong way", "There's a spur on the ring", "The CPC is broken", "Line and neutral are reversed at a socket"], answer: 0,
+      why: "Same leg linked to same leg. Swap the links." },
+    { q: "A socket reads normally in step 2 but open circuit in step 3. What's the likely fault?",
+      options: ["Line and neutral reversed at that socket", "A broken ring", "A loose CPC at the board", "A spur from that socket"], answer: 0,
+      why: "Step 2 measures between the same two conductors whichever terminal they're on; step 3 finds the line isn't where it should be." },
+    { q: "Which ring test reading is recorded as R<sub>1</sub> + R<sub>2</sub>?",
+      options: ["The highest step 3 reading", "The lowest step 3 reading", "The step 2 average", "The step 1 r<sub>2</sub> reading"], answer: 0,
+      why: "For continuity, record the highest (worst) value." },
+    { q: "An insulation test between line and neutral reads 0.17 MΩ and the lamp glows. What should you do?",
+      options: ["Remove the lamp and test again", "Record a fail and replace the cable", "Raise the test voltage to 1000 V", "Record it: lamps always read low"], answer: 0,
+      why: "The tester is measuring through the load. Loads must be removed for the line–neutral test." },
+    { q: "Why doesn't the lamp light when line and neutral are joined and tested to earth?",
+      options: ["Both ends of the lamp are at the same voltage", "The tester uses AC for this test", "The switch is bypassed", "Earth absorbs the test current"], answer: 0,
+      why: "No potential difference across the lamp, so no current through it." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -723,6 +723,10 @@
     { id: "insp-10", lesson: "inspection", q: "Recommended maximum interval between inspections of an owner-occupied home?", a: "10 years (and on change of occupancy)", num: 10, tol: 0, unit: "years" },
     { id: "insp-11", lesson: "inspection", q: "What code would line and neutral reversed at a socket usually get?", a: "C2: potentially dangerous", accept: ["c2", "code 2", "code c2"] },
     { id: "insp-12", lesson: "inspection", q: "Which Electrical Safety First guide gives typical EICR codes?", a: "Best Practice Guide 4", num: 4, tol: 0 },
+    { id: "insp-13", lesson: "inspection", q: "How many sets of schedules does an EIC need for an installation with two distribution boards?", a: "Two (one set per board)", num: 2, tol: 0 },
+    { id: "insp-14", lesson: "inspection", q: "How is the nominal voltage of a three-phase supply written on the EIC (U/U0)?", a: "400/230 V", accept: ["400/230", "400/230 v", "400 230", "400 / 230"] },
+    { id: "insp-15", lesson: "inspection", q: "Who decides the interval to the first periodic inspection on an EIC?", a: "The designer", accept: ["designer", "the designer"] },
+    { id: "insp-16", lesson: "inspection", q: "Quick maximum demand for a household (OSG Table A2): what percentage of the largest circuit, plus what percentage of the rest?", a: "100% of the largest plus 40% of the rest", accept: ["100 and 40", "100% and 40%", "100 40", "100% + 40%", "100%, 40%"] },
 
     // ---------------- Dead tests ----------------
     { id: "dt-01", lesson: "dead-tests", q: "Which test comes first in the sequence of tests?", a: "Continuity of protective conductors (including bonding)", accept: ["continuity", "continuity of protective conductors", "cpc continuity", "continuity of cpc", "r1+r2", "continuity of protective conductors including bonding"] },
@@ -737,6 +741,15 @@
     { id: "dt-10", lesson: "dead-tests", q: "Insulation test voltage and minimum for SELV and PELV circuits?", a: "250 V DC, 0.5 MΩ", accept: ["250v 0.5mohm", "250 v 0.5 mω", "250v 0.5mω", "250 0.5", "250v and 0.5mω", "250 v and 0.5 mω"] },
     { id: "dt-11", lesson: "dead-tests", q: "Eight circuits each read 10 MΩ. What does the whole installation read?", a: "1.25 MΩ", num: 1.25, unit: "MΩ" },
     { id: "dt-12", lesson: "dead-tests", q: "The centre contact of an Edison screw lampholder should be connected to which conductor?", a: "Line", accept: ["line", "the line", "l", "line conductor", "live"] },
+    { id: "dt-13", lesson: "dead-tests", q: "Test leads read 1.50 Ω; a bonding conductor test reads 1.51 Ω. What's the conductor's resistance?", a: "0.01 Ω", num: 0.01, tol: 0.001, unit: "Ω" },
+    { id: "dt-14", lesson: "dead-tests", q: "Which test is done first once the supply is connected?", a: "Supply polarity (at the origin)", accept: ["polarity", "supply polarity", "polarity at the origin", "live polarity"] },
+    { id: "dt-15", lesson: "dead-tests", q: "GN3 Table B1: resistance per metre of 2.5/1.5 mm² twin and earth (R1 + R2)?", a: "19.51 mΩ/m", num: 19.51, tol: 0.01, unit: "mΩ/m" },
+    { id: "dt-16", lesson: "dead-tests", q: "GN3 Table B1: resistance per metre of one 2.5 mm² conductor?", a: "7.41 mΩ/m", num: 7.41, tol: 0.01, unit: "mΩ/m" },
+    { id: "dt-17", lesson: "dead-tests", q: "What size CPC is in 4 mm² twin and earth?", a: "1.5 mm²", num: 1.5, tol: 0, unit: "mm²" },
+    { id: "dt-18", lesson: "dead-tests", q: "Which reading is recorded for insulation resistance: highest or lowest?", a: "The lowest (continuity: the highest)", accept: ["lowest", "the lowest", "low"] },
+    { id: "tb-01", lesson: "test-bench", q: "Ring step 2: with r1 = rn = 0.37 Ω, what should each socket read?", a: "About 0.18 Ω (r1 + rn, divided by 4)", num: 0.185, tol: 0.01, unit: "Ω" },
+    { id: "tb-02", lesson: "test-bench", q: "Ring step 3 readings are lowest by the board and highest mid-ring. What's wrong?", a: "The legs are cross-connected the wrong way (same leg to same leg)", accept: ["wrong cross connection", "legs cross connected wrong", "cross connected wrong", "same leg", "links wrong", "wrong links", "legs not crossed"] },
+    { id: "tb-03", lesson: "test-bench", q: "A socket reads open in ring step 3 but fine in step 2. What's the fault?", a: "Line and neutral reversed at that socket", accept: ["reversed polarity", "line and neutral reversed", "polarity reversed", "l and n reversed", "reverse polarity"] },
 
     // ---------------- Live tests ----------------
     { id: "lt-01", lesson: "live-tests", q: "When measuring Z<sub>e</sub>, what is disconnected from the MET?", a: "The earthing conductor (reconnect it straight after)", accept: ["earthing conductor", "the earthing conductor", "main earth", "the main earth", "main earthing conductor"] },
