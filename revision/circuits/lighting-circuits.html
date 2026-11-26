@@ -15,6 +15,7 @@
   .sw:focus { outline: none; }
   .sw:focus-visible .hit { stroke: var(--flow); stroke-width: 2; stroke-dasharray: 3 3; }
   .glow { fill: var(--flow); }
+  #plSvg.wide-text text { font-size: 8px; }
   .flow.thin { stroke-width: 2.2; stroke-dasharray: 2 8; animation-name: march10; }
   @keyframes march10 { to { stroke-dashoffset: -10; } }
   .strap { stroke-dasharray: none; }
@@ -83,6 +84,11 @@
         <title id="wpd">Two lights on one circuit, each with its own switch on the wall below. The diagram shows which way the twin and earth cables run for the wiring method chosen. The switches can be operated: a lit lamp glows and moving dashes show current in the cores carrying it. Each cable shows its three cores side by side: brown line, green-and-yellow protective conductor and blue neutral. In the three-plate method, the blue core of each switch cable has brown sleeving at both ends because it carries the switched line.</title>
       </svg>
     </div>
+    <p class="label" style="font-size:0.85rem;font-weight:600;margin-top:4px">Close up: the connections <span class="muted" style="font-weight:400">(schematic: real roses and switches lay their terminals out differently)</span></p>
+    <div class="stage">
+      <svg id="cuW" class="only-wide" viewBox="0 0 660 268" role="img" aria-labelledby="cuWd" style="max-width:660px;margin:0 auto"><title id="cuWd">Inside the ceiling rose and the switch for the wiring method chosen, showing which terminal each core goes to.</title><g id="cuWg"></g></svg>
+      <svg id="cuN" class="only-narrow" viewBox="0 0 320 540" role="img" aria-labelledby="cuNd" style="max-width:360px;margin:0 auto"><title id="cuNd">Inside the ceiling rose and the switch for the wiring method chosen, showing which terminal each core goes to.</title><g id="cuNg"></g></svg>
+    </div>
     <div class="table-wrap">
       <table>
         <thead><tr><th></th><th>At the light</th><th>At the switch</th></tr></thead>
@@ -90,21 +96,8 @@
       </table>
     </div>
     <p class="caption" id="plCap" aria-live="polite"></p>
-  </section>
-
-  <section class="widget" aria-labelledby="wcu">
-    <div class="widget-title">
-      <span class="eyebrow">Diagram</span>
-      <h3 id="wcu">Close up: the connections</h3>
-    </div>
-    <p class="muted" style="font-size:0.9rem">Follows the Three-plate / Two-plate choice above. Schematic: real roses and switches lay their terminals out differently from brand to brand.</p>
-    <div class="stage">
-      <svg id="cuW" class="only-wide" viewBox="0 0 660 268" role="img" aria-labelledby="cuWd" style="max-width:660px;margin:0 auto"><title id="cuWd">Inside the ceiling rose and the switch for the wiring method chosen, showing which terminal each core goes to.</title><g id="cuWg"></g></svg>
-      <svg id="cuN" class="only-narrow" viewBox="0 0 320 540" role="img" aria-labelledby="cuNd" style="max-width:360px;margin:0 auto"><title id="cuNd">Inside the ceiling rose and the switch for the wiring method chosen, showing which terminal each core goes to.</title><g id="cuNg"></g></svg>
-    </div>
     <p class="caption" id="cuCap" aria-live="polite"></p>
   </section>
-
   <section class="prose">
     <p>Neither is wrong. Three-plate suits a rewire where existing conduit drops to each switch, because only one cable has to go down it. Two-plate is common in new builds: a heavy fitting (that crystal chandelier from John Lewis) only needs one cable connecting, and there's a neutral at every switch. That neutral is handy for smart and electronic switches, or for adding an outside light by the front door from the hall switch. Two-plate switch boxes get crowded, so use deep ones: at least 35 mm.</p>
     <p>Never take a neutral from a <strong>different circuit</strong> because it's handy (a <strong>borrowed neutral</strong>). The current wouldn't match in each circuit's line and neutral, so an <abbr title="residual current device">RCD</abbr> trips. Worse, isolating one circuit can leave the borrowed neutral carrying current from the other. Where there's no neutral at a switch, use three-core and earth, or get the neutral from the same circuit at the rose.</p>
@@ -380,10 +373,12 @@
     var lvl = 58, lvlB = 226;
     cables.forEach(function (cb) {
       h += '<path d="M' + cb.x + ',24 V46" stroke="var(--muted)" stroke-width="13" stroke-linecap="round" opacity="0.35" fill="none"/>';
-      cb.cores.forEach(function (k, i) {
-        var b = blocks[k[1]], tx = b[3][k[2]];
-        h += core(k[0], cb.x + (i - 1) * 4, "top", tx, lvl, k[3]); lvl += 9;
-      });
+      // cores heading left peel off leftmost first, cores heading right peel off rightmost first,
+      // so no core's horizontal run crosses a neighbour that's still coming down
+      var cs = cb.cores.map(function (k, i) { var x0 = cb.x + (i - 1) * 4; return { k: k, x0: x0, tx: blocks[k[1]][3][k[2]] }; });
+      var left = cs.filter(function (c) { return c.tx < c.x0; }).sort(function (a, b) { return a.x0 - b.x0; });
+      var right = cs.filter(function (c) { return c.tx >= c.x0; }).sort(function (a, b) { return b.x0 - a.x0; });
+      left.concat(right).forEach(function (c) { h += core(c.k[0], c.x0, "top", c.tx, lvl, c.k[3]); lvl += 9; });
       if (cb.label) h += '<text class="small" x="' + (cb.x + 10) + '" y="32" style="font-size:9.5px">' + cb.label + '</text>';
     });
     if (flex) {
@@ -432,6 +427,7 @@
   }
   document.querySelectorAll("#plate button").forEach(function (b) { b.addEventListener("click", function () { mode = b.getAttribute("data-p"); draw(); drawCU(); }); });
   draw(); drawCU();
+  Course.layout($("plSvg").parentNode, 600, function (m) { $("plSvg").classList.toggle("wide-text", m === "wide"); });
 })();
 </script>
 </body>
