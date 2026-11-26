@@ -394,26 +394,29 @@
     return h;
   }
   var slots = function (c, n, w) { var o = []; for (var i = 0; i < n; i++) o.push(c - w / 2 + w * (i + 1) / (n + 1)); return o; };
+  // Block order, cable positions, terminal slots and the order cables turn off were chosen by testing
+  // every arrangement and keeping the one with fewest crossings (earth crossings counted worst).
   function roseSvg() {
     var body = '<rect x="8" y="38" width="304" height="192" rx="26" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>';
     var two = mode === "2";
-    var B = [["loop L", 55, 60, slots(55, 3, 60), two], ["neutral", 125, 60, slots(125, 3, 60)], ["switch line", 195, 64, slots(195, 3, 64)], ["earth", 268, 64, slots(268, 4, 64)]];
+    // block indexes stay 0 loop, 1 neutral, 2 switch line, 3 earth; only their positions change
+    var B = [["loop L", 118, 60, slots(118, 3, 60), two], ["neutral", 266, 60, slots(266, 3, 60)], ["switch line", 45, 64, slots(45, 3, 64)], ["earth", 191, 64, slots(191, 4, 64)]];
     if (two) { B[2][0] = "switched L"; B[0][0] = "not used"; }
-    var cables = two ? [{ x: 160, label: "from the switch", cores: [["L", 2, 0], ["E", 3, 0], ["N", 1, 0]] }]
-      : [{ x: 40, label: "in", cores: [["L", 0, 0], ["E", 3, 0], ["N", 1, 0]] },
-         { x: 160, label: "to switch", cores: [["L", 0, 2], ["E", 3, 2], ["N", 2, 0, true]] },
-         { x: 280, label: "out", cores: [["L", 0, 1], ["E", 3, 1], ["N", 1, 1]] }];
-    var flex = { x: 160, cores: [["L", 2, two ? 1 : 1], ["E", 3, 3], ["N", 1, 2]] };
+    var cables = two ? [{ x: 160, label: "from the switch", cores: [["L", 2, 0], ["E", 3, 1], ["N", 1, 0]] }]
+      : [{ x: 160, label: "in", cores: [["L", 0, 1], ["E", 3, 1], ["N", 1, 0]] },
+         { x: 40, label: "to switch", cores: [["L", 0, 0], ["E", 3, 0], ["N", 2, 0, true]] },
+         { x: 280, label: "out", cores: [["L", 0, 2], ["E", 3, 2], ["N", 1, 1]] }];
+    var flex = { x: 160, cores: [["L", 2, 1], ["E", 3, 3], ["N", 1, 2]] };
     return panel("Ceiling rose, cover off", body, B, cables, flex);
   }
   function switchSvg() {
-    var body = '<rect x="20" y="38" width="280" height="192" rx="8" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>';
+    var body = '<rect x="14" y="38" width="294" height="192" rx="8" fill="var(--surface)" stroke="var(--fg)" stroke-width="1.5"/>';
     var two = mode === "2";
-    var B = [["COM", 60, 50, slots(60, 2, 50)], ["L1", 120, 40, slots(120, 1, 40)], ["L2", 172, 40, slots(172, 1, 40), true], ["neutrals", 230, 56, slots(230, 3, 56), !two], ["earth", 280, 32, slots(280, 3, 32)]];
+    var B = [["COM", 60, 50, slots(60, 2, 50)], ["L1", 120, 40, slots(120, 1, 40)], ["L2", 172, 40, slots(172, 1, 40), true], ["neutrals", 276, 52, slots(276, 3, 52), !two], ["earth", 226, 36, slots(226, 3, 36)]];
     if (!two) B[3] = null;
-    var cables = two ? [{ x: 50, label: "in", cores: [["L", 0, 0], ["E", 4, 0], ["N", 3, 0]] },
-                         { x: 150, label: "out", cores: [["L", 0, 1], ["E", 4, 1], ["N", 3, 1]] },
-                         { x: 250, label: "to light", cores: [["L", 1, 0], ["E", 4, 2], ["N", 3, 2]] }]
+    var cables = two ? [{ x: 150, label: "out", cores: [["L", 0, 1], ["E", 4, 1], ["N", 3, 2]] },
+                         { x: 250, label: "to light", cores: [["L", 1, 0], ["E", 4, 2], ["N", 3, 1]] },
+                         { x: 50, label: "in", cores: [["L", 0, 0], ["E", 4, 0], ["N", 3, 0]] }]
       : [{ x: 100, label: "from the rose", cores: [["L", 0, 0], ["E", 4, 1], ["N", 1, 0, true]] }];
     return panel("Switch, from behind (in its back box)", body, B, cables, null);
   }
