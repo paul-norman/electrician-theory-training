@@ -167,6 +167,18 @@
     var up = R.x >= 0, W0 = 50, Wmax = 220, Hmax = 190;
     var k = Math.min(Wmax / Math.max(R.req, 1e-6), Math.abs(R.x) > 0.01 ? Hmax / Math.abs(R.x) : Infinity);
     var ox = W0, oy = up ? 272 : 78, rx = ox + R.req * k, xy = oy - R.x * k;
+    // Angle arc, drawn first so the triangle's sides sit on top. Sized to fit inside the triangle
+    // (at most 60% of the R side); left out when too small to read.
+    var ar = Math.min(30, (rx - ox) * 0.6), phiLbl = "";
+    if (Math.abs(R.phi) > 0.02 && ar >= 8) {
+      var a1x = ox + ar, a2x = ox + ar * Math.cos(R.phi), a2y = oy - ar * Math.sin(R.phi);
+      g += '<path d="M' + a1x + "," + oy + " A" + ar + "," + ar + " 0 0," + (R.phi > 0 ? 0 : 1) + " " + a2x.toFixed(1) + "," + a2y.toFixed(1) + '" fill="none" stroke="var(--muted)" stroke-width="1.5"/>';
+      // φ goes on the arc's centre line (half the angle), just outside the arc, pushed further out
+      // when the angle is narrow so the letter fits between the two sides.
+      var half = R.phi / 2, rl = Math.max(ar + 10, 15 / Math.abs(R.phi));
+      if (rl <= (rx - ox) * 0.85) phiLbl = '<text x="' + (ox + rl * Math.cos(half)).toFixed(1) + '" y="' + (oy - rl * Math.sin(half)).toFixed(1) + '" text-anchor="middle" dominant-baseline="central" class="small">φ</text>';
+      else if (ar >= 20) phiLbl = '<text x="' + (ox + ar + 4) + '" y="' + (oy + (up ? -6 : 16)) + '" class="small">φ</text>';
+    }
     g += '<line class="tri-r" x1="' + ox + '" y1="' + oy + '" x2="' + rx + '" y2="' + oy + '" stroke-width="4" stroke-linecap="round"/>';
     if (Math.abs(R.x) > 0.01) g += '<line class="tri-x" x1="' + rx + '" y1="' + oy + '" x2="' + rx + '" y2="' + xy + '" stroke-width="4" stroke-linecap="round"/>';
     g += '<line class="tri-z" x1="' + ox + '" y1="' + oy + '" x2="' + rx + '" y2="' + xy + '" stroke-width="4" stroke-linecap="round"/>';
@@ -175,13 +187,7 @@
     if (Math.abs(R.x) > 0.01) g += '<text x="' + (rx + 10) + '" y="' + ((oy + xy) / 2 + 5) + '" class="tag" fill="var(--neutral)">X</text>';
     var mx = (ox + rx) / 2, my = (oy + xy) / 2;
     g += '<text x="' + (mx - 12) + '" y="' + (my + (up ? -6 : 16)) + '" text-anchor="end" class="tag" fill="var(--flow)">Z</text>';
-    // Angle arc: sized to fit inside the triangle (at most 60% of the R side); left out when too small to read.
-    var ar = Math.min(30, (rx - ox) * 0.6);
-    if (Math.abs(R.phi) > 0.02 && ar >= 8) {
-      var a1x = ox + ar, a2x = ox + ar * Math.cos(R.phi), a2y = oy - ar * Math.sin(R.phi);
-      g += '<path d="M' + a1x + "," + oy + " A" + ar + "," + ar + " 0 0," + (R.phi > 0 ? 0 : 1) + " " + a2x.toFixed(1) + "," + a2y.toFixed(1) + '" fill="none" stroke="var(--muted)" stroke-width="1.5"/>';
-      if (ar >= 20) g += '<text x="' + (ox + ar + 4) + '" y="' + (oy + (up ? -6 : 16)) + '" class="small">φ</text>';
-    }
+    g += phiLbl;
     $("triG").innerHTML = g;
 
     // ---- waveforms (right): voltage and current, each scaled to its own peak ----
