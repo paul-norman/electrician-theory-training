@@ -26,6 +26,8 @@
   .tecab-x { fill: var(--surface); stroke: var(--fg); stroke-width: 1.5; }
   .brick { fill: var(--muted); opacity: 0.4; }
   .plaster { fill: var(--surface); stroke: var(--rule); stroke-width: 1; }
+  .stage svg text.halo { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+  .bk { fill: none; stroke: var(--muted); stroke-opacity: 0.35; stroke-width: 1; stroke-dasharray: 2 2; }
 </style>
 </head>
 <body data-lesson="installing-cables">
@@ -153,50 +155,93 @@
       <h3 id="wch">How deep a chase can go</h3>
     </div>
     <div class="stage">
-      <svg viewBox="0 0 360 330" role="img" aria-labelledby="wchd" style="max-width:600px;margin:0 auto">
-        <title id="wchd">Top: a wall seen from the front, with a vertical chase running down from the ceiling to a switch and a horizontal chase running between two sockets. Bottom: two cross-sections through a 100 mm masonry leaf behind its plaster. The vertical chase is cut no deeper than a third of the leaf, about 33 mm; the horizontal chase no deeper than a sixth, about 16 mm.</title>
-        <text class="small" x="180" y="14" text-anchor="middle">The wall from the front</text>
+      <svg class="only-wide" viewBox="0 0 600 314" role="img" aria-labelledby="wchwd" style="max-width:600px;margin:0 auto">
+        <title id="wchwd">A wall seen from the front, with a vertical chase running down from the ceiling to a switch and a horizontal chase running between two sockets. Below, both chases cut through: a 100 mm masonry leaf behind its plaster. The vertical chase is cut no deeper than a third of the leaf, about 33 mm; the horizontal chase no deeper than a sixth, about 16 mm.</title>
+        <defs><pattern id="wchwbk" width="56" height="28" patternUnits="userSpaceOnUse"><path class="bk" d="M0,0.5 H56 M0,14.5 H56 M0.5,0 V14 M28.5,14 V28"/></pattern></defs>
+        <text class="small" x="300.0" y="14" text-anchor="middle">The wall from the front</text>
+        <rect class="wall" x="30" y="22" width="540" height="100"/>
+        <rect x="30" y="22" width="540" height="100" fill="url(#wchwbk)"/>
+        <rect class="chase" x="133" y="22" width="14" height="46"/>
+        <rect class="chase" x="382" y="97" width="96" height="14"/>
+        <!-- cables first, so the boxes sit on top of their ends -->
+        <line class="tecab" x1="140" y1="22" x2="140" y2="66"/>
+        <line class="tecab" x1="380" y1="104" x2="480" y2="104"/>
+        <rect class="acc" x="129" y="62" width="22" height="18" rx="2"/>
+        <rect class="acc" x="362" y="95" width="22" height="18" rx="2"/>
+        <rect class="acc" x="476" y="95" width="22" height="18" rx="2"/>
+        <text class="small halo" x="155" y="40">vertical chase</text>
+        <text class="small halo" x="430.0" y="89" text-anchor="middle">horizontal chase</text>
+        <text class="small" x="300.0" y="140" text-anchor="middle">The same chases, cut through</text>
+        <text class="small" x="200" y="154" text-anchor="middle">Vertical chase</text>
+        <rect class="brick" x="150" y="172" width="100" height="100"/>
+        <rect class="plaster" x="150" y="160" width="100" height="12"/>
+        <text class="small" x="154" y="169.5" style="font-size:9px">plaster</text>
+        <rect class="plaster" x="185" y="172" width="30" height="33"/>
+        <ellipse class="tecab-x" cx="200" cy="191.5" rx="10" ry="5"/>
+        <path class="dim" d="M217,172 h8 M221,172 v33 M217,205 h8"/>
+        <text class="small" x="227" y="192.5">33 mm</text>
+        <text class="small" x="200" y="262" text-anchor="middle">brick or block</text>
+        <path class="dim" d="M132,172 h8 M136,172 v100 M132,272 h8"/>
+        <text class="small" transform="translate(131,222) rotate(-90)" text-anchor="middle">100 mm</text>
+        <text class="small" x="200" y="292" text-anchor="middle">No deeper than a third</text>
+        <text class="small" x="200" y="306" text-anchor="middle">of the leaf: about 33 mm</text>
+        <text class="small" x="440" y="154" text-anchor="middle">Horizontal chase</text>
+        <rect class="brick" x="390" y="172" width="100" height="100"/>
+        <rect class="plaster" x="390" y="160" width="100" height="12"/>
+        <text class="small" x="394" y="169.5" style="font-size:9px">plaster</text>
+        <rect class="plaster" x="425" y="172" width="30" height="16"/>
+        <ellipse class="tecab-x" cx="440" cy="181.0" rx="10" ry="5"/>
+        <path class="dim" d="M457,172 h8 M461,172 v16 M457,188 h8"/>
+        <text class="small" x="467" y="184.0">16 mm</text>
+        <text class="small" x="440" y="262" text-anchor="middle">brick or block</text>
+        <path class="dim" d="M372,172 h8 M376,172 v100 M372,272 h8"/>
+        <text class="small" transform="translate(371,222) rotate(-90)" text-anchor="middle">100 mm</text>
+        <text class="small" x="440" y="292" text-anchor="middle">No deeper than a sixth</text>
+        <text class="small" x="440" y="306" text-anchor="middle">of the leaf: about 16 mm</text>
+      </svg>
+      <svg class="only-narrow" viewBox="0 0 360 314" role="img" aria-labelledby="wchnd" style="max-width:400px;margin:0 auto">
+        <title id="wchnd">A wall seen from the front, with a vertical chase running down from the ceiling to a switch and a horizontal chase running between two sockets. Below, both chases cut through: a 100 mm masonry leaf behind its plaster. The vertical chase is cut no deeper than a third of the leaf, about 33 mm; the horizontal chase no deeper than a sixth, about 16 mm.</title>
+        <defs><pattern id="wchnbk" width="40" height="20" patternUnits="userSpaceOnUse"><path class="bk" d="M0,0.5 H40 M0,10.5 H40 M0.5,0 V10 M20.5,10 V20"/></pattern></defs>
+        <text class="small" x="180.0" y="14" text-anchor="middle">The wall from the front</text>
         <rect class="wall" x="20" y="22" width="320" height="100"/>
+        <rect x="20" y="22" width="320" height="100" fill="url(#wchnbk)"/>
         <rect class="chase" x="82" y="22" width="14" height="46"/>
         <rect class="chase" x="212" y="97" width="86" height="14"/>
-        <!-- cables first, so the accessories sit on top of their ends -->
+        <!-- cables first, so the boxes sit on top of their ends -->
         <line class="tecab" x1="89" y1="22" x2="89" y2="66"/>
         <line class="tecab" x1="210" y1="104" x2="300" y2="104"/>
         <rect class="acc" x="78" y="62" width="22" height="18" rx="2"/>
         <rect class="acc" x="192" y="95" width="22" height="18" rx="2"/>
         <rect class="acc" x="296" y="95" width="22" height="18" rx="2"/>
-        <text class="small" x="104" y="40">vertical chase</text>
-        <text class="small" x="89" y="94" text-anchor="middle">switch</text>
-        <text class="small" x="255" y="88" text-anchor="middle">horizontal chase</text>
-
-        <text class="small" x="100" y="142" text-anchor="middle">Vertical chase, cut through</text>
-        <text class="small" x="270" y="142" text-anchor="middle">Horizontal chase, cut through</text>
-        <!-- left section -->
-        <rect class="brick" x="40" y="172" width="120" height="100"/>
-        <rect class="plaster" x="40" y="160" width="120" height="12"/>
-        <rect class="plaster" x="80" y="172" width="30" height="33"/>
-        <ellipse class="tecab-x" cx="95" cy="194" rx="10" ry="5"/>
-        <path class="dim" d="M114,172 h8 M118,172 v33 M114,205 h8"/>
-        <text class="small" x="124" y="193">33 mm</text>
-        <path class="dim" d="M26,172 h8 M30,172 v100 M26,272 h8"/>
-        <text class="small" x="40" y="290">100 mm leaf</text>
-        <text class="small" x="210" y="290">100 mm leaf</text>
-        <text class="small" x="100" y="308" text-anchor="middle">No deeper than a third</text>
-        <text class="small" x="100" y="322" text-anchor="middle">of the leaf: about 33 mm</text>
-        <!-- right section -->
-        <rect class="brick" x="210" y="172" width="120" height="100"/>
-        <rect class="plaster" x="210" y="160" width="120" height="12"/>
-        <rect class="plaster" x="250" y="172" width="30" height="16"/>
-        <ellipse class="tecab-x" cx="265" cy="182" rx="10" ry="5"/>
-        <path class="dim" d="M284,172 h8 M288,172 v16 M284,188 h8"/>
-        <text class="small" x="294" y="185">16 mm</text>
-        <path class="dim" d="M196,172 h8 M200,172 v100 M196,272 h8"/>
-        <text class="small" x="270" y="308" text-anchor="middle">No deeper than a sixth</text>
-        <text class="small" x="270" y="322" text-anchor="middle">of the leaf: about 16 mm</text>
-        <text class="small" x="326" y="170" text-anchor="end" style="font-size:10px">plaster</text>
-        <text class="small" x="156" y="170" text-anchor="end" style="font-size:10px">plaster</text>
-        <text class="small" x="100" y="262" text-anchor="middle">brick or block</text>
-        <text class="small" x="270" y="262" text-anchor="middle">brick or block</text>
+        <text class="small halo" x="104" y="40">vertical chase</text>
+        <text class="small halo" x="255.0" y="89" text-anchor="middle">horizontal chase</text>
+        <text class="small" x="180.0" y="140" text-anchor="middle">The same chases, cut through</text>
+        <text class="small" x="105" y="154" text-anchor="middle">Vertical chase</text>
+        <rect class="brick" x="55" y="172" width="100" height="100"/>
+        <rect class="plaster" x="55" y="160" width="100" height="12"/>
+        <text class="small" x="59" y="169.5" style="font-size:9px">plaster</text>
+        <rect class="plaster" x="90" y="172" width="30" height="33"/>
+        <ellipse class="tecab-x" cx="105" cy="191.5" rx="10" ry="5"/>
+        <path class="dim" d="M122,172 h8 M126,172 v33 M122,205 h8"/>
+        <text class="small" x="132" y="192.5">33 mm</text>
+        <text class="small" x="105" y="262" text-anchor="middle">brick or block</text>
+        <path class="dim" d="M37,172 h8 M41,172 v100 M37,272 h8"/>
+        <text class="small" transform="translate(36,222) rotate(-90)" text-anchor="middle">100 mm</text>
+        <text class="small" x="105" y="292" text-anchor="middle">No deeper than a third</text>
+        <text class="small" x="105" y="306" text-anchor="middle">of the leaf: about 33 mm</text>
+        <text class="small" x="285" y="154" text-anchor="middle">Horizontal chase</text>
+        <rect class="brick" x="235" y="172" width="100" height="100"/>
+        <rect class="plaster" x="235" y="160" width="100" height="12"/>
+        <text class="small" x="239" y="169.5" style="font-size:9px">plaster</text>
+        <rect class="plaster" x="270" y="172" width="30" height="16"/>
+        <ellipse class="tecab-x" cx="285" cy="181.0" rx="10" ry="5"/>
+        <path class="dim" d="M302,172 h8 M306,172 v16 M302,188 h8"/>
+        <text class="small" x="312" y="184.0">16 mm</text>
+        <text class="small" x="285" y="262" text-anchor="middle">brick or block</text>
+        <path class="dim" d="M217,172 h8 M221,172 v100 M217,272 h8"/>
+        <text class="small" transform="translate(216,222) rotate(-90)" text-anchor="middle">100 mm</text>
+        <text class="small" x="285" y="292" text-anchor="middle">No deeper than a sixth</text>
+        <text class="small" x="285" y="306" text-anchor="middle">of the leaf: about 16 mm</text>
       </svg>
     </div>
     <p class="caption">Depths are measured into the masonry, not counting the plaster. Section drawings to scale (1 mm = 1 unit); the front view isn't.</p>
