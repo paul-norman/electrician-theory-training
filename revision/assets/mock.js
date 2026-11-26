@@ -29,13 +29,16 @@
   // Lesson links, as HTML. root is the path from the current page to the course root.
   function linkList(links, root) { return links.map(function (l) { return '<a href="' + root + l[0] + '">' + l[1] + "</a>"; }).join(", "); }
 
-  // Pick n questions spread across the topics in proportion to the bank (largest remainder), in random order.
+  // Pick n questions spread across the topics (largest remainder), in random order. Proportions come from
+  // bank.weights {topic: share} when the bank gives the real exam's weighting, otherwise from the bank's size.
   function draw(bank, n) {
-    var byTopic = {}, Q = bank.questions;
+    var byTopic = {}, Q = bank.questions, W = bank.weights || {};
     Q.forEach(function (q) { (byTopic[q.topic] = byTopic[q.topic] || []).push(q.id); });
-    var keys = Object.keys(byTopic), total = Q.length, quota = {}, used = 0;
-    n = Math.min(n, total);
-    var rem = keys.map(function (k) { var exact = n * byTopic[k].length / total; quota[k] = Math.floor(exact); used += quota[k]; return [k, exact - quota[k]]; });
+    var keys = Object.keys(byTopic), quota = {}, used = 0;
+    var w = function (k) { return W[k] != null ? W[k] : byTopic[k].length; };
+    var total = keys.reduce(function (t, k) { return t + w(k); }, 0);
+    n = Math.min(n, Q.length);
+    var rem = keys.map(function (k) { var exact = n * w(k) / total; quota[k] = Math.min(Math.floor(exact), byTopic[k].length); used += quota[k]; return [k, exact - quota[k]]; });
     shuffle(rem).sort(function (a, b) { return b[1] - a[1]; });
     for (var i = 0; used < n; i = (i + 1) % rem.length) { var k = rem[i][0]; if (quota[k] < byTopic[k].length) { quota[k]++; used++; } }
     var picked = [];

@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 5: Selection and Erection</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 9ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); }
+  .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); }
+  .verdict.bad strong { color: var(--bad); }
+  .verdict.warn { background: var(--note-bg); }
+  .verdict.warn strong { color: var(--note); }
+  .finder-q { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; font-size: 1.02rem; min-height: 3.2em; }
+  .finder-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+  .finder-opts button { text-align: left; justify-content: flex-start; height: auto; min-height: var(--ctl-h); padding: 8px 12px; line-height: 1.3; }
+  .finder-opts button .mono { font-weight: 600; margin-right: 6px; }
+  .finder-opts button.right { border-color: var(--ok); background: var(--ok-bg); }
+  .finder-opts button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+  .finder-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  td.yes { color: var(--ok); font-weight: 600; }
+  td.no { color: var(--bad); font-weight: 600; }
+</style>
+</head>
+<body data-lesson="part5">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <h1>Part 5: selection and erection</h1>
+    <p class="lead">Choosing the equipment and putting it in: the second-biggest share of exam questions, and the Part you'll use most on site.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Part 5 follows a job: <strong>Chapter 51</strong> common rules (suits the voltage, current and frequency; external influences; accessibility; identification and notices), <strong>52</strong> wiring systems (Tables 4A1 and 4A2, external influences in 522, current-carrying capacity in 523, voltage drop in 525, connections in 526, fire spread in 527, proximity in 528), <strong>53</strong> protection, isolation, switching, control and monitoring (<abbr title="residual current device">RCD</abbr> types, <abbr title="arc fault detection device">AFDDs</abbr>, <abbr title="surge protective device">SPDs</abbr>, selectivity, switches), <strong>54</strong> earthing and protective conductors, and <strong>55</strong> other equipment. Green and yellow is only ever a protective conductor, with each colour covering 30% to 70%; functional earthing conductors are pink. A warning notice is needed where the voltage <em>to earth</em> exceeds 230 V and wouldn't be expected, so a normal 400 V three-phase board doesn't need one under that rule. Leakage downstream of an <abbr title="residual current device">RCD</abbr> should be no more than 30% of its rating, 9 mA for a 30 mA <abbr title="residual current device">RCD</abbr>. A firefighter's switch is red and no more than 2.75 m up. A <abbr title="circuit protective conductor">CPC</abbr> is either selected from Table 54.7 (same size as the line up to 16 mm², 16 mm² up to 35 mm², half above that) or calculated with S = <span class="frac"><span>√(I<sup>2</sup>t)</span><span>k</span></span>, taking k from Tables 54.2 to 54.6. Motors over 0.37 kW need overload protection. Chapter 56 covers safety services and Chapter 57, new in Amendment 4, stationary batteries.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>How Part 5 is laid out</h2>
+    <p>After Part 4 has said what protection you need, Part 5 says how to choose and install the things that provide it. About 14 exam questions come from here.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Chapter</th><th>Covers</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">51</td><td>Common rules: operating conditions, external influences, accessibility, identification, notices, mutual detrimental influence</td></tr>
+          <tr><td class="mono">52</td><td>Wiring systems: cable types and methods, external influences, current-carrying capacity, voltage drop, connections, fire spread, proximity to other services</td></tr>
+          <tr><td class="mono">53</td><td>Protection, isolation, switching, control and monitoring: the devices</td></tr>
+          <tr><td class="mono">54</td><td>Earthing arrangements and protective conductors (see <a href="../earthing/protective-bonding.html">Protective bonding</a>)</td></tr>
+          <tr><td class="mono">55</td><td>Other equipment: generators, motors, plugs and sockets, heaters, transformers, luminaires</td></tr>
+          <tr><td class="mono">56</td><td>Safety services: fire alarms, emergency lighting and other supplies that must keep working</td></tr>
+          <tr><td class="mono">57</td><td>Stationary secondary batteries (new chapter in Amendment 4)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 51: common rules</h2>
+    <h3>Operating conditions (512.1)</h3>
+    <p>Every item of equipment must suit the voltage, the design current and the frequency (50 Hz in the UK; see <a href="../supply/your-supply.html">Your supply</a>). U<sub>0</sub> means the nominal voltage to earth (230 V) and U the voltage between lines (400 V); Part 2's list of symbols has them. Conductors that run hotter than 70 °C, such as 90 °C thermosetting cables, may only be connected to accessories and switchgear the manufacturer says can take that temperature. Equipment must also be compatible: it mustn't harm other equipment or the supply. Install it to the manufacturer's instructions as well as <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>.</p>
+    <h3>External influences (512.2 and Appendix 5)</h3>
+    <p>An external influence is anything outside the wiring system that could affect it: water, dust, heat, impact, sunlight, animals, even the people using it. It isn't only "outdoors": a consumer unit with a missing blank is open to dust and fingers. Appendix 5 gives each influence a code. The first letter is the category (A environment, B use, C building), the second the influence, and the number its severity: AD is water, AE solid objects, BA the capability of persons (BA1 ordinary to BA5 skilled). Regulation 522 has the matching installation rules.</p>
+    <h3>Accessibility (513)</h3>
+    <p>Equipment must be placed so you can operate, inspect, test, maintain and repair it, and get at its connections. A fused spur hidden behind pipes in an airing cupboard fails this. (Access for disabled users is a Building Regulations matter, Approved Document M, not this regulation.)</p>
+    <h3>Identification (514)</h3>
+    <p><strong>Table 51</strong> gives the colour and the letters for each conductor:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Conductor</th><th>Letters</th><th>Colour</th></tr></thead>
+        <tbody>
+          <tr><td>Line, single-phase</td><td class="mono">L</td><td>Brown</td></tr>
+          <tr><td>Lines, three-phase</td><td class="mono">L1, L2, L3</td><td>Brown, black, grey</td></tr>
+          <tr><td>Neutral</td><td class="mono">N</td><td>Blue</td></tr>
+          <tr><td>Protective conductor</td><td class="mono"><abbr title="protective earth">PE</abbr></td><td>Green and yellow</td></tr>
+          <tr><td>Functional earthing or bonding conductor</td><td class="mono">FE, FB</td><td>Pink</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Green and yellow is used <strong>only</strong> for protective conductors. In the combination, each colour must cover at least 30% and at most 70% of the surface (514.4.2). Amendment 4 extended Table 51 with combined protective and functional conductors and added symbols, so check the table in your copy.</p>
+    <p>You can also identify conductors with letters or numbers (514.5), for example ferrules marked L1, L2, L3 on three single cores that are all brown. Sleeving does the same job: a blue core used as a switch line gets brown sleeving. Underline a 6 or 9 so it can't be read upside down. Where old colours meet new, mark both and fit a caution notice (see <a href="../cables/installing-cables.html">Installing cables</a>): old three-phase was red, yellow, blue with a black neutral, so blue and black have changed jobs.</p>
+    <h3>Diagrams and notices (514.9 to 514.16)</h3>
+    <ul>
+      <li><strong>Diagrams and charts</strong> showing each circuit, what it supplies and its protective device. In a home, the certificate and schedules from Appendix 6 can do this job. In bigger installations, a framed schedule next to the board is common practice.</li>
+      <li><strong>Voltage warning</strong> (514.10): needed where a nominal voltage <em>exceeding 230 V to earth</em> exists and wouldn't be expected. On a normal three-phase board, each line is still 230 V to earth, so this rule doesn't require a "400 V" label, though you may fit one. Read exam questions on this carefully.</li>
+      <li><strong>Periodic inspection and testing notice</strong> giving the date of the next inspection.</li>
+      <li><strong><abbr title="residual current device">RCD</abbr> test notice</strong> asking users to press the test button every six months. The tutor said it's no longer required in homes; check the current wording in your copy.</li>
+      <li><strong>Alternative or multiple supplies</strong>, such as solar <abbr title="photovoltaic">PV</abbr> or a generator: a warning at the origin, the meter and the board, so nobody thinks the installation is dead when they've switched off only one source.</li>
+    </ul>
+    <h3>Mutual detrimental influence (515)</h3>
+    <p>The installation mustn't harm other services, and they mustn't harm it: a cable run against a hot pipe, or a power cable alongside a data cable, whose magnetic field can cause interference.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 52: wiring systems</h2>
+    <h3>Which cable can go where (Tables 4A1 and 4A2)</h3>
+    <p>Appendix 4 has two tables to start with. <strong>Table 4A2</strong> lists the installation reference methods (A, B, C, 100 and so on, with pictures), used for cable sizing and recorded on certificates (see <a href="../design/cable-sizing.html">Cable sizing</a>). <strong>Table 4A1</strong> says which methods each cable type may use. In short:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Non-sheathed (single insulated)</th><th>Sheathed (twin and earth, <abbr title="steel wire armoured">SWA</abbr>, mineral insulated)</th></tr></thead>
+        <tbody>
+          <tr><td>Clipped direct</td><td class="no">No</td><td class="yes">Yes</td></tr>
+          <tr><td>Conduit</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+          <tr><td>Trunking</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+          <tr><td>Ducting</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+          <tr><td>Cable tray or ladder</td><td class="no">No</td><td class="yes">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>A non-sheathed cable has insulation (basic protection) but no sheath to protect it mechanically, so it must be enclosed. The sheath lets a cable be clipped direct or laid on tray, though you might still choose conduit or trunking where it could be damaged. Table 4A1 has more columns (insulators, support wires, without fixings) and separate rows for single-core and multicore, so use it for exact answers.</p>
+    <h3>General rules (521)</h3>
+    <ul>
+      <li><strong>Every conductor of a circuit through the same hole</strong> in a steel enclosure (521.5.1). Line and neutral in separate holes leave each surrounded by its own magnetic field, which induces eddy currents in the steel and heats it.</li>
+      <li><strong>No borrowed neutrals</strong>: each circuit's line and neutral must stay together (see <a href="../circuits/lighting-circuits.html">Lighting circuits</a>). Isolating one circuit can leave a "dead" neutral carrying current from the other. With <abbr title="residual current device">RCDs</abbr>, both circuits' <abbr title="residual current device">RCDs</abbr> see an imbalance and trip.</li>
+      <li><strong>Flexible cables</strong> may be used for fixed wiring only if they're heavy duty, unless the risk of damage is low or they're protected (521.9). A flex is normal from an isolator to an appliance, such as heat-resistant flex to an immersion heater.</li>
+      <li><strong>Premature collapse</strong> (521.10.202): wiring must be supported so it can't drop in a fire and trap firefighters. Use metal clips, saddles or fixings; galvanised strapping ("builder's band") inside trunking works well. See <a href="../cables/installing-cables.html">Installing cables</a>.</li>
+    </ul>
+    <h3>External influences (522)</h3>
+    <p>One regulation group per influence: 522.2 heat, 522.3 water, 522.4 solid objects, 522.6 impact (including the safe zones and the new Table 52.1 for cables in walls and partitions in Amendment 4), and 522.8.10 cables buried in the ground (earthed armour or metal sheath, or a duct giving equal protection; marked with cable covers or tape; deep enough not to be disturbed, but no depth is given). All are covered in <a href="../cables/installing-cables.html">Installing cables</a>.</p>
+    <h3>Current, voltage drop and connections (523 to 526)</h3>
+    <ul>
+      <li><strong>523, current-carrying capacity</strong>: Table 52.2 gives the maximum operating temperature of each insulation (70 °C thermoplastic, 90 °C thermosetting); Appendix 4 gives the ratings and correction factors. Where conditions change along a route, size for the worst part, and only combine factors that apply at the same place. See <a href="../design/cable-sizing.html">Cable sizing</a>.</li>
+      <li><strong>525, voltage drop</strong>: the voltage at the equipment must be enough for it to work properly. Appendix 4 gives the usual limits (3% for lighting, 5% for other circuits).</li>
+      <li><strong>Bend radii</strong> aren't in <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>; the On-Site Guide has them.</li>
+      <li><strong>526, connections</strong> must give durable electrical continuity and enough mechanical strength. Screw terminals loosen over time, so they must stay <strong>accessible</strong>. Joints that may be inaccessible include those marked <strong>MF</strong> (maintenance-free), crimped, soldered, welded or compound-filled joints, and joints in the ground. Connector blocks must be inside an enclosure, never just taped up and pushed into a ceiling. Fine-stranded conductors need care so strands don't spread or break (526.9).</li>
+    </ul>
+    <h3>Fire spread and proximity (527 and 528)</h3>
+    <ul>
+      <li><strong>527</strong>: where wiring passes through a fire-resisting floor, wall or ceiling, seal the hole to its original fire resistance. Cutting downlights into a ceiling counts: use fire-rated fittings where the ceiling is a fire barrier.</li>
+      <li><strong>528</strong>: keep band I circuits (data, telecoms, <abbr title="extra-low voltage: not more than 50 V AC or 120 V ripple-free DC">ELV</abbr>) separate from band II circuits (230 V), for example in separate compartments of dado trunking; and keep wiring clear of non-electrical services such as hot pipes.</li>
+    </ul>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 53: protection, isolation, switching, control and monitoring</h2>
+    <ul>
+      <li><strong>530.4, fixing</strong>: equipment fixed securely with fixings suited to the wall, and loose items (such as a DIN-rail bell transformer) inside an enclosure.</li>
+      <li><strong>531, devices for automatic disconnection</strong>: chosen to suit Section 411 and the earthing system. <abbr title="residual current device">RCDs</abbr> must break all live conductors (line <em>and</em> neutral). The <abbr title="circuit protective conductor">CPC</abbr> isn't a live conductor; it carries current only during a fault.</li>
+      <li><strong>531.3.2, unwanted tripping</strong>: computers and similar equipment leak a little current to earth in normal use. Add up the leakage downstream of an <abbr title="residual current device">RCD</abbr> and keep it to no more than 30% of the <abbr title="residual current device">RCD</abbr>'s rated residual current. Try the calculator below.</li>
+      <li><strong>531.3.3, <abbr title="residual current device">RCD</abbr> types</strong>, shown by a symbol on the device: <abbr title="alternating current">AC</abbr> (pure <abbr title="alternating current">AC</abbr> only), A (also pulsating <abbr title="direct current">DC</abbr>; the normal choice now, because <abbr title="light-emitting diode">LED</abbr> drivers, computers and chargers can produce <abbr title="direct current">DC</abbr> that blinds a Type <abbr title="alternating current">AC</abbr>), F (adds mixed frequencies, for inverter appliances) and B (adds smooth <abbr title="direct current">DC</abbr>). <abbr title="residual current device">RCD</abbr> types are a different thing from the B, C and D curve types of circuit breakers.</li>
+      <li><strong>532, fire</strong>: an <abbr title="residual current device">RCD</abbr> used for fire protection is rated at no more than 300 mA. <strong><abbr title="arc fault detection device">AFDDs</abbr></strong> (532.6) go at the origin of the circuit they protect, on single-phase <abbr title="alternating current">AC</abbr> circuits.</li>
+      <li><strong>533</strong>: the standards for fuses, circuit breakers and <abbr title="residual current breaker with overcurrent protection">RCBOs</abbr> used for overcurrent protection.</li>
+      <li><strong>534, surge protective devices</strong>: Types 1, 2 and 3 by where they sit (Type 1 at the origin where lightning can strike the building directly, Type 2 at boards, Type 3 next to sensitive equipment), and lightning protection zones. Follow the manufacturer for the <abbr title="surge protective device">SPD</abbr>'s own overcurrent protection.</li>
+      <li><strong>536, coordination and selectivity</strong>: the device nearest the fault should operate first. A 13 A plug fuse on a 20 A radial is the everyday example. 536.4.5 also requires a consumer unit (an assembly to BS EN 61439) to suit the fault current it could see, such as a 16 kA conditional rating.</li>
+      <li><strong>537, isolation and switching</strong>: four purposes (isolation, mechanical maintenance, emergency switching, functional switching). <strong>Table 537.4</strong> lists device types and which purposes each can serve. In a switch symbol, a small circle means it can be operated on load.</li>
+      <li><strong>Firefighter's switch</strong> (537.4): for high-voltage signs and lighting, such as neon signs on shopfronts and some outdoor lighting, so firefighters can kill it before using water. Red, clearly marked, in a conspicuous place reachable by firefighters, and <strong>no more than 2.75 m</strong> above the ground.</li>
+      <li><strong>538, monitoring</strong>: insulation monitoring devices (<abbr title="insulation monitoring device">IMDs</abbr>) for <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> systems, and residual current monitors (<abbr title="residual current monitor">RCMs</abbr>).</li>
+    </ul>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 54: earthing and protective conductors</h2>
+    <ul>
+      <li><strong>542.2, earth electrodes</strong>: on a <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> system the electrode is the installer's job, not the network operator's. 542.2.2 lists what can be used (rods or pipes, tapes or wires, plates, and some others), and <strong>Table 54.1</strong> gives the minimum size of a buried earthing conductor.</li>
+      <li><strong>542.4, the main earthing terminal (<abbr title="main earthing terminal">MET</abbr>)</strong>: every installation has one. It can be the earth bar in the consumer unit or a separate terminal block. The earthing conductor, <abbr title="circuit protective conductor">CPCs</abbr>, main bonding, any functional earthing and any lightning protection all connect to it.</li>
+      <li><strong>543.1, <abbr title="circuit protective conductor">CPC</abbr> size</strong>: either <em>calculated</em> with the adiabatic equation (543.1.3) or <em>selected</em> from <strong>Table 54.7</strong> (543.1.4). Table 54.7: a line conductor up to 16 mm² needs a protective conductor the same size; over 16 mm² up to 35 mm², 16 mm²; over 35 mm², half the line size, rounded up to the next size made (a 95 mm² line needs 50 mm², because 47.5 mm² isn't made). The table's other column is for a protective conductor made of a different material, such as <abbr title="steel wire armoured">SWA</abbr> armour. That's why tails of 16 mm² get a 16 mm² earthing conductor, and singles circuits usually have a <abbr title="circuit protective conductor">CPC</abbr> the same size as the line. Twin and earth uses a smaller <abbr title="circuit protective conductor">CPC</abbr> (except 1 mm²), so it has to be checked by calculation.</li>
+      <li><strong>543.2, what can be a protective conductor</strong>: a core in a cable, a separate conductor, metal conduit or trunking, a cable's armour or sheath (<abbr title="steel wire armoured">SWA</abbr>, MICC) and certain extraneous parts, if they meet the conditions. Separate protective conductors under 10 mm² must be copper.</li>
+      <li><strong>543.3, keeping it continuous</strong>: joints must be accessible, including BS 951 bonding clamps. A kitchen fitter who boxes in the stopcock and its bonding clamp, leaving only the handle poking out, breaks this rule. No switching device may be put in a protective conductor, with limited exceptions such as the open-PEN protection in some <abbr title="electric vehicle">EV</abbr> chargers on <abbr title="TN-C-S earthing: supply neutral and earth combined (C) in the supply cable, separate (S) in the installation">TN-C-S</abbr>, which disconnects the <abbr title="circuit protective conductor">CPC</abbr> along with line and neutral if the supply neutral breaks.</li>
+      <li><strong>543.7, high protective conductor current</strong>: equipment leaking more than 10 mA to earth must be permanently connected, or use an industrial plug and socket (BS EN 60309-2) with a protective conductor of at least 2.5 mm² for 16 A plugs or 4 mm² above 16 A.</li>
+      <li><strong>544, bonding</strong>: main bonding sizes come from 544.1.1 or <strong>Table 54.8</strong> for <abbr title="protective multiple earthing">PME</abbr>, connected within 600 mm of where the service enters, inside the building if the meter is outside. Supplementary bonding is 544.2. See <a href="../earthing/protective-bonding.html">Protective bonding</a>.</li>
+      <li><strong>545</strong>: functional earthing and bonding for <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> and communications equipment, including the main functional earthing terminal (<abbr title="main functional earthing terminal">MFET</abbr>).</li>
+    </ul>
+    <h3>Is the <abbr title="circuit protective conductor">CPC</abbr> big enough?</h3>
+    <p>The adiabatic equation (543.1.3) gives the smallest <abbr title="circuit protective conductor">CPC</abbr> that can carry the fault current until the device disconnects:</p>
+    <p><span class="formula">S = <span class="frac"><span>√(I<sup>2</sup> × t)</span><span>k</span></span></span></p>
+    <p>I is the fault current, from a measurement or calculation. t is the device's disconnection time at that current, read from its curve in Appendix 3. k comes from <strong>Tables 54.2 to 54.6</strong>, chosen by the type of protective conductor: 54.2 for a separate insulated conductor, <strong>54.3 for a core in a cable</strong> (twin and earth), 54.4 for armour, 54.5 for steel conduit or trunking, 54.6 for a bare conductor. If the answer is no bigger than the <abbr title="circuit protective conductor">CPC</abbr> you have, it's big enough. Try the tutor's example below: a 32 A Type B ring in 2.5 mm² twin and earth with a 1.5 mm² <abbr title="circuit protective conductor">CPC</abbr>.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w3">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w3">Minimum <abbr title="circuit protective conductor">CPC</abbr> size</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="cI">Fault current, I (A)</label><input class="num-in" id="cI" type="number" step="10" min="1" value="160" inputmode="decimal"></div>
+      <div class="ctl"><label for="cT">Disconnection time, t (s)</label><input class="num-in" id="cT" type="number" step="0.05" min="0.01" value="0.1" inputmode="decimal"></div>
+      <div class="ctl"><label for="cK">k (Table 54.3)</label><select id="cK">
+        <option value="115" selected>115: copper core, 70 °C thermoplastic</option>
+        <option value="143">143: copper core, 90 °C thermosetting</option>
+      </select></div>
+      <div class="ctl"><label for="cS"><abbr title="circuit protective conductor">CPC</abbr> fitted</label><select id="cS"></select></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Minimum <abbr title="circuit protective conductor">CPC</abbr></span><span class="v" id="cMin">—</span><span class="s" id="cMinS"></span></div>
+      <div class="ro"><span class="k"><abbr title="circuit protective conductor">CPC</abbr> fitted</span><span class="v" id="cHave">—</span><span class="s">from the cable</span></div>
+    </div>
+    <div class="verdict" id="cV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">160 A is the instant-trip current of a 32 A Type B (5 × 32), and 0.1 s the time on its curve at that current. In real work, I comes from your test results.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 55: other equipment</h2>
+    <ul>
+      <li><strong>551, generators</strong>: where a generator is an alternative to the mains, a changeover switch must stop the two running in parallel. Where it does run in parallel (551.7), it connects on the supply side of the final circuits' protection, and the switchgear must be rated for both sources. Chapter 57 counts stationary batteries as generating sets.</li>
+      <li><strong>552, motors</strong>: motors over 0.37 kW need overload protection, and a motor shouldn't restart by itself after a supply interruption where that could be dangerous. A <strong>direct-on-line (<abbr title="direct-on-line (motor starter)">DOL</abbr>) starter</strong> does both: a contactor held in by its coil (it drops out when the supply fails and needs the start button pressed again) and a thermal overload relay. A plain rotary isolator would restart the machine as soon as the power came back.</li>
+      <li><strong>553, plugs, sockets and couplers</strong>: Table 55.1 lists plug types, ratings and standards. On a cable coupler, the supply side must be the <em>female</em> part, so live pins are never exposed.</li>
+      <li><strong>554, heaters</strong>: water heaters need an overheat cut-out as well as the thermostat (an immersion heater's reset button).</li>
+      <li><strong>555, transformers</strong>: including autotransformers; a step-up autotransformer mustn't be used on an <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> system.</li>
+      <li><strong>557, auxiliary circuits</strong>: control circuits, such as a light switch driving a contactor coil that switches a bigger load.</li>
+      <li><strong>559, luminaires</strong>: lights in curtain pelmets mustn't be harmed by the curtains; luminaires must suit their surroundings (a floodlight near a thatched roof); through wiring is only allowed where the luminaire is designed for it; display stands; and a table in Section 559 explains the symbols marked on luminaires and their control gear.</li>
+    </ul>
+    <h2>Chapter 56: safety services</h2>
+    <p>Fire alarms, emergency lighting, and supplies that must keep running, such as essential supplies in hospitals. Their circuits must be separate from other circuits (560.7). Overload protection may be left out where losing the supply would be more dangerous, but the overload must then be indicated. Drawings of the safety services must be kept at the origin. Where the system must work during a fire, the cable must be fire-resistant (such as FP200) and fixed so it doesn't collapse (560.8). Follow the designer's specification, and get any change agreed by the designer.</p>
+    <h2>Chapter 57: stationary secondary batteries</h2>
+    <p>New as a chapter in Amendment 4 (it was a section before): rechargeable battery systems that stay in one place, such as home storage batteries with solar <abbr title="photovoltaic">PV</abbr>.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">How much leakage can one <abbr title="residual current device">RCD</abbr> take?</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <span class="label" id="rcdL"><abbr title="residual current device">RCD</abbr> rating, I<sub>Δn</sub></span>
+        <div class="seg" role="group" aria-labelledby="rcdL" id="rcd">
+          <button type="button" data-v="30" aria-pressed="true">30 mA</button>
+          <button type="button" data-v="100" aria-pressed="false">100 mA</button>
+          <button type="button" data-v="300" aria-pressed="false">300 mA</button>
+        </div>
+      </div>
+      <div class="ctl"><label for="per">Leakage per item (mA)</label><input class="num-in" id="per" type="number" step="0.5" min="0" value="2" inputmode="decimal"></div>
+      <div class="ctl"><label for="cnt">Number of items</label><input class="num-in" id="cnt" type="number" step="1" min="0" value="6" inputmode="numeric"></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Total leakage</span><span class="v" id="oTot">—</span><span class="s">items × leakage each</span></div>
+      <div class="ro"><span class="k">30% limit</span><span class="v" id="oLim">—</span><span class="s">0.3 × I<sub>Δn</sub></span></div>
+      <div class="ro"><span class="k">Most items allowed</span><span class="v" id="oMax">—</span><span class="s">on this <abbr title="residual current device">RCD</abbr></span></div>
+    </div>
+    <div class="verdict" id="lkV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">Real leakage varies, so measure it or use the manufacturer's figures. Spreading the load over several <abbr title="residual current breaker with overcurrent protection">RCBOs</abbr> is the usual fix in an office or computer room.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w2">Where would you look?</h3>
+    </div>
+    <div class="finder-q" id="fq" aria-live="polite"></div>
+    <div class="finder-opts" id="fo"></div>
+    <div class="verdict" id="fv" aria-live="polite" hidden><strong></strong><span></span></div>
+    <div class="finder-foot"><span class="caption" id="fs"></span><button type="button" class="btn" id="fn">Next question</button></div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ---- RCD leakage ----
+  var rating = 30;
+  function upd() {
+    document.querySelectorAll("#rcd button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.getAttribute("data-v") === rating)); });
+    var per = parseFloat($("per").value), n = parseInt($("cnt").value, 10), v = $("lkV"), lim = 0.3 * rating;
+    $("oLim").textContent = Course.sig(lim, 3) + " mA";
+    if (!(per >= 0) || !(n >= 0)) { v.className = "verdict warn"; v.querySelector("strong").textContent = "Enter the leakage and the number of items"; v.querySelector("span").textContent = ""; $("oTot").textContent = "—"; $("oMax").textContent = "—"; return; }
+    var tot = per * n;
+    $("oTot").textContent = Course.sig(tot, 3) + " mA";
+    $("oMax").textContent = per > 0 ? String(Math.floor(lim / per + 1e-9)) : "no limit";
+    if (tot <= lim) { v.className = "verdict ok"; v.querySelector("strong").textContent = "Within the limit"; v.querySelector("span").textContent = "Normal leakage shouldn't trip the RCD."; }
+    else { v.className = "verdict bad"; v.querySelector("strong").textContent = "Too much leakage"; v.querySelector("span").textContent = "Expect unwanted tripping. Split these items across more RCDs or RCBOs."; }
+  }
+  $("rcd").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; rating = +b.getAttribute("data-v"); upd(); });
+  ["per", "cnt"].forEach(function (id) { $(id).addEventListener("input", upd); });
+  upd();
+
+  // ---- Minimum CPC ----
+  [1, 1.5, 2.5, 4, 6, 10, 16].forEach(function (s) { var o = document.createElement("option"); o.value = s; o.textContent = s + " mm²"; if (s === 1.5) o.selected = true; $("cS").appendChild(o); });
+  function cpc() {
+    var I = parseFloat($("cI").value), t = parseFloat($("cT").value), k = +$("cK").value, have = +$("cS").value, v = $("cV");
+    $("cHave").textContent = have + " mm²";
+    if (!(I > 0) || !(t > 0)) { v.className = "verdict warn"; v.querySelector("strong").textContent = "Enter a fault current and a time"; v.querySelector("span").textContent = ""; $("cMin").textContent = "—"; return; }
+    var S = Math.sqrt(I * I * t) / k;
+    $("cMin").textContent = Course.sig(S, 2) + " mm²";
+    $("cMinS").innerHTML = Course.frac("√(" + I + "<sup>2</sup> × " + t + ")", k);
+    if (S <= have) { v.className = "verdict ok"; v.querySelector("strong").textContent = "Big enough"; v.querySelector("span").textContent = "The CPC can carry this fault current until the device disconnects."; }
+    else { v.className = "verdict bad"; v.querySelector("strong").textContent = "Too small"; v.querySelector("span").textContent = "The CPC would overheat before the device disconnects. Use a bigger CPC or a faster device."; }
+  }
+  ["cI", "cT", "cK", "cS"].forEach(function (id) { $(id).addEventListener("input", cpc); $(id).addEventListener("change", cpc); });
+  cpc();
+
+  // ---- Where would you look? ----
+  var SEC = {
+    "512": "Operating conditions and external influences", "513": "Accessibility", "514": "Identification and notices", "515": "Mutual detrimental influence",
+    "521": "Types of wiring system", "522": "External influences on wiring", "523": "Current-carrying capacity", "525": "Voltage drop", "526": "Electrical connections",
+    "527": "Spread of fire", "528": "Proximity to other services", "531": "Devices for automatic disconnection", "532": "Devices against fire",
+    "534": "Surge protective devices", "536": "Coordination and selectivity", "537": "Isolation and switching",
+    "542": "Earthing arrangements", "543": "Protective conductors", "544": "Protective bonding conductors", "551": "Generating sets", "552": "Rotating machines", "559": "Luminaires", "560": "Safety services"
+  };
+  var F = [
+    ["Whether a 90 °C cable may be connected to an ordinary accessory", "512", "Operating conditions: temperature limits at terminals (512.1.5)."],
+    ["Whether equipment must suit 50 Hz", "512", "Operating conditions: voltage, current and frequency."],
+    ["Whether an immersion switch hidden behind pipes is acceptable", "513", "Accessibility."],
+    ["The colour of a functional earthing conductor", "514", "Table 51, in identification."],
+    ["The share of green in green-and-yellow insulation", "514", "514.4.2: each colour 30% to 70%."],
+    ["Whether a 400 V three-phase board needs a voltage warning label", "514", "514.10, voltage warning notices."],
+    ["A notice for an installation with solar PV as well as the mains", "514", "Notices for alternative supplies."],
+    ["A power cable running right alongside a data cable", "515", "Mutual detrimental influence (and 528 for proximity)."],
+    ["Taking line and neutral through separate holes in a steel box", "521", "521.5.1, electromagnetic effects in ferromagnetic enclosures."],
+    ["Whether a flexible cable can be used as fixed wiring", "521", "521.9, flexible cables."],
+    ["Supports that stop cables falling in a fire", "521", "521.10.202, premature collapse."],
+    ["Cables concealed in a wall less than 50 mm deep", "522", "522.6, impact."],
+    ["Marking the route of a cable buried in the ground", "522", "522.8.10, buried cables."],
+    ["The maximum operating temperature of thermosetting insulation", "523", "Table 52.2, current-carrying capacity."],
+    ["The voltage at a long run's far end being too low for the equipment", "525", "Voltage drop."],
+    ["Whether a maintenance-free junction box can go under floorboards", "526", "Electrical connections and accessibility of joints."],
+    ["Connector blocks taped up and pushed into a ceiling", "526", "Connections must be enclosed."],
+    ["Sealing the hole where a cable passes through a fire-resisting wall", "527", "Minimising the spread of fire."],
+    ["Running data and 230 V cables in the same trunking compartment", "528", "Proximity of band I and band II circuits."],
+    ["Too many computers tripping one 30 mA RCD", "531", "531.3.2, unwanted tripping."],
+    ["Choosing between Type AC and Type A RCDs", "531", "531.3.3, RCD types."],
+    ["The maximum rating of an RCD for fire protection", "532", "Devices for protection against the risk of fire."],
+    ["Where an AFDD must be placed", "532", "532.6, AFDDs."],
+    ["Choosing a Type 2 surge protective device", "534", "Devices for protection against overvoltage."],
+    ["A plug fuse blowing before the circuit's breaker", "536", "Coordination and selectivity."],
+    ["The maximum mounting height of a firefighter's switch", "537", "537.4, firefighter's switches."],
+    ["Which devices are suitable for emergency switching", "537", "Table 537.4."],
+    ["What can be used as an earth electrode", "542", "542.2.2 lists acceptable electrodes."],
+    ["The CPC size for a 25 mm² line conductor", "543", "Table 54.7, selecting protective conductors."],
+    ["The k value for a CPC that's a core in a cable", "543", "Table 54.3, with the adiabatic equation in 543.1.3."],
+    ["Equipment with a protective conductor current over 10 mA", "543", "543.7, high protective conductor currents."],
+    ["The main bonding size for a PME supply with a 35 mm² neutral", "544", "Table 54.8."],
+    ["A generator that mustn't run in parallel with the mains", "551", "Low voltage generating sets."],
+    ["Overload protection for a 0.75 kW motor", "552", "Rotating machines: motors over 0.37 kW."],
+    ["Light fittings inside a curtain pelmet", "559", "Luminaires and lighting installations."],
+    ["Fire-resistant cable for an emergency lighting supply", "560", "Chapter 56, safety services."]
+  ];
+  var cur = null, done = 0, right = 0, answered = false, bag = [];
+  var shuf = function (a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+  function next() {
+    if (!bag.length) bag = shuf(F.slice());
+    cur = bag.pop(); answered = false;
+    var others = shuf(Object.keys(SEC).filter(function (k) { return k !== cur[1]; })).slice(0, 3);
+    var opts = others.concat([cur[1]]).sort(function (a, b) { return a - b; });
+    $("fq").textContent = cur[0];
+    $("fo").innerHTML = opts.map(function (k) { return '<button type="button" class="btn" data-k="' + k + '"><span class="mono">' + k + "</span>" + SEC[k] + "</button>"; }).join("");
+    $("fv").hidden = true;
+  }
+  $("fo").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || answered) return;
+    answered = true; done++;
+    var ok = b.getAttribute("data-k") === cur[1]; if (ok) right++;
+    Array.prototype.forEach.call($("fo").children, function (x) { x.disabled = true; if (x.getAttribute("data-k") === cur[1]) x.classList.add("right"); else if (x === b) x.classList.add("wrong"); });
+    var v = $("fv"); v.hidden = false; v.className = "verdict " + (ok ? "ok" : "bad");
+    v.querySelector("strong").textContent = ok ? "Right" : "Not quite: Section " + cur[1];
+    v.querySelector("span").textContent = cur[2];
+    $("fs").textContent = right + " of " + done + " right";
+  });
+  $("fn").addEventListener("click", next);
+  next();
+
+  Course.quiz("#quiz", [
+    { q: "In green-and-yellow insulation, how much of the surface may each colour cover?",
+      options: ["At least 30% and at most 70%", "At least 50% each, exactly", "At least 10% and at most 90%", "Green at least 70%, yellow the rest"], answer: 0,
+      why: "514.4.2: one colour covers at least 30% and at most 70%, the other the rest." },
+    { q: "What colour identifies a functional earthing conductor?",
+      options: ["Pink", "Green and yellow", "Cream", "Orange"], answer: 0,
+      why: "Table 51: functional earthing (FE) and functional bonding conductors are pink." },
+    { q: "Under 514.10, does a standard 400 V three-phase distribution board need a voltage warning notice?",
+      options: ["No: each line is 230 V to earth", "Yes: 400 V is present between lines", "Only if it's in a home", "Only if it has an RCD"], answer: 0,
+      why: "514.10 applies where the voltage to earth exceeds 230 V and wouldn't be expected. You may still fit one." },
+    { q: "According to Table 4A1, how may non-sheathed (single insulated) cables be installed?",
+      options: ["In conduit, trunking or ducting", "Clipped direct to the surface", "Laid on cable tray or ladder", "Buried directly in plaster"], answer: 0,
+      why: "With insulation but no sheath, they must be enclosed." },
+    { q: "Leakage downstream of a 30 mA RCD should be no more than:",
+      options: ["9 mA", "15 mA", "30 mA", "3 mA"], answer: 0,
+      why: "531.3.2: no more than 30% of the rated residual operating current: 0.3 × 30 = 9 mA." },
+    { q: "Which RCD type is now the usual choice for general circuits?",
+      options: ["Type A", "Type AC", "Type B", "Type C"], answer: 0,
+      why: "Type A also detects pulsating DC from electronics. Type C is a circuit breaker curve, not an RCD type." },
+    { q: "What's the maximum mounting height of a firefighter's switch?",
+      options: ["2.25 m", "2.5 m", "2.75 m", "3 m"], answer: 2,
+      why: "537.4: no more than 2.75 m from the ground or standing surface beneath it." },
+    { q: "From Table 54.7, what size protective conductor does a 25 mm² copper line conductor need (same material)?",
+      options: ["10 mm²", "12.5 mm²", "16 mm²", "25 mm²"], answer: 2,
+      why: "Over 16 mm² and up to 35 mm²: 16 mm². Up to 16 mm²: the same as the line. Over 35 mm²: half." },
+    { q: "Using S = " + Course.frac("√(I<sup>2</sup>t)", "k") + " with I = 160 A, t = 0.1 s and k = 115, what's the minimum CPC size?",
+      options: ["0.44 mm²", "1.39 mm²", "4.4 mm²", "0.14 mm²"], answer: 0,
+      why: "√(160<sup>2</sup> × 0.1) = 50.6, and " + Course.frac("50.6", "115") + " ≈ 0.44 mm², so a 1.5 mm² CPC is plenty." },
+    { q: "Why must line and neutral pass through the same hole in a steel enclosure?",
+      options: ["To stop eddy currents heating the steel", "So the RCD can see both conductors", "To keep voltage drop below 3%", "To stop the cables being pulled out"], answer: 0,
+      why: "521.5.1: separate holes leave each conductor's magnetic field uncancelled, inducing eddy currents." }
+  ]);
+})();
+</script>
+</body>
+</html>

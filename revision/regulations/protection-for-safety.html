@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 4: Protection for Safety</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .num-in { font: inherit; font-family: var(--font-mono); font-size: 1rem; width: 9ch; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface-2); color: var(--fg); }
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); }
+  .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); }
+  .verdict.bad strong { color: var(--bad); }
+  .verdict.warn { background: var(--note-bg); }
+  .verdict.warn strong { color: var(--note); }
+  .finder-q { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; font-size: 1.02rem; min-height: 3.2em; }
+  .finder-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+  .finder-opts button { text-align: left; justify-content: flex-start; height: auto; min-height: var(--ctl-h); padding: 8px 12px; line-height: 1.3; }
+  .finder-opts button .mono { font-weight: 600; margin-right: 6px; }
+  .finder-opts button.right { border-color: var(--ok); background: var(--ok-bg); }
+  .finder-opts button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+  .finder-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body data-lesson="part4">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <h1>Part 4: protection for safety</h1>
+    <p class="lead">A tour of the Part of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> that carries the most exam questions: what each chapter and section protects against, so you know where to turn.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p>Part 4 has a chapter per danger: <strong>41</strong> electric shock, <strong>42</strong> thermal effects (fire and burns), <strong>43</strong> overcurrent, <strong>44</strong> voltage and electromagnetic disturbances, <strong>46</strong> isolation and switching (there's no 45). Chapter 41's sections are the protective measures: 411 automatic disconnection (with TN, <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr>, <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr>, <abbr title="functional extra-low voltage">FELV</abbr> and <abbr title="reduced low voltage">RLV</abbr> inside it), 412 double or reinforced insulation, 413 electrical separation, 414 <abbr title="separated extra-low voltage">SELV</abbr> and <abbr title="protective extra-low voltage">PELV</abbr>, 415 additional protection (30 mA <abbr title="residual current device">RCDs</abbr> and supplementary bonding), 416 basic protection, 417 obstacles and placing out of reach, 418 measures for skilled supervision only, 419 when automatic disconnection isn't feasible. Chapter 43 holds I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub> and I<sub>2</sub> ≤ 1.45 × I<sub>z</sub>, and the equation for how long a cable survives a fault: t = <span class="frac"><span>k<sup>2</sup> S<sup>2</sup></span><span>I<sup>2</sup></span></span>. The maximum <abbr title="residual current device">RCD</abbr> rating for fire protection is 300 mA.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>A chapter per danger</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Chapter</th><th>Protection against</th><th>Typical questions</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">41</td><td>Electric shock</td><td>Disconnection times, maximum Z<sub>s</sub>, <abbr title="residual current device">RCDs</abbr>, <abbr title="separated extra-low voltage">SELV</abbr>, basic protection, IP2X</td></tr>
+          <tr><td class="mono">42</td><td>Thermal effects</td><td>Metal consumer units, <abbr title="arc fault detection device">AFDDs</abbr>, escape routes, 300 mA <abbr title="residual current device">RCDs</abbr>, burns</td></tr>
+          <tr><td class="mono">43</td><td>Overcurrent</td><td>I<sub>b</sub>, I<sub>n</sub> and I<sub>z</sub>, switching the neutral, the k values in Table 43.1</td></tr>
+          <tr><td class="mono">44</td><td>Voltage and electromagnetic disturbances</td><td>Surge protective devices, lightning, undervoltage</td></tr>
+          <tr><td class="mono">46</td><td>(Isolation and switching)</td><td>Which kind of switch, and where one is needed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>About 15 of the 60 exam questions come from Part 4. Expect most of them from Chapter 41, a few each from 42 and 43, and one or two from 44 and 46. A question that sounds like Part 4 may still be answered in Part 7: "what protection against shock is needed for a caravan pitch socket?" belongs to the caravan park section (708), because special locations change the general rules. If a question names a location, check Part 7 first.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 41: electric shock</h2>
+    <p>The sections of Chapter 41 are the protective measures you can choose from. Most circuits use only 411, but the rest exist for particular situations (see <a href="bs-7671.html"><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> and its definitions</a> for basic, fault and additional protection).</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Section</th><th>Measure</th><th>In short</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">411</td><td>Automatic disconnection of supply</td><td>Earthing, bonding and a device that switches off in time. Used for nearly everything. See <a href="../earthing/automatic-disconnection.html">Automatic disconnection</a>.</td></tr>
+          <tr><td class="mono">412</td><td>Double or reinforced insulation</td><td>Class II equipment, marked with a square inside a square. Two layers of insulation, or one reinforced layer, between you and live parts.</td></tr>
+          <tr><td class="mono">413</td><td>Electrical separation</td><td>One item fed from an isolating transformer, with no connection to earth. The bathroom shaver supply unit.</td></tr>
+          <tr><td class="mono">414</td><td><abbr title="separated extra-low voltage">SELV</abbr> and <abbr title="protective extra-low voltage">PELV</abbr></td><td>Extra-low voltage from a safety source. <abbr title="separated extra-low voltage">SELV</abbr> has no connection to earth on its output; <abbr title="protective extra-low voltage">PELV</abbr> is earthed.</td></tr>
+          <tr><td class="mono">415</td><td>Additional protection</td><td>On top of the other measures: 30 mA <abbr title="residual current device">RCDs</abbr> and supplementary bonding.</td></tr>
+          <tr><td class="mono">416</td><td>Basic protection</td><td>Insulation, barriers and enclosures.</td></tr>
+          <tr><td class="mono">417</td><td>Obstacles and placing out of reach</td><td>Only where skilled or instructed people control or supervise the area.</td></tr>
+          <tr><td class="mono">418</td><td>For skilled supervision only</td><td>Non-conducting locations, earth-free local bonding, and electrical separation for more than one item.</td></tr>
+          <tr><td class="mono">419</td><td>When <abbr title="automatic disconnection of supply">ADS</abbr> isn't feasible</td><td>What to do when a device can't disconnect in the times required, for example some electronic equipment with limited fault current.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Inside Section 411</h3>
+    <p>Section 411 is twelve pages long because it covers automatic disconnection on every kind of system. Learn the order and you can find anything in it:</p>
+    <ul>
+      <li><strong>411.3</strong>: the general requirements: protective earthing, protective bonding, the disconnection times of Table 41.1, and additional protection for sockets (411.3.3) and home lighting (411.3.4).</li>
+      <li><strong>411.4</strong>: TN systems, with the maximum Z<sub>s</sub> Tables 41.2 to 41.4.</li>
+      <li><strong>411.5</strong>: <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> systems, where an <abbr title="residual current device">RCD</abbr> normally does the disconnecting and R<sub>A</sub> × I<sub>Δn</sub> must not exceed 50 V. A 30 mA <abbr title="residual current device">RCD</abbr> allows up to about 1,667 Ω, which is why <abbr title="residual current device">RCDs</abbr> rescue circuits whose Z<sub>s</sub> is too high for a breaker.</li>
+      <li><strong>411.6</strong>: <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> systems. The supply is isolated from earth, or earthed through a high impedance, so a first fault to earth draws hardly any current and nothing needs to trip. An <strong>insulation monitoring device (<abbr title="insulation monitoring device">IMD</abbr>)</strong> or <strong>residual current monitor (<abbr title="residual current monitor">RCM</abbr>)</strong> raises an alarm instead, and maintenance staff find and fix the fault before a second one happens. That suits places where a sudden power cut is itself dangerous, such as operating theatres. (I stands for isolated or impedance; T for the installation's own earth, from the Latin <em>terra</em>.)</li>
+      <li><strong>411.7</strong>: functional extra-low voltage (<abbr title="functional extra-low voltage">FELV</abbr>): extra-low voltage used because the equipment needs it, not as a safety measure, where the source or wiring doesn't meet all the <abbr title="separated extra-low voltage">SELV</abbr> or <abbr title="protective extra-low voltage">PELV</abbr> rules. Its protection comes from the measures on the supply side of the transformer.</li>
+      <li><strong>411.8</strong>: reduced low voltage (<abbr title="reduced low voltage">RLV</abbr>): the 110 V building-site system. The yellow transformer's output winding is centre-tapped to earth, so each line is only 55 V to earth (63.5 V on three-phase), while tools still get 110 V. It has its own maximum Z<sub>s</sub> table.</li>
+    </ul>
+
+    <h3>Basic protection (Section 416)</h3>
+    <ul>
+      <li><strong>Insulation</strong> must cover live parts completely and be removable only by destroying it. Stripping a cable destroys the insulation you take off.</li>
+      <li><strong>Barriers and enclosures</strong> must be at least <strong>IP2X or IPXXB</strong>: a finger (12.5 mm) can't get in. The <strong>top</strong> of an enclosure that's easy to reach must be at least <strong>IP4X or IPXXD</strong>: nothing over 1 mm gets in. Things dropped on top, and dust, are the worry.</li>
+      <li>You must only be able to open an enclosure or remove a barrier with a key or tool, or after the supply has been disconnected, or if an inner barrier of at least IPXXB, itself needing a tool to remove, stays in place.</li>
+    </ul>
+    <p>See the <a href="bathrooms.html"><abbr title="ingress protection">IP</abbr> code decoder</a> for what the digits mean.</p>
+
+    <h3>Obstacles and placing out of reach (Section 417)</h3>
+    <p>Bare live parts are allowed if an obstacle stops you touching them by accident, or they're beyond arm's reach (2.5 m up). Think of crane rails, the live ceiling grid of fairground dodgems, or a conductor rail feeding a robot along a factory line. Power lines and the Underground's live rail work the same way, though they're outside <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>. These measures are only for areas controlled or supervised by skilled or instructed people, never a home.</p>
+    <p>Section 418 goes further: a <strong>non-conducting location</strong> has no earthed metalwork at all and insulating floors and walls, so there's nothing at a different potential to touch. Again, skilled supervision only.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 42: thermal effects</h2>
+    <p>Any connection can work loose, overheat and start a fire, even in a light switch, so this chapter applies to everything you install.</p>
+    <ul>
+      <li><strong>Section 421, fire caused by equipment.</strong> A consumer unit in a home must have a <strong>non-combustible enclosure</strong>, usually steel, or sit in a non-combustible cabinet (421.1.201; see <a href="../supply/consumer-units.html">Consumer units and protective devices</a>). Existing plastic boards can stay. <strong>Arc fault detection devices (<abbr title="arc fault detection device">AFDDs</abbr>)</strong> (421.1.7) are required on final circuits with socket-outlets up to 32 A in higher-risk residential buildings (<abbr title="higher-risk residential building">HRRBs</abbr>: at least 18 m or seven storeys high), houses in multiple occupation (<abbr title="house in multiple occupation">HMOs</abbr>), purpose-built student accommodation and care homes, and recommended elsewhere. <abbr title="arc fault detection device">AFDDs</abbr> cost far more than a breaker, so on a block of flats they can add thousands to a quote. Check the current wording in your copy: this rule may well widen.</li>
+      <li><strong>Section 422, locations with particular fire risks.</strong> Escape routes should only carry wiring that's needed there, such as fire safety equipment and the lighting, kept as short as possible. Where combustible materials are processed or stored (a barn, a woodwork shop), luminaires must have limited surface temperatures and the wiring needs <abbr title="residual current device">RCD</abbr> protection of no more than <strong>300 mA</strong>, the figure for fire protection. Separate rules cover buildings made of combustible materials such as timber frames, fire-propagating structures (shaped so fire spreads, like a chimney effect), and buildings of national, commercial, industrial or public significance, such as historic monuments.</li>
+      <li><strong>Section 423, burns.</strong> Table 42.1 limits the surface temperature of parts you can touch.</li>
+      <li><strong>Section 424, overheating</strong> of forced-air heating and hot water equipment.</li>
+    </ul>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 43: overcurrent</h2>
+    <p>Chapter 43 deals with overloads and short circuits between live conductors. Earth faults belong to Chapter 41. Things you'll find here:</p>
+    <ul>
+      <li><strong>Never switch the neutral on its own.</strong> If a device breaks the neutral, it must break the line conductors at the same time, or the equipment stays live with the neutral open.</li>
+      <li><strong>Section 433, overload.</strong> The design rule I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub>, and I<sub>2</sub> ≤ 1.45 × I<sub>z</sub> (see <a href="../design/design-current.html">Design current and diversity</a>). Ring final circuits are here too.</li>
+      <li><strong>433.2, where the device goes.</strong> Normally where the cable's current-carrying capacity drops, such as a change to a smaller cable. An extension lead is a familiar example: a 1.25 mm² flex plugged into a 32 A ring is fine because the 13 A fuse in the plug protects it.</li>
+      <li><strong>433.3, leaving the overload device out.</strong> Sometimes allowed, and sometimes recommended where tripping on overload would itself be dangerous, such as a fire pump or a lifting magnet.</li>
+      <li><strong>Section 434, fault current.</strong> The device must clear a short circuit before the conductors overheat. That's checked with the equation below.</li>
+    </ul>
+    <h3>How long will a cable survive a fault?</h3>
+    <p>During a short circuit, the current is so big that the conductor heats up faster than it can lose heat. Regulation 434.5.2 gives the time it can survive before its insulation is damaged:</p>
+    <p><span class="formula">t = <span class="frac"><span>k<sup>2</sup> × S<sup>2</sup></span><span>I<sup>2</sup></span></span></span></p>
+    <p>where t is in seconds, S is the conductor's cross-sectional area in mm², I is the fault current in amps, and k is a factor from <strong>Table 43.1</strong> that depends on the conductor and insulation. For copper with 70 °C thermoplastic (<abbr title="polyvinyl chloride">PVC</abbr>) insulation, like twin and earth, k = 115: it can run at 70 °C and is damaged at 160 °C. If the cable survives longer than the device takes to disconnect, the circuit passes. Exam questions usually ask you to look up k rather than do the whole sum.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Try it</span>
+      <h3 id="w1">Does the cable outlast the device?</h3>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="kSel">Conductor and insulation (k)</label><select id="kSel">
+        <option value="115" selected>Copper, 70 °C thermoplastic (k = 115)</option>
+        <option value="143">Copper, 90 °C thermosetting (k = 143)</option>
+      </select></div>
+      <div class="ctl"><label for="sSel">Size, S</label><select id="sSel"></select></div>
+      <div class="ctl"><label for="iIn">Fault current, I (A)</label><input class="num-in" id="iIn" type="number" step="10" min="1" value="550" inputmode="decimal"></div>
+      <div class="ctl"><label for="tIn">Device disconnects in (s)</label><input class="num-in" id="tIn" type="number" step="0.01" min="0.01" value="0.1" inputmode="decimal"></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span class="k">Cable survives for</span><span class="v" id="oT">—</span><span class="s" id="oTs"></span></div>
+      <div class="ro"><span class="k">Device clears in</span><span class="v" id="oD">—</span><span class="s">from its time/current curve</span></div>
+    </div>
+    <div class="verdict" id="kV" aria-live="polite"><strong></strong><span></span></div>
+    <p class="caption">The starting values are the tutor's example: 2.5 mm² twin and earth, a 550 A short circuit, and a breaker that clears in 0.1 s. Try a bigger fault current, or a slower device such as a fuse, and watch the margin shrink.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Chapter 44: voltage and electromagnetic disturbances</h2>
+    <p>Chapters 41 to 43 are about too much current. Chapter 44 is about voltages you didn't expect:</p>
+    <ul>
+      <li><strong>Section 443, transient overvoltages</strong> from lightning or switching on the network. This is where the rules for <strong>surge protective devices (<abbr title="surge protective device">SPDs</abbr>)</strong> are.</li>
+      <li><strong>Section 444, electromagnetic disturbances</strong>: interference between circuits and equipment.</li>
+      <li><strong>Section 445, undervoltage.</strong> If the power fails and comes back, a machine such as a lathe mustn't restart by itself while someone is leaning over it. An undervoltage release switches it off when the voltage drops, so it has to be restarted deliberately.</li>
+    </ul>
+    <h2>Chapter 46: isolation and switching</h2>
+    <p>Which switching device to use, and where one is needed. There are four purposes: <strong>isolation</strong> (cutting off the supply so you can work safely), <strong>switching off for mechanical maintenance</strong>, <strong>emergency switching</strong> (cutting off quickly to remove a danger) and <strong>functional switching</strong> (normal control, like a light switch). Chapter 53 covers choosing and fitting the devices themselves.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w2">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w2">Where would you look?</h3>
+    </div>
+    <div class="finder-q" id="fq" aria-live="polite"></div>
+    <div class="finder-opts" id="fo"></div>
+    <div class="verdict" id="fv" aria-live="polite" hidden><strong></strong><span></span></div>
+    <div class="finder-foot"><span class="caption" id="fs"></span><button type="button" class="btn" id="fn">Next question</button></div>
+  </section>
+
+  <section class="prose">
+    <h2>Using the book on a real job</h2>
+    <p>The Parts are in the order you'd use them. Say a customer asks you to fit an <abbr title="electric vehicle">EV</abbr> charger:</p>
+    <ol>
+      <li><strong>Part 1</strong>: is it in scope? Yes, <abbr title="electric vehicle">EV</abbr> charging is covered.</li>
+      <li><strong>Chapter 13</strong>: the fundamental principles it must meet: shock, thermal effects, overcurrent, fault current, voltage disturbances.</li>
+      <li><strong>Part 2</strong>: use the defined terms in your quote and your order to the wholesaler, so nobody can misread them.</li>
+      <li><strong>Part 3</strong>: the supply: phases, main fuse, earthing arrangement, and whether the existing installation can take the load.</li>
+      <li><strong>Part 4</strong>: which protective measures: almost certainly 411, perhaps 412 if the charger is Class II.</li>
+      <li><strong>Parts 5 and 6</strong>: choosing and installing the cable and devices (see <a href="selection-and-erection.html">Part 5: selection and erection</a>), then inspecting and testing.</li>
+      <li><strong>Part 7</strong>: Section 722 changes some of the general rules for <abbr title="electric vehicle">EV</abbr> charging.</li>
+    </ol>
+    <p>Making up a job like this and listing the sections you'd use is a good way to revise.</p>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  // ---- Adiabatic check ----
+  var SIZES = [1, 1.5, 2.5, 4, 6, 10, 16, 25];
+  SIZES.forEach(function (s) { var o = document.createElement("option"); o.value = s; o.textContent = s + " mm²"; if (s === 2.5) o.selected = true; $("sSel").appendChild(o); });
+  var fmt = function (t) { return t >= 100 ? Math.round(t) + " s" : Course.sig(t, 2) + " s"; };
+  function upd() {
+    var k = +$("kSel").value, S = +$("sSel").value, I = parseFloat($("iIn").value), d = parseFloat($("tIn").value), v = $("kV");
+    if (!(I > 0) || !(d > 0)) { v.className = "verdict warn"; v.querySelector("strong").textContent = "Enter a fault current and a time"; v.querySelector("span").textContent = ""; return; }
+    var t = k * k * S * S / (I * I);
+    $("oT").textContent = fmt(t);
+    $("oTs").innerHTML = Course.frac(k + "<sup>2</sup> × " + S + "<sup>2</sup>", I + "<sup>2</sup>");
+    $("oD").textContent = fmt(d);
+    if (t > d) { v.className = "verdict ok"; v.querySelector("strong").textContent = "Pass"; v.querySelector("span").textContent = "The device clears the fault before the cable is damaged, with " + Course.sig(t / d, 2) + " times the time it needs."; }
+    else { v.className = "verdict bad"; v.querySelector("strong").textContent = "Fail"; v.querySelector("span").textContent = "The cable would be damaged before the device clears the fault. Use a bigger cable or a faster device."; }
+  }
+  ["kSel", "sSel", "iIn", "tIn"].forEach(function (id) { $(id).addEventListener("input", upd); $(id).addEventListener("change", upd); });
+  upd();
+
+  // ---- Where would you look? [prompt, right section, explanation] ----
+  var SEC = {
+    "411": "Automatic disconnection of supply", "412": "Double or reinforced insulation", "413": "Electrical separation", "414": "SELV and PELV",
+    "415": "Additional protection", "416": "Basic protection", "417": "Obstacles and placing out of reach", "418": "Skilled supervision only",
+    "421": "Fire caused by equipment", "422": "Locations with particular fire risks", "423": "Protection against burns",
+    "433": "Overload", "434": "Fault current", "443": "Transient overvoltages", "445": "Undervoltage", "46": "Chapter 46: isolation and switching"
+  };
+  var F = [
+    ["The maximum disconnection time for a 32 A socket circuit on TN-C-S", "411", "Disconnection times are part of automatic disconnection (Table 41.1)."],
+    ["The highest earth electrode resistance allowed with a 30 mA RCD on a TT system", "411", "TT systems are 411.5, inside automatic disconnection."],
+    ["What an insulation monitoring device does on an IT system", "411", "IT systems are 411.6, inside automatic disconnection."],
+    ["The maximum voltage to earth on a 110 V centre-tapped site supply", "411", "Reduced low voltage is 411.8, inside automatic disconnection."],
+    ["The symbol that marks Class II equipment", "412", "Class II is double or reinforced insulation."],
+    ["Why a shaver supply unit needs no earth connection on its output", "413", "It's electrical separation for a single item."],
+    ["The maximum voltage of a SELV source", "414", "SELV and PELV are Section 414."],
+    ["Supplementary bonding used to give extra protection against shock", "415", "Additional protection covers 30 mA RCDs and supplementary bonding."],
+    ["The maximum rated residual operating current of an RCD for additional protection", "415", "30 mA, in additional protection."],
+    ["The minimum IP rating for the top surface of an enclosure", "416", "IP4X or IPXXD for accessible top surfaces, in basic protection."],
+    ["How insulation must be removable from live parts", "416", "Only by destruction, in basic protection."],
+    ["Using a fence to stop people reaching bare live parts", "417", "An obstacle."],
+    ["A non-conducting location in a laboratory", "418", "Measures allowed only under skilled supervision."],
+    ["Whether a new domestic consumer unit may have a plastic enclosure", "421", "Non-combustible consumer units are 421.1.201."],
+    ["Whether a socket circuit in a care home needs an AFDD", "421", "AFDDs are 421.1.7."],
+    ["Which circuits may run through a fire escape route", "422", "Escape routes are part of locations with particular fire risks."],
+    ["The maximum RCD rating for protection against fire in a barn storing hay", "422", "300 mA, for locations where combustible materials are stored."],
+    ["The highest surface temperature allowed for a metal control knob", "423", "Table 42.1, protection against burns."],
+    ["The rule that the device rating must not exceed the cable's current-carrying capacity", "433", "I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub> is overload protection."],
+    ["Where a smaller spur cable needs its own overload protection", "433", "Position of overload devices is 433.2."],
+    ["The value of k for a copper conductor with 70 °C thermoplastic insulation", "434", "Table 43.1 and the fault current equation are in Section 434."],
+    ["When a surge protective device is required", "443", "Transient overvoltages."],
+    ["Stopping a lathe from restarting by itself after a power cut", "445", "Undervoltage protection."],
+    ["What kind of device can be used for emergency switching", "46", "Isolation and switching."]
+  ];
+  var cur = null, done = 0, right = 0, answered = false, bag = [];
+  function next() {
+    if (!bag.length) bag = Course.shuffle ? Course.shuffle(F.slice()) : F.slice().sort(function () { return Math.random() - 0.5; });
+    cur = bag.pop(); answered = false;
+    var others = Object.keys(SEC).filter(function (k) { return k !== cur[1]; }).sort(function () { return Math.random() - 0.5; }).slice(0, 3);
+    var opts = others.concat([cur[1]]).sort(function (a, b) { return parseInt(a, 10) - parseInt(b, 10); });
+    $("fq").innerHTML = cur[0];
+    $("fo").innerHTML = opts.map(function (k) { return '<button type="button" class="btn" data-k="' + k + '"><span class="mono">' + (k === "46" ? "Ch 46" : k) + "</span>" + (k === "46" ? "Isolation and switching" : SEC[k]) + "</button>"; }).join("");
+    $("fv").hidden = true;
+  }
+  $("fo").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || answered) return;
+    answered = true; done++;
+    var ok = b.getAttribute("data-k") === cur[1]; if (ok) right++;
+    Array.prototype.forEach.call($("fo").children, function (x) { x.disabled = true; if (x.getAttribute("data-k") === cur[1]) x.classList.add("right"); else if (x === b) x.classList.add("wrong"); });
+    var v = $("fv"); v.hidden = false; v.className = "verdict " + (ok ? "ok" : "bad");
+    v.querySelector("strong").textContent = ok ? "Right" : "Not quite: " + (cur[1] === "46" ? "Chapter 46" : "Section " + cur[1]);
+    v.querySelector("span").innerHTML = cur[2];
+    $("fs").textContent = right + " of " + done + " right";
+  });
+  $("fn").addEventListener("click", next);
+  next();
+
+  Course.quiz("#quiz", [
+    { q: "Which chapter of BS 7671 covers protection against thermal effects?",
+      options: ["Chapter 41", "Chapter 42", "Chapter 43", "Chapter 44"], answer: 1, fixed: true,
+      why: "41 shock, 42 thermal effects, 43 overcurrent, 44 voltage disturbances, 46 isolation and switching." },
+    { q: "What's the maximum rated residual operating current of an RCD used for protection against fire?",
+      options: ["30 mA", "100 mA", "300 mA", "500 mA"], answer: 2,
+      why: "300 mA, in Section 422. 30 mA is the figure for additional protection against shock." },
+    { q: "What's the minimum IP rating for the readily accessible top surface of an enclosure?",
+      options: ["IP2X or IPXXB", "IP4X or IPXXD", "IPX4", "IP65"], answer: 1,
+      why: "The top surface needs IP4X or IPXXD (1 mm); the rest of the enclosure IP2X or IPXXB (12.5 mm, finger-proof)." },
+    { q: "On an IT system, what normally happens at the first fault to earth?",
+      options: ["A monitoring device raises an alarm", "The main fuse blows at once", "Every RCD in the building trips", "The supply switches to 110 V"], answer: 0,
+      why: "The first fault draws very little current, so supply continues while an IMD or RCM alerts staff to fix it." },
+    { q: "Why is each line of a 110 V site transformer only 55 V to earth?",
+      options: ["Its output winding is centre-tapped to earth", "A resistor in the lead drops the rest", "The transformer has two separate outputs", "Site tools only draw half the voltage"], answer: 0,
+      why: "Reduced low voltage (411.8): the centre tap is earthed, so there's 55 V either side of it and 110 V across the tool." },
+    { q: "Obstacles and placing out of reach may be used:",
+      options: ["Only where skilled or instructed people control the area", "In any home, if parts are over 2.5 m high", "Only outdoors, away from buildings", "Anywhere, as long as an RCD is fitted"], answer: 0,
+      why: "Section 417 measures are only for areas controlled or supervised by skilled or instructed persons." },
+    { q: "Using t = " + Course.frac("k<sup>2</sup>S<sup>2</sup>", "I<sup>2</sup>") + " with k = 115, S = 2.5 mm² and I = 550 A, how long will the cable survive?",
+      options: ["0.03 s", "0.27 s", "0.52 s", "2.7 s"], answer: 1,
+      why: Course.frac("115<sup>2</sup> × 2.5<sup>2</sup>", "550<sup>2</sup>") + " = " + Course.frac("82,656", "302,500") + " ≈ 0.27 s. A breaker clearing in 0.1 s beats it." },
+    { q: "Where is a device that switches off a machine after a power cut, so it can't restart by itself?",
+      options: ["Section 445, undervoltage", "Section 443, overvoltage", "Section 433, overload", "Section 415, additional protection"], answer: 0,
+      why: "Section 445 covers protection against undervoltage, including stopping dangerous automatic restarts." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -51,6 +51,8 @@
         </tbody>
       </table>
     </div>
+    <p>A <strong>final circuit</strong> feeds equipment or sockets directly; a <strong>distribution circuit</strong> feeds another distribution board (see <a href="../regulations/bs-7671.html"><abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> and its definitions</a>). "Sockets" means anything you plug into, so a 32 A or 63 A industrial socket-outlet counts as well as the 13 A kind. A 40 A shower circuit is fixed equipment over 32 A, so it gets 5 s on TN.</p>
+    <p>The table's columns go by U<sub>0</sub>, the nominal voltage <em>to earth</em>, not the voltage between lines. A three-phase circuit has 400 V between lines, but each line is still 230 V to earth, so it uses the same 230 V column as a single-phase circuit. In practice almost everything you work on falls in that column; the others are for supplies such as some generators.</p>
     <p>Sockets get the shortest time because whoever is holding a faulty appliance is gripping the metal. On <abbr title="TT earthing: the installation has its own earth electrode, with no earth from the supply">TT</abbr> the times are shorter still, because the voltage on exposed metalwork during a fault is higher.</p>
   </section>
 
@@ -58,8 +60,25 @@
     <h2>Maximum Z<sub>s</sub></h2>
     <p>For a circuit breaker to disconnect in 0.4 s, the fault current has to be big enough to operate its <strong>magnetic</strong> trip (see <a href="../supply/consumer-units.html">Consumer units and protective devices</a>). That's 5 × I<sub>n</sub> for Type B, 10 × I<sub>n</sub> for Type C and 20 × I<sub>n</sub> for Type D. Working backwards gives the highest Z<sub>s</sub> that still trips in time. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> also allows for the supply voltage being on the low side, using a factor C<sub>min</sub> of 0.95:</p>
     <p><span class="formula">Z<sub>s</sub> max = <span class="frac"><span>U<sub>0</sub> × C<sub>min</sub></span><span>I<sub>a</sub></span></span></span></p>
-    <p>where I<sub>a</sub> is the current that operates the device in time. For a 32 A Type B: I<sub>a</sub> = 5 × 32 = 160 A, so Z<sub>s</sub> max = <span class="frac"><span>230 × 0.95</span><span>160</span></span> = <strong>1.37 Ω</strong>. You don't need to work these out in practice: <strong>Tables 41.2 to 41.4</strong> list them for fuses and circuit breakers.</p>
-    <p><strong>The 80% rule.</strong> The tables apply to conductors at their working temperature, but you test them cold, when their resistance is lower. So a measured Z<sub>s</sub> is compared with about 80% of the table value (the On-Site Guide and Guidance Note 3 give corrected tables). For the 32 A Type B: 0.8 × 1.37 ≈ 1.10 Ω.</p>
+    <p>where I<sub>a</sub> is the current that operates the device in time, read from its time/current curve in Appendix 3. For a 32 A Type B: I<sub>a</sub> = 5 × 32 = 160 A, so Z<sub>s</sub> max = <span class="frac"><span>230 × 0.95</span><span>160</span></span> = <strong>1.37 Ω</strong>. You don't need to work these out in practice: <strong>Tables 41.2 to 41.4</strong> list them for fuses and circuit breakers.</p>
+    <p><strong>Which table?</strong> Every circuit has a Z<sub>s</sub>, and every protective device has a maximum Z<sub>s</sub>. As long as the circuit's Z<sub>s</sub> doesn't exceed its device's maximum, the device operates in time. The trick in the exam is picking the right table:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Table</th><th>Devices</th><th>Disconnection time</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">41.2</td><td>Fuses: BS 88-2, BS 88-3, BS 3036 rewireable, BS 1362 plug-top</td><td class="mono">0.4 s</td></tr>
+          <tr><td class="mono">41.3</td><td>Circuit breakers (Types B, C, D) and <abbr title="residual current breaker with overcurrent protection">RCBOs</abbr></td><td class="mono">0.4 s and 5 s</td></tr>
+          <tr><td class="mono">41.4</td><td>The same fuses as Table 41.2</td><td class="mono">5 s</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Tables 41.2 and 41.4 look like the same table printed twice. They aren't: a fuse given 5 s can tolerate a higher Z<sub>s</sub>, because a smaller fault current still melts it in time. A breaker needs only one table, because its magnetic trip works in about 0.1 s whether you need 0.4 s or 5 s.</p>
+    <p>So the question to ask first is which disconnection time applies. Two examples:</p>
+    <ul>
+      <li>A <strong>distribution circuit</strong> protected by a 50 A BS 88-2 fuse on TN gets 5 s, so you look in Table 41.4, not 41.2.</li>
+      <li>A <strong>5.5 kW shower</strong> on a 30 A BS 3036 rewireable fuse: I<sub>b</sub> = <span class="frac"><span>5,500</span><span>230</span></span> = 23.9 A, so it's a final circuit for fixed equipment under 32 A. That means 0.4 s, and Table 41.2.</li>
+    </ul>
+    <p><strong>The 80% rule.</strong> The tables apply to conductors at their working temperature, but you test them cold, when their resistance is lower. So a measured Z<sub>s</sub> is compared with about 80% of the table value (the On-Site Guide, Appendix B, and Guidance Note 3 give these "maximum measured" tables). For the 32 A Type B: 0.8 × 1.37 ≈ 1.10 Ω. <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr> itself doesn't print the 80% values. Here's why the margin matters: say a new cooker circuit on a 16 A Type B (maximum 2.73 Ω) measures 2.68 Ω. It passes on the day, but once the cooker is in use the cables warm up, their resistance rises, and Z<sub>s</sub> creeps over 2.73 Ω. Against the 80% figure of 2.18 Ω, it would have failed on the day.</p>
   </section>
 
   <section class="widget" aria-labelledby="w1">

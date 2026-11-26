@@ -32,7 +32,7 @@
 
   <aside class="callout takeaway" aria-label="Key takeaways">
     <h3>Key takeaways</h3>
-    <p>A <strong>special location</strong> is a place of increased risk with extra rules in Part 7 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>; rooms containing a bath or shower are Section 701. <strong>Zone 0</strong> is inside the bath or shower tray. <strong>Zone 1</strong> is directly above it, up to 2.25 m from the finished floor (or to a fixed shower head higher than that), and includes the space under a bath if you can get at it without a tool. <strong>Zone 2</strong> extends 0.6 m out from zone 1. A walk-in shower with no tray has no zone 2; instead its zone 1 reaches 1.2 m from the fixed water outlet. Equipment needs at least IPX7 in zone 0 and IPX4 in zones 1 and 2 (IPX5 where water jets are used for cleaning). Socket-outlets must be at least <strong>3 m</strong> horizontally from the boundary of zone 1 (shaver supply units are the exception). Every circuit in the room needs 30 mA <abbr title="residual current device">RCD</abbr> protection.</p>
+    <p>A <strong>special location</strong> is a place of increased risk with extra rules in Part 7 of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>; rooms containing a bath or shower are Section 701. <strong>Zone 0</strong> is inside the bath or shower tray. <strong>Zone 1</strong> is directly above it, up to 2.25 m from the finished floor (or to a fixed shower head higher than that), and includes the space under a bath if you can get at it without a tool. <strong>Zone 2</strong> extends 0.6 m out from zone 1. A walk-in shower with no tray has no zone 2; instead its zone 1 reaches 1.2 m from the fixed water outlet. Equipment needs at least IPX7 in zone 0 and IPX4 in zones 1 and 2 (IPX5 where water jets are used for cleaning). Socket-outlets must be at least <strong>2.5 m</strong> horizontally from the boundary of zone 1 (it was 3 m before Amendment 2) (shaver supply units are the exception). Every circuit in the room needs 30 mA <abbr title="residual current device">RCD</abbr> protection.</p>
   </aside>
 
   <section class="prose">
@@ -47,7 +47,7 @@
     </div>
     <div class="stage">
       <svg id="room" viewBox="0 0 760 360" class="wide" role="img" aria-labelledby="w1d">
-        <title id="w1d">A side view of a bathroom showing zone 0 inside the bath or shower, zone 1 above it up to 2.25 metres, zone 2 extending 0.6 metres beyond, and the point 3 metres from zone 1 beyond which socket-outlets are allowed.</title>
+        <title id="w1d">A side view of a bathroom showing zone 0 inside the bath or shower, zone 1 above it up to 2.25 metres, zone 2 extending 0.6 metres beyond, and the point 2.5 metres from zone 1 beyond which socket-outlets are allowed.</title>
         <g id="roomG"></g>
       </svg>
     </div>
@@ -79,7 +79,7 @@
           <tr><td><strong>0</strong></td><td>Inside the bath or shower tray. For a walk-in shower, the floor area of zone 1 up to 10 cm high.</td><td class="mono">IPX7</td><td>Only equipment made for zone 0, running on <abbr title="separated extra-low voltage">SELV</abbr> at no more than 12 V <abbr title="alternating current">AC</abbr>, with its power source outside the zones.</td></tr>
           <tr><td><strong>1</strong></td><td>Above zone 0, up to 2.25 m above the finished floor, or to the highest fixed shower head if that's higher. Includes the space under a bath that's reachable without a tool. A walk-in shower's zone 1 reaches 1.2 m from the fixed water outlet.</td><td class="mono">IPX4</td><td>Only fixed equipment suitable for zone 1, such as an electric shower, shower pump, extractor fan, towel rail or luminaire.</td></tr>
           <tr><td><strong>2</strong></td><td>0.6 m horizontally beyond zone 1, to the same height. There's no zone 2 for a walk-in shower without a tray.</td><td class="mono">IPX4</td><td>Fixed equipment suitable for the zone, plus a shaver supply unit if it's out of the direct spray.</td></tr>
-          <tr><td>Outside the zones</td><td>The rest of the room.</td><td>No special rating</td><td>Most equipment, but socket-outlets only 3 m or more horizontally from zone 1.</td></tr>
+          <tr><td>Outside the zones</td><td>The rest of the room.</td><td>No special rating</td><td>Most equipment, but socket-outlets only 2.5 m or more horizontally from zone 1.</td></tr>
         </tbody>
       </table>
     </div>
@@ -136,7 +136,7 @@
     z1: ["Zone 1", "IPX4", "Directly above the bath or shower tray, out to its edge, up to 2.25 m, or to the fixed shower head if that's higher. (For a walk-in shower, 1.2 m from the outlet.) Only fixed equipment suitable for zone 1: electric shower, shower pump, extractor fan, towel rail, luminaire."],
     zu: ["Zone 1 (under the bath)", "IPX4", "The space under a bath counts as zone 1 when you can get into it without a tool. If the panel needs a tool to remove, the space is outside the zones."],
     z2: ["Zone 2", "IPX4", "0.6 m beyond zone 1, to the same height, around a bath or shower tray. Fixed equipment suitable for the zone, and a shaver supply unit if it's out of the direct spray."],
-    out: ["Outside the zones", "No special rating", "Ordinary equipment is allowed, but socket-outlets must be at least 3 m horizontally from the boundary of zone 1, and every circuit needs 30 mA RCD protection."]
+    out: ["Outside the zones", "No special rating", "Ordinary equipment is allowed, but socket-outlets must be at least 2.5 m horizontally from the boundary of zone 1, and every circuit needs 30 mA RCD protection."]
   };
   function draw() {
     var top = Math.max(2.25, st.head), g = "";
@@ -212,10 +212,10 @@
     // height of zones
     g += '<line x1="' + x(6.85) + '" y1="' + y(0) + '" x2="' + x(6.85) + '" y2="' + y(top) + '" stroke="var(--flow)" stroke-width="2" marker-end="url(#ar)" marker-start="url(#ar)" pointer-events="none"/>';
     g += '<text x="' + (x(6.85) - 8) + '" y="' + (y(top) + 16) + '" text-anchor="end" class="tag" fill="var(--flow)" style="font-size:12px" pointer-events="none">' + top.toFixed(2) + " m</text>";
-    // 3 m socket line
-    var sx = x(z1edge + 3);
+    // 2.5 m socket line
+    var sx = x(z1edge + 2.5);
     g += '<line x1="' + sx + '" y1="' + y(2.6) + '" x2="' + sx + '" y2="' + FL + '" stroke="var(--ok)" stroke-width="2" stroke-dasharray="6 4" pointer-events="none"/>';
-    g += arrow(x(z1edge), y(0.55), sx, y(0.55), "3 m from zone 1");
+    g += arrow(x(z1edge), y(0.55), sx, y(0.55), zNarrow ? "2.5 m" : "2.5 m from zone 1");
     // phones: the label goes to the left of the line, above the zones, so it doesn't run off the edge
     var lx = zNarrow ? sx - 6 : sx + 6, la = zNarrow ? "end" : "start", ly = zNarrow ? 12 : y(2.45);
     g += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + la + '" class="small" style="fill:var(--ok)" pointer-events="none">Sockets allowed</text><text x="' + lx + '" y="' + (ly + 14) + '" text-anchor="' + la + '" class="small" style="fill:var(--ok)" pointer-events="none">beyond this line</text>';
@@ -270,8 +270,8 @@
       options: ["IPX2", "IPX4", "IPX7", "IP65"], answer: 1, fixed: true,
       why: "IPX4 (splash-proof) in zones 1 and 2; IPX7 in zone 0; IPX5 where water jets are used for cleaning." },
     { q: "How far from the boundary of zone 1 must socket-outlets be?",
-      options: ["0.6 m horizontally", "1.2 m horizontally", "2.5 m horizontally", "3 m horizontally"], answer: 3,
-      why: "At least 3 m horizontally from the boundary of zone 1. Shaver supply units are the exception." },
+      options: ["0.6 m horizontally", "1.2 m horizontally", "2.5 m horizontally", "3 m horizontally"], answer: 2,
+      why: "At least 2.5 m horizontally from the boundary of zone 1 (3 m before Amendment 2). Shaver supply units are the exception." },
     { q: "In IPX4, what does the X mean?",
       options: ["Extra protection beyond the basic rating", "Not tested, or not specified, for solid objects", "Fully waterproof, even when submerged", "Explosion-proof, for use near gas"], answer: 1,
       why: "X means that digit wasn't tested or specified. Here it's the solids digit; the 4 means protected against splashing water." },

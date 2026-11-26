@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parts 6 to 8 and the Appendices</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/course.css">
+<style>
+  .verdict { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .verdict.ok { background: var(--ok-bg); }
+  .verdict.ok strong { color: var(--ok); }
+  .verdict.bad { background: var(--bad-bg); }
+  .verdict.bad strong { color: var(--bad); }
+  .finder-q { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; font-size: 1.02rem; min-height: 3.2em; }
+  .finder-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+  .finder-opts button { text-align: left; justify-content: flex-start; height: auto; min-height: var(--ctl-h); padding: 8px 12px; line-height: 1.3; }
+  .finder-opts button .mono { font-weight: 600; margin-right: 6px; }
+  .finder-opts button.right { border-color: var(--ok); background: var(--ok-bg); }
+  .finder-opts button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+  .finder-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body data-lesson="part678">
+<nav class="topbar" id="topbar"></nav>
+<main class="page">
+  <header class="lesson-head">
+    <h1>Parts 6 to 8 and the appendices</h1>
+    <p class="lead">The rest of <abbr title="British Standard 7671: the IET Wiring Regulations">BS 7671</abbr>: inspection and testing, the 21 special locations, prosumer installations, and the appendices you'll keep coming back to.</p>
+  </header>
+
+  <aside class="callout takeaway" aria-label="Key takeaways">
+    <h3>Key takeaways</h3>
+    <p><strong>Part 6</strong> is inspection and testing: initial verification of new work (<abbr title="Electrical Installation Certificate">EIC</abbr> or <abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr>) and periodic inspection of existing installations (<abbr title="Electrical Installation Condition Report">EICR</abbr>), inspecting before testing. <strong>Part 7</strong> has 21 special-location sections; a Part 7 number is the section number in front of the general regulation it changes, and when a question names a location, look there first. <strong>Part 8</strong> covers energy efficiency (Chapter 81, new in Amendment 4) and prosumer installations (Chapter 82). The <strong>appendices</strong> are information, not regulations: 1 standards, 2 statutory regulations and supply voltages, 3 time/current curves, 4 cable ratings and correction factors, 5 external influences, 6 model forms and the inspection checklist, 11 warning labels, 13 escape routes, 14 prospective fault current, 15 rings and radials, 16 surge protection. At the back are a table of figures, a table of tables and the index.</p>
+  </aside>
+
+  <section class="prose">
+    <h2>Part 6: inspection and testing</h2>
+    <p>Every installation must be inspected and tested before it's put into service. There are only two kinds of inspection and testing:</p>
+    <ul>
+      <li><strong>Initial verification</strong>, for new work: an Electrical Installation Certificate (<abbr title="Electrical Installation Certificate">EIC</abbr>) for a new circuit or installation, or a Minor Electrical Installation Works Certificate (<abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr>) for an alteration or addition that doesn't add a circuit.</li>
+      <li><strong>Periodic inspection and testing</strong> of an existing installation, recorded on an Electrical Installation Condition Report (<abbr title="Electrical Installation Condition Report">EICR</abbr>), with codes saying whether it's safe to stay in service.</li>
+    </ul>
+    <p>Inspection always comes first, then the tests in order: continuity, insulation resistance, protection by <abbr title="separated extra-low voltage">SELV</abbr>, <abbr title="protective extra-low voltage">PELV</abbr> or separation, polarity, earth fault loop impedance, prospective fault current, <abbr title="residual current device">RCD</abbr> tests, phase sequence and functional checks. See <a href="../testing/inspection-and-certification.html">Inspection and certification</a>, <a href="../testing/dead-tests.html">Dead tests</a> and <a href="../testing/live-tests.html">Live tests</a>.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Part 7: special installations or locations</h2>
+    <p>Part 7 adds to or changes the general rules where the risk is higher. 701.411.3.3, for example, is the bathroom version of 411.3.3. Amendment 4 has 21 sections. The figures below are the ones that tend to come up; check each in your copy, and highlight them.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Section</th><th>Location</th><th>Worth remembering</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">701</td><td>Bath or shower</td><td>Zones 0, 1 and 2; 30 mA <abbr title="residual current device">RCD</abbr> on every circuit; sockets at least 2.5 m from zone 1. See <a href="bathrooms.html">Bathrooms and special locations</a>.</td></tr>
+          <tr><td class="mono">702</td><td>Swimming pools and other basins</td><td>Zones 0, 1 and 2, and 2.5 m above a diving board. IPX8 in zone 0; IPX4 in zone 1 (IPX5 where jets are used for cleaning); zone 2 IPX2 indoors, IPX4 outdoors. Obstacles, placing out of reach and non-conducting locations aren't allowed. Equipment in zones 0 and 1 is guarded against impact (AG2), with grids removable only with a tool.</td></tr>
+          <tr><td class="mono">703</td><td>Saunas</td><td>Zones round the heater; equipment and cables rated for high temperatures (the tutor quoted 125 °C for equipment and 170 °C for cables).</td></tr>
+          <tr><td class="mono">704</td><td>Construction and demolition sites</td><td>Sockets and hand-held equipment up to 32 A: reduced low voltage (110 V centre-tapped), or <abbr title="automatic disconnection of supply">ADS</abbr> with a 30 mA <abbr title="residual current device">RCD</abbr>, or electrical separation with a transformer winding per item, or <abbr title="separated extra-low voltage">SELV</abbr>/<abbr title="protective extra-low voltage">PELV</abbr>. Don't use a <abbr title="protective multiple earthing">PME</abbr> earth unless all extraneous parts are bonded. Inspected far more often than other installations, typically every 3 months.</td></tr>
+          <tr><td class="mono">705</td><td>Agricultural and horticultural premises</td><td>The farm buildings, not the farmhouse. Supplementary bonding of everything livestock can touch, including a metal grid in the floor; at least IP44; a plan of the installation and concealed cables.</td></tr>
+          <tr><td class="mono">706</td><td>Conducting locations with restricted movement</td><td>Working inside metal tanks, ducts and the like.</td></tr>
+          <tr><td class="mono">708</td><td>Caravan and camping parks</td><td>The park's supplies and pitch points: every socket individually protected by its own 30 mA <abbr title="residual current device">RCD</abbr> that disconnects all live conductors.</td></tr>
+          <tr><td class="mono">709</td><td>Marinas</td><td>Supplies to pleasure craft and houseboats (not houseboats supplied directly from the network).</td></tr>
+          <tr><td class="mono">710</td><td>Medical locations</td><td>Groups 0, 1 and 2 and medical <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> systems. Amendment 4 prohibits <abbr title="arc fault detection device">AFDDs</abbr> in these groups and medical <abbr title="IT earthing: the supply is isolated from earth (I) or earthed through a high impedance; the installation has its own earth electrode (T)">IT</abbr> circuits.</td></tr>
+          <tr><td class="mono">711</td><td>Exhibitions, shows and stands</td><td>Each cable feeding a stand protected at its source by an <abbr title="residual current device">RCD</abbr> of no more than 300 mA, time-delayed (Type S) so the stand's own <abbr title="residual current device">RCD</abbr> trips first.</td></tr>
+          <tr><td class="mono">712</td><td>Solar <abbr title="photovoltaic">PV</abbr></td><td>The <abbr title="direct current">DC</abbr> side is live in daylight even when the <abbr title="alternating current">AC</abbr> side is switched off. The mains counts as the source and the <abbr title="photovoltaic">PV</abbr> as the load.</td></tr>
+          <tr><td class="mono">714</td><td>Outdoor lighting</td><td>Roads, car parks, gardens, monuments, bus shelters, signs. Not festoon lighting, lights on a building fed from inside it, or traffic signals.</td></tr>
+          <tr><td class="mono">715</td><td>Extra-low voltage lighting</td><td>Up to 50 V <abbr title="alternating current">AC</abbr> or 120 V <abbr title="direct current">DC</abbr>.</td></tr>
+          <tr><td class="mono">716</td><td>Power over Ethernet</td><td>New in Amendment 4: <abbr title="extra-low voltage: not more than 50 V AC or 120 V ripple-free DC">ELV</abbr> power over data cables, with a limit on current per conductor.</td></tr>
+          <tr><td class="mono">717</td><td>Mobile or transportable units</td><td>Vehicles and containers fed by a plug, such as site cabins.</td></tr>
+          <tr><td class="mono">721</td><td>Caravans and motor caravans</td><td>The wiring inside the van: structural metalwork bonded; devices disconnect all live conductors.</td></tr>
+          <tr><td class="mono">722</td><td><abbr title="electric vehicle">EV</abbr> charging</td><td>Each charge point on its own final circuit, with a device that disconnects all live conductors. <abbr title="residual current device">RCD</abbr> at least Type A (never <abbr title="alternating current">AC</abbr>), or Type F or B where the manufacturer says.</td></tr>
+          <tr><td class="mono">729</td><td>Operating and maintenance gangways</td><td>Space round switchgear, for skilled and instructed people.</td></tr>
+          <tr><td class="mono">730</td><td>Shore connections for inland navigation vessels</td><td>Onshore supplies for boats; at least IP44.</td></tr>
+          <tr><td class="mono">740</td><td>Fairgrounds, amusement parks, circuses</td><td>Temporary installations put up and taken down repeatedly.</td></tr>
+          <tr><td class="mono">753</td><td>Heating cables and embedded heating</td><td>Underfloor heating mats and cables, including in bathrooms (with an earthed screen or mesh).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Two pairs are easy to mix up: <strong>708</strong> is the caravan <em>park</em> and <strong>721</strong> the caravan itself; <strong>702</strong> is swimming pools and <strong>703</strong> saunas.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Part 8: functional requirements</h2>
+    <p><strong>Chapter 81</strong> (new in Amendment 4) covers energy efficiency, which used to be in Appendix 17. <strong>Chapter 82</strong> covers <strong>prosumer electrical installations (<abbr title="prosumer's electrical installation">PEIs</abbr>)</strong>: installations that produce, store and use their own energy, with solar <abbr title="photovoltaic">PV</abbr>, batteries, a wind turbine or an <abbr title="electric vehicle">EV</abbr>, as well as a grid connection. A <abbr title="prosumer's electrical installation">PEI</abbr> can run connected to the grid or in <strong>island mode</strong>, cut off from it. In island mode it needs its own earth electrode, and the switching must connect neutral to earth inside the <abbr title="prosumer's electrical installation">PEI</abbr> without overlapping the supply's neutral. Expect this Part to grow as more homes go self-sufficient.</p>
+  </section>
+
+  <section class="prose">
+    <h2>The appendices</h2>
+    <p>The appendices aren't regulations: they're information to help you meet them.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Appendix</th><th>What's in it</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">1</td><td>British and European standards referred to in the book</td></tr>
+          <tr><td class="mono">2</td><td>Statutory regulations, and the supply voltages: 230 V +10% −6% since 1995 (see <a href="../supply/your-supply.html">Your supply</a>)</td></tr>
+          <tr><td class="mono">3</td><td>Time/current curves for fuses and circuit breakers, and Z<sub>s</sub> = <span class="frac"><span>U<sub>0</sub> × C<sub>min</sub></span><span>I<sub>a</sub></span></span></td></tr>
+          <tr><td class="mono">4</td><td>Cable selection: Table 4A1 (methods each cable can use), 4A2 (reference methods), 4Ab (voltage drop limits, 3% lighting and 5% other), correction factors 4B1 (ambient), 4B2 and 4B3 (in the ground), 4C1 (grouping), then current ratings and mV/A/m for each cable type (4D5 is twin and earth)</td></tr>
+          <tr><td class="mono">5</td><td>External influence codes and <abbr title="ingress protection">IP</abbr> ratings</td></tr>
+          <tr><td class="mono">6</td><td>Model forms (<abbr title="Electrical Installation Certificate">EIC</abbr>, <abbr title="Minor Electrical Installation Works Certificate">MEIWC</abbr>, <abbr title="Electrical Installation Condition Report">EICR</abbr>, schedules) and the inspection checklist, with a regulation number for every item</td></tr>
+          <tr><td class="mono">7</td><td>Deleted</td></tr>
+          <tr><td class="mono">8</td><td>Busbar trunking and powertrack: ratings and voltage drop</td></tr>
+          <tr><td class="mono">9</td><td>Multiple-source, <abbr title="direct current">DC</abbr> and other systems (mostly diagrams)</td></tr>
+          <tr><td class="mono">10</td><td>Conductors in parallel</td></tr>
+          <tr><td class="mono">11</td><td>Warning and user instruction labels, with examples</td></tr>
+          <tr><td class="mono">12</td><td>Not used</td></tr>
+          <tr><td class="mono">13</td><td>Escape routes and fire protection</td></tr>
+          <tr><td class="mono">14</td><td>Prospective fault current, including the rule of thumb that three-phase fault current is about twice the line-to-neutral value</td></tr>
+          <tr><td class="mono">15</td><td>Ring and radial final circuits for socket-outlets (see <a href="../circuits/socket-circuits.html">Socket circuits</a>)</td></tr>
+          <tr><td class="mono">16</td><td>Surge protective devices: connection diagrams</td></tr>
+          <tr><td class="mono">17</td><td>Deleted: energy efficiency moved to Chapter 81</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>After the appendices come a <strong>table of figures</strong>, a <strong>table of tables</strong> (every table with its page, handy when a question names one) and the <strong>index</strong>.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Revising the whole book</h2>
+    <p>Don't think of it as 600 pages. Think of it as Parts, each the size of a few chapters, in the order of a job: is it in scope, what's the supply, what protection, what equipment and how to fit it, how to test it, does a special location change anything. Practise with mock questions against the clock, or plan an imaginary job (a shower, an <abbr title="electric vehicle">EV</abbr> charger, a garden office) and find every regulation you'd use.</p>
+  </section>
+
+  <section class="widget" aria-labelledby="w1">
+    <div class="widget-title">
+      <span class="eyebrow">Practice</span>
+      <h3 id="w1">Where would you look?</h3>
+    </div>
+    <div class="finder-q" id="fq" aria-live="polite"></div>
+    <div class="finder-opts" id="fo"></div>
+    <div class="verdict" id="fv" aria-live="polite" hidden><strong></strong><span></span></div>
+    <div class="finder-foot"><span class="caption" id="fs"></span><button type="button" class="btn" id="fn">Next question</button></div>
+  </section>
+
+  <section aria-labelledby="qz">
+    <h2 id="qz" style="margin-bottom: 14px">Check yourself</h2>
+    <div id="quiz"></div>
+  </section>
+</main>
+<nav class="pager" id="pager"></nav>
+<script src="../assets/course.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var SEC = {
+    "Part 6": "Inspection and testing", "701": "Bath or shower", "702": "Swimming pools", "703": "Saunas", "704": "Construction sites", "705": "Agricultural premises",
+    "708": "Caravan parks", "710": "Medical locations", "711": "Exhibitions and stands", "712": "Solar PV", "721": "Caravans and motor caravans", "722": "EV charging",
+    "Ch 82": "Prosumer installations", "App 3": "Time/current curves", "App 4": "Cable ratings and factors", "App 5": "External influences", "App 6": "Model forms", "App 15": "Rings and radials"
+  };
+  var KEYS = Object.keys(SEC);
+  var F = [
+    ["The IP rating needed in zone 0 of a swimming pool", "702", "Section 702, external influences."],
+    ["The highest temperature rating needed for wiring near a sauna heater", "703", "Section 703."],
+    ["Whether a 230 V socket on a building site needs reduced low voltage", "704", "Section 704."],
+    ["Bonding a metal grid in a cattle shed floor", "705", "Section 705, supplementary bonding for livestock."],
+    ["RCD protection for each socket on a caravan pitch supply point", "708", "Section 708, caravan parks."],
+    ["Bonding the chassis inside a touring caravan", "721", "Section 721, the caravan itself."],
+    ["Whether AFDDs may be used in an operating theatre", "710", "Section 710, medical locations."],
+    ["A time-delayed 300 mA RCD feeding an exhibition stand", "711", "Section 711."],
+    ["Whether PV panels' DC cables are live when the inverter is isolated", "712", "Section 712."],
+    ["The RCD type for a car charge point", "722", "Section 722."],
+    ["Socket-outlets 2.5 m from zone 1", "701", "Section 701."],
+    ["Running a home's solar and battery system in island mode", "Ch 82", "Chapter 82, prosumer installations."],
+    ["How long a 20 A Type B breaker takes to trip at 30 A", "App 3", "Read it off the curve in Appendix 3."],
+    ["The correction factor for 35 °C ambient temperature", "App 4", "Table 4B1 in Appendix 4."],
+    ["The current rating of 2.5 mm² twin and earth clipped direct", "App 4", "Table 4D5 in Appendix 4."],
+    ["What the code AD4 means", "App 5", "Appendix 5, external influences."],
+    ["The regulation number behind each item on the schedule of inspections", "App 6", "The inspection checklist in Appendix 6."],
+    ["The maximum floor area served by a 32 A ring final circuit", "App 15", "Appendix 15, ring and radial circuits."],
+    ["Which test comes after continuity on a new circuit", "Part 6", "Part 6, inspection and testing."]
+  ];
+  var cur = null, done = 0, right = 0, answered = false, bag = [];
+  var shuf = function (a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+  function next() {
+    if (!bag.length) bag = shuf(F.slice());
+    cur = bag.pop(); answered = false;
+    var opts = shuf(KEYS.filter(function (k) { return k !== cur[1]; })).slice(0, 3).concat([cur[1]]).sort(function (a, b) { return KEYS.indexOf(a) - KEYS.indexOf(b); });
+    $("fq").textContent = cur[0];
+    $("fo").innerHTML = opts.map(function (k) { return '<button type="button" class="btn" data-k="' + k + '"><span class="mono">' + k + "</span>" + SEC[k] + "</button>"; }).join("");
+    $("fv").hidden = true;
+  }
+  $("fo").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || answered) return;
+    answered = true; done++;
+    var ok = b.getAttribute("data-k") === cur[1]; if (ok) right++;
+    Array.prototype.forEach.call($("fo").children, function (x) { x.disabled = true; if (x.getAttribute("data-k") === cur[1]) x.classList.add("right"); else if (x === b) x.classList.add("wrong"); });
+    var v = $("fv"); v.hidden = false; v.className = "verdict " + (ok ? "ok" : "bad");
+    v.querySelector("strong").textContent = ok ? "Right" : "Not quite: " + cur[1];
+    v.querySelector("span").textContent = cur[2];
+    $("fs").textContent = right + " of " + done + " right";
+  });
+  $("fn").addEventListener("click", next);
+  next();
+
+  Course.quiz("#quiz", [
+    { q: "Which section covers the wiring inside a touring caravan?",
+      options: ["Section 708", "Section 721", "Section 717", "Section 740"], answer: 1, fixed: true,
+      why: "721 is the caravan or motor caravan itself; 708 is the caravan park's supplies." },
+    { q: "How must each socket-outlet on a caravan park supply point be protected?",
+      options: ["By its own 30 mA RCD disconnecting all live conductors", "By one 100 mA RCD for the whole park", "By a 300 mA time-delayed RCD per row", "By the caravan's own consumer unit"], answer: 0,
+      why: "Section 708: individually, by a 30 mA RCD that disconnects all live conductors." },
+    { q: "What IP rating does equipment in zone 0 of a swimming pool need?",
+      options: ["IPX4", "IPX5", "IPX7", "IPX8"], answer: 3, fixed: true,
+      why: "IPX8 in zone 0 of a pool (compare IPX7 in zone 0 of a bathroom)." },
+    { q: "A cable feeding an exhibition stand should be protected at its source by:",
+      options: ["A time-delayed RCD of no more than 300 mA", "A 30 mA RCD with no time delay", "A 10 mA RCD at the stand only", "Overcurrent protection alone"], answer: 0,
+      why: "Section 711: no more than 300 mA, Type S (time-delayed) for selectivity with the stand's own RCD." },
+    { q: "Which RCD type must NOT be used for an EV charge point?",
+      options: ["Type AC", "Type A", "Type F", "Type B"], answer: 0,
+      why: "Section 722: at least Type A, or Type F or B where the manufacturer requires. Type AC can be blinded by DC." },
+    { q: "Which appendix holds the time/current curves for protective devices?",
+      options: ["Appendix 3", "Appendix 4", "Appendix 5", "Appendix 6"], answer: 0, fixed: true,
+      why: "Appendix 3. Appendix 4 is cable ratings, 5 external influences, 6 model forms." },
+    { q: "What does a PEI need when it runs in island mode?",
+      options: ["Its own earth electrode", "A Type AC RCD", "A firefighter's switch", "A 110 V transformer"], answer: 0,
+      why: "Chapter 82: with the grid cut off, the PEI needs its own means of earthing." },
+    { q: "Where did energy efficiency move to in Amendment 4?",
+      options: ["Chapter 81", "Appendix 17", "Chapter 57", "Section 716"], answer: 0,
+      why: "Appendix 17 was deleted; Chapter 81 now covers energy efficiency." }
+  ]);
+})();
+</script>
+</body>
+</html>

@@ -58,7 +58,7 @@
   var host = document.getElementById("videos");
   Course.MODULES.forEach(function (v, mi) {
     var done = v.lessons.filter(function (l) { return Course.score(l.id); }).length;
-    var html = '<section style="display:flex;flex-direction:column;gap:12px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h2>' + (mi + 1) + ". " + v.title + '</h2><span class="muted" style="font-size:0.9rem">' + done + " of " + v.lessons.length + " quizzes done</span></div>" + (v.desc ? '<p class="muted">' + v.desc + "</p>" : "") + "<ol class=\"lessons\">";
+    var html = '<section style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h2>' + (mi + 1) + ". " + v.title + '</h2><span class="muted" style="font-size:0.9rem">' + done + " of " + v.lessons.length + " quizzes done</span></div>" + (v.desc ? '<p class="muted">' + v.desc + "</p>" : "") + "<ol class=\"lessons\">";
     v.lessons.forEach(function (l, i) {
       var s = Course.score(l.id);
       html += '<li><a href="' + v.dir + "/" + l.file + '"><span class="n">' + (i + 1) + '</span><span><span class="t">' + l.title + '</span><span class="d">' + l.desc + "</span></span>" +

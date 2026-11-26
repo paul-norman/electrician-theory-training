@@ -20,13 +20,17 @@
       id: "bs7671", file: "bs-7671.html", title: "18th Edition (BS 7671)", day: "Monday",
       qual: "EAL Level 3 Award in the Requirements for Electrical Installations BS 7671:2018", code: "",
       questions: 60, minutes: 120, book: "BS 7671:2018+A4:2026 (the orange book)", bank: "BANK_BS7671",
-      covers: ["Part 1 scope and fundamental principles, and Part 2 definitions", "Part 3 assessment of general characteristics",
-        "Part 4 protection for safety: shock, thermal effects, overcurrent, voltage disturbances", "Part 5 selection and erection: wiring systems, devices, earthing and bonding",
-        "Part 6 inspection and testing, Part 7 special locations, Part 8 functional requirements", "The appendices: tables, time/current curves, model forms"],
-      lessons: [["../regulations/bs-7671.html", "BS 7671 and its definitions"], ["../earthing/automatic-disconnection.html", "Automatic disconnection"], ["../design/cable-sizing.html", "Cable sizing and voltage drop"]],
+      covers: ["Part 1 scope and fundamental principles (about 4 questions)", "Part 2 definitions (about 2)", "Part 3 assessment of general characteristics (about 6)",
+        "Part 4 protection for safety: shock, thermal effects, overcurrent, voltage disturbances (about 15)", "Part 5 selection and erection: wiring systems, devices, earthing and bonding (about 14)",
+        "Part 6 inspection and testing (about 4)", "Part 7 special locations (about 7)", "Part 8 and the appendices: tables, time/current curves, model forms (about 8)",
+        "Question counts are from the EAL schedule for Amendment 2. Tutors don't expect them to change for Amendment 4. Mocks here follow the same weighting."],
+      lessons: [["../regulations/bs-7671.html", "BS 7671 and its definitions"], ["../regulations/protection-for-safety.html", "Part 4: protection for safety"], ["../regulations/selection-and-erection.html", "Part 5: selection and erection"], ["../regulations/parts-6-to-8-and-appendices.html", "Parts 6 to 8 and the appendices"], ["../earthing/automatic-disconnection.html", "Automatic disconnection"], ["../design/cable-sizing.html", "Cable sizing and voltage drop"]],
       tips: ["Two minutes a question, but some take seconds. Move on from anything slow and come back.",
         "Learn the book's layout: the Part comes from the first digit of a regulation number.",
-        "Since 16 October 2026 the exam is fully aligned with Amendment 4, so use the orange book."]
+        "Since 16 October 2026 the exam is fully aligned with Amendment 4, so use the orange book.",
+        "The exam tests whether you can use the book, not whether you've memorised it. Practice questions against the clock are the best preparation for this one.",
+        "Only the book goes in, and invigilators can check it. Tabs may only label what's already on the page. Highlighting is fine, but handwritten notes or arrows can get the book taken off you.",
+        "The pass mark isn't published: it's based on your performance across the learning outcomes, not a fixed percentage."]
     },
     {
       id: "fundamental", file: "fundamental-inspection-and-testing.html", title: "Fundamental Inspection and Testing", day: "Tuesday",
